@@ -1,0 +1,281 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   BNE AGENCY PORTAL — Noir Hacker Syndicate Design System
+   Developed by Blacklisted Binary Labs
+   Chief Dev & Executive Architect: Rob Branting
+   ============================================================
+   Palette: slate-950 base, violet-500 primary neon, emerald-400 accent
+   Typography: Space Grotesk (display), DM Sans (body), JetBrains Mono (mono)
+   ============================================================ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.5rem;
+  /* BNE Dark Theme — always dark */
+  --background: oklch(0.08 0.01 265);
+  --foreground: oklch(0.94 0.005 265);
+  --card: oklch(0.11 0.012 265);
+  --card-foreground: oklch(0.94 0.005 265);
+  --popover: oklch(0.11 0.012 265);
+  --popover-foreground: oklch(0.94 0.005 265);
+  /* violet-500 primary */
+  --primary: oklch(0.627 0.265 303.9);
+  --primary-foreground: oklch(0.98 0 0);
+  /* zinc-800 secondary */
+  --secondary: oklch(0.17 0.01 265);
+  --secondary-foreground: oklch(0.82 0.005 265);
+  --muted: oklch(0.15 0.008 265);
+  --muted-foreground: oklch(0.58 0.012 265);
+  /* emerald-400 accent */
+  --accent: oklch(0.765 0.177 163.2);
+  --accent-foreground: oklch(0.08 0.01 265);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.627 0.265 303.9);
+  --chart-1: oklch(0.627 0.265 303.9);
+  --chart-2: oklch(0.765 0.177 163.2);
+  --chart-3: oklch(0.7 0.2 240);
+  --chart-4: oklch(0.8 0.15 50);
+  --chart-5: oklch(0.65 0.22 20);
+  --sidebar: oklch(0.10 0.012 265);
+  --sidebar-foreground: oklch(0.94 0.005 265);
+  --sidebar-primary: oklch(0.627 0.265 303.9);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.15 0.008 265);
+  --sidebar-accent-foreground: oklch(0.94 0.005 265);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.627 0.265 303.9);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* BNE Glassmorphism card */
+  .glass-card {
+    background: oklch(1 0 0 / 4%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid oklch(1 0 0 / 10%);
+    border-radius: 0.75rem;
+  }
+
+  /* Neon glow utilities */
+  .glow-violet {
+    box-shadow: 0 0 20px oklch(0.627 0.265 303.9 / 40%), 0 0 60px oklch(0.627 0.265 303.9 / 15%);
+  }
+  .glow-emerald {
+    box-shadow: 0 0 20px oklch(0.765 0.177 163.2 / 40%), 0 0 60px oklch(0.765 0.177 163.2 / 15%);
+  }
+  .glow-text-violet {
+    text-shadow: 0 0 20px oklch(0.627 0.265 303.9 / 80%);
+  }
+  .glow-text-emerald {
+    text-shadow: 0 0 20px oklch(0.765 0.177 163.2 / 80%);
+  }
+
+  /* Scanline overlay */
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      oklch(0 0 0 / 3%) 2px,
+      oklch(0 0 0 / 3%) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Neon border gradient */
+  .neon-border {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+  .neon-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, oklch(0.627 0.265 303.9 / 60%), oklch(0.765 0.177 163.2 / 40%));
+    z-index: -1;
+  }
+
+  /* BNE gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, oklch(0.627 0.265 303.9), oklch(0.765 0.177 163.2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Mono stat label */
+  .mono-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Section diagonal divider */
+  .diagonal-cut-bottom {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    padding-bottom: 8rem;
+    margin-bottom: -4rem;
+  }
+  .diagonal-cut-top {
+    clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+    padding-top: 8rem;
+    margin-top: -4rem;
+  }
+
+  /* BNE button primary */
+  .btn-neon {
+    background: linear-gradient(135deg, oklch(0.627 0.265 303.9), oklch(0.55 0.25 290));
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .btn-neon:hover {
+    box-shadow: 0 0 30px oklch(0.627 0.265 303.9 / 60%), 0 0 80px oklch(0.627 0.265 303.9 / 20%);
+    transform: translateY(-1px);
+  }
+  .btn-neon:active {
+    transform: scale(0.97) translateY(0);
+  }
+
+  /* BNE button emerald */
+  .btn-emerald {
+    background: linear-gradient(135deg, oklch(0.765 0.177 163.2), oklch(0.65 0.18 155));
+    color: oklch(0.08 0.01 265);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .btn-emerald:hover {
+    box-shadow: 0 0 30px oklch(0.765 0.177 163.2 / 60%), 0 0 80px oklch(0.765 0.177 163.2 / 20%);
+    transform: translateY(-1px);
+  }
+  .btn-emerald:active {
+    transform: scale(0.97) translateY(0);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.08 0.01 265);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.627 0.265 303.9 / 50%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.627 0.265 303.9 / 80%);
+}
+
+/* Selection */
+::selection {
+  background: oklch(0.627 0.265 303.9 / 30%);
+  color: oklch(0.98 0 0);
+}
