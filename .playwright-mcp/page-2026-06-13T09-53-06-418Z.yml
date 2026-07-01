@@ -1,0 +1,14 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "B.N.E" [level=2] [ref=e3]
+    - generic [ref=e4]: Home
+    - generic [ref=e5]: About
+    - generic [ref=e6]: Services
+    - generic [ref=e7]: Contact
+  - generic [ref=e8]:
+    - generic [ref=e9]:
+      - text: Elevate
+      - text: Your
+      - text: Success
+    - paragraph [ref=e10]: Maximize your potential with elite services.
+    - button "Get Started" [ref=e11]

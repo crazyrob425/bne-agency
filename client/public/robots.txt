@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Core pages
+Disallow: /members/
+Disallow: /admin/
+
+# Internal tools
+Disallow: /tools/income-verifier
+Disallow: /tools/workflow-manager
+Disallow: /tools/classified-generator
+
+# Sitemaps and feeds
+Sitemap: https://blacklisted.studio/sitemap.xml
+Sitemap: https://blacklisted.studio/rss.xml
+Sitemap: https://blacklisted.studio/feed.json
+
+# Prevent crawling of draft/unpublished content
+Disallow: /*?*
+Disallow: /*#*

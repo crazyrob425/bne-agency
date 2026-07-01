@@ -1,0 +1,323 @@
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "BLACKLISTED Niche Entertainment" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8]:
+            - img [ref=e10]
+            - generic [ref=e12]:
+              - generic [ref=e13]: BLACKLISTED
+              - generic [ref=e14]: Niche Entertainment
+        - generic [ref=e15]:
+          - link "Home" [ref=e16] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e17]:
+              - img [ref=e18]
+              - text: Home
+          - link "Structured Advisory" [ref=e21] [cursor=pointer]:
+            - /url: /tiers
+            - generic [ref=e22]:
+              - img [ref=e23]
+              - text: Structured Advisory
+          - link "Niche Intelligence" [ref=e27] [cursor=pointer]:
+            - /url: /niche-matcher
+            - generic [ref=e28]:
+              - img [ref=e29]
+              - text: Niche Intelligence
+          - link "Creator Suite" [ref=e31] [cursor=pointer]:
+            - /url: /tools
+            - generic [ref=e32]:
+              - img [ref=e33]
+              - text: Creator Suite
+          - link "Digital Services" [ref=e35] [cursor=pointer]:
+            - /url: /services
+            - generic [ref=e36]:
+              - img [ref=e37]
+              - text: Digital Services
+          - link "Private Sessions" [ref=e39] [cursor=pointer]:
+            - /url: /inperson-services
+            - generic [ref=e40]:
+              - img [ref=e41]
+              - text: Private Sessions
+          - link "Asset Vault" [ref=e43] [cursor=pointer]:
+            - /url: /downloads
+            - generic [ref=e44]:
+              - img [ref=e45]
+              - text: Asset Vault
+          - link "Legal Framework" [ref=e48] [cursor=pointer]:
+            - /url: /compliance
+            - generic [ref=e49]:
+              - img [ref=e50]
+              - text: Legal Framework
+          - link "Intelligence" [ref=e52] [cursor=pointer]:
+            - /url: /blog
+            - generic [ref=e53]:
+              - img [ref=e54]
+              - text: Intelligence
+          - link "Investment" [ref=e56] [cursor=pointer]:
+            - /url: /pricing
+            - generic [ref=e57]:
+              - img [ref=e58]
+              - text: Investment
+        - link "Apply for Access" [ref=e61] [cursor=pointer]:
+          - /url: /onboarding
+          - button "Apply for Access" [ref=e62]:
+            - img [ref=e63]
+            - text: Apply for Access
+            - img [ref=e65]
+    - generic [ref=e67]:
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - img [ref=e72]
+          - generic [ref=e74]: Blacklisted Niche Entertainment
+        - heading "We Help Serious Creators Build Real Businesses Around Their Content" [level=1] [ref=e75]:
+          - text: We Help Serious Creators Build Real Businesses
+          - text: Around Their Content
+        - paragraph [ref=e76]: "If you're tired of posting into the void, making pocket change, or worrying about your anonymity — we get it. BNE handles the business side: privacy, compliance, branding, and revenue strategy — so you can focus on creating."
+        - generic [ref=e77]:
+          - link "Find Your Niche" [ref=e78] [cursor=pointer]:
+            - /url: /niche-matcher
+            - button "Find Your Niche" [ref=e79]:
+              - img [ref=e80]
+              - text: Find Your Niche
+              - img [ref=e82]
+          - link "See What We Offer" [ref=e84] [cursor=pointer]:
+            - /url: /services
+            - button "See What We Offer" [ref=e85]:
+              - img [ref=e86]
+              - text: See What We Offer
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - img [ref=e91]
+            - text: Your Privacy Comes First
+          - generic [ref=e93]:
+            - img [ref=e95]
+            - text: Legally Protected, Always
+          - generic [ref=e98]:
+            - img [ref=e100]
+            - text: Real Revenue Growth
+      - generic [ref=e104]: SCROLL
+    - generic [ref=e106]:
+      - generic:
+        - generic: BNE
+      - generic [ref=e107]:
+        - generic [ref=e108]:
+          - text: Proven Track Record
+          - heading "Numbers Don't Lie" [level=2] [ref=e109]
+        - generic [ref=e111]:
+          - generic [ref=e112]:
+            - generic [ref=e113]: 0+
+            - generic [ref=e114]: Niches Analyzed
+            - generic [ref=e115]: We know your audience
+          - generic [ref=e116]:
+            - generic [ref=e117]: 0%
+            - generic [ref=e118]: Average Revenue Growth
+            - generic [ref=e119]: Within 90 days of working together
+          - generic [ref=e120]:
+            - generic [ref=e121]: "0"
+            - generic [ref=e122]: § 2257 Compliant
+            - generic [ref=e123]: Full legal protection
+          - generic [ref=e124]:
+            - generic [ref=e125]: 0/7
+            - generic [ref=e126]: Support Active
+            - generic [ref=e127]: Monetization never sleeps
+    - generic [ref=e131]:
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - text: Let's Be Real for a Second
+          - heading "Generic Content Doesn't Pay The Bills" [level=2] [ref=e134]
+        - generic [ref=e136]:
+          - paragraph [ref=e137]: THE MATH BEHIND THE MONEY
+          - generic [ref=e138]:
+            - text: Revenue ∝ Specificity
+            - superscript [ref=e139]: α
+          - paragraph [ref=e140]: The more specific your niche, the higher your earning potential.
+        - paragraph [ref=e141]: "Here's the thing: posting everything for everybody might get you likes, but it won't get you paid. Fans subscribe to something specific — a vibe, a fantasy, a niche that feels made just for them."
+        - paragraph [ref=e142]: The creators making real money? They picked a lane and owned it. Whether that's findom, ASMR, cosplay, BDSM, BBW, Latina, alt-style, or something entirely unique — they went deep instead of wide. That's exactly what we help you do.
+        - link "Find Your Niche" [ref=e144] [cursor=pointer]:
+          - /url: /niche-matcher
+          - button "Find Your Niche" [ref=e145]:
+            - img [ref=e146]
+            - text: Find Your Niche
+            - img [ref=e148]
+      - generic [ref=e150]:
+        - generic [ref=e151]:
+          - img [ref=e152]
+          - heading "Where The Money Actually Goes" [level=3] [ref=e154]
+        - generic [ref=e156]:
+          - generic [ref=e157]: Top 1% of Creators
+          - generic [ref=e158]: 33% of all platform revenue
+        - generic [ref=e161]:
+          - generic [ref=e162]: Top 10% of Creators
+          - generic [ref=e163]: 73% of all platform revenue
+        - generic [ref=e166]:
+          - generic [ref=e167]: Bottom 50% of Creators
+          - generic [ref=e168]: 1.5% of all platform revenue
+        - paragraph [ref=e172]:
+          - strong [ref=e173]: The bottom half of creators split just 1.5% of the platform's money.
+          - generic [ref=e174]: We only work with creators who are serious about getting to the top.
+    - generic [ref=e177]:
+      - generic [ref=e178]:
+        - text: Privacy That Actually Works
+        - heading "Your Secret Stays Secret. Period." [level=2] [ref=e179]
+        - paragraph [ref=e180]: The internet never forgets — but we make sure it never finds you in the first place. Every system we build keeps your real identity completely separate from your creator life.
+      - generic [ref=e182]:
+        - generic [ref=e183]:
+          - img [ref=e185]
+          - heading "Separate Identity, Zero Connection" [level=3] [ref=e188]
+          - paragraph [ref=e189]: We build you a complete brand persona that has nothing to do with your real name, location, or personal life. Your business, your rules, your privacy.
+        - generic [ref=e190]:
+          - img [ref=e192]
+          - heading "Geo-Block Your World" [level=3] [ref=e195]
+          - paragraph [ref=e196]: We set up restrictions so nobody from your hometown, workplace, or family circle can ever stumble across your content. Coworkers, relatives, exes — blocked by default.
+        - generic [ref=e197]:
+          - img [ref=e199]
+          - heading "Mystery Actually Makes Money" [level=3] [ref=e201]
+          - paragraph [ref=e202]: Fans spend more when they can't figure you out completely. We build that curiosity into your brand on purpose — your privacy isn't just protection, it's a revenue strategy.
+        - generic [ref=e203]:
+          - img [ref=e205]
+          - heading "Find Your Real Audience" [level=3] [ref=e207]
+          - paragraph [ref=e208]: We match your vibe and style with the niches that are actively looking for exactly what you offer. No guessing — just data-driven positioning.
+        - generic [ref=e209]:
+          - img [ref=e211]
+          - heading "Get Paid, Stay Private" [level=3] [ref=e213]
+          - paragraph [ref=e214]: Your real bank account never touches your creator platforms. We set up clean payment systems that keep your finances completely separate.
+        - generic [ref=e215]:
+          - img [ref=e217]
+          - heading "Content Leaked? We Handle It" [level=3] [ref=e220]
+          - paragraph [ref=e221]: We monitor the web 24/7. The second your content appears where it shouldn't, we file takedowns immediately. Your work, your income — aggressively protected.
+    - generic [ref=e223]:
+      - generic [ref=e224]:
+        - text: How It Works
+        - heading "From Idea to Income, Step by Step" [level=2] [ref=e225]
+        - paragraph [ref=e226]: A clear process that moves you from "I'm interested" to "I'm making money" — no confusion, no guessing.
+      - generic [ref=e227]:
+        - generic [ref=e228]:
+          - button [ref=e230] [cursor=pointer]:
+            - img [ref=e232]
+          - slider [ref=e235] [cursor=pointer]: "0.7"
+        - generic [ref=e236]:
+          - paragraph [ref=e237]: Key Insights
+          - list [ref=e238]:
+            - listitem [ref=e239]:
+              - generic [ref=e240]: •
+              - text: Solo creators earn a fraction of their potential due to scattered effort and lack of strategic focus.
+            - listitem [ref=e241]:
+              - generic [ref=e242]: •
+              - text: BNE Agency's structured approach multiplies revenue through niche precision and professional systems.
+            - listitem [ref=e243]:
+              - generic [ref=e244]: •
+              - text: Top 1% creators capture 33% of platform revenue — specific positioning matters more than content volume.
+            - listitem [ref=e245]:
+              - generic [ref=e246]: •
+              - text: Working with BNE bridges the gap from amateur to professional creator in 90 days or less.
+    - generic [ref=e250]:
+      - img [ref=e252]
+      - heading "Ready to Take This Seriously?" [level=2] [ref=e254]
+      - paragraph [ref=e255]: Whether you're just starting out or ready to level up — we meet you where you are. No pressure, no games. Just a clear path forward.
+      - generic [ref=e256]:
+        - link "Free Niche Finder" [ref=e257] [cursor=pointer]:
+          - /url: /niche-matcher
+          - button "Free Niche Finder" [ref=e258]:
+            - img [ref=e259]
+            - text: Free Niche Finder
+        - link "View Pricing & Packages" [ref=e261] [cursor=pointer]:
+          - /url: /pricing
+          - button "View Pricing & Packages" [ref=e262]:
+            - text: View Pricing & Packages
+            - img [ref=e263]
+    - generic [ref=e266]:
+      - generic [ref=e267]:
+        - generic [ref=e268]:
+          - generic [ref=e269]:
+            - img [ref=e270]
+            - generic [ref=e272]: Learn & Grow
+          - heading "Guides, Tips & Real Talk" [level=2] [ref=e273]
+          - paragraph [ref=e274]: No fluff, no gatekeeping — just honest advice on niches, compliance, and building something that lasts.
+        - link "Read the Blog" [ref=e275] [cursor=pointer]:
+          - /url: /blog
+          - button "Read the Blog" [ref=e276]:
+            - text: Read the Blog
+            - img [ref=e277]
+      - generic [ref=e279]:
+        - link "Niche Strategy Why 1% of Creators Take Home 90% of the Money (And How to Be One of Them) Most creators don't fail because of bad content or inconsistent posting — they fail because they're competing in the wrong market entirely. Understanding the power-law structure of the creator economy is the most important insight you can have before you launch. 11 min Read" [ref=e281] [cursor=pointer]:
+          - /url: /blog/power-law-niche-selection-adult-creator-economy
+          - generic [ref=e284]:
+            - generic [ref=e285]: Niche Strategy
+            - heading "Why 1% of Creators Take Home 90% of the Money (And How to Be One of Them)" [level=3] [ref=e286]
+            - paragraph [ref=e287]: Most creators don't fail because of bad content or inconsistent posting — they fail because they're competing in the wrong market entirely. Understanding the power-law structure of the creator economy is the most important insight you can have before you launch.
+            - generic [ref=e288]:
+              - generic [ref=e289]:
+                - img [ref=e290]
+                - text: 11 min
+              - generic [ref=e293]:
+                - text: Read
+                - img [ref=e294]
+        - 'link "Privacy & Security The Anonymous Creator Playbook: Six Figures and Nobody Knows Your Government Name Privacy isn''t paranoia — it''s a professional requirement. Your identity, your address, your relationships: all attack surfaces if you''re not careful. Here''s how to build a creator career so airtight that your day job, your family, and your neighborhood stay completely out of it. 16 min Read" [ref=e297] [cursor=pointer]':
+          - /url: /blog/anonymous-creator-identity-protection-guide
+          - generic [ref=e300]:
+            - generic [ref=e301]: Privacy & Security
+            - 'heading "The Anonymous Creator Playbook: Six Figures and Nobody Knows Your Government Name" [level=3] [ref=e302]'
+            - paragraph [ref=e303]: "Privacy isn't paranoia — it's a professional requirement. Your identity, your address, your relationships: all attack surfaces if you're not careful. Here's how to build a creator career so airtight that your day job, your family, and your neighborhood stay completely out of it."
+            - generic [ref=e304]:
+              - generic [ref=e305]:
+                - img [ref=e306]
+                - text: 16 min
+              - generic [ref=e309]:
+                - text: Read
+                - img [ref=e310]
+    - contentinfo [ref=e312]:
+      - generic: BNE
+      - generic [ref=e313]:
+        - generic [ref=e314]:
+          - generic [ref=e315]:
+            - generic [ref=e316]:
+              - img [ref=e318]
+              - generic [ref=e320]:
+                - generic [ref=e321]: BLACKLISTED
+                - generic [ref=e322]: Niche Entertainment
+            - paragraph [ref=e323]: BNE is the strategic partner for independent adult content creators who demand excellence. We architect privacy, compliance, growth, and monetization — so you can operate at the highest level.
+            - generic [ref=e326]: SYSTEMS OPERATIONAL
+          - generic [ref=e327]:
+            - heading "Navigation" [level=4] [ref=e328]
+            - list [ref=e329]:
+              - listitem [ref=e330]:
+                - link "Home" [ref=e331] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e332]:
+                - link "Structured Advisory" [ref=e333] [cursor=pointer]:
+                  - /url: /tiers
+              - listitem [ref=e334]:
+                - link "Niche Intelligence" [ref=e335] [cursor=pointer]:
+                  - /url: /niche-matcher
+              - listitem [ref=e336]:
+                - link "Digital Services" [ref=e337] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=e338]:
+                - link "Private Sessions" [ref=e339] [cursor=pointer]:
+                  - /url: /inperson-services
+              - listitem [ref=e340]:
+                - link "Creator Suite" [ref=e341] [cursor=pointer]:
+                  - /url: /tools
+              - listitem [ref=e342]:
+                - link "Legal Framework" [ref=e343] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=e344]:
+                - link "Apply for Access" [ref=e345] [cursor=pointer]:
+                  - /url: /onboarding
+          - generic [ref=e346]:
+            - heading "Legal" [level=4] [ref=e347]
+            - list [ref=e348]:
+              - listitem [ref=e349]: Privacy Policy
+              - listitem [ref=e350]: Terms of Service
+              - listitem [ref=e351]: 18 U.S.C. § 2257
+              - listitem [ref=e352]: DMCA Policy
+              - listitem [ref=e353]: Cookie Policy
+        - generic [ref=e355]:
+          - paragraph [ref=e356]: © 2025 BLACKLISTED NICHE ENTERTAINMENT — ALL RIGHTS RESERVED
+          - paragraph [ref=e357]: "ENGINEERED BY BLACKLISTED BINARY LABS · CHIEF ARCHITECT: ROB BRANTING"
+        - paragraph [ref=e359]:
+          - strong [ref=e360]: Legal Framework
+          - text: Blacklisted Niche Entertainment provides digital marketing, brand architecture, compliance education, and strategic advisory services exclusively for adult content creators operating legally on licensed platforms within the United States. All engagements are conducted in strict adherence to applicable federal and state regulations. BNE does not facilitate, promote, or engage in any unlawful activities. All creators are required to maintain 18 U.S.C. § 2257 record-keeping compliance. This platform is intended exclusively for adults aged 18 and older.

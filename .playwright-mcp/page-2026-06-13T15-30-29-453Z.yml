@@ -1,0 +1,1 @@
+- generic [ref=e2]: "{\"error\":{\"message\":\"Unauthorized: API key is invalid or missing.\",\"code\":401,\"suggestions\":[\"Verify your OAuth credentials are valid\",\"Try re-authenticating by deleting the credentials file\",\"Check if your Google Cloud project has the necessary permissions\"]}}"

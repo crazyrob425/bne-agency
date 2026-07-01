@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "github.com/parallel-web/search-mcp": {
+      "url": "https://search-mcp.parallel.ai/mcp"
+    }
+  }
+}
+

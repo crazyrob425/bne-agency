@@ -1,0 +1,39 @@
+# Lighthouse CI Configuration for BNE Studio
+# Run with: npx lhci autorun
+
+ci:
+  collect:
+    numberOfRuns: 3
+    startServerCommand: "pnpm start"
+    startServerReadyPattern: "ready"
+    url:
+      - https://blacklisted.studio/
+      - https://blacklisted.studio/blog
+      - https://blacklisted.studio/services
+  assert:
+    assertions:
+      categories:
+        performance:
+          - minScore: 0.8
+            aggregationMethod: median
+        accessibility:
+          - minScore: 0.9
+            aggregationMethod: median
+        "best-practices":
+          - minScore: 0.85
+            aggregationMethod: median
+        seo:
+          - minScore: 0.95
+            aggregationMethod: median
+      total-byte-weight:
+        maxLength: 125000 # 125KB
+      uses-responsive-images:
+        - minLength: 80
+      first-contentful-paint:
+        - minScore: 0.8
+      largest-contentful-paint:
+        - minScore: 0.8
+  upload:
+    target: filesystem
+    outputDir: ./lhci-reports
+    reportFilenamePattern: "lhci-report-%%HOSTNAME%%-%%DATETIME%%.html"

@@ -1,0 +1,94 @@
+{
+  "brand": {
+    "name": "BNE Agency",
+    "fullName": "Blacklisted Niche Entertainment",
+    "tagline": "Your Empire. Our Blueprint.",
+    "website": "bne.agency",
+    "contact": {
+      "phone": "401-349-1330",
+      "smsNote": "TXT/SMS ONLY",
+      "format": "401-349-1330 TXT/SMS ONLY"
+    }
+  },
+  "colors": {
+    "primaryPurple": { "hex": "#8b5cf6", "name": "Primary Purple", "usage": "Headlines, CTAs, accent elements, overlays" },
+    "primaryDark": { "hex": "#7c3aed", "name": "Primary Dark", "usage": "Hover states, depth accents, gradient anchors" },
+    "secondaryEmerald": { "hex": "#10b981", "name": "Secondary Emerald", "usage": "Success states, verification markers, positive indicators" },
+    "accentAmber": { "hex": "#f59e0b", "name": "Accent Amber", "usage": "Warnings, highlights, attention-grabbing element" },
+    "darkBg": { "hex": "#0c0a0f", "name": "Dark Background", "usage": "Primary background, card backgrounds" },
+    "darkAlt": { "hex": "#1a1520", "name": "Alternative Dark", "usage": "Secondary backgrounds, section dividers, elevated surfaces" },
+    "white": { "hex": "#ffffff", "name": "White", "usage": "Primary text, contrast elements" },
+    "gray50": { "hex": "#f5f5f5", "name": "Gray 50", "usage": "Light backgrounds, subtle borders" },
+    "gray300": { "hex": "#d4d4d8", "name": "Gray 300", "usage": "Secondary text, disabled states" },
+    "gray500": { "hex": "#737373", "name": "Gray 500", "usage": "Placeholder text, tertiary UI elements" },
+    "gray700": { "hex": "#404040", "name": "Gray 700", "usage": "Input borders, inactive elements" },
+    "gray900": { "hex": "#171717", "name": "Gray 900", "usage": "Deep dark accents, shadow tones" },
+    "gradientPrimary": { "from": "#7c3aed", "via": "#8b5cf6", "to": "#10b981", "usage": "Hero headers, premium cards, transition zones" },
+    "gradientAccent": { "from": "#8b5cf6", "to": "#f59e0b", "usage": "Limited CTA emphasis, celebration elements" }
+  },
+  "fonts": {
+    "headlines": {
+      "family": "Space Grotesk",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, sans-serif",
+      "spec": "Used for all headlines, subheads, display copy. Strong geometric presence. Min 700 for hero headlines."
+    },
+    "body": {
+      "family": "DM Sans",
+      "weights": [400, 500, 600],
+      "fallback": "system-ui, sans-serif",
+      "spec": "Used for all body copy, captions, labels. Clean and readable at all sizes."
+    },
+    "mono": {
+      "family": "JetBrains Mono",
+      "weights": [400, 500, 600],
+      "fallback": "Consolas, monospace",
+      "spec": "Used for phone numbers, URLs, QR labels, data tables."
+    }
+  },
+  "logo": {
+    "primary": { "format": "SVG + PNG (transparent)", "minClearSpace": "1x logo height on all sides", "clearSpaceNote": "Use 50px of clear space around logo on digital, proportional for print" },
+    "lockup": { "format": "SVG + PNG", "description": "Logo + 'BNE Agency' wordmark side by side", "usage": "Letterheads, business cards, official docs" },
+    "stacked": { "format": "SVG + PNG", "description": "Logo on top, wordmark below", "usage": "Business cards, social profiles, smaller layouts" },
+    "iconOnly": { "format": "SVG + PNG", "description": "Mark only, no wordmark", "usage": "Favicons, app icons, QR code area, watermarks" },
+    "minSize": { "print": "0.75in width", "digital": "120px width", "note": "Never scale below — legibility is critical" },
+    "inverse": { "format": "PNG (white version)", "usage": "Dark backgrounds (primary dark, dark alt)" },
+    "colorLock": "Never apply brand colors outside defined palette. Never distort proportions."
+  },
+  "assets": {
+    "folders": {
+      "onlineCreators": "Fliers, pamphlets, brochures, social media graphics for independent content creators",
+      "inPersonEntertainers": "Fliers, pamphlets, brochures, social media graphics for in-person entertainers",
+      "qrCodes": "QR code assets and placement guidelines",
+      "designTokens": "CSS variables, color palettes, font specs",
+      "printSpecs": "Production files, bleed guides, print templates"
+    },
+    "naming": {
+      "convention": "[audience]-[assetType]-[variation]-[count]",
+      "example": "online-creators-flyer-hero-01.png",
+      "format": "kebab-case",
+      "versions": "v1, v2 appended if multiple versions of same asset"
+    },
+    "formats": {
+      "print": ["PDF/X-1a", "PDF/X-4", "AI", "EPS"],
+      "digital": ["PNG", "JPG", "SVG", "WebP"],
+      "social": ["1080x1080", "1080x1350", "1200x628", "1080x1920"]
+    },
+    "qrCodes": {
+      "primaryDest": "bne.agency",
+      "smsDest": "401-349-1330",
+      "emailDest": "TBD",
+      "socialDest": {
+        "twitter": "TBD",
+        "instagram": "TBD",
+        "tiktok": "TBD"
+      },
+      "consultationForm": "TBD"
+    },
+    "versioning": {
+      "date": "2026-06-03",
+      "version": "1.0.0",
+      "notes": "Initial asset library configuration"
+    }
+  }
+}

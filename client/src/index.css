@@ -1,0 +1,552 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   BNE AGENCY PORTAL — Black & Gold Luxury Design System
+   Developed by Blacklisted Binary Labs
+   Chief Dev & Executive Architect: Rob Branting
+   ============================================================
+   Palette: absolute black base, multi-layer gold glows, cream ivory text
+   Typography: Cormorant Garamond (display serif), Outfit (body sans), JetBrains Mono (mono)
+   ============================================================ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Black & Gold Luxury Palette */
+  --background: oklch(0.04 0.005 85 / 1);
+  --foreground: oklch(0.94 0.01 85);
+  --card: oklch(0.08 0.008 85 / 0.85);
+  --card-foreground: oklch(0.94 0.01 85);
+  --popover: oklch(0.06 0.006 85 / 0.95);
+  --popover-foreground: oklch(0.94 0.01 85);
+
+  /* Primary: Gold */
+  --primary: oklch(0.78 0.16 85);
+  --primary-foreground: oklch(0.04 0.005 85);
+
+  /* Secondary: Deep charcoal */
+  --secondary: oklch(0.14 0.008 85);
+  --secondary-foreground: oklch(0.82 0.012 85);
+
+  /* Muted: Dark surface */
+  --muted: oklch(0.10 0.006 85);
+  --muted-foreground: oklch(0.58 0.015 85);
+
+  /* Accent: Warm amber */
+  --accent: oklch(0.82 0.14 75);
+  --accent-foreground: oklch(0.04 0.005 85);
+
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.78 0.12 85 / 12%);
+  --input: oklch(0.78 0.12 85 / 15%);
+  --ring: oklch(0.80 0.15 85 / 60%);
+
+  /* Chart colors — gold spectrum */
+  --chart-1: oklch(0.78 0.16 85);
+  --chart-2: oklch(0.72 0.14 70);
+  --chart-3: oklch(0.65 0.12 60);
+  --chart-4: oklch(0.85 0.10 90);
+  --chart-5: oklch(0.60 0.10 50);
+
+  /* Sidebar */
+  --sidebar: oklch(0.05 0.004 85 / 0.98);
+  --sidebar-foreground: oklch(0.94 0.01 85);
+  --sidebar-primary: oklch(0.78 0.16 85);
+  --sidebar-primary-foreground: oklch(0.04 0.005 85);
+  --sidebar-accent: oklch(0.10 0.008 85);
+  --sidebar-accent-foreground: oklch(0.94 0.01 85);
+  --sidebar-border: oklch(0.78 0.12 85 / 10%);
+  --sidebar-ring: oklch(0.80 0.15 85 / 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* Offset for fixed Navigation */
+  .min-h-screen > section:first-of-type {
+    padding-top: 10rem !important;
+  }
+
+  /* ============================================================
+     LUXURY SURFACES — 3D Card System
+     ============================================================ */
+
+  /* Base luxury card — warm glass with gold edge glow */
+  .luxury-card {
+    background: linear-gradient(
+      145deg,
+      oklch(0.10 0.010 85 / 0.90) 0%,
+      oklch(0.06 0.005 85 / 0.85) 100%
+    );
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid oklch(0.78 0.14 85 / 14%);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 2px oklch(0 0 0 / 40%),
+      0 4px 16px oklch(0 78 0.16 85 / 6%),
+      inset 0 1px 0 oklch(1 0 0 / 6%);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .luxury-card:hover {
+    border-color: oklch(0.78 0.16 85 / 28%);
+    box-shadow:
+      0 2px 4px oklch(0 0 0 / 50%),
+      0 8px 32px oklch(0.78 0.16 85 / 12%),
+      0 0 0 1px oklch(0.78 0.16 85 / 6%),
+      inset 0 1px 0 oklch(1 0 0 / 8%);
+    transform: translateY(-2px);
+  }
+
+  /* Elevated card — for hero/featured content */
+  .luxury-card-elevated {
+    background: linear-gradient(
+      160deg,
+      oklch(0.14 0.012 85 / 0.92) 0%,
+      oklch(0.07 0.006 85 / 0.88) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid oklch(0.78 0.16 85 / 20%);
+    border-radius: 1.5rem;
+    box-shadow:
+      0 2px 4px oklch(0 0 0 / 50%),
+      0 12px 40px oklch(0 78 0.16 85 / 10%),
+      inset 0 1px 0 oklch(1 0 0 / 8%);
+  }
+
+  /* Compact card — for stats, badges */
+  .luxury-card-sm {
+    background: linear-gradient(
+      145deg,
+      oklch(0.09 0.008 85 / 0.88) 0%,
+      oklch(0.05 0.004 85 / 0.82) 100%
+    );
+    border: 1px solid oklch(0.78 0.14 85 / 10%);
+    border-radius: 1rem;
+    box-shadow:
+      0 1px 2px oklch(0 0 0 / 30%),
+      0 2px 8px oklch(0 78 0.14 85 / 4%);
+  }
+
+  /* ============================================================
+     GOLD GLOW UTILITIES — Multi-layer depth system
+     ============================================================ */
+
+  .glow-gold-sm {
+    box-shadow:
+      0 0 12px oklch(0.78 0.16 85 / 25%),
+      0 0 40px oklch(0.78 0.16 85 / 8%);
+  }
+
+  .glow-gold {
+    box-shadow:
+      0 0 24px oklch(0.78 0.16 85 / 35%),
+      0 0 80px oklch(0.78 0.16 85 / 12%),
+      0 0 120px oklch(0.72 0.12 85 / 6%);
+  }
+
+  .glow-gold-lg {
+    box-shadow:
+      0 0 40px oklch(0.78 0.16 85 / 45%),
+      0 0 100px oklch(0.78 0.16 85 / 18%),
+      0 0 200px oklch(0.72 0.10 85 / 8%),
+      inset 0 0 40px oklch(0.80 0.14 85 / 4%);
+  }
+
+  .glow-text-gold {
+    text-shadow:
+      0 0 20px oklch(0.78 0.16 85 / 60%),
+      0 0 60px oklch(0.78 0.16 85 / 25%);
+  }
+
+  .glow-text-gold-subtle {
+    text-shadow:
+      0 0 12px oklch(0.78 0.14 85 / 40%),
+      0 0 40px oklch(0.78 0.12 85 / 15%);
+  }
+
+  /* Aura ring — for stat highlights */
+  .aura-ring {
+    position: relative;
+  }
+  .aura-ring::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      oklch(0.78 0.16 85 / 30%),
+      oklch(0.72 0.12 85 / 10%),
+      oklch(0.80 0.14 85 / 25%)
+    );
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  /* ============================================================
+     GOLD GRADIENT TEXT
+     ============================================================ */
+  .gradient-text-gold {
+    background: linear-gradient(
+      135deg,
+      oklch(0.85 0.12 90) 0%,
+      oklch(0.78 0.16 85) 40%,
+      oklch(0.72 0.14 75) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px oklch(0.78 0.16 85 / 30%));
+  }
+
+  .gradient-text-gold-reverse {
+    background: linear-gradient(
+      225deg,
+      oklch(0.85 0.12 90) 0%,
+      oklch(0.78 0.16 85) 40%,
+      oklch(0.72 0.14 75) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ============================================================
+     PREMIUM TYPOGRAPHY
+     ============================================================ */
+
+  .font-display {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .font-body {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .font-mono-lux {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  /* Luxury heading scale */
+  .heading-xl {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  .heading-lg {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .heading-md {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  /* ============================================================
+     BNE BUTTONS — Luxury Gold
+     ============================================================ */
+  .btn-gold {
+    background: linear-gradient(
+      135deg,
+      oklch(0.82 0.14 90) 0%,
+      oklch(0.76 0.16 85) 50%,
+      oklch(0.70 0.12 80) 100%
+    );
+    color: oklch(0.04 0.005 85);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border: none;
+    border-radius: 9999px;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow:
+      0 2px 8px oklch(0 0 0 / 30%),
+      0 0 20px oklch(0.78 0.16 85 / 20%);
+  }
+  .btn-gold:hover {
+    box-shadow:
+      0 4px 16px oklch(0 0 0 / 40%),
+      0 0 40px oklch(0.78 0.16 85 / 35%),
+      0 0 80px oklch(0.78 0.16 85 / 15%);
+    transform: translateY(-2px) scale(1.01);
+  }
+  .btn-gold:active {
+    transform: scale(0.97) translateY(0);
+    transition: all 0.1s ease;
+  }
+
+  /* Secondary outlined gold button */
+  .btn-gold-outline {
+    background: transparent;
+    color: oklch(0.80 0.15 85);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    border: 1px solid oklch(0.78 0.14 85 / 30%);
+    border-radius: 9999px;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .btn-gold-outline:hover {
+    border-color: oklch(0.78 0.16 85 / 60%);
+    background: oklch(0.78 0.16 85 / 8%);
+    box-shadow: 0 0 30px oklch(0.78 0.16 85 / 15%);
+    transform: translateY(-1px);
+  }
+
+  /* ============================================================
+     GOLD WATERMARK / INSIGNIA PATTERN
+     ============================================================ */
+  .gold-watermark {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18rem;
+    font-weight: 700;
+    color: oklch(0.78 0.12 85 / 3%);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  .insignia-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    background: linear-gradient(
+      135deg,
+      oklch(0.80 0.14 85) 0%,
+      oklch(0.72 0.10 80) 100%
+    );
+    color: oklch(0.04 0.005 85);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    box-shadow:
+      0 0 16px oklch(0.78 0.16 85 / 25%),
+      inset 0 1px 0 oklch(1 0 0 / 20%);
+  }
+
+  /* ============================================================
+     MOTION UTILITIES
+     ============================================================ */
+
+  /* Particle halo background */
+  .particle-halo {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      oklch(0.78 0.16 85 / 15%) 0%,
+      oklch(0.78 0.14 85 / 4%) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    animation: haloDrift 12s ease-in-out infinite;
+  }
+
+  @keyframes haloDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    33% { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }
+    66% { transform: translate(-20px, 15px) scale(0.95); opacity: 0.5; }
+  }
+
+  /* Aura pulse */
+  .aura-pulse {
+    animation: auraPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes auraPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  /* Magnetic hover — applied via JS or framer-motion */
+  .magnetic-hover {
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Shimmer loading effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      oklch(0.08 0.008 85) 0%,
+      oklch(0.12 0.010 85) 40%,
+      oklch(0.08 0.008 85) 80%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ============================================================
+     DIVIDERS & DECORATIVE
+     ============================================================ */
+
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      oklch(0.78 0.16 85 / 40%) 20%,
+      oklch(0.78 0.16 85 / 60%) 50%,
+      oklch(0.78 0.16 85 / 40%) 80%,
+      transparent 100%
+    );
+  }
+
+  .gold-divider-vertical {
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      oklch(0.78 0.16 85 / 40%) 20%,
+      oklch(0.78 0.16 85 / 60%) 50%,
+      oklch(0.78 0.16 85 / 40%) 80%,
+      transparent 100%
+    );
+  }
+
+  /* ============================================================
+     SCROLLBAR
+     ============================================================ */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: oklch(0.04 0.005 85);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.78 0.14 85 / 40%);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.78 0.16 85 / 70%);
+  }
+
+  /* ============================================================
+     SELECTION
+     ============================================================ */
+  ::selection {
+    background: oklch(0.78 0.16 85 / 25%);
+    color: oklch(0.04 0.005 85);
+  }
+}

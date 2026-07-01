@@ -1,0 +1,21 @@
+# Cloudflare Pages configuration
+[build]
+command = "pnpm install && pnpm build:static"
+output_directory = "dist/public"
+
+[build.environment]
+NODE_ENV = "production"
+# Add your Render API URL after deployment
+# VITE_API_URL = "https://your-service.onrender.com/api/trpc"
+
+# SPA fallback - members portal
+[[redirects]]
+from = "/members/*"
+to = "/members/index.html"
+status = 200
+
+# SPA fallback - main app
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200

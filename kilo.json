@@ -1,0 +1,16 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "snapshot": false,
+  "mcp": {
+    "render": {
+      "type": "sse",
+      "url": "https://mcp.render.com/sse",
+      "headers": {
+        "Authorization": "Bearer rnd_fCogWbnMt71Ix4yW34LS1y67bGhh"
+      },
+      "settings": {
+        "workspace": "bne-agency"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Blacklisted Studio",
+  "short_name": "BNE Studio",
+  "description": "Expert guides on compliance, niche strategy, monetization, and operational security for adult content creators.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#6d28d9",
+  "icons": [
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "education"],
+  "lang": "en-US"
+}

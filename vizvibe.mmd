@@ -1,0 +1,93 @@
+flowchart TD
+    %% Mermaid theme configuration
+    classDef closed fill:#475569,stroke:#334155,color:#fff,stroke-width:1px
+    classDef opened fill:#10b981,stroke:#059669,color:#fff,stroke-width:2px
+    classDef in_progress fill:#f59e0b,stroke:#d97706,color:#fff,stroke-width:2px
+    classDef future fill:#8b5cf6,stroke:#7c3aed,color:#fff,stroke-width:1px
+    
+    %% Color scheme: Gold(#eab308) Black(#1e293b) Purple(#8b5cf6) Green(#10b981)
+
+    %% @node [closed]
+    project_start(["Project Start"]):::closed
+    
+    %% @node [closed]
+    app_foundation(["App Foundation<br/>Core architecture setup"]):::closed
+    
+    %% @node [closed]
+    auth_flow(["Auth Flow<br/>User authentication system"]):::closed
+    
+    %% @node [closed]
+    marketing_site(["Marketing Site<br/>B.N.E. Studio branding"]):::closed
+    
+    %% @node [opened]
+    bne_studio(["B.N.E. Studio Branding<br/>Logo + 18+ Notice + Start Button"]):::opened
+    
+    %% @node [opened]
+    login_portal(["Login Member's Portal CTA<br/>Portal access integration"]):::opened
+    
+    %% @node [in_progress]
+    media_catalog_api(["Media Catalog API Scanning<br/>Root media folder integration"]):::in_progress
+    
+    %% @node [in_progress]
+    blacklisted_university(["Blacklisted University<br/>Video/Print Catalog"]):::in_progress
+    
+    %% @node [opened]
+    print_optimized(["Print-Optimized Display<br/>Gallery layout"]):::opened
+    
+    %% @node [opened]
+    in_person_services(["In-Person Services<br/>Appointment scheduling"]):::opened
+    
+    %% @node [future]
+    compliance_vault(["Compliance Vault<br/>Legal document storage"]):::future
+    
+    %% @node [future]
+    legal_compliance(["Legal Compliance Service Block<br/>Policy enforcement"]):::future
+    
+    %% @node [opened]
+    active_work(["Active Work<br/>Current development focus"]):::opened
+    
+    %% @node [opened]
+    blockers_risks(["Blockers/Risks<br/>Identified issues"]):::opened
+    
+    %% @node [future]
+    future_work(["Future Work<br/>Planned features"]):::future
+    
+    %% @node [closed]
+    root_forwarding(["Root Forwarding/Age Gate<br/>Entry point middleware"]):::closed
+    
+    %% Connections
+    project_start --> app_foundation
+    app_foundation --> auth_flow
+    app_foundation --> marketing_site
+    auth_flow --> login_portal
+    marketing_site --> bne_studio
+    bne_studio --> login_portal
+    login_portal --> in_person_services
+    app_foundation --> root_forwarding
+    root_forwarding --> media_catalog_api
+    media_catalog_api --> blacklisted_university
+    media_catalog_api --> print_optimized
+    blacklisted_university --> in_person_services
+    in_person_services --> active_work
+    active_work --> compliance_vault
+    active_work --> legal_compliance
+    active_work --> future_work
+    blockers_risks --> compliance_vault
+    blockers_risks --> legal_compliance
+    
+    style project_start fill:#eab308,stroke:#ca8a04,color:#000
+    style app_foundation fill:#1e293b,stroke:#0f172a,color:#fff
+    style auth_flow fill:#1e293b,stroke:#0f172a,color:#fff
+    style marketing_site fill:#1e293b,stroke:#0f172a,color:#fff
+    style bne_studio fill:#10b981,stroke:#059669,color:#fff
+    style login_portal fill:#10b981,stroke:#059669,color:#fff
+    style media_catalog_api fill:#f59e0b,stroke:#d97706,color:#fff
+    style blacklisted_university fill:#f59e0b,stroke:#d97706,color:#fff
+    style print_optimized fill:#10b981,stroke:#059669,color:#fff
+    style in_person_services fill:#10b981,stroke:#059669,color:#fff
+    style root_forwarding fill:#475569,stroke:#334155,color:#fff
+    style compliance_vault fill:#8b5cf6,stroke:#7c3aed,color:#fff
+    style legal_compliance fill:#8b5cf6,stroke:#7c3aed,color:#fff
+    style active_work fill:#f59e0b,stroke:#d97706,color:#fff
+    style blockers_risks fill:#ef4444,stroke:#dc2626,color:#fff
+    style future_work fill:#8b5cf6,stroke:#7c3aed,color:#fff

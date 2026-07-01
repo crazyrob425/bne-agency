@@ -1,0 +1,186 @@
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "BLACKLISTED Niche Entertainment" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8]:
+            - img [ref=e10]
+            - generic [ref=e12]:
+              - generic [ref=e13]: BLACKLISTED
+              - generic [ref=e14]: Niche Entertainment
+        - generic [ref=e15]:
+          - link "Home" [ref=e16] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e17]:
+              - img [ref=e18]
+              - text: Home
+          - link "Structured Advisory" [ref=e21] [cursor=pointer]:
+            - /url: /tiers
+            - generic [ref=e22]:
+              - img [ref=e23]
+              - text: Structured Advisory
+          - link "Niche Intelligence" [ref=e27] [cursor=pointer]:
+            - /url: /niche-matcher
+            - generic [ref=e28]:
+              - img [ref=e29]
+              - text: Niche Intelligence
+          - link "Creator Suite" [ref=e31] [cursor=pointer]:
+            - /url: /tools
+            - generic [ref=e32]:
+              - img [ref=e33]
+              - text: Creator Suite
+          - link "Digital Services" [ref=e35] [cursor=pointer]:
+            - /url: /services
+            - generic [ref=e36]:
+              - img [ref=e37]
+              - text: Digital Services
+          - link "Private Sessions" [ref=e39] [cursor=pointer]:
+            - /url: /inperson-services
+            - generic [ref=e40]:
+              - img [ref=e41]
+              - text: Private Sessions
+          - link "Asset Vault" [ref=e43] [cursor=pointer]:
+            - /url: /downloads
+            - generic [ref=e44]:
+              - img [ref=e45]
+              - text: Asset Vault
+          - link "Legal Framework" [ref=e48] [cursor=pointer]:
+            - /url: /compliance
+            - generic [ref=e49]:
+              - img [ref=e50]
+              - text: Legal Framework
+          - link "Intelligence" [ref=e52] [cursor=pointer]:
+            - /url: /blog
+            - generic [ref=e53]:
+              - img [ref=e54]
+              - text: Intelligence
+          - link "Investment" [ref=e56] [cursor=pointer]:
+            - /url: /pricing
+            - generic [ref=e57]:
+              - img [ref=e58]
+              - text: Investment
+        - link "Apply for Access" [ref=e61] [cursor=pointer]:
+          - /url: /onboarding
+          - button "Apply for Access" [ref=e62]:
+            - img [ref=e63]
+            - text: Apply for Access
+            - img [ref=e65]
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - img [ref=e72]
+        - generic [ref=e74]: Complimentary Strategic Analysis
+      - heading "Identify Your Premium Niche" [level=1] [ref=e75]
+      - paragraph [ref=e76]:
+        - text: Access our proprietary database of
+        - generic [ref=e77]: 1,052 analyzed market segments
+        - text: — high-value verticals with quantified earning potential and competitive density. No generic strategy. Precision targeting.
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - img [ref=e80]
+          - generic [ref=e84]:
+            - paragraph [ref=e85]: Strategic Index
+            - paragraph [ref=e86]: 1,052+
+        - generic [ref=e87]:
+          - img [ref=e88]
+          - generic [ref=e90]:
+            - paragraph [ref=e91]: Strategic Index
+            - paragraph [ref=e92]: 356 identified
+        - generic [ref=e93]:
+          - img [ref=e94]
+          - generic [ref=e96]:
+            - paragraph [ref=e97]: Strategic Index
+            - paragraph [ref=e98]: 757 sectors
+    - generic [ref=e100]:
+      - tablist [ref=e101]:
+        - tab "Analysis" [selected] [ref=e102] [cursor=pointer]:
+          - img
+          - text: Analysis
+        - tab "Directory" [ref=e103] [cursor=pointer]:
+          - img
+          - text: Directory
+        - tab "Search" [ref=e104] [cursor=pointer]:
+          - img
+          - text: Search
+      - tabpanel "Analysis" [ref=e105]:
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - generic [ref=e109]: Step 1 of 5
+              - generic [ref=e110]: 0% complete
+            - progressbar [ref=e111]
+          - heading "What power dynamic are you working with?" [level=2] [ref=e113]
+          - paragraph [ref=e114]: This shapes your brand architecture — select with intention
+          - generic [ref=e115]:
+            - button "👑 Dominant / FemDom" [ref=e116] [cursor=pointer]:
+              - text: 👑
+              - paragraph [ref=e117]: Dominant / FemDom
+            - button "🔗 Submissive" [ref=e118] [cursor=pointer]:
+              - text: 🔗
+              - paragraph [ref=e119]: Submissive
+            - button "⚡ Switch (Both)" [ref=e120] [cursor=pointer]:
+              - text: ⚡
+              - paragraph [ref=e121]: Switch (Both)
+            - button "🌸 Vanilla / Neutral" [ref=e122] [cursor=pointer]:
+              - text: 🌸
+              - paragraph [ref=e123]: Vanilla / Neutral
+            - button "💌 GFE / Relationship" [ref=e124] [cursor=pointer]:
+              - text: 💌
+              - paragraph [ref=e125]: GFE / Relationship
+            - button "🎭 Taboo / Roleplay" [ref=e126] [cursor=pointer]:
+              - text: 🎭
+              - paragraph [ref=e127]: Taboo / Roleplay
+    - contentinfo [ref=e128]:
+      - generic: BNE
+      - generic [ref=e129]:
+        - generic [ref=e130]:
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - img [ref=e134]
+              - generic [ref=e136]:
+                - generic [ref=e137]: BLACKLISTED
+                - generic [ref=e138]: Niche Entertainment
+            - paragraph [ref=e139]: BNE is the strategic partner for independent adult content creators who demand excellence. We architect privacy, compliance, growth, and monetization — so you can operate at the highest level.
+            - generic [ref=e142]: SYSTEMS OPERATIONAL
+          - generic [ref=e143]:
+            - heading "Navigation" [level=4] [ref=e144]
+            - list [ref=e145]:
+              - listitem [ref=e146]:
+                - link "Home" [ref=e147] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e148]:
+                - link "Structured Advisory" [ref=e149] [cursor=pointer]:
+                  - /url: /tiers
+              - listitem [ref=e150]:
+                - link "Niche Intelligence" [ref=e151] [cursor=pointer]:
+                  - /url: /niche-matcher
+              - listitem [ref=e152]:
+                - link "Digital Services" [ref=e153] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=e154]:
+                - link "Private Sessions" [ref=e155] [cursor=pointer]:
+                  - /url: /inperson-services
+              - listitem [ref=e156]:
+                - link "Creator Suite" [ref=e157] [cursor=pointer]:
+                  - /url: /tools
+              - listitem [ref=e158]:
+                - link "Legal Framework" [ref=e159] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=e160]:
+                - link "Apply for Access" [ref=e161] [cursor=pointer]:
+                  - /url: /onboarding
+          - generic [ref=e162]:
+            - heading "Legal" [level=4] [ref=e163]
+            - list [ref=e164]:
+              - listitem [ref=e165]: Privacy Policy
+              - listitem [ref=e166]: Terms of Service
+              - listitem [ref=e167]: 18 U.S.C. § 2257
+              - listitem [ref=e168]: DMCA Policy
+              - listitem [ref=e169]: Cookie Policy
+        - generic [ref=e171]:
+          - paragraph [ref=e172]: © 2025 BLACKLISTED NICHE ENTERTAINMENT — ALL RIGHTS RESERVED
+          - paragraph [ref=e173]: "ENGINEERED BY BLACKLISTED BINARY LABS · CHIEF ARCHITECT: ROB BRANTING"
+        - paragraph [ref=e175]:
+          - strong [ref=e176]: Legal Framework
+          - text: Blacklisted Niche Entertainment provides digital marketing, brand architecture, compliance education, and strategic advisory services exclusively for adult content creators operating legally on licensed platforms within the United States. All engagements are conducted in strict adherence to applicable federal and state regulations. BNE does not facilitate, promote, or engage in any unlawful activities. All creators are required to maintain 18 U.S.C. § 2257 record-keeping compliance. This platform is intended exclusively for adults aged 18 and older.

@@ -1,0 +1,9 @@
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e9]:
+    - paragraph [ref=e10]: Explicit Content Preview
+    - heading "The BNE Agency drop is not safe for work" [level=1] [ref=e11]
+    - paragraph [ref=e12]: High-energy, sensual drops for creators who want more than a brand. If 18+ content is something you create, sell, or amplify — come inside.
+    - generic [ref=e13]:
+      - button "I confirm I am 18+" [ref=e14] [cursor=pointer]
+      - button "No, I am under 18" [ref=e15] [cursor=pointer]

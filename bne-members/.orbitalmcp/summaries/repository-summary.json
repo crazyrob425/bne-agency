@@ -1,0 +1,62 @@
+{
+  "workspaceRoot": "e:\\bne-agency\\BNE-MEMBERS",
+  "generatedAt": 1781365053324,
+  "structure": {
+    "totalFiles": 36,
+    "totalDirs": 13,
+    "languages": {
+      ".json": 8,
+      ".example": 1,
+      ".ps1": 5,
+      ".rules": 1,
+      ".html": 1,
+      ".md": 1,
+      ".ts": 3,
+      ".tsx": 13,
+      ".css": 1
+    },
+    "topDirectories": [
+      "assets",
+      "src"
+    ]
+  },
+  "summary": "Repository contains 36 files across 13 directories.\n\nPrimary languages:\n  .tsx: 13 files\n  .json: 8 files\n  .ps1: 5 files\n  .ts: 3 files\n  .example: 1 files\n\nMain directories: assets, src\n\nKey configuration files:\n  .env.example - Environment variables\n  .gitignore - Git ignore rules\n  assets/.aistudio/.gitignore - Git ignore rules\n  package.json - Node.js project dependencies and scripts\n  README.md - Project documentation\n  tsconfig.json - TypeScript configuration\n  vite.config.ts - Vite build configuration",
+  "fileTree": "BNE-MEMBERS/\n├── .claude/\n│   └── settings.local.json\n├── .env.example\n├── .gitignore\n├── .mcp.json\n├── .specify/\n│   ├── memory/\n│   ├── scripts/\n│   │   └── powershell/\n│   │       ├── check-prerequisites.ps1\n│   │       ├── common.ps1\n│   │       ├── create-new-feature.ps1\n│   │       ├── setup-plan.ps1\n│   │       └── update-copilot-context.ps1\n│   └── specs/\n├── assets/\n│   └── .aistudio/\n│       └── .gitignore\n├── firebase-applet-config.json\n├── firebase-blueprint.json\n├── firestore.rules\n├── index.html\n├── metadata.json\n├── package-lock.json\n├── package.json\n├── README.md\n├── server.ts\n├── src/\n│   ├── App.tsx\n│   ├── components/\n│   │   └── Layout.tsx\n│   ├── context/\n│   │   └── AuthContext.tsx\n│   ├── index.css\n│   ├── lib/\n│   │   └── firebase.ts\n│   ├── main.tsx\n│   └── pages/\n│       ├── AccountPage.tsx\n│       ├── AdGenerator.tsx\n│       ├── AdminDashboard.tsx\n│       ├── AskAIPage.tsx\n│       ├── FilePortal.tsx\n│       ├── Home.tsx\n│       ├── KeepNotes.tsx\n│       ├── Messages.tsx\n│       └── MiniBoard.tsx\n├── tsconfig.json\n└── vite.config.ts",
+  "keyFiles": [
+    {
+      "path": ".env.example",
+      "type": "config",
+      "purpose": "Environment variables"
+    },
+    {
+      "path": ".gitignore",
+      "type": "config",
+      "purpose": "Git ignore rules"
+    },
+    {
+      "path": "assets/.aistudio/.gitignore",
+      "type": "config",
+      "purpose": "Git ignore rules"
+    },
+    {
+      "path": "package.json",
+      "type": "config",
+      "purpose": "Node.js project dependencies and scripts"
+    },
+    {
+      "path": "README.md",
+      "type": "doc",
+      "purpose": "Project documentation"
+    },
+    {
+      "path": "tsconfig.json",
+      "type": "config",
+      "purpose": "TypeScript configuration"
+    },
+    {
+      "path": "vite.config.ts",
+      "type": "config",
+      "purpose": "Vite build configuration"
+    }
+  ]
+}

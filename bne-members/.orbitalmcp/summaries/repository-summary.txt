@@ -1,0 +1,75 @@
+REPO: BNE-MEMBERS
+FILES: 36 | DIRS: 13
+LANGS: .json:8 .example:1 .ps1:5 .rules:1 .html:1 .md:1 .ts:3 .tsx:13 .css:1
+
+Repository contains 36 files across 13 directories.
+
+Primary languages:
+  .tsx: 13 files
+  .json: 8 files
+  .ps1: 5 files
+  .ts: 3 files
+  .example: 1 files
+
+Main directories: assets, src
+
+Key configuration files:
+  .env.example - Environment variables
+  .gitignore - Git ignore rules
+  assets/.aistudio/.gitignore - Git ignore rules
+  package.json - Node.js project dependencies and scripts
+  README.md - Project documentation
+  tsconfig.json - TypeScript configuration
+  vite.config.ts - Vite build configuration
+
+STRUCTURE:
+BNE-MEMBERS/
+├── .claude/
+│   └── settings.local.json
+├── .env.example
+├── .gitignore
+├── .mcp.json
+├── .specify/
+│   ├── memory/
+│   ├── scripts/
+│   │   └── powershell/
+│   │       ├── check-prerequisites.ps1
+│   │       ├── common.ps1
+│   │       ├── create-new-feature.ps1
+│   │       ├── setup-plan.ps1
+│   │       └── update-copilot-context.ps1
+│   └── specs/
+├── assets/
+│   └── .aistudio/
+│       └── .gitignore
+├── firebase-applet-config.json
+├── firebase-blueprint.json
+├── firestore.rules
+├── index.html
+├── metadata.json
+├── package-lock.json
+├── package.json
+├── README.md
+├── server.ts
+├── src/
+│   ├── App.tsx
+│   ├── components/
+│   │   └── Layout.tsx
+│   ├── context/
+│   │   └── AuthContext.tsx
+│   ├── index.css
+│   ├── lib/
+│   │   └── firebase.ts
+│   ├── main.tsx
+│   └── pages/
+│       ├── AccountPage.tsx
+│       ├── AdGenerator.tsx
+│       ├── AdminDashboard.tsx
+│       ├── AskAIPage.tsx
+│       ├── FilePortal.tsx
+│       ├── Home.tsx
+│       ├── KeepNotes.tsx
+│       ├── Messages.tsx
+│       └── MiniBoard.tsx
+├── tsconfig.json
+└── vite.config.ts

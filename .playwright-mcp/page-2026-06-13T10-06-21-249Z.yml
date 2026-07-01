@@ -1,0 +1,9 @@
+- generic [active]:
+  - generic:
+    - region "Notifications alt+T"
+    - generic [ref=e5]:
+      - generic [ref=e16]:
+        - paragraph [ref=e17]: Welcome
+        - heading "Welcome to BNE Agency" [level=1] [ref=e18]
+        - paragraph [ref=e19]: Premium drops, adult content strategy, captive-first marketing, and creator growth systems all live here.
+      - img "High-energy BNE drop asset" [ref=e23]

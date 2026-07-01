@@ -1,0 +1,10 @@
+{
+  "name": "bne-agency",
+  "videoSize": {
+    "width": 1280,
+    "height": 720
+  },
+  "fps": 30,
+  "createdAt": "2026-06-02T17:31:21.062Z",
+  "version": "0.1.0"
+}

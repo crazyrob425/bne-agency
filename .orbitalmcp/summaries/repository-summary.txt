@@ -1,0 +1,179 @@
+REPO: bne-agency
+FILES: 171 | DIRS: 36
+LANGS: .md:12 .sh:1 .json:12 .png:3 .code-workspace:1 .html:1 .js:1 .tsx:81 .ts:44 .css:1 .sql:1 .patch:1 .yaml:1
+
+Repository contains 171 files across 36 directories.
+
+Primary languages:
+  .tsx: 81 files
+  .ts: 44 files
+  .md: 12 files
+  .json: 12 files
+  .png: 3 files
+
+Main directories: client, drizzle, first-frames, output, patches, ref-img, references, scenes, server, shared
+
+Key configuration files:
+  .gitignore - Git ignore rules
+  .vv-context/README.md - Project documentation
+  client/src/marketing/README.md - Project documentation
+  package.json - Node.js project dependencies and scripts
+  README.md - Project documentation
+  tsconfig.json - TypeScript configuration
+  vite.config.ts - Vite build configuration
+
+STRUCTURE:
+bne-agency/
+├── .aiderrules
+├── .claude/
+│   ├── CLAUDE.md
+│   ├── hooks/
+│   │   └── vexp-guard.sh
+│   ├── settings.json
+│   └── settings.local.json
+├── .claude-rules
+├── .clinerules
+├── .cursorrules
+├── .gemini-rules
+├── .gitignore
+├── .gitkeep
+├── .mcp.json
+├── .prettierignore
+├── .prettierrc
+├── .temp/
+├── .vv-context/
+│   ├── README.md
+│   ├── shot-guide.md
+│   ├── storyboard-guide.md
+│   └── storyboard-prompt-examples.md
+├── .vv-project.json
+├── BNE businesscard.png
+├── BNE LOGO.png
+├── BNE logo2.png
+├── bne-agency.code-workspace
+├── client/
+│   ├── index.html
+│   ├── public/
+│   │   ├── .gitkeep
+│   │   └── __manus__/
+│   │       └── debug-collector.js
+│   └── src/
+│       ├── App.tsx
+│       ├── components/
+│       │   ├── AIChatBox.tsx
+│       │   ├── DashboardLayout.tsx
+│       │   ├── DashboardLayoutSkeleton.tsx
+│       │   ├── ErrorBoundary.tsx
+│       │   ├── Footer.tsx
+│       │   ├── ManusDialog.tsx
+│       │   ├── Map.tsx
+│       │   ├── Navigation.tsx
+│       │   └── ui/
+│       ├── const.ts
+│       ├── contexts/
+│       │   └── ThemeContext.tsx
+│       ├── data/
+│       │   ├── blogArticles.ts
+│       │   └── nicheDatabase.ts
+│       ├── hooks/
+│       │   ├── useComposition.ts
+│       │   ├── useMobile.tsx
+│       │   └── usePersistFn.ts
+│       ├── index.css
+│       ├── lib/
+│       │   ├── trpc.ts
+│       │   └── utils.ts
+│       ├── main.tsx
+│       ├── marketing/
+│       │   ├── in-person-entertainers-guide.md
+│       │   ├── library-config.json
+│       │   ├── online-creators-guide.md
+│       │   └── README.md
+│       ├── pages/
+│       │   ├── AllServices.tsx
+│       │   ├── ArticleDetail.tsx
+│       │   ├── Blog.tsx
+│       │   ├── ComplianceVault.tsx
+│       │   ├── ComponentShowcase.tsx
+│       │   ├── CreatorTools.tsx
+│       │   ├── Home.tsx
+│       │   ├── InPersonServices.tsx
+│       │   ├── MarketingAssets.tsx
+│       │   ├── MediaDownloads.tsx
+│       │   ├── NicheMatcher.tsx
+│       │   ├── NotFound.tsx
+│       │   ├── Onboarding.tsx
+│       │   ├── PaymentSuccess.tsx
+│       │   ├── Pricing.tsx
+│       │   └── ServiceTiers.tsx
+│       └── _core/
+│           └── hooks/
+├── components.json
+├── drizzle/
+│   ├── 0000_ambitious_thaddeus_ross.sql
+│   ├── meta/
+│   │   ├── 0000_snapshot.json
+│   │   └── _journal.json
+│   ├── migrations/
+│   │   └── .gitkeep
+│   ├── relations.ts
+│   └── schema.ts
+├── drizzle.config.ts
+├── first-frames/
+├── ideas.md
+├── output/
+├── package.json
+├── patches/
+│   └── wouter@3.7.1.patch
+├── pnpm-lock.yaml
+├── README.md
+├── ref-img/
+├── references/
+│   └── periodic-updates.md
+├── scenes/
+├── server/
+│   ├── auth.logout.test.ts
+│   ├── db.ts
+│   ├── index.ts
+│   ├── routers.ts
+│   ├── storage.ts
+│   ├── stripe/
+│   │   ├── products.ts
+│   │   ├── stripe.test.ts
+│   │   ├── stripeRouter.ts
+│   │   └── webhookHandler.ts
+│   └── _core/
+│       ├── context.ts
+│       ├── cookies.ts
+│       ├── dataApi.ts
+│       ├── env.ts
+│       ├── heartbeat.ts
+│       ├── imageGeneration.ts
+│       ├── index.ts
+│       ├── llm.ts
+│       ├── map.ts
+│       ├── notification.ts
+│       ├── oauth.ts
+│       ├── sdk.ts
+│       ├── storageProxy.ts
+│       ├── systemRouter.ts
+│       ├── trpc.ts
+│       ├── types/
+│       │   ├── cookie.d.ts
+│       │   └── manusTypes.ts
+│       ├── vite.ts
+│       └── voiceTranscription.ts
+├── shared/
+│   ├── const.ts
+│   ├── types.ts
+│   └── _core/
+│       └── errors.ts
+├── storyboards/
+├── subjects/
+├── template.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── video-clip/
+├── vite.config.ts
+├── vitest.config.ts
+└── 剧本.md

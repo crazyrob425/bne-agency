@@ -1,0 +1,12 @@
+- generic [active]:
+  - generic:
+    - region "Notifications alt+T"
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - paragraph [ref=e5]: Welcome
+        - heading "Your B.N.E. Studio Managment Firn." [level=1] [ref=e6]
+        - paragraph [ref=e7]: Adults (18+) Only Permitted
+        - paragraph [ref=e8]: Premium strategy, brand architecture, and creator growth systems — engineered for the elite 1%.
+      - generic [ref=e11]:
+        - img "Your B.N.E. Studio Management Firm brand asset" [ref=e12]
+        - button "Start" [ref=e13] [cursor=pointer]

@@ -1,0 +1,74 @@
+{
+  "workspaceRoot": "e:\\bne-agency",
+  "generatedAt": 1780546086508,
+  "structure": {
+    "totalFiles": 171,
+    "totalDirs": 36,
+    "languages": {
+      ".md": 12,
+      ".sh": 1,
+      ".json": 12,
+      ".png": 3,
+      ".code-workspace": 1,
+      ".html": 1,
+      ".js": 1,
+      ".tsx": 81,
+      ".ts": 44,
+      ".css": 1,
+      ".sql": 1,
+      ".patch": 1,
+      ".yaml": 1
+    },
+    "topDirectories": [
+      "client",
+      "drizzle",
+      "first-frames",
+      "output",
+      "patches",
+      "ref-img",
+      "references",
+      "scenes",
+      "server",
+      "shared"
+    ]
+  },
+  "summary": "Repository contains 171 files across 36 directories.\n\nPrimary languages:\n  .tsx: 81 files\n  .ts: 44 files\n  .md: 12 files\n  .json: 12 files\n  .png: 3 files\n\nMain directories: client, drizzle, first-frames, output, patches, ref-img, references, scenes, server, shared\n\nKey configuration files:\n  .gitignore - Git ignore rules\n  .vv-context/README.md - Project documentation\n  client/src/marketing/README.md - Project documentation\n  package.json - Node.js project dependencies and scripts\n  README.md - Project documentation\n  tsconfig.json - TypeScript configuration\n  vite.config.ts - Vite build configuration",
+  "fileTree": "bne-agency/\n├── .aiderrules\n├── .claude/\n│   ├── CLAUDE.md\n│   ├── hooks/\n│   │   └── vexp-guard.sh\n│   ├── settings.json\n│   └── settings.local.json\n├── .claude-rules\n├── .clinerules\n├── .cursorrules\n├── .gemini-rules\n├── .gitignore\n├── .gitkeep\n├── .mcp.json\n├── .prettierignore\n├── .prettierrc\n├── .temp/\n├── .vv-context/\n│   ├── README.md\n│   ├── shot-guide.md\n│   ├── storyboard-guide.md\n│   └── storyboard-prompt-examples.md\n├── .vv-project.json\n├── BNE businesscard.png\n├── BNE LOGO.png\n├── BNE logo2.png\n├── bne-agency.code-workspace\n├── client/\n│   ├── index.html\n│   ├── public/\n│   │   ├── .gitkeep\n│   │   └── __manus__/\n│   │       └── debug-collector.js\n│   └── src/\n│       ├── App.tsx\n│       ├── components/\n│       │   ├── AIChatBox.tsx\n│       │   ├── DashboardLayout.tsx\n│       │   ├── DashboardLayoutSkeleton.tsx\n│       │   ├── ErrorBoundary.tsx\n│       │   ├── Footer.tsx\n│       │   ├── ManusDialog.tsx\n│       │   ├── Map.tsx\n│       │   ├── Navigation.tsx\n│       │   └── ui/\n│       ├── const.ts\n│       ├── contexts/\n│       │   └── ThemeContext.tsx\n│       ├── data/\n│       │   ├── blogArticles.ts\n│       │   └── nicheDatabase.ts\n│       ├── hooks/\n│       │   ├── useComposition.ts\n│       │   ├── useMobile.tsx\n│       │   └── usePersistFn.ts\n│       ├── index.css\n│       ├── lib/\n│       │   ├── trpc.ts\n│       │   └── utils.ts\n│       ├── main.tsx\n│       ├── marketing/\n│       │   ├── in-person-entertainers-guide.md\n│       │   ├── library-config.json\n│       │   ├── online-creators-guide.md\n│       │   └── README.md\n│       ├── pages/\n│       │   ├── AllServices.tsx\n│       │   ├── ArticleDetail.tsx\n│       │   ├── Blog.tsx\n│       │   ├── ComplianceVault.tsx\n│       │   ├── ComponentShowcase.tsx\n│       │   ├── CreatorTools.tsx\n│       │   ├── Home.tsx\n│       │   ├── InPersonServices.tsx\n│       │   ├── MarketingAssets.tsx\n│       │   ├── MediaDownloads.tsx\n│       │   ├── NicheMatcher.tsx\n│       │   ├── NotFound.tsx\n│       │   ├── Onboarding.tsx\n│       │   ├── PaymentSuccess.tsx\n│       │   ├── Pricing.tsx\n│       │   └── ServiceTiers.tsx\n│       └── _core/\n│           └── hooks/\n├── components.json\n├── drizzle/\n│   ├── 0000_ambitious_thaddeus_ross.sql\n│   ├── meta/\n│   │   ├── 0000_snapshot.json\n│   │   └── _journal.json\n│   ├── migrations/\n│   │   └── .gitkeep\n│   ├── relations.ts\n│   └── schema.ts\n├── drizzle.config.ts\n├── first-frames/\n├── ideas.md\n├── output/\n├── package.json\n├── patches/\n│   └── wouter@3.7.1.patch\n├── pnpm-lock.yaml\n├── README.md\n├── ref-img/\n├── references/\n│   └── periodic-updates.md\n├── scenes/\n├── server/\n│   ├── auth.logout.test.ts\n│   ├── db.ts\n│   ├── index.ts\n│   ├── routers.ts\n│   ├── storage.ts\n│   ├── stripe/\n│   │   ├── products.ts\n│   │   ├── stripe.test.ts\n│   │   ├── stripeRouter.ts\n│   │   └── webhookHandler.ts\n│   └── _core/\n│       ├── context.ts\n│       ├── cookies.ts\n│       ├── dataApi.ts\n│       ├── env.ts\n│       ├── heartbeat.ts\n│       ├── imageGeneration.ts\n│       ├── index.ts\n│       ├── llm.ts\n│       ├── map.ts\n│       ├── notification.ts\n│       ├── oauth.ts\n│       ├── sdk.ts\n│       ├── storageProxy.ts\n│       ├── systemRouter.ts\n│       ├── trpc.ts\n│       ├── types/\n│       │   ├── cookie.d.ts\n│       │   └── manusTypes.ts\n│       ├── vite.ts\n│       └── voiceTranscription.ts\n├── shared/\n│   ├── const.ts\n│   ├── types.ts\n│   └── _core/\n│       └── errors.ts\n├── storyboards/\n├── subjects/\n├── template.json\n├── tsconfig.json\n├── tsconfig.node.json\n├── video-clip/\n├── vite.config.ts\n├── vitest.config.ts\n└── 剧本.md",
+  "keyFiles": [
+    {
+      "path": ".gitignore",
+      "type": "config",
+      "purpose": "Git ignore rules"
+    },
+    {
+      "path": ".vv-context/README.md",
+      "type": "doc",
+      "purpose": "Project documentation"
+    },
+    {
+      "path": "client/src/marketing/README.md",
+      "type": "doc",
+      "purpose": "Project documentation"
+    },
+    {
+      "path": "package.json",
+      "type": "config",
+      "purpose": "Node.js project dependencies and scripts"
+    },
+    {
+      "path": "README.md",
+      "type": "doc",
+      "purpose": "Project documentation"
+    },
+    {
+      "path": "tsconfig.json",
+      "type": "config",
+      "purpose": "TypeScript configuration"
+    },
+    {
+      "path": "vite.config.ts",
+      "type": "config",
+      "purpose": "Vite build configuration"
+    }
+  ]
+}

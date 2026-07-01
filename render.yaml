@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: bne-agency-api
+    runtime: node
+    buildCommand: pnpm install --include=dev && pnpm build
+    startCommand: NODE_ENV=production node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SITE_URL
+        value: https://blacklisted.studio
+      - key: VITE_SITE_URL
+        value: https://blacklisted.studio
+      - key: VITE_OAUTH_PORTAL_URL
+        sync: false
+      - key: VITE_APP_ID
+        sync: false
+      - key: OAUTH_SERVER_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: VITE_MEDIA_BASE_URL
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        sync: false
+    autoDeploy: true
+    # Add a PostgreSQL database in Render dashboard after creating service
+    # DATABASE_URL will be auto-provided by Render
+
+# For frontend (Cloudflare Pages):
+# 1. Create separate repo or use same repo
+# 2. Build command: pnpm install && pnpm run seo:full
+# 3. Output directory: dist/public
+# 4. Add VITE_API_URL environment variable pointing to your Render service
