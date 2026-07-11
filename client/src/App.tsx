@@ -28,6 +28,7 @@ import AllServices from "./pages/AllServices";
 import MarketingAssets from "./pages/MarketingAssets";
 import MediaDownloads from "./pages/MediaDownloads";
 import University from "./pages/University";
+import MakeMoney from "./pages/MakeMoney";
 
 function Router() {
   return (
@@ -54,6 +55,7 @@ function Router() {
       <Route path="/tools/income-verifier" component={IncomeVerifier} />
       <Route path="/tools/workflow-manager" component={WorkflowManager} />
       <Route path="/tools/classified-generator" component={ClassifiedGenerator} />
+      <Route path="/makemoney" component={MakeMoney} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

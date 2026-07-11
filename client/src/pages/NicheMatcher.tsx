@@ -1,6 +1,11 @@
 /**
  * BNE Niche Matcher Engine — Black & Gold Luxury Edition
- * Real 1,053-niche database. No simulated results.
+ * Real 1,000+ niche database + 22 curated 2026 micro-niches. No simulated results.
+ *
+ * Subconscious mapping: users answer 20 psychometric questions that NEVER name a
+ * fetish. Their answers become a 10-dimension psychological profile, which is matched
+ * (cosine similarity) against each niche's psychological signature to surface the 3
+ * perfect niches they would NOT have consciously named.
  *
  * Developed by Blacklisted Binary Labs
  * Chief Dev & Executive Architect: Rob Branting
@@ -27,6 +32,12 @@ import {
   Flame,
   Diamond,
   Crown,
+  Brain,
+  Sparkles,
+  Users,
+  Package,
+  Lightbulb,
+  Heart,
 } from "lucide-react";
 import {
   NICHE_DATABASE,
@@ -35,11 +46,18 @@ import {
   getNichesByCategory,
   getTopNiches,
   getHiddenGems,
-  matchNichesByQuiz,
   TOTAL_NICHE_COUNT,
   type Niche,
   type NicheCategory,
 } from "@/data/nicheDatabase";
+import { QUIZ_QUESTIONS, computeAttachmentVector, type QuizAnswers } from "@/data/nicheQuiz";
+import {
+  matchNicheFinder,
+  getSubconsciousInsight,
+  type MatchResult,
+  type NicheMatch,
+  type SubconsciousInsight,
+} from "@/data/nicheMatcherEngine";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,98 +69,7 @@ import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 
-// ─── QUIZ STEPS ───────────────────────────────────────────────────────────────
-
-interface QuizStep {
-  id: string;
-  question: string;
-  subtitle: string;
-  type: "single" | "multi";
-  options: { label: string; value: string; icon?: string }[];
-}
-
-const QUIZ_STEPS: QuizStep[] = [
-  {
-    id: "dynamic",
-    question: "What power dynamic are you working with?",
-    subtitle: "This shapes your brand architecture — select with intention",
-    type: "single",
-    options: [
-      { label: "Dominant / FemDom", value: "femdom", icon: "👑" },
-      { label: "Submissive", value: "submissive", icon: "🔗" },
-      { label: "Switch (Both)", value: "switch", icon: "⚡" },
-      { label: "Vanilla / Neutral", value: "vanilla", icon: "🌸" },
-      { label: "GFE / Relationship", value: "gfe", icon: "💌" },
-      { label: "Taboo / Roleplay", value: "roleplay", icon: "🎭" },
-    ],
-  },
-  {
-    id: "contentType",
-    question: "What kind of content do you actually want to make?",
-    subtitle: "Select all that apply — more selections yield superior matching precision",
-    type: "multi",
-    options: [
-      { label: "Solo Play", value: "solo", icon: "🔥" },
-      { label: "BDSM / Kink", value: "bdsm", icon: "⛓️" },
-      { label: "Fetish Content", value: "fetish", icon: "👠" },
-      { label: "Roleplay / Fantasy", value: "roleplay", icon: "🎭" },
-      { label: "Couples / Collab", value: "couples", icon: "💞" },
-      { label: "Audio / ASMR", value: "asmr", icon: "🎙️" },
-      { label: "Cosplay / Costume", value: "cosplay", icon: "🦸" },
-      { label: "Outdoor / Public", value: "outdoor", icon: "🌿" },
-    ],
-  },
-  {
-    id: "bodyType",
-    question: "What's your physical brand positioning?",
-    subtitle: "Your physical attributes are market differentiators — select with precision",
-    type: "single",
-    options: [
-      { label: "Petite / Small Frame", value: "petite", icon: "🌸" },
-      { label: "Athletic / Fit", value: "athletic", icon: "💪" },
-      { label: "Curvy / Thick", value: "curvy", icon: "🍑" },
-      { label: "BBW / Plus Size", value: "bbw", icon: "✨" },
-      { label: "MILF / Mature", value: "milf", icon: "🔥" },
-      { label: "Alt / Goth / Tatted", value: "goth", icon: "🖤" },
-      { label: "Trans / Non-Binary", value: "trans", icon: "🏳️‍⚧️" },
-      { label: "Femboy / Crossdresser", value: "femboy", icon: "🌈" },
-    ],
-  },
-  {
-    id: "audience",
-    question: "Who are you creating for?",
-    subtitle: "Audience clarity is the foundation of premium positioning",
-    type: "single",
-    options: [
-      { label: "Foot / Fetish Fans", value: "foot fetish", icon: "👣" },
-      { label: "BDSM / Kink Community", value: "bdsm", icon: "⛓️" },
-      { label: "Vanilla / Mainstream", value: "vanilla", icon: "🌸" },
-      { label: "Cuckolds / Hotwife Fans", value: "cuckold", icon: "♠️" },
-      { label: "FinDom / Paypigs", value: "findom", icon: "💸" },
-      { label: "Anime / Cosplay Fans", value: "cosplay anime", icon: "🎌" },
-      { label: "Gay / Queer Audience", value: "gay lesbian", icon: "🏳️‍🌈" },
-      { label: "General Adult Fans", value: "amateur", icon: "🎬" },
-    ],
-  },
-  {
-    id: "format",
-    question: "How do you actually want to create?",
-    subtitle: "Match your workflow to your niche for sustained execution",
-    type: "single",
-    options: [
-      { label: "Short Clips / Reels", value: "short clips", icon: "📱" },
-      { label: "Long Full Scenes", value: "long videos full scene", icon: "🎬" },
-      { label: "Photo Sets", value: "photo sets", icon: "📸" },
-      { label: "Live Streaming", value: "live streaming", icon: "📡" },
-      { label: "Custom Videos", value: "custom videos", icon: "🎯" },
-      { label: "Audio Only", value: "audio only", icon: "🎙️" },
-      { label: "Sexting / DMs", value: "sexting", icon: "💬" },
-      { label: "Try-On / Tease", value: "tease strip", icon: "👗" },
-    ],
-  },
-];
-
-// ─── HELPER COMPONENTS ────────────────────────────────────────────────────────
+// ─── COLOR MAPS (kept from legacy design) ─────────────────────────────────────
 
 const EP_COLORS: Record<string, string> = {
   "very-high": "text-[oklch(0.78_0.16_85)] border-[oklch(0.78_0.16_85/30%)] bg-[oklch(0.78_0.16_85/10%)]",
@@ -181,6 +108,21 @@ const SV_LABELS: Record<string, string> = {
   low: "Low",
   micro: "Exclusive",
 };
+
+const DIM_LABEL: Record<string, string> = {
+  dominance: "Dominance",
+  submission: "Submission",
+  novelty: "Novelty",
+  sensation: "Sensation",
+  intimacy: "Intimacy",
+  exhibition: "Exhibition",
+  taboo: "Edge / Taboo",
+  structure: "Structure",
+  nurture: "Nurture",
+  material: "Status / Material",
+};
+
+// ─── COMPACT CARD (for secondary matches / directory) ─────────────────────────
 
 function NicheCard({
   niche,
@@ -240,6 +182,134 @@ function NicheCard({
   );
 }
 
+// ─── NICHE PROFILE CARD (full intelligence for the 3 perfect matches) ──────────
+
+function InfoBlock({
+  icon: Icon,
+  title,
+  text,
+}: {
+  icon: React.ElementType;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="rounded-lg border border-[oklch(0.78_0.16_85/12%)] bg-[oklch(0.78_0.16_85/3%)] p-3">
+      <p className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[oklch(0.78_0.16_85)] font-body mb-1">
+        <Icon className="h-3 w-3" /> {title}
+      </p>
+      <p className="text-xs text-[oklch(0.82_0.01_85)] font-body leading-relaxed">{text}</p>
+    </div>
+  );
+}
+
+function ProfileCard({ match, index }: { match: NicheMatch; index: number }) {
+  const { niche } = match;
+  const profile = niche.profile;
+  const fit = Math.round(match.score);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.06, duration: 0.35 }}
+      className="relative rounded-2xl border border-[oklch(0.78_0.16_85/35%)] bg-[oklch(0.78_0.16_85/4%)] p-5 luxury-card"
+    >
+      <div className="absolute -top-2 -right-2">
+        <span className="flex items-center gap-1 rounded-full bg-[oklch(0.78_0.16_85)] px-2.5 py-0.5 text-[10px] font-bold text-[oklch(0.04_0.005_85)]">
+          <Star className="h-2.5 w-2.5 fill-current" /> {fit}% FIT
+        </span>
+      </div>
+
+      <p className="text-[10px] uppercase tracking-[0.2em] text-[oklch(0.78_0.16_85)] font-body">
+        Perfect Match #{index + 1}
+      </p>
+      <h3 className="heading-md text-[oklch(0.94_0.01_85)] mt-1 font-display">{niche.keyword}</h3>
+      <p className="text-[11px] text-[oklch(0.58_0.015_85)] font-body">{niche.category}</p>
+
+      <p className="mt-3 text-sm text-[oklch(0.72_0.012_85)] font-body italic border-l-2 border-[oklch(0.78_0.16_85/40%)] pl-3">
+        “{match.reason}”
+      </p>
+
+      {/* Confidence meter */}
+      <div className="mt-3">
+        <div className="flex items-center justify-between text-[10px] font-body text-[oklch(0.58_0.015_85)] mb-1">
+          <span>Alignment confidence</span>
+          <span className="font-mono-lux">
+            {fit >= 90
+              ? "Exceptional"
+              : fit >= 80
+                ? "Strong"
+                : fit >= 70
+                  ? "Good"
+                  : "Moderate"}
+          </span>
+        </div>
+        <div className="h-1 rounded-full bg-[oklch(0.78_0.16_85/12%)] overflow-hidden">
+          <div
+            className="h-full rounded-full bg-[oklch(0.78_0.16_85)]"
+            style={{ width: `${fit}%` }}
+          />
+        </div>
+      </div>
+
+      {profile ? (
+        <div className="mt-4 space-y-3">
+          <p className="text-sm text-[oklch(0.85_0.01_85)] font-body leading-relaxed">
+            {profile.description}
+          </p>
+
+          <div className="grid gap-2 sm:grid-cols-2">
+            <InfoBlock icon={Users} title="Fanbase" text={profile.demographics} />
+            <InfoBlock icon={DollarSign} title="Income" text={profile.income} />
+            <InfoBlock icon={Flame} title="Engagement" text={profile.engagement} />
+            <InfoBlock icon={Brain} title="Persona" text={profile.persona} />
+          </div>
+
+          <div>
+            <p className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[oklch(0.78_0.16_85)] font-body mb-1.5">
+              <Sparkles className="h-3 w-3" /> Related Niches
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {profile.related.map((r) => (
+                <span
+                  key={r}
+                  className="rounded-full border border-[oklch(0.78_0.16_85/20%)] px-2 py-0.5 text-[11px] text-[oklch(0.78_0.14_85)] font-body"
+                >
+                  {r}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[oklch(0.78_0.16_85)] font-body mb-1.5">
+              <Package className="h-3 w-3" /> Recommended Kit / Inventory
+            </p>
+            <ul className="grid gap-1 sm:grid-cols-2">
+              {profile.inventory.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-1.5 text-xs text-[oklch(0.82_0.01_85)] font-body"
+                >
+                  <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-[oklch(0.78_0.16_85)]" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : (
+        <p className="mt-3 text-sm text-[oklch(0.7_0.012_85)] font-body">
+          Full niche-intelligence brief (demographics, income model, persona, kit) is unlocked on
+          partnership. Core subconscious drivers:{" "}
+          {match.drivers.map((d) => DIM_LABEL[d.key]).join(", ")}.
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
 function StatPill({
   icon: Icon,
   label,
@@ -271,9 +341,15 @@ export default function NicheMatcher() {
 
   // Quiz state
   const [quizStep, setQuizStep] = useState(0);
-  const [quizAnswers, setQuizAnswers] = useState<Record<string, string | string[]>>({});
-  const [quizResults, setQuizResults] = useState<Niche[] | null>(null);
+  const [quizAnswers, setQuizAnswers] = useState<QuizAnswers>({});
+  const [quizResults, setQuizResults] = useState<MatchResult | null>(null);
+  const [quizInsight, setQuizInsight] = useState<SubconsciousInsight | null>(null);
   const [quizComplete, setQuizComplete] = useState(false);
+  const [attachment, setAttachment] = useState<{
+    anxiety: number;
+    avoidance: number;
+    quadrant: string;
+  } | null>(null);
 
   // Browse state
   const [browseCategory, setBrowseCategory] = useState<NicheCategory | "all" | "gems" | "top">(
@@ -292,12 +368,12 @@ export default function NicheMatcher() {
   );
 
   // Quiz logic
-  const currentStep = QUIZ_STEPS[quizStep];
-  const progress = ((quizStep + (quizComplete ? 1 : 0)) / QUIZ_STEPS.length) * 100;
+  const currentStep = QUIZ_QUESTIONS[quizStep];
+  const progress = ((quizStep + (quizComplete ? 1 : 0)) / QUIZ_QUESTIONS.length) * 100;
 
   const handleQuizAnswer = useCallback(
     (value: string) => {
-      const step = QUIZ_STEPS[quizStep];
+      const step = QUIZ_QUESTIONS[quizStep];
       if (step.type === "multi") {
         const current = (quizAnswers[step.id] as string[]) || [];
         const updated = current.includes(value)
@@ -307,7 +383,7 @@ export default function NicheMatcher() {
       } else {
         setQuizAnswers((prev) => ({ ...prev, [step.id]: value }));
         setTimeout(() => {
-          if (quizStep < QUIZ_STEPS.length - 1) {
+          if (quizStep < QUIZ_QUESTIONS.length - 1) {
             setQuizStep((s) => s + 1);
           } else {
             finishQuiz({ ...quizAnswers, [step.id]: value });
@@ -319,28 +395,22 @@ export default function NicheMatcher() {
   );
 
   const handleMultiNext = useCallback(() => {
-    if (quizStep < QUIZ_STEPS.length - 1) {
+    if (quizStep < QUIZ_QUESTIONS.length - 1) {
       setQuizStep((s) => s + 1);
     } else {
       finishQuiz(quizAnswers);
     }
   }, [quizStep, quizAnswers]);
 
-  const finishQuiz = useCallback((answers: Record<string, string | string[]>) => {
-    const contentType = answers.contentType as string[] | undefined;
-    const bodyType = answers.bodyType as string | undefined;
-    const dynamic = answers.dynamic as string | undefined;
-    const format = answers.format as string | undefined;
-    const audience = answers.audience as string | undefined;
-
-    const results = matchNichesByQuiz({
-      contentType,
-      bodyType,
-      dynamic,
-      format,
-      audience,
+  const finishQuiz = useCallback((answers: QuizAnswers) => {
+    const attachmentVec = computeAttachmentVector(answers);
+    setAttachment({
+      anxiety: attachmentVec.anxiety,
+      avoidance: attachmentVec.avoidance,
+      quadrant: attachmentVec.quadrant,
     });
-    setQuizResults(results);
+    setQuizResults(matchNicheFinder(answers, attachmentVec));
+    setQuizInsight(getSubconsciousInsight(answers));
     setQuizComplete(true);
   }, []);
 
@@ -348,7 +418,9 @@ export default function NicheMatcher() {
     setQuizStep(0);
     setQuizAnswers({});
     setQuizResults(null);
+    setQuizInsight(null);
     setQuizComplete(false);
+    setAttachment(null);
   }, []);
 
   // Browse niches
@@ -374,18 +446,19 @@ export default function NicheMatcher() {
   const webAppSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "BNE Niche Matcher Quiz Engine",
-    "url": "https://blacklisted.studio/niche-matcher",
-    "description": "Proprietary database of 1,053 adult industry sub-genres. Matches adult content creators and webcam models to their highest-earning niche, fetish category, or companion positioning in 60 seconds.",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All"
+    name: "BNE Niche Matcher Quiz Engine",
+    url: "https://blacklisted.studio/niche-matcher",
+    description:
+      "Proprietary database of 1,000+ adult industry sub-genres plus 22 curated 2026 micro-niches. Maps a creator's subconscious psychological profile to their 3 perfect, high-income niches in under 2 minutes.",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "All",
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
         title="Niche Matcher Quiz | Find Your High-Earning Niche"
-        description="Analyze your style, boundaries, and preferences against 1,053 adult industry sub-genres to find your highest-earning creator niche or companion positioning."
+        description="Answer 20 psychometric questions — never naming a fetish — and we map your subconscious profile to your 3 perfect, high-income adult content niches."
         canonical="/niche-matcher"
         schema={webAppSchema}
       />
@@ -409,19 +482,21 @@ export default function NicheMatcher() {
               </span>
             </div>
             <h1 className="heading-xl text-[oklch(0.94_0.01_85)] mb-5">
-              Identify Your{" "}
-              <span className="gradient-text-gold">Premium Niche</span>
+              Decode Your{" "}
+              <span className="gradient-text-gold">Subconscious Niche</span>
             </h1>
             <p className="text-[oklch(0.65_0.012_85)] text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-8 font-body">
-              Access our proprietary database of{" "}
-              <span className="font-semibold text-[oklch(0.78_0.16_85)]">{TOTAL_NICHE_COUNT.toLocaleString()} analyzed market segments</span> —
-              high-value verticals with quantified earning potential and competitive density. No generic strategy. Precision targeting.
+              We never ask you to pick a fetish. Answer{" "}
+              <span className="font-semibold text-[oklch(0.78_0.16_85)]">20 quick personality questions</span>{" "}
+              and our psychometric engine maps your latent profile onto{" "}
+              <span className="font-semibold text-[oklch(0.78_0.16_85)]">{TOTAL_NICHE_COUNT.toLocaleString()} analyzed market segments</span>{" "}
+              — surfacing the 3 high-income niches you'd never have named yourself.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <StatPill
-                icon={Layers}
-                label="Indexed Segments"
-                value={`${TOTAL_NICHE_COUNT.toLocaleString()}+`}
+                icon={Brain}
+                label="Psych Dimensions"
+                value="10 latent traits"
                 color="border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/6%)] text-[oklch(0.78_0.16_85)]"
               />
               <StatPill
@@ -487,7 +562,13 @@ export default function NicheMatcher() {
                   {/* Progress */}
                   <div className="mb-6">
                     <div className="flex items-center justify-between text-xs text-[oklch(0.58_0.015_85)] mb-2 font-body">
-                      <span>Step {quizStep + 1} of {QUIZ_STEPS.length}</span>
+                      <span>
+                        {quizStep < 12
+                          ? "Discovering your energy style..."
+                          : quizStep < QUIZ_QUESTIONS.length - 5
+                            ? "Mapping your edge..."
+                            : "Locking your profile..."}
+                      </span>
                       <span>{Math.round(progress)}% complete</span>
                     </div>
                     <Progress value={progress} className="h-1.5 bg-[oklch(0.78_0.16_85/8%)] [&>div]:bg-[oklch(0.78_0.16_85)]" />
@@ -537,7 +618,7 @@ export default function NicheMatcher() {
                         disabled={!((quizAnswers[currentStep.id] as string[])?.length > 0)}
                         className="bg-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.72_0.12_85)] text-[oklch(0.04_0.005_85)] font-body"
                       >
-                        {quizStep < QUIZ_STEPS.length - 1 ? (
+                        {quizStep < QUIZ_QUESTIONS.length - 1 ? (
                           <>Continue <ChevronRight className="ml-1.5 h-4 w-4" /></>
                         ) : (
                           <>Generate Analysis <Zap className="ml-1.5 h-4 w-4" /></>
@@ -579,12 +660,33 @@ export default function NicheMatcher() {
                       <div className="flex items-center gap-2.5 mb-1.5">
                         <CheckCircle2 className="h-5 w-5 text-[oklch(0.78_0.16_85)]" />
                         <h2 className="heading-md text-[oklch(0.94_0.01_85)]">
-                          Strategic Analysis Complete
+                          Subconscious Profile Decoded
                         </h2>
                       </div>
+                      {quizInsight && (
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Brain className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
+                          <span className="text-sm font-semibold text-[oklch(0.78_0.16_85)] font-body">
+                            Latent signature: {quizInsight.headline}
+                          </span>
+                        </div>
+                      )}
+                      {attachment && (
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Heart className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
+                          <span className="text-xs font-semibold text-[oklch(0.78_0.16_85)] font-body">
+                            Attachment pattern: {attachment.quadrant.replace(/-/g, " ")}
+                          </span>
+                        </div>
+                      )}
                       <p className="text-sm text-[oklch(0.65_0.012_85)] font-body">
-                        {quizResults?.length} niche segments ranked by revenue potential vs. market saturation — your elite opportunity zones.
+                        {quizResults?.matches.length} niche segments ranked by psychological affinity vs. market saturation — your elite opportunity zones.
                       </p>
+                      {quizInsight && (
+                        <p className="mt-2 text-sm text-[oklch(0.7_0.012_85)] font-body max-w-3xl leading-relaxed">
+                          {quizInsight.summary}
+                        </p>
+                      )}
                     </div>
                     <Button
                       variant="outline"
@@ -595,29 +697,29 @@ export default function NicheMatcher() {
                     </Button>
                   </div>
 
-                  {/* Top 3 featured */}
-                  {quizResults && quizResults.length > 0 && (
+                  {/* Top 3 featured — full profile cards */}
+                  {quizResults && quizResults.matches.length > 0 && (
                     <div className="mb-8">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[oklch(0.78_0.16_85)] mb-4 font-body">
-                        Primary Opportunities
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[oklch(0.78_0.16_85)] mb-4 font-body flex items-center gap-2">
+                        <Sparkles className="h-3.5 w-3.5" /> Your 3 Perfect Niche Matches
                       </p>
-                      <div className="grid gap-4 sm:grid-cols-3">
-                        {quizResults.slice(0, 3).map((niche, i) => (
-                          <NicheCard key={niche.keyword} niche={niche} index={i} highlight />
+                      <div className="grid gap-4 lg:grid-cols-3">
+                        {quizResults.matches.slice(0, 3).map((match, i) => (
+                          <ProfileCard key={match.niche.keyword} match={match} index={i} />
                         ))}
                       </div>
                     </div>
                   )}
 
-                  {/* Remaining results */}
-                  {quizResults && quizResults.length > 3 && (
+                  {/* Secondary matches */}
+                  {quizResults && quizResults.matches.length > 3 && (
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[oklch(0.58_0.015_85)] mb-4 font-body">
                         Secondary Matches
                       </p>
                       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {quizResults.slice(3).map((niche, i) => (
-                          <NicheCard key={niche.keyword} niche={niche} index={i + 3} />
+                        {quizResults.matches.slice(3).map((match, i) => (
+                          <NicheCard key={match.niche.keyword} niche={match.niche} index={i + 3} />
                         ))}
                       </div>
                     </div>
@@ -633,10 +735,43 @@ export default function NicheMatcher() {
                     </p>
                     <Button
                       className="bg-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.72_0.12_85)] text-[oklch(0.04_0.005_85)] font-body"
-                      onClick={() => window.location.href = "/onboarding"}
+                      onClick={() => (window.location.href = "/onboarding")}
                     >
                       Apply for Strategic Partnership <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
+                  </div>
+
+                  {/* Secondary CTAs */}
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    <div className="rounded-xl border border-[oklch(0.78_0.16_85/12%)] bg-[oklch(0.78_0.16_85/2%)] p-5">
+                      <h4 className="text-sm font-semibold text-[oklch(0.94_0.01_85)] font-body mb-1">
+                        Claim This Blueprint
+                      </h4>
+                      <p className="text-xs text-[oklch(0.65_0.012_85)] font-body mb-3">
+                        Get a custom launch plan for your top 3 niches — first-content prompts, pricing strategy, and week-by-week growth calendar.
+                      </p>
+                      <Button
+                        variant="outline"
+                        className="border-[oklch(0.78_0.16_85/25%)] text-[oklch(0.78_0.14_85)] hover:bg-[oklch(0.78_0.16_85/8%)] font-body text-xs"
+                      >
+                        Get My Blueprint <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                    <div className="rounded-xl border border-[oklch(0.78_0.16_85/12%)] bg-[oklch(0.78_0.16_85/2%)] p-5">
+                      <h4 className="text-sm font-semibold text-[oklch(0.94_0.01_85)] font-body mb-1">
+                        Deeper Signal Available
+                      </h4>
+                      <p className="text-xs text-[oklch(0.65_0.012_85)] font-body mb-3">
+                        15 additional deep-signal questions refine your match precision to near-clinical accuracy. Takes ~4 minutes.
+                      </p>
+                      <Button
+                        variant="ghost"
+                        onClick={resetQuiz}
+                        className="text-[oklch(0.78_0.14_85)] hover:text-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.78_0.16_85/6%)] font-body text-xs"
+                      >
+                        <Sparkles className="mr-1.5 h-3.5 w-3.5" /> Deep Dive Mode
+                      </Button>
+                    </div>
                   </div>
                 </motion.div>
               )}

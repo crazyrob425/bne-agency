@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, json } from "drizzle-orm/mysql-core";
+import { decimal, int, mysqlEnum, mysqlTable, text, timestamp, varchar, json } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -50,3 +50,32 @@ export const onboardingApplications = mysqlTable("onboarding_applications", {
 
 export type OnboardingApplication = typeof onboardingApplications.$inferSelect;
 export type InsertOnboardingApplication = typeof onboardingApplications.$inferInsert;
+
+export const referrals = mysqlTable("referrals", {
+  id: int("id").autoincrement().primaryKey(),
+  referrerId: int("referrerId").notNull().references(() => users.id),
+  applicantId: int("applicantId").references(() => onboardingApplications.id),
+  status: mysqlEnum("status", ["applied", "vetting", "accepted", "paid"]).default("applied").notNull(),
+  residualRate: decimal("residualRate", { precision: 5, scale: 2 }).default("0.00"),
+  uniqueSlug: varchar("uniqueSlug", { length: 64 }).notNull().unique(),
+  applicantEmail: varchar("applicantEmail", { length: 320 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Referral = typeof referrals.$inferSelect;
+export type InsertReferral = typeof referrals.$inferInsert;
+
+export const referralPayments = mysqlTable("referral_payments", {
+  id: int("id").autoincrement().primaryKey(),
+  referralId: int("referralId").notNull().references(() => referrals.id),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 8 }).default("usd").notNull(),
+  status: mysqlEnum("status", ["pending", "paid", "failed"]).default("pending").notNull(),
+  paidAt: timestamp("paidAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ReferralPayment = typeof referralPayments.$inferSelect;
+export type InsertReferralPayment = typeof referralPayments.$inferInsert;

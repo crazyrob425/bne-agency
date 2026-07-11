@@ -26,6 +26,7 @@
 			"**/.vexp/parent_workspace.json": true,
 			"**/.vexp/.gitignore": true,
 			"**/.vexp/.gitattributes": true
-		}
+		},
+		"workbench.browser.experimentalUserTools.enabled": true
 	}
 }

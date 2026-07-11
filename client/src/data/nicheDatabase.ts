@@ -13,6 +13,9 @@
  * Chief Dev & Executive Architect: Rob Branting
  */
 
+import type { NicheProfile, DimensionVector } from "@/data/psychDimensions";
+import { MICRO_NICHES_2026 } from "./nicheMicroNiches2026";
+
 export type NicheCategory =
   | "Sex Acts"
   | "BDSM & Power Exchange"
@@ -40,6 +43,10 @@ export interface Niche {
   competitionLevel: "very-high" | "high" | "medium" | "low" | "micro";
   earningPotential: "very-high" | "high" | "medium" | "low";
   tags?: string[];
+  /** Full "Niche Profile Card" intelligence (strategic, demographic, inventory). */
+  profile?: NicheProfile;
+  /** Optional per-niche psychological signature override (10-dim vector). Falls back to category affinity. */
+  psych?: DimensionVector;
 }
 
 export const NICHE_DATABASE: Niche[] = [
@@ -1128,6 +1135,8 @@ export const NICHE_DATABASE: Niche[] = [
   { keyword: "Santa / Holiday Costume", category: "Clothing & Aesthetics", searchVolume: "medium", competitionLevel: "low", earningPotential: "high" },
   { keyword: "Lingerie + Heels Only", category: "Clothing & Aesthetics", searchVolume: "very-high", competitionLevel: "high", earningPotential: "very-high" },
   { keyword: "Apron + Heels Only", category: "Clothing & Aesthetics", searchVolume: "medium", competitionLevel: "low", earningPotential: "high" },
+  // ─── 2026 HIGH-INCOME MICRO-NICHES (optimized for the current adult market) ──
+  ...MICRO_NICHES_2026,
 ];
 
 // ─── UTILITY FUNCTIONS ────────────────────────────────────────────────────────
@@ -1181,61 +1190,84 @@ export function getHiddenGems(limit = 20): Niche[] {
   ).slice(0, limit);
 }
 
-export function matchNichesByQuiz(answers: {
+function normalizeText(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function tokenize(value: string): Set<string> {
+  return new Set(normalizeText(value).split(" ").filter(Boolean));
+}
+
+function buildQuizTraits(answers: {
   contentType?: string[];
   bodyType?: string;
   dynamic?: string;
   format?: string;
   audience?: string;
-}): Niche[] {
-  let scored = NICHE_DATABASE.map((n) => ({ niche: n, score: 0 }));
+}): Set<string> {
+  const traits = new Set<string>();
 
-  if (answers.contentType) {
-    answers.contentType.forEach((ct) => {
-      scored.forEach((s) => {
-        if (
-          s.niche.keyword.toLowerCase().includes(ct.toLowerCase()) ||
-          s.niche.category.toLowerCase().includes(ct.toLowerCase())
-        ) {
-          s.score += 3;
-        }
-      });
-    });
-  }
+  const addTrait = (value?: string, prefix?: string) => {
+    if (!value) return;
+    const normalized = normalizeText(value);
+    if (!normalized) return;
 
-  if (answers.bodyType) {
-    scored.forEach((s) => {
-      if (
-        s.niche.keyword.toLowerCase().includes(answers.bodyType!.toLowerCase()) ||
-        s.niche.category === "Body Types & Physical" ||
-        s.niche.category === "Ethnicity & Identity"
-      ) {
-        s.score += 2;
+    if (prefix) {
+      traits.add(`${prefix}:${normalized}`);
+    } else {
+      traits.add(normalized);
+    }
+
+    for (const token of Array.from(tokenize(normalized))) {
+      if (prefix) {
+        traits.add(`${prefix}:${token}`);
       }
-    });
-  }
+      traits.add(token);
+    }
+  };
 
-  if (answers.dynamic) {
-    scored.forEach((s) => {
-      if (
-        s.niche.keyword.toLowerCase().includes(answers.dynamic!.toLowerCase()) ||
-        s.niche.category === "BDSM & Power Exchange" ||
-        s.niche.category === "Relationship Dynamic"
-      ) {
-        s.score += 2;
-      }
-    });
-  }
+  answers.contentType?.forEach((value) => addTrait(value));
+  addTrait(answers.bodyType, "bodyType");
+  addTrait(answers.dynamic, "dynamic");
+  addTrait(answers.format, "format");
+  addTrait(answers.audience, "audience");
 
-  if (answers.format) {
-    scored.forEach((s) => {
-      if (
-        s.niche.keyword.toLowerCase().includes(answers.format!.toLowerCase()) ||
-        s.niche.category === "Content Format"
-      ) {
-        s.score += 1;
-      }
-    });
+  return traits;
+}
+
+function scoreNicheForQuiz(niche: Niche, traits: Set<string>): number {
+  const keywordText = normalizeText(`${niche.keyword} ${niche.category} ${niche.tags?.join(" ") ?? ""}`);
+  const textTokens = tokenize(keywordText);
+  let score = 0;
+
+  for (const trait of Array.from(traits)) {
+    const traitLabel = trait.includes(":") ? trait.split(":").slice(1).join(":") : trait;
+
+    if (textTokens.has(traitLabel)) {
+      score += 4;
+    } else if (keywordText.includes(traitLabel)) {
+      score += 2;
+    }
+
+    if (trait.startsWith("bodyType:") && ["Body Types & Physical", "Ethnicity & Identity"].includes(niche.category)) {
+      score += 2;
+    }
+
+    if (trait.startsWith("dynamic:") && ["BDSM & Power Exchange", "Relationship Dynamic"].includes(niche.category)) {
+      score += 2;
+    }
+
+    if (trait.startsWith("format:") && niche.category === "Content Format") {
+      score += 1;
+    }
+
+    if (trait.startsWith("audience:") && ["Roleplay & Fantasy", "Content Format", "Fetish & Kink"].includes(niche.category)) {
+      score += 1;
+    }
   }
 
   const epBonus: Record<string, number> = {
@@ -1252,16 +1284,29 @@ export function matchNichesByQuiz(answers: {
     "very-high": -1,
   };
 
-  scored.forEach((s) => {
-    s.score += epBonus[s.niche.earningPotential] || 0;
-    s.score += compBonus[s.niche.competitionLevel] || 0;
-  });
+  score += epBonus[niche.earningPotential] ?? 0;
+  score += compBonus[niche.competitionLevel] ?? 0;
 
-  return scored
-    .filter((s) => s.score > 0)
+  return score;
+}
+
+export function matchNichesByQuiz(answers: {
+  contentType?: string[];
+  bodyType?: string;
+  dynamic?: string;
+  format?: string;
+  audience?: string;
+}): Niche[] {
+  const traits = buildQuizTraits(answers);
+
+  return NICHE_DATABASE.map((niche) => ({
+    niche,
+    score: scoreNicheForQuiz(niche, traits),
+  }))
+    .filter((entry) => entry.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 15)
-    .map((s) => s.niche);
+    .slice(0, 16)
+    .map((entry) => entry.niche);
 }
 
 export const TOTAL_NICHE_COUNT = NICHE_DATABASE.length;

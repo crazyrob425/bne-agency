@@ -117,6 +117,9 @@ client/public/__manus__/version.json
 # Local media copies served by Render — now hosted on Cloudflare R2
 client/public/media-files/
 
+# Source media files — hosted on Cloudflare R2, do not commit to git
+media/
+
 # Vibe Video
 .vv-secrets.json
 .vizvibe-state.json
