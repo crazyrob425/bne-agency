@@ -1,12 +1,5 @@
 /**
- * BNE Niche Matcher Engine — Black & Gold Luxury Edition
- * Real 1,000+ niche database + 22 curated 2026 micro-niches. No simulated results.
- *
- * Subconscious mapping: users answer 20 psychometric questions that NEVER name a
- * fetish. Their answers become a 10-dimension psychological profile, which is matched
- * (cosine similarity) against each niche's psychological signature to surface the 3
- * perfect niches they would NOT have consciously named.
- *
+ * BNE Niche Matcher Engine — Diamond & Dashboard Edition
  * Developed by Blacklisted Binary Labs
  * Chief Dev & Executive Architect: Rob Branting
  */
@@ -38,6 +31,28 @@ import {
   Package,
   Lightbulb,
   Heart,
+  Activity,
+  Gem,
+  Compass,
+  Gauge,
+  Lock,
+  Shield,
+  Dna,
+  Workflow,
+  Cpu,
+  HelpCircle,
+  Briefcase,
+  History,
+  Scale,
+  Camera,
+  EyeOff,
+  DoorOpen,
+  Sword,
+  Target as Crosshair,
+  ClipboardList,
+  Flame as Burn,
+  Smartphone,
+  Coffee,
 } from "lucide-react";
 import {
   NICHE_DATABASE,
@@ -58,39 +73,20 @@ import {
   type NicheMatch,
   type SubconsciousInsight,
 } from "@/data/nicheMatcherEngine";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 
-// ─── COLOR MAPS (kept from legacy design) ─────────────────────────────────────
+// ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
 const EP_COLORS: Record<string, string> = {
-  "very-high": "text-[oklch(0.78_0.16_85)] border-[oklch(0.78_0.16_85/30%)] bg-[oklch(0.78_0.16_85/10%)]",
-  high: "text-[oklch(0.72_0.12_85)] border-[oklch(0.72_0.12_85/30%)] bg-[oklch(0.72_0.12_85/10%)]",
-  medium: "text-[oklch(0.65_0.10_85)] border-[oklch(0.65_0.10_85/30%)] bg-[oklch(0.65_0.10_85/10%)]",
-  low: "text-[oklch(0.55_0.08_85)] border-[oklch(0.55_0.08_85/30%)] bg-[oklch(0.55_0.08_85/10%)]",
-};
-
-const COMP_COLORS: Record<string, string> = {
-  micro: "text-[oklch(0.78_0.16_85)]",
-  low: "text-[oklch(0.72_0.12_85)]",
-  medium: "text-[oklch(0.65_0.10_85)]",
-  high: "text-[oklch(0.58_0.08_85)]",
-  "very-high": "text-[oklch(0.50_0.06_85)]",
-};
-
-const EP_LABELS: Record<string, string> = {
-  "very-high": "Elite",
-  high: "High",
-  medium: "Mid",
-  low: "Base",
+  "very-high": "text-[#D4AF37]",
+  high: "text-[#C0C0C0]",
+  medium: "text-[#B08D57]",
+  low: "text-[#808080]",
 };
 
 const COMP_LABELS: Record<string, string> = {
@@ -101,12 +97,11 @@ const COMP_LABELS: Record<string, string> = {
   "very-high": "Saturated",
 };
 
-const SV_LABELS: Record<string, string> = {
-  "very-high": "Massive",
+const EP_LABELS: Record<string, string> = {
+  "very-high": "Elite",
   high: "High",
-  medium: "Medium",
-  low: "Low",
-  micro: "Exclusive",
+  medium: "Mid",
+  low: "Base",
 };
 
 const DIM_LABEL: Record<string, string> = {
@@ -122,213 +117,198 @@ const DIM_LABEL: Record<string, string> = {
   material: "Status / Material",
 };
 
-// ─── COMPACT CARD (for secondary matches / directory) ─────────────────────────
+// ─── LUXURY HELPER COMPONENTS ──────────────────────────────────────────────────
 
-function NicheCard({
-  niche,
-  index,
-  highlight,
-}: {
-  niche: Niche;
-  index: number;
-  highlight?: boolean;
-}) {
+function QuizIcon({ icon }: { icon: string }) {
+  const ICON_MAP: Record<string, any> = {
+    crown: Crown,
+    compass: Compass,
+    heart: Heart,
+    zap: Zap,
+    lock: Lock,
+    shield: Shield,
+    sparkles: Sparkles,
+    dna: Dna,
+    gem: Gem,
+    eye: Eye,
+    activity: Activity,
+    target: Target,
+    cpu: Cpu,
+    layers: Layers,
+    search: Search,
+    users: Users,
+    dollar: DollarSign,
+    flame: Flame,
+    brain: Brain,
+    package: Package,
+    lightbulb: Lightbulb,
+    trending: TrendingUp,
+    clipboard: ClipboardList,
+    briefcase: Briefcase,
+    history: History,
+    scale: Scale,
+    camera: Camera,
+    eyeoff: EyeOff,
+    door: DoorOpen,
+    sword: Sword,
+    crosshair: Crosshair,
+    burn: Burn,
+    smartphone: Smartphone,
+    coffee: Coffee,
+  };
+
+  const Icon = ICON_MAP[icon.toLowerCase()] || HelpCircle;
+  return <Icon className="h-5 w-5 text-[#D4AF37]" />;
+}
+
+function Speedometer({ progress }: { progress: number }) {
+  const rotation = (progress / 100) * 240 - 120;
+  return (
+    <div className="speedo-dial">
+      <svg viewBox="0 0 100 100" className="w-48 h-48 drop-shadow-[0_0_12px_rgba(212,175,55,0.2)]">
+        <circle cx="50" cy="50" r="48" fill="none" stroke="#1A1A1A" strokeWidth="1" />
+        <path d="M 20 80 A 42 42 0 1 1 80 80" className="gauge-track" strokeLinecap="square" />
+        <motion.path
+          d="M 20 80 A 42 42 0 1 1 80 80"
+          className="gauge-fill"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: progress / 100 }}
+          transition={{ duration: 1, ease: "circOut" }}
+        />
+        {[...Array(11)].map((_, i) => {
+          const angle = (i * 24 - 120) * (Math.PI / 180);
+          return (
+            <line 
+              key={i} 
+              x1={50 + 38 * Math.cos(angle)} y1={50 + 38 * Math.sin(angle)} 
+              x2={50 + 42 * Math.cos(angle)} y2={50 + 42 * Math.sin(angle)} 
+              stroke={i * 10 <= progress ? "#D4AF37" : "#333"} 
+              strokeWidth="0.5" 
+            />
+          );
+        })}
+      </svg>
+      <motion.div 
+        className="absolute bottom-1/2 left-1/2 w-0.5 h-16 bg-[#FF0000] origin-bottom -translate-x-1/2"
+        animate={{ rotate: rotation }}
+        transition={{ type: "spring", stiffness: 40, damping: 12 }}
+      />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full knurled-gold border-none shadow-xl" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center">
+        <p className="text-[8px] uppercase tracking-[0.3em] text-[#666] font-bold">Analysis Engine</p>
+        <p className="text-xl font-mono-lux text-[#D4AF37] tracking-tighter tabular-nums">{Math.round(progress)}%</p>
+      </div>
+    </div>
+  );
+}
+
+function StatPlaque({ icon: Icon, label, value }: { icon: any, label: string, value: string }) {
+  return (
+    <div className="relative group overflow-hidden diamond-cut">
+      <div className="bg-[#0A0A0A] border-l border-[#D4AF37] p-5 min-w-[180px]">
+        <Icon className="h-3 w-3 text-[#D4AF37] mb-2 opacity-40" />
+        <p className="text-[10px] uppercase tracking-widest text-[#444] mb-1 font-bold">{label}</p>
+        <p className="text-sm font-bold text-[#F4F4EE] tracking-tight">{value}</p>
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+    </div>
+  );
+}
+
+function NicheArtifact({ niche, index, highlight }: { niche: Niche, index: number, highlight?: boolean }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.04, duration: 0.3 }}
-      className={`relative group rounded-xl border p-4 transition-all duration-200 cursor-default luxury-card
-        ${
-          highlight
-            ? "border-[oklch(0.78_0.16_85/40%)] hover:border-[oklch(0.78_0.16_85/60%)]"
-            : "border-[oklch(0.78_0.16_85/8%)] hover:border-[oklch(0.78_0.16_85/18%)]"
-        }`}
+      transition={{ delay: index * 0.04 }}
+      className={`sapphire-glass lens-flare-hover group p-5 diamond-cut ${highlight ? 'border-[#D4AF37]/50 ring-1 ring-[#D4AF37]/20' : 'border-white/5'}`}
     >
-      {highlight && (
-        <div className="absolute -top-2 -right-2">
-          <span className="flex items-center gap-1 rounded-full bg-[oklch(0.78_0.16_85)] px-2 py-0.5 text-[10px] font-bold text-[oklch(0.04_0.005_85)]">
-            <Star className="h-2.5 w-2.5 fill-current" /> TOP MATCH
-          </span>
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <h4 className="text-sm font-bold text-[#F4F4EE] leading-tight mb-1">{niche.keyword}</h4>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#555] font-bold">{niche.category}</span>
         </div>
-      )}
-
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <p className="font-semibold text-[oklch(0.94_0.01_85)] text-sm leading-tight truncate font-display">
-            {niche.keyword}
-          </p>
-          <p className="text-[11px] text-[oklch(0.58_0.015_85)] mt-0.5 font-body">{niche.category}</p>
+        <div className="knurled-gold w-6 h-6 flex items-center justify-center diamond-cut border-none">
+          <Gem className="h-3 w-3 text-[#000000]" />
         </div>
-        <span
-          className={`shrink-0 rounded-md border px-2 py-0.5 text-xs font-bold font-mono-lux ${EP_COLORS[niche.earningPotential]}`}
-        >
-          {EP_LABELS[niche.earningPotential]}
-        </span>
       </div>
-
-      <div className="mt-3 flex items-center gap-3 text-[11px]">
-        <span className="flex items-center gap-1 text-[oklch(0.58_0.015_85)]">
-          <Eye className="h-3 w-3" />
-          <span>{SV_LABELS[niche.searchVolume]}</span>
-        </span>
-        <span className="text-[oklch(0.78_0.16_85/15%)]">·</span>
-        <span className={`flex items-center gap-1 ${COMP_COLORS[niche.competitionLevel]}`}>
-          <Target className="h-3 w-3" />
-          <span>{COMP_LABELS[niche.competitionLevel]} Competition</span>
-        </span>
+      <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/5">
+        <div>
+          <p className="text-[9px] uppercase tracking-widest text-[#444] mb-1 font-bold">Yield</p>
+          <p className={`text-[10px] font-bold ${EP_COLORS[niche.earningPotential]}`}>{EP_LABELS[niche.earningPotential]}</p>
+        </div>
+        <div>
+          <p className="text-[9px] uppercase tracking-widest text-[#444] mb-1 font-bold">Density</p>
+          <p className="text-[10px] font-bold text-[#F4F4EE]">{COMP_LABELS[niche.competitionLevel]}</p>
+        </div>
       </div>
     </motion.div>
   );
 }
 
-// ─── NICHE PROFILE CARD (full intelligence for the 3 perfect matches) ──────────
-
-function InfoBlock({
-  icon: Icon,
-  title,
-  text,
-}: {
-  icon: React.ElementType;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="rounded-lg border border-[oklch(0.78_0.16_85/12%)] bg-[oklch(0.78_0.16_85/3%)] p-3">
-      <p className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[oklch(0.78_0.16_85)] font-body mb-1">
-        <Icon className="h-3 w-3" /> {title}
-      </p>
-      <p className="text-xs text-[oklch(0.82_0.01_85)] font-body leading-relaxed">{text}</p>
-    </div>
-  );
-}
-
-function ProfileCard({ match, index }: { match: NicheMatch; index: number }) {
+function ProfileCase({ match, index }: { match: NicheMatch; index: number }) {
   const { niche } = match;
   const profile = niche.profile;
   const fit = Math.round(match.score);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.06, duration: 0.35 }}
-      className="relative rounded-2xl border border-[oklch(0.78_0.16_85/35%)] bg-[oklch(0.78_0.16_85/4%)] p-5 luxury-card"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className="sapphire-glass bling-shine p-8 diamond-cut border-[#D4AF37]/30"
     >
-      <div className="absolute -top-2 -right-2">
-        <span className="flex items-center gap-1 rounded-full bg-[oklch(0.78_0.16_85)] px-2.5 py-0.5 text-[10px] font-bold text-[oklch(0.04_0.005_85)]">
-          <Star className="h-2.5 w-2.5 fill-current" /> {fit}% FIT
-        </span>
+      <div className="flex justify-between items-center mb-8">
+        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#D4AF37]">Matched Dossier #{index + 1}</span>
+        <div className="bg-[#D4AF37] px-3 py-1 diamond-cut">
+          <span className="text-[10px] font-black text-black">{fit}% ALIGNMENT</span>
+        </div>
       </div>
 
-      <p className="text-[10px] uppercase tracking-[0.2em] text-[oklch(0.78_0.16_85)] font-body">
-        Perfect Match #{index + 1}
-      </p>
-      <h3 className="heading-md text-[oklch(0.94_0.01_85)] mt-1 font-display">{niche.keyword}</h3>
-      <p className="text-[11px] text-[oklch(0.58_0.015_85)] font-body">{niche.category}</p>
+      <h3 className="text-4xl md:text-5xl font-display text-[#F4F4EE] mb-2">{niche.keyword}</h3>
+      <p className="text-xs uppercase tracking-widest text-[#555] font-bold mb-6">{niche.category}</p>
 
-      <p className="mt-3 text-sm text-[oklch(0.72_0.012_85)] font-body italic border-l-2 border-[oklch(0.78_0.16_85/40%)] pl-3">
+      <div className="bg-black/40 border border-white/5 p-4 mb-6 italic text-sm text-[#888] border-l-2 border-l-[#D4AF37]">
         “{match.reason}”
-      </p>
-
-      {/* Confidence meter */}
-      <div className="mt-3">
-        <div className="flex items-center justify-between text-[10px] font-body text-[oklch(0.58_0.015_85)] mb-1">
-          <span>Alignment confidence</span>
-          <span className="font-mono-lux">
-            {fit >= 90
-              ? "Exceptional"
-              : fit >= 80
-                ? "Strong"
-                : fit >= 70
-                  ? "Good"
-                  : "Moderate"}
-          </span>
-        </div>
-        <div className="h-1 rounded-full bg-[oklch(0.78_0.16_85/12%)] overflow-hidden">
-          <div
-            className="h-full rounded-full bg-[oklch(0.78_0.16_85)]"
-            style={{ width: `${fit}%` }}
-          />
-        </div>
       </div>
 
-      {profile ? (
-        <div className="mt-4 space-y-3">
-          <p className="text-sm text-[oklch(0.85_0.01_85)] font-body leading-relaxed">
-            {profile.description}
-          </p>
-
-          <div className="grid gap-2 sm:grid-cols-2">
-            <InfoBlock icon={Users} title="Fanbase" text={profile.demographics} />
-            <InfoBlock icon={DollarSign} title="Income" text={profile.income} />
-            <InfoBlock icon={Flame} title="Engagement" text={profile.engagement} />
-            <InfoBlock icon={Brain} title="Persona" text={profile.persona} />
-          </div>
-
-          <div>
-            <p className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[oklch(0.78_0.16_85)] font-body mb-1.5">
-              <Sparkles className="h-3 w-3" /> Related Niches
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {profile.related.map((r) => (
-                <span
-                  key={r}
-                  className="rounded-full border border-[oklch(0.78_0.16_85/20%)] px-2 py-0.5 text-[11px] text-[oklch(0.78_0.14_85)] font-body"
-                >
-                  {r}
-                </span>
-              ))}
+      {profile && (
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="space-y-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] mb-2 flex items-center gap-2">
+                <Users className="h-3 w-3" /> Targeted Fanbase
+              </p>
+              <p className="text-xs text-[#F4F4EE] leading-relaxed">{profile.demographics}</p>
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] mb-2 flex items-center gap-2">
+                <DollarSign className="h-3 w-3" /> Income Projection
+              </p>
+              <p className="text-xs text-[#F4F4EE] leading-relaxed">{profile.income}</p>
             </div>
           </div>
-
-          <div>
-            <p className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[oklch(0.78_0.16_85)] font-body mb-1.5">
-              <Package className="h-3 w-3" /> Recommended Kit / Inventory
-            </p>
-            <ul className="grid gap-1 sm:grid-cols-2">
-              {profile.inventory.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-1.5 text-xs text-[oklch(0.82_0.01_85)] font-body"
-                >
-                  <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-[oklch(0.78_0.16_85)]" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+          <div className="space-y-4">
+             <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] mb-2 flex items-center gap-2">
+                <Brain className="h-3 w-3" /> Psychological Persona
+              </p>
+              <p className="text-xs text-[#F4F4EE] leading-relaxed">{profile.persona}</p>
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] mb-2 flex items-center gap-2">
+                <Sparkles className="h-3 w-3" /> Related Verticals
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {profile.related.map((r) => (
+                  <span key={r} className="text-[10px] border border-white/10 px-2 py-1 uppercase font-bold text-[#666]">{r}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      ) : (
-        <p className="mt-3 text-sm text-[oklch(0.7_0.012_85)] font-body">
-          Full niche-intelligence brief (demographics, income model, persona, kit) is unlocked on
-          partnership. Core subconscious drivers:{" "}
-          {match.drivers.map((d) => DIM_LABEL[d.key]).join(", ")}.
-        </p>
       )}
     </motion.div>
-  );
-}
-
-function StatPill({
-  icon: Icon,
-  label,
-  value,
-  color,
-}: {
-  icon: React.ElementType;
-  label: string;
-  value: string;
-  color: string;
-}) {
-  return (
-    <div className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 ${color}`}>
-      <Icon className="h-4 w-4 shrink-0" />
-      <div>
-        <p className="text-[10px] opacity-70 uppercase tracking-wider font-body">Strategic Index</p>
-        <p className="text-xs font-bold font-mono-lux">{value}</p>
-      </div>
-    </div>
   );
 }
 
@@ -339,7 +319,6 @@ export default function NicheMatcher() {
   const nicheVideo = getVideoByKeyword("niche");
   const [activeTab, setActiveTab] = useState<"quiz" | "browse" | "search">("quiz");
 
-  // Quiz state
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<QuizAnswers>({});
   const [quizResults, setQuizResults] = useState<MatchResult | null>(null);
@@ -351,55 +330,32 @@ export default function NicheMatcher() {
     quadrant: string;
   } | null>(null);
 
-  // Browse state
-  const [browseCategory, setBrowseCategory] = useState<NicheCategory | "all" | "gems" | "top">(
-    "top"
-  );
-  const [browseFilter, setBrowseFilter] = useState<{
-    ep?: Niche["earningPotential"];
-    comp?: Niche["competitionLevel"];
-  }>({});
+  const [browseCategory, setBrowseCategory] = useState<NicheCategory | "all" | "gems" | "top">("top");
+  const [browseFilter, setBrowseFilter] = useState<{ ep?: Niche["earningPotential"]; comp?: Niche["competitionLevel"]; }>({});
 
-  // Search state
   const [searchQuery, setSearchQuery] = useState("");
-  const searchResults = useMemo(
-    () => (searchQuery.length >= 2 ? searchNiches(searchQuery) : []),
-    [searchQuery]
-  );
+  const searchResults = useMemo(() => (searchQuery.length >= 2 ? searchNiches(searchQuery) : []), [searchQuery]);
 
-  // Quiz logic
   const currentStep = QUIZ_QUESTIONS[quizStep];
   const progress = ((quizStep + (quizComplete ? 1 : 0)) / QUIZ_QUESTIONS.length) * 100;
 
-  const handleQuizAnswer = useCallback(
-    (value: string) => {
-      const step = QUIZ_QUESTIONS[quizStep];
-      if (step.type === "multi") {
-        const current = (quizAnswers[step.id] as string[]) || [];
-        const updated = current.includes(value)
-          ? current.filter((v) => v !== value)
-          : [...current, value];
-        setQuizAnswers((prev) => ({ ...prev, [step.id]: updated }));
-      } else {
-        setQuizAnswers((prev) => ({ ...prev, [step.id]: value }));
-        setTimeout(() => {
-          if (quizStep < QUIZ_QUESTIONS.length - 1) {
-            setQuizStep((s) => s + 1);
-          } else {
-            finishQuiz({ ...quizAnswers, [step.id]: value });
-          }
-        }, 300);
-      }
-    },
-    [quizStep, quizAnswers]
-  );
+  const handleQuizAnswer = useCallback((value: string) => {
+    if (currentStep.type === "multi") {
+      const current = (quizAnswers[currentStep.id] as string[]) || [];
+      const updated = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+      setQuizAnswers((prev) => ({ ...prev, [currentStep.id]: updated }));
+    } else {
+      setQuizAnswers((prev) => ({ ...prev, [currentStep.id]: value }));
+      setTimeout(() => {
+        if (quizStep < QUIZ_QUESTIONS.length - 1) setQuizStep((s) => s + 1);
+        else finishQuiz({ ...quizAnswers, [currentStep.id]: value });
+      }, 300);
+    }
+  }, [quizStep, quizAnswers, currentStep]);
 
   const handleMultiNext = useCallback(() => {
-    if (quizStep < QUIZ_QUESTIONS.length - 1) {
-      setQuizStep((s) => s + 1);
-    } else {
-      finishQuiz(quizAnswers);
-    }
+    if (quizStep < QUIZ_QUESTIONS.length - 1) setQuizStep((s) => s + 1);
+    else finishQuiz(quizAnswers);
   }, [quizStep, quizAnswers]);
 
   const finishQuiz = useCallback((answers: QuizAnswers) => {
@@ -423,502 +379,278 @@ export default function NicheMatcher() {
     setAttachment(null);
   }, []);
 
-  // Browse niches
   const browseNiches = useMemo(() => {
     let niches: Niche[];
-    if (browseCategory === "top") {
-      niches = getTopNiches(60, browseFilter.ep ? { earningPotential: browseFilter.ep } : undefined);
-    } else if (browseCategory === "gems") {
-      niches = getHiddenGems(60);
-    } else if (browseCategory === "all") {
-      niches = [...NICHE_DATABASE];
-    } else {
-      niches = getNichesByCategory(browseCategory);
-    }
-
+    if (browseCategory === "top") niches = getTopNiches(60, browseFilter.ep ? { earningPotential: browseFilter.ep } : undefined);
+    else if (browseCategory === "gems") niches = getHiddenGems(60);
+    else if (browseCategory === "all") niches = [...NICHE_DATABASE];
+    else niches = getNichesByCategory(browseCategory);
     if (browseFilter.ep) niches = niches.filter((n) => n.earningPotential === browseFilter.ep);
-    if (browseFilter.comp)
-      niches = niches.filter((n) => n.competitionLevel === browseFilter.comp);
-
+    if (browseFilter.comp) niches = niches.filter((n) => n.competitionLevel === browseFilter.comp);
     return niches.slice(0, 80);
   }, [browseCategory, browseFilter]);
 
   const webAppSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "BNE Niche Matcher Quiz Engine",
+    name: "BNE Niche Matcher Engine",
     url: "https://blacklisted.studio/niche-matcher",
-    description:
-      "Proprietary database of 1,000+ adult industry sub-genres plus 22 curated 2026 micro-niches. Maps a creator's subconscious psychological profile to their 3 perfect, high-income niches in under 2 minutes.",
+    description: "Proprietary database of 1,000+ segments. Maps user profile to elite verticals in under 2 minutes.",
     applicationCategory: "BusinessApplication",
     operatingSystem: "All",
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Seo
-        title="Niche Matcher Quiz | Find Your High-Earning Niche"
-        description="Answer 20 psychometric questions — never naming a fetish — and we map your subconscious profile to your 3 perfect, high-income adult content niches."
-        canonical="/niche-matcher"
-        schema={webAppSchema}
-      />
+    <div className="min-h-screen bg-black text-[#F4F4EE] selection:bg-[#D4AF37]/30 selection:text-white">
+      <Seo title="Elite Niche Matcher | Strategic Inventory" description="Advanced psychometric matching engine for high-yield content segments." schema={webAppSchema} />
       <Navigation />
 
-      {/* ── HERO ── */}
-      <section className="relative overflow-hidden border-b border-[oklch(0.78_0.16_85/10%)] py-16 md:py-24">
-        <div className="absolute inset-0 bg-gradient-to-br from-[oklch(0.78_0.16_85/6%)] via-[oklch(0.04_0.005_85)] to-[oklch(0.72_0.12_85/3%)]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[oklch(0.78_0.16_85/4%)] blur-[140px] rounded-full pointer-events-none" />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
-            <div className="mb-5 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/20%)]">
-              <Crown className="h-3.5 w-3.5 text-[oklch(0.78_0.16_85)]" />
-              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[oklch(0.78_0.14_85)] font-body">
-                Complimentary Strategic Analysis
-              </span>
-            </div>
-            <h1 className="heading-xl text-[oklch(0.94_0.01_85)] mb-5">
-              Decode Your{" "}
-              <span className="gradient-text-gold">Subconscious Niche</span>
-            </h1>
-            <p className="text-[oklch(0.65_0.012_85)] text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-8 font-body">
-              We never ask you to pick a fetish. Answer{" "}
-              <span className="font-semibold text-[oklch(0.78_0.16_85)]">20 quick personality questions</span>{" "}
-              and our psychometric engine maps your latent profile onto{" "}
-              <span className="font-semibold text-[oklch(0.78_0.16_85)]">{TOTAL_NICHE_COUNT.toLocaleString()} analyzed market segments</span>{" "}
-              — surfacing the 3 high-income niches you'd never have named yourself.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <StatPill
-                icon={Brain}
-                label="Psych Dimensions"
-                value="10 latent traits"
-                color="border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/6%)] text-[oklch(0.78_0.16_85)]"
-              />
-              <StatPill
-                icon={Diamond}
-                label="Hidden Opportunities"
-                value={`${getHiddenGems(999).length} identified`}
-                color="border-[oklch(0.72_0.12_85/20%)] bg-[oklch(0.72_0.12_85/6%)] text-[oklch(0.72_0.12_85)]"
-              />
-              <StatPill
-                icon={Flame}
-                label="Elite-Tier Niches"
-                value={`${NICHE_DATABASE.filter((n) => n.earningPotential === "very-high").length} sectors`}
-                color="border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/6%)] text-[oklch(0.78_0.16_85)]"
-              />
-            </div>
-          </motion.div>
+      {/* ── DRAMATIC HERO ── */}
+      <section className="relative pt-48 pb-32 border-b border-white/5 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1 knurled-gold border-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-15 pointer-events-none">
+           <div className="w-full h-full bg-[radial-gradient(circle_at_center,_#D4AF37_0%,_transparent_70%)] blur-3xl" />
         </div>
-      </section>
-
-      {/* ── Niche Domination Video Briefing ── */}
-      <section className="py-12 bg-white/2 border-b border-[oklch(0.78_0.16_85/10%)]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <span className="text-[oklch(0.78_0.16_85)] text-xs font-semibold uppercase tracking-wider font-body">Exclusive Lecture</span>
-            <h2 className="text-2xl font-bold text-zinc-100 font-display mt-2" style={{ fontFamily: 'Space Grotesk' }}>Niche Domination & Market Survival</h2>
-            <p className="text-sm text-zinc-400 mt-1 max-w-xl mx-auto font-body" style={{ fontFamily: 'DM Sans' }}>Watch this brief guide to understand how we target high-value sub-genres and skip saturated content sectors.</p>
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-20">
+          <div className="flex-1">
+            <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}>
+              <h1 className="text-7xl md:text-9xl font-display leading-[0.8] mb-8 bling-shine">
+                Elite <br />
+                <span className="text-[#D4AF37]">Strategic</span> <br />
+                Inventory
+              </h1>
+              <p className="text-xl text-[#666] max-w-lg leading-relaxed font-bold uppercase tracking-[0.2em]">
+                System v2.026 // Clinical Psychometric Analysis
+              </p>
+            </motion.div>
           </div>
-          <VideoPlayer
-            src={nicheVideo?.url || "/media-files/Niche_Domination___Survival.mp4"}
-            title="Niche Domination & Survival"
-            description="How to own a highly profitable, low-competition adult entertainment vertical."
-          />
+
+          <div className="flex flex-wrap gap-1 justify-center md:justify-end">
+            <StatPlaque icon={Cpu} label="Engine Logic" value="Subconscious Map" />
+            <StatPlaque icon={Target} label="Search Volume" value="1.2M+ Indexed" />
+            <StatPlaque icon={Activity} label="Index Count" value="1,052 Sectors" />
+          </div>
         </div>
       </section>
 
-      {/* ── TABS ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
-          <TabsList className="mb-8 grid w-full max-w-md grid-cols-3 bg-[oklch(0.08_0.008_85)] border border-[oklch(0.78_0.16_85/12%)]">
-            <TabsTrigger value="quiz" className="data-[state=active]:bg-[oklch(0.78_0.16_85)] data-[state=active]:text-[oklch(0.04_0.005_85)] font-body">
-              <Zap className="mr-2 h-4 w-4" /> Analysis
-            </TabsTrigger>
-            <TabsTrigger value="browse" className="data-[state=active]:bg-[oklch(0.78_0.16_85)] data-[state=active]:text-[oklch(0.04_0.005_85)] font-body">
-              <Layers className="mr-2 h-4 w-4" /> Directory
-            </TabsTrigger>
-            <TabsTrigger value="search" className="data-[state=active]:bg-[oklch(0.78_0.16_85)] data-[state=active]:text-[oklch(0.04_0.005_85)] font-body">
-              <Search className="mr-2 h-4 w-4" /> Search
-            </TabsTrigger>
-          </TabsList>
+      {/* ── EXCLUSIVE BRIEFING ── */}
+      <section className="py-24 bg-black border-b border-white/5 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-16">
+            <span className="text-[10px] font-black tracking-[0.8em] text-[#D4AF37] uppercase mb-4 block">Classified Strategic Briefing</span>
+            <h2 className="text-6xl font-display text-[#F4F4EE] mb-4">Niche Domination</h2>
+            <p className="text-sm text-[#444] uppercase tracking-widest font-bold">Watch to understand how we target high-value sub-genres.</p>
+          </div>
+          <div className="dashboard-bezel p-1 sapphire-glass diamond-cut">
+            <VideoPlayer
+              src={nicheVideo?.url || "/media-files/Niche_Domination___Survival.mp4"}
+              title="Strategic Dominance"
+              description="Engineering market control in high-yield segments."
+            />
+          </div>
+        </div>
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none bg-[conic-gradient(from_0deg_at_50%_50%,_#D4AF37_0deg,_transparent_360deg)]" />
+      </section>
 
-          {/* ── QUIZ TAB ── */}
-          <TabsContent value="quiz">
-            <AnimatePresence mode="wait">
-              {!quizComplete ? (
-                <motion.div
-                  key={`step-${quizStep}`}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -30 }}
-                  transition={{ duration: 0.25 }}
-                  className="max-w-2xl"
-                >
-                  {/* Progress */}
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between text-xs text-[oklch(0.58_0.015_85)] mb-2 font-body">
-                      <span>
-                        {quizStep < 12
-                          ? "Discovering your energy style..."
-                          : quizStep < QUIZ_QUESTIONS.length - 5
-                            ? "Mapping your edge..."
-                            : "Locking your profile..."}
-                      </span>
-                      <span>{Math.round(progress)}% complete</span>
-                    </div>
-                    <Progress value={progress} className="h-1.5 bg-[oklch(0.78_0.16_85/8%)] [&>div]:bg-[oklch(0.78_0.16_85)]" />
-                  </div>
-
-                  {/* Question */}
-                  <h2 className="heading-md text-[oklch(0.94_0.01_85)] mb-2">
-                    {currentStep.question}
-                  </h2>
-                  <p className="text-sm text-[oklch(0.58_0.015_85)] mb-7 font-body">{currentStep.subtitle}</p>
-
-                  {/* Options */}
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {currentStep.options.map((opt) => {
-                      const isSelected =
-                        currentStep.type === "multi"
-                          ? ((quizAnswers[currentStep.id] as string[]) || []).includes(opt.value)
-                          : quizAnswers[currentStep.id] === opt.value;
-
-                      return (
-                        <motion.button
-                          key={opt.value}
-                          onClick={() => handleQuizAnswer(opt.value)}
-                          whileTap={{ scale: 0.97 }}
-                          className={`relative rounded-xl border p-4 text-left transition-all duration-150 luxury-card
-                            ${
-                              isSelected
-                                ? "border-[oklch(0.78_0.16_85/40%)] bg-[oklch(0.78_0.16_85/8%)]"
-                                : "border-[oklch(0.78_0.16_85/8%)] hover:border-[oklch(0.78_0.16_85/18%)]"
-                            }`}
-                        >
-                          {isSelected && (
-                            <CheckCircle2 className="absolute top-2.5 right-2.5 h-4 w-4 text-[oklch(0.78_0.16_85)]" />
-                          )}
-                          <span className="text-xl">{opt.icon}</span>
-                          <p className="mt-2.5 text-sm font-medium leading-tight font-body text-[oklch(0.88_0.01_85)]">{opt.label}</p>
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Multi-select next button */}
-                  {currentStep.type === "multi" && (
-                    <div className="mt-7 flex items-center gap-3">
-                      <Button
-                        onClick={handleMultiNext}
-                        disabled={!((quizAnswers[currentStep.id] as string[])?.length > 0)}
-                        className="bg-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.72_0.12_85)] text-[oklch(0.04_0.005_85)] font-body"
-                      >
-                        {quizStep < QUIZ_QUESTIONS.length - 1 ? (
-                          <>Continue <ChevronRight className="ml-1.5 h-4 w-4" /></>
-                        ) : (
-                          <>Generate Analysis <Zap className="ml-1.5 h-4 w-4" /></>
-                        )}
-                      </Button>
-                      {quizStep > 0 && (
-                        <Button
-                          variant="ghost"
-                          onClick={() => setQuizStep((s) => s - 1)}
-                          className="text-[oklch(0.58_0.015_85)] hover:text-[oklch(0.78_0.16_85)] font-body"
-                        >
-                          <ChevronLeft className="mr-1.5 h-4 w-4" /> Return
-                        </Button>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Single-select back button */}
-                  {currentStep.type === "single" && quizStep > 0 && (
-                    <Button
-                      variant="ghost"
-                      onClick={() => setQuizStep((s) => s - 1)}
-                      className="mt-5 text-[oklch(0.58_0.015_85)] hover:text-[oklch(0.78_0.16_85)] font-body"
-                    >
-                      <ChevronLeft className="mr-1.5 h-4 w-4" /> Return
-                    </Button>
-                  )}
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="results"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {/* Results header */}
-                  <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2.5 mb-1.5">
-                        <CheckCircle2 className="h-5 w-5 text-[oklch(0.78_0.16_85)]" />
-                        <h2 className="heading-md text-[oklch(0.94_0.01_85)]">
-                          Subconscious Profile Decoded
-                        </h2>
-                      </div>
-                      {quizInsight && (
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Brain className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
-                          <span className="text-sm font-semibold text-[oklch(0.78_0.16_85)] font-body">
-                            Latent signature: {quizInsight.headline}
-                          </span>
-                        </div>
-                      )}
-                      {attachment && (
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Heart className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
-                          <span className="text-xs font-semibold text-[oklch(0.78_0.16_85)] font-body">
-                            Attachment pattern: {attachment.quadrant.replace(/-/g, " ")}
-                          </span>
-                        </div>
-                      )}
-                      <p className="text-sm text-[oklch(0.65_0.012_85)] font-body">
-                        {quizResults?.matches.length} niche segments ranked by psychological affinity vs. market saturation — your elite opportunity zones.
-                      </p>
-                      {quizInsight && (
-                        <p className="mt-2 text-sm text-[oklch(0.7_0.012_85)] font-body max-w-3xl leading-relaxed">
-                          {quizInsight.summary}
-                        </p>
-                      )}
-                    </div>
-                    <Button
-                      variant="outline"
-                      onClick={resetQuiz}
-                      className="border-[oklch(0.78_0.16_85/20%)] text-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.78_0.16_85/8%)] font-body"
-                    >
-                      <RotateCcw className="mr-2 h-4 w-4" /> Recalibrate
-                    </Button>
-                  </div>
-
-                  {/* Top 3 featured — full profile cards */}
-                  {quizResults && quizResults.matches.length > 0 && (
-                    <div className="mb-8">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[oklch(0.78_0.16_85)] mb-4 font-body flex items-center gap-2">
-                        <Sparkles className="h-3.5 w-3.5" /> Your 3 Perfect Niche Matches
-                      </p>
-                      <div className="grid gap-4 lg:grid-cols-3">
-                        {quizResults.matches.slice(0, 3).map((match, i) => (
-                          <ProfileCard key={match.niche.keyword} match={match} index={i} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Secondary matches */}
-                  {quizResults && quizResults.matches.length > 3 && (
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[oklch(0.58_0.015_85)] mb-4 font-body">
-                        Secondary Matches
-                      </p>
-                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {quizResults.matches.slice(3).map((match, i) => (
-                          <NicheCard key={match.niche.keyword} niche={match.niche} index={i + 3} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* CTA */}
-                  <div className="mt-10 rounded-2xl border border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/4%)] p-7">
-                    <h3 className="heading-md text-[oklch(0.94_0.01_85)] mb-2">
-                      Ready to Execute?
-                    </h3>
-                    <p className="text-sm text-[oklch(0.65_0.012_85)] mb-5 font-body">
-                      BNE architects your complete brand strategy around these identified segments — content calendar, platform infrastructure, pricing architecture, legal compliance. You provide the vision. We engineer the enterprise.
-                    </p>
-                    <Button
-                      className="bg-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.72_0.12_85)] text-[oklch(0.04_0.005_85)] font-body"
-                      onClick={() => (window.location.href = "/onboarding")}
-                    >
-                      Apply for Strategic Partnership <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </div>
-
-                  {/* Secondary CTAs */}
-                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-xl border border-[oklch(0.78_0.16_85/12%)] bg-[oklch(0.78_0.16_85/2%)] p-5">
-                      <h4 className="text-sm font-semibold text-[oklch(0.94_0.01_85)] font-body mb-1">
-                        Claim This Blueprint
-                      </h4>
-                      <p className="text-xs text-[oklch(0.65_0.012_85)] font-body mb-3">
-                        Get a custom launch plan for your top 3 niches — first-content prompts, pricing strategy, and week-by-week growth calendar.
-                      </p>
-                      <Button
-                        variant="outline"
-                        className="border-[oklch(0.78_0.16_85/25%)] text-[oklch(0.78_0.14_85)] hover:bg-[oklch(0.78_0.16_85/8%)] font-body text-xs"
-                      >
-                        Get My Blueprint <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                      </Button>
-                    </div>
-                    <div className="rounded-xl border border-[oklch(0.78_0.16_85/12%)] bg-[oklch(0.78_0.16_85/2%)] p-5">
-                      <h4 className="text-sm font-semibold text-[oklch(0.94_0.01_85)] font-body mb-1">
-                        Deeper Signal Available
-                      </h4>
-                      <p className="text-xs text-[oklch(0.65_0.012_85)] font-body mb-3">
-                        15 additional deep-signal questions refine your match precision to near-clinical accuracy. Takes ~4 minutes.
-                      </p>
-                      <Button
-                        variant="ghost"
-                        onClick={resetQuiz}
-                        className="text-[oklch(0.78_0.14_85)] hover:text-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.78_0.16_85/6%)] font-body text-xs"
-                      >
-                        <Sparkles className="mr-1.5 h-3.5 w-3.5" /> Deep Dive Mode
-                      </Button>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </TabsContent>
-
-          {/* ── BROWSE TAB ── */}
-          <TabsContent value="browse">
-            <div className="flex flex-wrap gap-2 mb-6">
-              {(["top", "gems", "all", ...NICHE_CATEGORIES] as const).map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setBrowseCategory(cat as typeof browseCategory)}
-                  className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-150 font-body
-                    ${
-                      browseCategory === cat
-                        ? "border-[oklch(0.78_0.16_85/40%)] bg-[oklch(0.78_0.16_85/12%)] text-[oklch(0.78_0.16_85)]"
-                        : "border-[oklch(0.78_0.16_85/10%)] bg-[oklch(0.78_0.16_85/3%)] text-[oklch(0.58_0.015_85)] hover:border-[oklch(0.78_0.16_85/18%)] hover:text-[oklch(0.78_0.16_85)]"
-                    }`}
-                >
-                  {cat === "top" ? "Elite Performers" : cat === "gems" ? "Hidden Gems" : cat === "all" ? "Full Index" : cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Filters */}
-            <div className="mb-6 flex flex-wrap gap-2">
-              <span className="flex items-center gap-1.5 text-xs text-[oklch(0.58_0.015_85)] mr-1 font-body">
-                <Filter className="h-3.5 w-3.5" /> Refine:
-              </span>
-              {(["very-high", "high", "medium"] as const).map((ep) => (
-                <button
-                  key={ep}
-                  onClick={() =>
-                    setBrowseFilter((f) => ({ ...f, ep: f.ep === ep ? undefined : ep }))
-                  }
-                  className={`rounded-full border px-3 py-1 text-[11px] font-bold transition-all duration-150 font-mono-lux
-                    ${
-                      browseFilter.ep === ep
-                        ? EP_COLORS[ep]
-                        : "border-[oklch(0.78_0.16_85/10%)] text-[oklch(0.58_0.015_85)] hover:border-[oklch(0.78_0.16_85/18%)]"
-                    }`}
-                >
-                  {EP_LABELS[ep]} Tier
-                </button>
-              ))}
-              {(["micro", "low", "medium"] as const).map((comp) => (
-                <button
-                  key={comp}
-                  onClick={() =>
-                    setBrowseFilter((f) => ({ ...f, comp: f.comp === comp ? undefined : comp }))
-                  }
-                  className={`rounded-full border px-3 py-1 text-[11px] font-medium transition-all duration-150 font-body
-                    ${
-                      browseFilter.comp === comp
-                        ? `${COMP_COLORS[comp]} border-current bg-current/10`
-                        : "border-[oklch(0.78_0.16_85/10%)] text-[oklch(0.58_0.015_85)] hover:border-[oklch(0.78_0.16_85/18%)]"
-                    }`}
-                >
-                  {COMP_LABELS[comp]} Competition
-                </button>
-              ))}
-              {(browseFilter.ep || browseFilter.comp) && (
-                <button
-                  onClick={() => setBrowseFilter({})}
-                  className="flex items-center gap-1.5 rounded-full border border-[oklch(0.78_0.16_85/20%)] px-3 py-1 text-[11px] text-[oklch(0.78_0.16_85)] hover:border-[oklch(0.78_0.16_85/35%)] font-body"
-                >
-                  <X className="h-3 w-3" /> Clear
-                </button>
-              )}
-            </div>
-
-            <div className="mb-3 text-xs text-[oklch(0.58_0.015_85)] font-body">
-              Displaying {browseNiches.length} of {TOTAL_NICHE_COUNT.toLocaleString()} indexed segments
-              {browseCategory === "gems" && (
-                <span className="ml-2 text-[oklch(0.78_0.16_85)]">
-                  — High potential, low competition = immediate opportunity
-                </span>
-              )}
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {browseNiches.map((niche, i) => (
-                <NicheCard key={`${niche.keyword}-${i}`} niche={niche} index={i} />
-              ))}
-            </div>
-          </TabsContent>
-
-          {/* ── SEARCH TAB ── */}
-          <TabsContent value="search">
-            <div className="max-w-xl">
-              <div className="relative mb-6">
-                <Search className="absolute left-3.5 top-1/2 -translate-x-1/2 -translate-y-1/2 h-4 w-4 text-[oklch(0.58_0.015_85)]" />
-                <Input
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search strategic segments... (e.g. femdom, findom, cosplay)"
-                  className="pl-10 bg-[oklch(0.08_0.008_85)] border-[oklch(0.78_0.16_85/12%)] text-[oklch(0.94_0.01_85)] placeholder:text-[oklch(0.58_0.015_85)] focus:border-[oklch(0.78_0.16_85/30%)] h-12 font-body"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[oklch(0.58_0.015_85)] hover:text-[oklch(0.78_0.16_85)]"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
+      {/* ── THE CONTROL DASHBOARD ── */}
+      <main className="max-w-7xl mx-auto px-6 py-24">
+        <div className="dashboard-bezel">
+          <div className="bg-[#050505] p-1 flex flex-col lg:flex-row gap-1">
+            <div className="w-full lg:w-64 bg-black p-8 flex flex-row lg:flex-col gap-4 border-r border-white/5">
+              <p className="hidden lg:block text-[10px] font-black tracking-[0.5em] text-[#222] uppercase mb-6">Console Modules</p>
+              <button onClick={() => setActiveTab('quiz')} className={`btn-luxury w-full ${activeTab === 'quiz' ? 'active' : ''}`}>
+                <Compass className="h-4 w-4 mr-3" /> Analysis
+              </button>
+              <button onClick={() => setActiveTab('browse')} className={`btn-luxury w-full ${activeTab === 'browse' ? 'active' : ''}`}>
+                <Layers className="h-4 w-4 mr-3" /> Archive
+              </button>
+              <button onClick={() => setActiveTab('search')} className={`btn-luxury w-full ${activeTab === 'search' ? 'active' : ''}`}>
+                <Search className="h-4 w-4 mr-3" /> Query
+              </button>
+              <div className="mt-auto hidden lg:block pt-12 border-t border-white/5">
+                 <div className="flex items-center gap-4 text-[#1A1A1A]">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#D4AF37]/20 shadow-[0_0_8px_rgba(212,175,55,0.1)]" />
+                    <span className="text-[9px] font-black uppercase tracking-[0.3em]">Identity Verified</span>
+                 </div>
               </div>
-
-              {searchQuery.length < 2 && (
-                <div className="text-center py-14 text-[oklch(0.58_0.015_85)]">
-                  <Search className="h-14 w-14 mx-auto mb-4 opacity-20" />
-                  <p className="font-body">Enter a minimum of 2 characters to query the index</p>
-                  <p className="text-xs mt-1.5 font-mono-lux text-[oklch(0.45_0.01_85/70%)]">
-                    Searching {TOTAL_NICHE_COUNT.toLocaleString()} strategic segments in real-time
-                  </p>
-                </div>
-              )}
-
-              {searchQuery.length >= 2 && searchResults.length === 0 && (
-                <div className="text-center py-14 text-[oklch(0.58_0.015_85)]">
-                  <p className="font-body">No segments match "{searchQuery}"</p>
-                  <p className="text-xs mt-1.5 font-body">Refine your query or explore the full directory</p>
-                </div>
-              )}
-
-              {searchResults.length > 0 && (
-                <>
-                  <p className="text-xs text-[oklch(0.58_0.015_85)] mb-5 font-mono-lux">
-                    {searchResults.length} segments match "{searchQuery}"
-                  </p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {searchResults.slice(0, 40).map((niche, i) => (
-                      <NicheCard key={`${niche.keyword}-${i}`} niche={niche} index={i} />
-                    ))}
-                  </div>
-                  {searchResults.length > 40 && (
-                    <p className="mt-5 text-center text-xs text-[oklch(0.45_0.01_85/70%)] font-body">
-                      Displaying top 40 of {searchResults.length} results. Refine for precision.
-                    </p>
-                  )}
-                </>
-              )}
             </div>
-          </TabsContent>
-        </Tabs>
-      </div>
+
+            <div className="flex-1 bg-black p-12 min-h-[750px] relative overflow-hidden">
+               <div className="absolute top-8 right-10 flex gap-8 text-[9px] font-black text-[#1A1A1A] uppercase tracking-[0.5em]">
+                  <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" /> Core Engaged</span>
+                  <span>Region: Global</span>
+               </div>
+
+               <AnimatePresence mode="wait">
+                  {activeTab === 'quiz' && (
+                    <motion.div key="quiz-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full flex flex-col">
+                       {!quizComplete ? (
+                         <div className="grid lg:grid-cols-[1fr_300px] gap-20 h-full items-center">
+                            <div>
+                               <div className="mb-16">
+                                  <span className="text-[11px] font-black tracking-[0.6em] text-[#333] mb-6 block uppercase">Protocol {quizStep + 1} / {QUIZ_QUESTIONS.length}</span>
+                                  <h2 className="text-6xl font-display text-[#F4F4EE] leading-[1.1] mb-6">{currentStep.question}</h2>
+                                  <p className="text-sm text-[#444] uppercase tracking-[0.2em] font-black">{currentStep.subtitle}</p>
+                               </div>
+
+                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                  {currentStep.options.map((opt) => {
+                                    const isSelected = currentStep.type === "multi" 
+                                      ? ((quizAnswers[currentStep.id] as string[]) || []).includes(opt.value)
+                                      : quizAnswers[currentStep.id] === opt.value;
+                                    return (
+                                      <button
+                                        key={opt.value}
+                                        onClick={() => handleQuizAnswer(opt.value)}
+                                        className={`btn-luxury justify-start text-left h-24 px-10 ${isSelected ? 'active' : ''}`}
+                                      >
+                                        <div className="flex items-center gap-6">
+                                           <QuizIcon icon={opt.icon || ''} />
+                                           <span className="text-xs font-black tracking-widest">{opt.label}</span>
+                                        </div>
+                                        {isSelected && <div className="ml-auto w-3 h-3 rounded-full bg-black shadow-inner border border-white/5" />}
+                                      </button>
+                                    );
+                                  })}
+                               </div>
+
+                               {currentStep.type === "multi" && (
+                                 <div className="mt-16 flex gap-6">
+                                    <button onClick={handleMultiNext} className="btn-luxury active px-20 text-[11px]">Confirm Selection <ArrowRight className="ml-3 h-5 w-5" /></button>
+                                 </div>
+                               )}
+                               
+                               {quizStep > 0 && (
+                                 <button onClick={() => setQuizStep(s => s - 1)} className="mt-10 text-[10px] font-black tracking-[0.4em] text-[#333] hover:text-[#D4AF37] transition-colors flex items-center gap-3 uppercase">
+                                    <ChevronLeft className="h-4 w-4" /> Revert Protocol
+                                 </button>
+                               )}
+                            </div>
+
+                            <div className="hidden lg:flex flex-col items-center justify-center border-l border-white/5 pl-20">
+                               <Speedometer progress={progress} />
+                               <div className="mt-16 space-y-8 w-full">
+                                  <div className="text-center px-4">
+                                     <p className="text-[10px] font-black text-[#222] uppercase tracking-[0.5em] mb-3">Sync Depth</p>
+                                     <div className="h-1 bg-white/5 w-full relative diamond-cut overflow-hidden">
+                                        <motion.div className="absolute inset-0 bg-[#D4AF37]" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 1 }} />
+                                     </div>
+                                  </div>
+                                  <div className="p-6 bg-[#080808] diamond-cut text-center border border-white/5 shadow-2xl">
+                                     <p className="text-[8px] font-black text-[#444] uppercase mb-2 tracking-[0.6em]">Biometric Link</p>
+                                     <p className="text-xs font-mono-lux text-[#D4AF37] tracking-[0.1em]">ENCRYPTED / ACTIVE</p>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                       ) : (
+                         <div className="space-y-16">
+                            <div className="flex flex-wrap items-end justify-between gap-12 border-b border-white/5 pb-12">
+                               <div>
+                                  <h2 className="text-7xl font-display text-[#F4F4EE] mb-6 bling-shine">Subconscious Decoded</h2>
+                                  <div className="flex items-center gap-10">
+                                     <div className="flex items-center gap-3 text-[#D4AF37]">
+                                        <Dna className="h-5 w-5" />
+                                        <span className="text-[11px] font-black uppercase tracking-[0.3em]">Signature: {quizInsight?.headline}</span>
+                                     </div>
+                                     <div className="flex items-center gap-3 text-[#444]">
+                                        <Lock className="h-5 w-5" />
+                                        <span className="text-[11px] font-black uppercase tracking-[0.3em]">Quadrant: {attachment?.quadrant.replace(/-/g, " ")}</span>
+                                     </div>
+                                  </div>
+                               </div>
+                               <button onClick={resetQuiz} className="btn-luxury px-10"><RotateCcw className="h-4 w-4 mr-3" /> Reset Engine</button>
+                            </div>
+
+                            <div className="grid gap-8 lg:grid-cols-3">
+                               {quizResults?.matches.slice(0, 3).map((match, i) => (
+                                 <ProfileCase key={match.niche.keyword} match={match} index={i} />
+                               ))}
+                            </div>
+
+                            {quizResults && quizResults.matches.length > 3 && (
+                               <div className="pt-16 border-t border-white/5">
+                                 <p className="text-[11px] font-black uppercase tracking-[0.6em] text-[#222] mb-10">Adjacent Strategic Opportunities</p>
+                                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                   {quizResults.matches.slice(3, 11).map((match, i) => (
+                                     <NicheArtifact key={match.niche.keyword} niche={match.niche} index={i + 3} />
+                                   ))}
+                                 </div>
+                               </div>
+                            )}
+
+                            <div className="sapphire-glass p-20 text-center border-[#D4AF37]/30 diamond-cut relative overflow-hidden">
+                               <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.08)_0%,_transparent_60%)]" />
+                               <h3 className="text-5xl font-display mb-6 relative z-10">Commence Partnership</h3>
+                               <p className="text-[#555] max-w-2xl mx-auto mb-12 uppercase tracking-[0.2em] text-[11px] font-black leading-relaxed relative z-10">
+                                  BNE architects the complete platform infrastructure around your identified segments. Engineering Market Dominance.
+                               </p>
+                               <button className="btn-luxury active px-24 h-16 text-xs relative z-10" onClick={() => window.location.href = "/onboarding"}>Request Private Access <ArrowRight className="ml-4 h-6 w-6" /></button>
+                            </div>
+                         </div>
+                       )}
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'browse' && (
+                    <motion.div key="browse-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                       <div className="flex flex-wrap gap-3 mb-12 border-b border-white/5 pb-10">
+                          {(["top", "gems", "all", ...NICHE_CATEGORIES] as const).map((cat) => (
+                            <button
+                              key={cat}
+                              onClick={() => setBrowseCategory(cat)}
+                              className={`btn-luxury px-6 h-12 text-[9px] ${browseCategory === cat ? 'active' : ''}`}
+                            >
+                              {cat === "top" ? "Elite Performance" : cat === "gems" ? "High Yield Gems" : cat === "all" ? "Master Index" : cat}
+                            </button>
+                          ))}
+                       </div>
+
+                       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                          {browseNiches.map((niche, i) => (
+                            <NicheArtifact key={`${niche.keyword}-${i}`} niche={niche} index={i} />
+                          ))}
+                       </div>
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'search' && (
+                    <motion.div key="search-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-3xl mx-auto pt-32">
+                       <div className="relative mb-16">
+                          <Search className="absolute left-8 top-1/2 -translate-y-1/2 h-5 w-5 text-[#222]" />
+                          <input
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="INPUT QUERY PARAMETERS..."
+                            className="w-full bg-[#050505] border border-white/5 focus:border-[#D4AF37]/40 h-20 pl-20 pr-10 text-xs font-black uppercase tracking-[0.5em] diamond-cut transition-all outline-none text-[#D4AF37]"
+                          />
+                          {searchQuery && (
+                            <button onClick={() => setSearchQuery("")} className="absolute right-8 top-1/2 -translate-y-1/2 text-[#222] hover:text-[#D4AF37]">
+                               <X className="h-6 w-6" />
+                            </button>
+                          )}
+                       </div>
+
+                       {searchResults.length > 0 ? (
+                         <div className="grid gap-6 sm:grid-cols-2">
+                            {searchResults.slice(0, 24).map((niche, i) => (
+                              <NicheArtifact key={`${niche.keyword}-${i}`} niche={niche} index={i} />
+                            ))}
+                         </div>
+                       ) : (
+                         <div className="text-center py-32 opacity-10">
+                            <Workflow className="h-24 w-24 mx-auto mb-10 text-[#D4AF37]" />
+                            <p className="text-[11px] font-black tracking-[0.8em] uppercase">Awaiting Strategic Input</p>
+                         </div>
+                       )}
+                    </motion.div>
+                  )}
+               </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </main>
 
       <Footer />
     </div>
