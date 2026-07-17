@@ -11,6 +11,7 @@ import { pipeline } from 'stream/promises';
 
 // Import blog articles
 import { articles } from '../../client/src/data/blogArticles.js';
+import { NICHE_DATABASE, getNichePath } from '../../client/src/data/nicheDatabase.js';
 
 const SITE_URL = 'https://blacklisted.studio';
 const OUTPUT_PATH = resolve(process.cwd(), 'dist/public/sitemap.xml');
@@ -50,6 +51,16 @@ async function generateSitemap() {
     lastmod: new Date().toISOString().split('T')[0],
   });
 
+  // Add dedicated niche detail pages
+  for (const niche of NICHE_DATABASE) {
+    sitemapStream.write({
+      url: getNichePath(niche),
+      changefreq: 'monthly',
+      priority: 0.65,
+      lastmod: new Date().toISOString().split('T')[0],
+    });
+  }
+
   // Add all blog articles
   for (const article of articles) {
     sitemapStream.write({
@@ -73,7 +84,7 @@ async function generateSitemap() {
   await pipeline(sitemapStream, writeStream);
 
   console.log(`✅ Sitemap generated: ${OUTPUT_PATH}`);
-  console.log(`   Total URLs: ${staticPages.length + articles.length + 1}`);
+  console.log(`   Total URLs: ${staticPages.length + articles.length + 1 + NICHE_DATABASE.length}`);
 }
 
 generateSitemap().catch(console.error);

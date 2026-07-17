@@ -36,6 +36,7 @@ function Router() {
       <Route path="/" component={Splash} />
       <Route path="/home" component={Home} />
       <Route path="/tiers" component={ServiceTiers} />
+      <Route path="/niche-matcher/:slug" component={NicheMatcher} />
       <Route path="/niche-matcher" component={NicheMatcher} />
       <Route path="/posting-and-scheduling" component={PostingAndScheduling} />
       <Route path="/creator-tools" component={CreatorTools} />

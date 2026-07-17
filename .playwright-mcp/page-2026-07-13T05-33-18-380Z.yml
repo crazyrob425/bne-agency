@@ -1,0 +1,149 @@
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link "BLACKLISTED Niche Entertainment" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e12]:
+              - generic [ref=e13]: BLACKLISTED
+              - generic [ref=e14]: Niche Entertainment
+          - generic [ref=e15]:
+            - link [ref=e16] [cursor=pointer]:
+              - /url: /
+            - link [ref=e21] [cursor=pointer]:
+              - /url: /tiers
+            - link [ref=e25] [cursor=pointer]:
+              - /url: /niche-matcher
+            - link [ref=e29] [cursor=pointer]:
+              - /url: /tools
+            - link [ref=e33] [cursor=pointer]:
+              - /url: /services
+            - link [ref=e37] [cursor=pointer]:
+              - /url: /downloads
+            - link [ref=e42] [cursor=pointer]:
+              - /url: /compliance
+            - link [ref=e46] [cursor=pointer]:
+              - /url: /university
+            - link [ref=e50] [cursor=pointer]:
+              - /url: /blog
+        - generic [ref=e54]:
+          - link [ref=e55] [cursor=pointer]:
+            - /url: /onboarding
+            - button "Apply for Access" [ref=e56]
+          - button "Login Member's Portal" [ref=e61]
+    - generic [ref=e68]:
+      - generic [ref=e70]:
+        - heading "Elite Strategic Inventory" [level=1] [ref=e71]
+        - paragraph [ref=e72]: System v2.026 // Clinical Psychometric Analysis
+      - generic [ref=e73]:
+        - generic [ref=e75]:
+          - paragraph [ref=e79]: Engine Logic
+          - paragraph [ref=e80]: Subconscious Map
+        - generic [ref=e83]:
+          - paragraph [ref=e88]: Search Volume
+          - paragraph [ref=e89]: 1.2M+ Indexed
+        - generic [ref=e92]:
+          - paragraph [ref=e95]: Index Count
+          - paragraph [ref=e96]: 1,052 Sectors
+    - generic [ref=e99]:
+      - generic [ref=e100]:
+        - generic [ref=e101]: Classified Strategic Briefing
+        - heading "Niche Domination" [level=2] [ref=e102]
+        - paragraph [ref=e103]: Watch to understand how we target high-value sub-genres.
+      - generic [ref=e106]:
+        - button [ref=e108]
+        - generic [ref=e111]:
+          - generic [ref=e112]:
+            - heading "Strategic Dominance" [level=4] [ref=e113]
+            - paragraph [ref=e114]: Engineering market control in high-yield segments.
+          - slider [ref=e116] [cursor=pointer]: "0"
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - button "Play" [ref=e119]
+              - generic [ref=e122]:
+                - button "Mute" [ref=e123]
+                - slider [ref=e128] [cursor=pointer]: "0.7"
+              - generic [ref=e129]: 00:00 / 00:00
+            - button "Toggle Fullscreen" [ref=e131]
+    - main [ref=e137]:
+      - generic [ref=e139]:
+        - generic [ref=e140]:
+          - paragraph [ref=e141]: Console Modules
+          - button "Analysis" [ref=e142]
+          - button "Archive" [ref=e146]
+          - button "Query" [ref=e151]
+          - generic [ref=e155]: Identity Verified
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - generic [ref=e161]: Core Engaged
+            - generic [ref=e163]: "Region: Global"
+          - generic [ref=e165]:
+            - generic [ref=e166]:
+              - generic [ref=e167]:
+                - generic [ref=e168]: Protocol 1 / 35
+                - heading "It's a Saturday night and you have no plans. What pulls you in?" [level=2] [ref=e169]
+                - paragraph [ref=e170]: Answer honestly — there are no wrong responses, only signal.
+              - generic [ref=e171]:
+                - button "Throw something together and get people to come over" [ref=e172]
+                - button "Wander somewhere new with no itinerary" [ref=e177]
+                - button "A quiet night with one person or a book" [ref=e183]
+                - button "Go somewhere you'll be seen — a show, a crowd, a spotlight" [ref=e188]
+            - generic [ref=e193]:
+              - generic [ref=e211]:
+                - paragraph [ref=e212]: Analysis Engine
+                - paragraph [ref=e213]: 0%
+              - generic [ref=e214]:
+                - paragraph [ref=e216]: Sync Depth
+                - generic [ref=e218]:
+                  - paragraph [ref=e219]: Biometric Link
+                  - paragraph [ref=e220]: ENCRYPTED / ACTIVE
+    - contentinfo [ref=e221]:
+      - generic: BNE
+      - generic [ref=e222]:
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - generic [ref=e229]:
+              - generic [ref=e230]: BLACKLISTED
+              - generic [ref=e231]: Niche Entertainment
+            - paragraph [ref=e232]: BNE is the strategic partner for independent adult content creators who demand excellence. We architect privacy, compliance, growth, and monetization — so you can operate at the highest level.
+            - generic [ref=e233]: SYSTEMS OPERATIONAL
+          - generic [ref=e236]:
+            - heading "Navigation" [level=4] [ref=e237]
+            - list [ref=e238]:
+              - listitem [ref=e239]:
+                - link "Home" [ref=e240] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e241]:
+                - link "Structured Advisory" [ref=e242] [cursor=pointer]:
+                  - /url: /tiers
+              - listitem [ref=e243]:
+                - link "Niche Intelligence" [ref=e244] [cursor=pointer]:
+                  - /url: /niche-matcher
+              - listitem [ref=e245]:
+                - link "All Services" [ref=e246] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=e247]:
+                - link "Creator Suite" [ref=e248] [cursor=pointer]:
+                  - /url: /tools
+              - listitem [ref=e249]:
+                - link "Legal Framework" [ref=e250] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=e251]:
+                - link "Apply for Access" [ref=e252] [cursor=pointer]:
+                  - /url: /onboarding
+          - generic [ref=e253]:
+            - heading "Legal" [level=4] [ref=e254]
+            - list [ref=e255]:
+              - listitem [ref=e256]: Privacy Policy
+              - listitem [ref=e257]: Terms of Service
+              - listitem [ref=e258]: 18 U.S.C. § 2257
+              - listitem [ref=e259]: DMCA Policy
+              - listitem [ref=e260]: Cookie Policy
+        - generic [ref=e261]:
+          - paragraph [ref=e262]: © 2025 BLACKLISTED NICHE ENTERTAINMENT — ALL RIGHTS RESERVED
+          - paragraph [ref=e263]: "ENGINEERED BY BLACKLISTED BINARY LABS · CHIEF ARCHITECT: ROB BRANTING"
+        - paragraph [ref=e265]:
+          - strong [ref=e266]: Legal Framework
+          - text: Blacklisted Niche Entertainment provides digital marketing, brand architecture, compliance education, and strategic advisory services exclusively for adult content creators operating legally on licensed platforms within the United States. All engagements are conducted in strict adherence to applicable federal and state regulations. BNE does not facilitate, promote, or engage in any unlawful activities. All creators are required to maintain 18 U.S.C. § 2257 record-keeping compliance. This platform is intended exclusively for adults aged 18 and older.

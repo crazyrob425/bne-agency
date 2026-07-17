@@ -1190,6 +1190,46 @@ export function getHiddenGems(limit = 20): Niche[] {
   ).slice(0, limit);
 }
 
+function slugifyText(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const NICHE_SLUG_INDEX = new Map<string, Niche>();
+const NICHE_TO_SLUG = new Map<Niche, string>();
+
+(() => {
+  const slugCounts = new Map<string, number>();
+
+  for (const niche of NICHE_DATABASE) {
+    const baseSlug = slugifyText(niche.keyword) || "niche";
+    const nextCount = (slugCounts.get(baseSlug) ?? 0) + 1;
+    slugCounts.set(baseSlug, nextCount);
+
+    const slug = nextCount === 1 ? baseSlug : `${baseSlug}-${nextCount}`;
+    NICHE_SLUG_INDEX.set(slug, niche);
+    NICHE_TO_SLUG.set(niche, slug);
+  }
+})();
+
+export function slugifyNicheKeyword(value: string): string {
+  return slugifyText(value);
+}
+
+export function getNicheSlug(niche: Niche): string {
+  return NICHE_TO_SLUG.get(niche) ?? slugifyText(niche.keyword);
+}
+
+export function getNichePath(niche: Niche): string {
+  return `/niche-matcher/${getNicheSlug(niche)}`;
+}
+
+export function getNicheBySlug(slug: string): Niche | undefined {
+  return NICHE_SLUG_INDEX.get(slugifyText(slug));
+}
+
 function normalizeText(value: string): string {
   return value
     .toLowerCase()

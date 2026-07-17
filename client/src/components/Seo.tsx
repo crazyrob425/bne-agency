@@ -5,6 +5,7 @@ interface SeoProps {
   description: string;
   canonical?: string;
   imageUrl?: string;
+  keywords?: string[];
   schema?: Record<string, any>;
   noIndex?: boolean;
   articlePublishedTime?: string;
@@ -23,6 +24,7 @@ export default function Seo({
   description,
   canonical,
   imageUrl,
+  keywords,
   schema,
   noIndex,
   articlePublishedTime,
@@ -39,6 +41,7 @@ export default function Seo({
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {keywords?.length ? <meta name="keywords" content={keywords.join(", ")} /> : null}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
       {/* Canonical */}

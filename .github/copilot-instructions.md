@@ -1,8 +1,6 @@
+## vexp context tools <!-- vexp v2.2.2 -->
 
-
-## vexp <!-- vexp v2.2.2 -->
-
-**MANDATORY: use `run_pipeline` - do NOT grep or glob the codebase.**
+**MANDATORY: use `run_pipeline` - do NOT grep, glob, or read files manually.**
 vexp returns pre-indexed, graph-ranked context in a single call.
 
 ### Workflow
@@ -25,11 +23,6 @@ vexp returns pre-indexed, graph-ranked context in a single call.
 
 ### Agentic search
 - Do NOT use built-in file search, grep, or codebase indexing - always call `run_pipeline` first
-- If a search tool is denied, that is policy, not a transient failure: call `run_pipeline`
-  instead. Do NOT work around it with shell search or by writing a script.
-- vexp only covers indexed source inside the workspace. For runtime logs, build output
-  (dist/, .vite/, node_modules/) or files outside the repo it has no answer - use your
-  normal tools there; those searches are never blocked.
 - If you spawn sub-agents or background tasks, pass them the context from `run_pipeline`
   rather than letting them search the codebase independently
 

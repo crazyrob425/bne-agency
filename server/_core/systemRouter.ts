@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { notifyOwner } from "./notification";
+import { processDueReminders } from "./reengagement";
 import { adminProcedure, publicProcedure, router } from "./trpc";
 
 export const systemRouter = router({
@@ -25,5 +26,16 @@ export const systemRouter = router({
       return {
         success: delivered,
       } as const;
+    }),
+
+  /**
+   * Cron-triggered worker that dispatches all due re-engagement reminder emails.
+   * Safe to call repeatedly; only pending rows with sendAt <= now are processed.
+   * Guarded by admin so only the scheduler / an admin can invoke it.
+   */
+  processReminders: adminProcedure
+    .mutation(async () => {
+      const result = await processDueReminders();
+      return { ok: true as const, ...result };
     }),
 });

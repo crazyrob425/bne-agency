@@ -3,10 +3,17 @@
   "dialect": "mysql",
   "entries": [
     {
-      "idx": 0,
       "version": "5",
+      "breakpoints": true,
       "when": 1779674232163,
-      "tag": "0000_ambitious_thaddeus_ross",
+      "idx": 0,
+      "tag": "0000_ambitious_thaddeus_ross"
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1784321669097,
+      "tag": "0001_niche_matcher_reengage",
       "breakpoints": true
     }
   ]
