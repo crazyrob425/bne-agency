@@ -98,23 +98,25 @@ export const progressRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable." });
 
-      await db
-        .insert(quizProgress)
-        .values({
-          userId: ctx.user.id,
-          lastCompletedQuestionId: input.lastCompletedQuestionId,
-          answers: input.answers,
-          questionsAnswered: input.questionsAnswered,
-          completed: "0",
-        })
-        .onDuplicateKeyUpdate({
-          set: {
-            lastCompletedQuestionId: input.lastCompletedQuestionId,
-            answers: input.answers,
-            questionsAnswered: input.questionsAnswered,
-            updatedAt: new Date(),
-          },
-        });
+      const [existing] = await db
+        .select({ id: quizProgress.id })
+        .from(quizProgress)
+        .where(eq(quizProgress.userId, ctx.user.id))
+        .limit(1);
+
+      const values = {
+        lastCompletedQuestionId: input.lastCompletedQuestionId,
+        answers: input.answers,
+        questionsAnswered: input.questionsAnswered,
+        completed: "0" as const,
+        updatedAt: new Date(),
+      };
+
+      if (existing) {
+        await db.update(quizProgress).set(values).where(eq(quizProgress.id, existing.id));
+      } else {
+        await db.insert(quizProgress).values({ userId: ctx.user.id, ...values });
+      }
 
       if (input.contact?.email) {
         await db
@@ -127,7 +129,16 @@ export const progressRouter = router({
             status: "subscribed",
             tags: input.tags ?? [],
           })
-          .onDuplicateKeyUpdate({ set: { userId: ctx.user.id, source: "niche-quiz", tags: input.tags ?? [], updatedAt: new Date() } });
+          .onConflictDoUpdate({
+            columns: [subscribers.email],
+            set: {
+              userId: ctx.user.id,
+              name: input.contact.name ?? null,
+              source: "niche-quiz",
+              tags: input.tags ?? [],
+              updatedAt: new Date(),
+            },
+          });
       }
 
       await scheduleReengagement({
@@ -148,24 +159,26 @@ export const progressRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable." });
 
-      await db
-        .insert(quizProgress)
-        .values({
-          userId: ctx.user.id,
-          lastCompletedQuestionId: null,
-          answers: input.answers,
-          questionsAnswered: Object.keys(input.answers).length,
-          completed: "1",
-          resultSnapshot: input.resultSnapshot,
-        })
-        .onDuplicateKeyUpdate({
-          set: {
-            answers: input.answers,
-            completed: "1",
-            resultSnapshot: input.resultSnapshot,
-            updatedAt: new Date(),
-          },
-        });
+      const [existing] = await db
+        .select({ id: quizProgress.id })
+        .from(quizProgress)
+        .where(eq(quizProgress.userId, ctx.user.id))
+        .limit(1);
+
+      const values = {
+        lastCompletedQuestionId: null as const,
+        answers: input.answers,
+        questionsAnswered: Object.keys(input.answers).length,
+        completed: "1" as const,
+        resultSnapshot: input.resultSnapshot,
+        updatedAt: new Date(),
+      };
+
+      if (existing) {
+        await db.update(quizProgress).set(values).where(eq(quizProgress.id, existing.id));
+      } else {
+        await db.insert(quizProgress).values({ userId: ctx.user.id, ...values });
+      }
 
       await db
         .update(emailReminders)

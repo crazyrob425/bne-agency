@@ -19,8 +19,8 @@ import cookieParser from "cookie-parser";
 import { COOKIE_NAME } from "@shared/const";
 import multer from "multer";
 import { getDb } from "../db";
-import { onboardingApplications } from "../../drizzle/schema";
-import { desc } from "drizzle-orm";
+import { onboardingApplications, users } from "../../drizzle/schema";
+import { desc, eq } from "drizzle-orm";
 
 // Resolve project root correctly for both dev (tsx) and production (esbuild bundled)
 // In dev: import.meta.dirname is server/_core, resolve ../.. for project root
@@ -431,6 +431,121 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
     } catch (error: any) {
       console.error('Failed to fetch applications:', error);
       res.status(500).json({ error: error.message });
+    }
+  });
+
+  // ─── ADMIN USER MANAGEMENT ─────────────────────────────────────────────────
+  // List all users with permission summary
+  app.get('/api/admin/users', async (req, res) => {
+    try {
+      const db = await getDb();
+      if (!db) return res.status(500).json({ error: 'Database unavailable' });
+      const allUsers = await db.select({
+        id: users.id,
+        openId: users.openId,
+        name: users.name,
+        email: users.email,
+        loginMethod: users.loginMethod,
+        role: users.role,
+        membersAccessGranted: users.membersAccessGranted,
+        membersPermissions: users.membersPermissions,
+        firebaseUid: users.firebaseUid,
+        createdAt: users.createdAt,
+        lastSignedIn: users.lastSignedIn,
+      }).from(users).orderBy(desc(users.createdAt));
+      res.json({ users: allUsers });
+    } catch (error: any) {
+      console.error('Failed to fetch users:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Update user permissions
+  app.post('/api/admin/users/:id/permissions', async (req, res) => {
+    try {
+      const db = await getDb();
+      if (!db) return res.status(500).json({ error: 'Database unavailable' });
+      const userId = parseInt(req.params.id);
+      const { membersAccessGranted, permissions } = req.body;
+      const [updated] = await db.update(users).set({
+        membersAccessGranted: membersAccessGranted ? 1 : 0,
+        membersPermissions: permissions || {},
+        updatedAt: new Date(),
+      }).where(eq(users.id, userId)).returning();
+      res.json({ user: updated });
+    } catch (error: any) {
+      console.error('Failed to update permissions:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Grant members access
+  app.post('/api/admin/users/:id/grant-access', async (req, res) => {
+    try {
+      const db = await getDb();
+      if (!db) return res.status(500).json({ error: 'Database unavailable' });
+      const userId = parseInt(req.params.id);
+      const [updated] = await db.update(users).set({
+        membersAccessGranted: 1,
+        updatedAt: new Date(),
+      }).where(eq(users.id, userId)).returning();
+      res.json({ user: updated });
+    } catch (error: any) {
+      console.error('Failed to grant access:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Revoke members access
+  app.post('/api/admin/users/:id/revoke-access', async (req, res) => {
+    try {
+      const db = await getDb();
+      if (!db) return res.status(500).json({ error: 'Database unavailable' });
+      const userId = parseInt(req.params.id);
+      const [updated] = await db.update(users).set({
+        membersAccessGranted: 0,
+        updatedAt: new Date(),
+      }).where(eq(users.id, userId)).returning();
+      res.json({ user: updated });
+    } catch (error: any) {
+      console.error('Failed to revoke access:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Members portal access check — verifies if current session has members access
+  app.get('/api/members/check-access', async (req, res) => {
+    try {
+      const db = await getDb();
+      if (!db) return res.json({ hasAccess: false, reason: 'Database unavailable' });
+
+      // Check OAuth/local session (primary auth method)
+      try {
+        const session = await sdk.authenticateRequest(req);
+        if (session?.user) {
+          const [user] = await db.select().from(users).where(eq(users.openId, session.user.openId)).limit(1);
+          if (user && user.membersAccessGranted === 1) {
+            return res.json({ hasAccess: true, method: 'local', userId: user.id, permissions: user.membersPermissions });
+          }
+        }
+      } catch (e) {
+        // No valid local session
+      }
+
+      // Fallback: check if there's a Firebase UID linked to the session via email
+      // (frontend can pass email as query param for Firebase-only users)
+      const email = req.query.email as string | undefined;
+      if (email) {
+        const [user] = await db.select().from(users).where(eq(users.email, email.toLowerCase())).limit(1);
+        if (user && user.membersAccessGranted === 1) {
+          return res.json({ hasAccess: true, method: 'email-link', userId: user.id, permissions: user.membersPermissions });
+        }
+      }
+
+      return res.json({ hasAccess: false, reason: 'No valid session with members access' });
+    } catch (error: any) {
+      console.error('Failed to check members access:', error);
+      res.status(500).json({ hasAccess: false, reason: error.message });
     }
   });
 

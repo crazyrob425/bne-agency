@@ -27,6 +27,12 @@ export const users = pgTable("users", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().$onUpdate(() => new Date()).notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  /** Unified members-portal access flag (grants access regardless of Firebase). */
+  membersAccessGranted: integer("membersAccessGranted").default(0).notNull(),
+  /** JSONB permissions map for fine-grained tool access in the members portal. */
+  membersPermissions: jsonb("membersPermissions").default({} as any).notNull(),
+  /** Firebase UID link for unified local+OAuth accounts. */
+  firebaseUid: varchar("firebaseUid", { length: 128 }),
 });
 
 export type User = typeof users.$inferSelect;
@@ -148,6 +154,33 @@ export const emailReminders = pgTable("email_reminders", {
 
 export type EmailReminder = typeof emailReminders.$inferSelect;
 export type InsertEmailReminder = typeof emailReminders.$inferInsert;
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * APPLICATION DRAFTS — save/continue for onboarding + quiz flows
+ * ────────────────────────────────────────────────────────────────────────── */
+
+export const applicationDrafts = pgTable("application_drafts", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId").references(() => users.id, { onDelete: "cascade" }),
+  sessionId: varchar("sessionId", { length: 128 }).notNull().unique(),
+  /** 'onboarding' | 'quiz' | 'application' */
+  type: varchar("type", { length: 32 }).notNull(),
+  /** Partial form data / answers */
+  data: jsonb("data").notNull(),
+  /** Uploaded file paths */
+  files: jsonb("files").default([] as any),
+  /** Last answered question / step identifier */
+  lastStep: varchar("lastStep", { length: 128 }),
+  /** ISO timestamp of abandonment or last save */
+  abandonedAt: timestamp("abandonedAt"),
+  /** Whether user explicitly chose "finish later" */
+  savedForLater: integer("savedForLater").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().$onUpdate(() => new Date()).notNull(),
+});
+
+export type ApplicationDraft = typeof applicationDrafts.$inferSelect;
+export type InsertApplicationDraft = typeof applicationDrafts.$inferInsert;
 
 /* Cadence constants consumed by the scheduler. */
 export const REENGAGEMENT_CADENCE = {

@@ -37,12 +37,14 @@ function Router() {
       <Route path="/home" component={Home} />
       <Route path="/tiers" component={ServiceTiers} />
       <Route path="/niche-matcher/:slug" component={NicheMatcher} />
-      <Route path="/niche-matcher" component={NicheMatcher} />
+      <Route path="/niche-matcher" component={NicheMatcher} /> {/* Retain for SEO */}
+      <Route path="/solutions/niche-intelligence" component={NicheMatcher} />
       <Route path="/posting-and-scheduling" component={PostingAndScheduling} />
       <Route path="/creator-tools" component={CreatorTools} />
       <Route path="/compliance" component={ComplianceVault} />
       <Route path="/university" component={University} />
-      <Route path="/onboarding" component={Onboarding} />
+      <Route path="/onboarding" component={Onboarding} /> {/* Retain for SEO */}
+      <Route path="/apply" component={Onboarding} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={ArticleDetail} />
       <Route path="/pricing" component={ServiceTiers} />

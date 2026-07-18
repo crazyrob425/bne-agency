@@ -3,7 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
 import { collection, query, getDocs, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
-import { Users, Activity, Clock, ShieldAlert } from 'lucide-react';
+import { Users, Activity, Clock, ShieldAlert, Settings, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 const COLORS = ['#10B981', '#EAB308', '#EF4444', '#3B82F6'];
 
@@ -29,6 +30,9 @@ export default function AdminDashboard() {
     const [applications, setApplications] = useState<any[]>([]);
     const [newEmail, setNewEmail] = useState('');
     const [adding, setAdding] = useState(false);
+    const [editingUser, setEditingUser] = useState<any | null>(null);
+    const [editPermissions, setEditPermissions] = useState<Record<string, boolean>>({});
+    const [savingPermissions, setSavingPermissions] = useState(false);
 
     useEffect(() => {
         if (dbUser?.role !== 'admin') return;
@@ -36,6 +40,20 @@ export default function AdminDashboard() {
             const q = query(collection(db, 'users'));
             const snap = await getDocs(q);
             setUsers(snap.docs.map(d => ({id: d.id, ...d.data()})));
+        };
+        const fetchPgUsers = async () => {
+            try {
+                const res = await fetch('/api/admin/users');
+                const data = await res.json();
+                if (data.users) {
+                    // Merge Postgres users with Firestore users
+                    setUsers(prev => {
+                        const firebaseIds = new Set(prev.map(u => u.email?.toLowerCase()));
+                        const pgUsers = data.users.filter((u: any) => !firebaseIds.has(u.email?.toLowerCase()));
+                        return [...prev, ...pgUsers.map((u: any) => ({ ...u, id: u.id.toString() }))];
+                    });
+                }
+            } catch(e) { console.error('Error fetching Postgres users', e); }
         };
         const fetchApps = async () => {
             try {
@@ -45,6 +63,7 @@ export default function AdminDashboard() {
             } catch(e) { console.error('Error fetching applications', e); }
         };
         fetchUsers();
+        fetchPgUsers();
         fetchApps();
     }, [dbUser]);
 
@@ -74,6 +93,44 @@ export default function AdminDashboard() {
              console.error('Error adding member', e);
         } finally {
              setAdding(false);
+        }
+    };
+
+    const handleEditPermissions = (u: any) => {
+        setEditingUser(u);
+        setEditPermissions(u.membersPermissions || {
+            dashboard: true,
+            vault: false,
+            tools: false,
+            admin: false,
+            messaging: false,
+            billing: false,
+        });
+    };
+
+    const handleSavePermissions = async () => {
+        if (!editingUser) return;
+        setSavingPermissions(true);
+        try {
+            const userId = typeof editingUser.id === 'string' ? parseInt(editingUser.id) : editingUser.id;
+            const endpoint = `/api/admin/users/${userId}/permissions`;
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    membersAccessGranted: true,
+                    permissions: editPermissions,
+                }),
+            });
+            if (res.ok) {
+                setUsers(users.map(u => u.id === editingUser.id ? { ...u, membersAccessGranted: 1, membersPermissions: editPermissions } : u));
+                setEditingUser(null);
+                toast?.success('Permissions updated successfully');
+            }
+        } catch (e) {
+            console.error('Error saving permissions:', e);
+        } finally {
+            setSavingPermissions(false);
         }
     };
 
@@ -241,10 +298,81 @@ export default function AdminDashboard() {
                   </table>
              </div>
 
-             <div className="bg-[#121212] border border-[#2A2A2A] rounded overflow-hidden flex-1 overflow-y-auto w-full mt-6">
-                  <div className="p-4 border-b border-[#2A2A2A]">
+              <div className="bg-[#121212] border border-[#2A2A2A] rounded overflow-hidden flex-1 overflow-y-auto w-full mt-6">
+                   <div className="p-4 border-b border-[#2A2A2A]">
+                      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Members Portal Access Control</h3>
+                      <p className="text-[10px] text-gray-600 mt-1">Manage who has access to the members-only portal and which tools they can use.</p>
+                   </div>
+                   <table className="w-full text-left text-[10px] text-gray-400">
+                       <thead className="bg-[#1A1A1A] border-b border-[#2A2A2A] text-gray-500 font-bold uppercase tracking-widest">
+                           <tr>
+                               <th className="px-4 py-3">User</th>
+                               <th className="px-4 py-3">Email</th>
+                               <th className="px-4 py-3">Login Method</th>
+                               <th className="px-4 py-3">Members Access</th>
+                               <th className="px-4 py-3">Permissions</th>
+                               <th className="px-4 py-3 text-right">Actions</th>
+                           </tr>
+                       </thead>
+                       <tbody className="divide-y divide-[#2A2A2A]">
+                            {users.map(u => (
+                                <tr key={u.id} className="hover:bg-[#1A1A1A] transition-colors">
+                                    <td className="px-4 py-3 font-bold text-white">{u.name || 'N/A'}</td>
+                                    <td className="px-4 py-3 text-gray-300">{u.email}</td>
+                                    <td className="px-4 py-3">
+                                       <span className="px-2 py-0.5 rounded font-bold uppercase tracking-widest border bg-gray-800/50 border-gray-700 text-gray-400">{u.loginMethod || 'unknown'}</span>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <select 
+                                            className={`bg-[#0A0A0A] border border-[#2A2A2A] rounded px-2 py-1 focus:outline-none focus:border-[#EAB308] uppercase font-bold tracking-widest ${u.membersAccessGranted ? 'text-green-500' : 'text-red-500'}`}
+                                            value={u.membersAccessGranted ? 'granted' : 'revoked'}
+                                            onChange={async (e) => {
+                                                const granted = e.target.value === 'granted';
+                                                try {
+                                                    const endpoint = granted ? '/api/admin/users/' + u.id + '/grant-access' : '/api/admin/users/' + u.id + '/revoke-access';
+                                                    await fetch(endpoint, { method: 'POST' });
+                                                    setUsers(users.map(x => x.id === u.id ? { ...x, membersAccessGranted: granted ? 1 : 0 } : x));
+                                                } catch(err) { console.error(err); }
+                                            }}
+                                        >
+                                            <option value="granted">GRANTED</option>
+                                            <option value="revoked">REVOKED</option>
+                                        </select>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <div className="flex flex-wrap gap-1">
+                                            {(u.membersPermissions && typeof u.membersPermissions === 'object' ? Object.entries(u.membersPermissions).filter(([,v]: [any, any]) => v).map(([k]) => k) : []).map(p => (
+                                                <span key={p} className="px-1.5 py-0.5 rounded bg-emerald-900/30 text-emerald-400 border border-emerald-900/50 text-[8px] uppercase">{p}</span>
+                                            ))}
+                                            {(!u.membersPermissions || Object.keys(u.membersPermissions || {}).length === 0) && (
+                                                <span className="text-[9px] text-gray-600">No custom permissions</span>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="px-4 py-3 text-right flex justify-end gap-2">
+                                        <button 
+                                            onClick={() => handleEditPermissions(u)}
+                                            className="text-[#D4AF37] border border-[#D4AF37]/30 px-2 py-1 rounded uppercase font-bold tracking-widest hover:bg-[#D4AF37]/10 transition-colors"
+                                        >
+                                            Edit Permissions
+                                        </button>
+                                        <button 
+                                            onClick={() => setOverrideUser(u.id)}
+                                            className="text-purple-400 border border-purple-400/30 px-2 py-1 rounded uppercase font-bold tracking-widest hover:bg-purple-900/30 transition-colors"
+                                        >
+                                            Use Portal As...
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                       </tbody>
+                   </table>
+              </div>
+
+              <div className="bg-[#121212] border border-[#2A2A2A] rounded overflow-hidden flex-1 overflow-y-auto w-full mt-6">
+                   <div className="p-4 border-b border-[#2A2A2A]">
                       <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Onboarding Applications</h3>
-                  </div>
+                   </div>
                   <table className="w-full text-left text-[10px] text-gray-400">
                       <thead className="bg-[#1A1A1A] border-b border-[#2A2A2A] text-gray-500 font-bold uppercase tracking-widest">
                           <tr>
@@ -286,9 +414,86 @@ export default function AdminDashboard() {
                                    <td colSpan={5} className="px-4 py-8 text-center text-gray-600 italic">No applications found.</td>
                                </tr>
                            )}
-                      </tbody>
-                  </table>
+                       </tbody>
+                   </table>
+              </div>
+         </div>
+
+         {/* Permissions Editor Modal */}
+         {editingUser && (
+             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                 <div className="w-full max-w-lg rounded-2xl border border-[#2A2A2A] bg-[#0B0B0D] p-6 shadow-2xl">
+                     <div className="flex items-center justify-between mb-6">
+                         <div>
+                             <h3 className="text-lg font-bold text-white">Edit Permissions</h3>
+                             <p className="text-xs text-gray-500">{editingUser.email}</p>
+                         </div>
+                         <button onClick={() => setEditingUser(null)} className="text-gray-500 hover:text-white">
+                             <X className="h-5 w-5" />
+                         </button>
+                     </div>
+                     
+                     <div className="space-y-4">
+                         <div className="flex items-center justify-between p-3 bg-[#15151A] rounded-lg">
+                             <div>
+                                 <p className="text-sm font-bold text-white">Members Portal Access</p>
+                                 <p className="text-[10px] text-gray-500">Grant or revoke access to the members-only portal</p>
+                             </div>
+                             <label className="relative inline-flex items-center cursor-pointer">
+                                 <input
+                                     type="checkbox"
+                                     checked={editPermissions.dashboard ?? true}
+                                     onChange={(e) => setEditPermissions({ ...editPermissions, dashboard: e.target.checked })}
+                                     className="sr-only peer"
+                                 />
+                                 <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#D4AF37]/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#D4AF37]"></div>
+                             </label>
+                         </div>
+
+                         <div className="border-t border-[#2A2A2A] pt-4">
+                             <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Tool Permissions</p>
+                             <div className="grid grid-cols-2 gap-3">
+                                 {[
+                                     { key: 'vault', label: 'File Vault', desc: 'Access to file storage' },
+                                     { key: 'tools', label: 'AI Tools', desc: 'Ad generator, ask AI' },
+                                     { key: 'messaging', label: 'Messages', desc: 'Internal messaging' },
+                                     { key: 'billing', label: 'Billing', desc: 'Invoice management' },
+                                     { key: 'admin', label: 'Admin Panel', desc: 'User management' },
+                                 ].map(perm => (
+                                     <label key={perm.key} className="flex items-center gap-3 p-3 bg-[#15151A] rounded-lg cursor-pointer hover:bg-[#1A1A1A] transition-colors">
+                                         <input
+                                             type="checkbox"
+                                             checked={editPermissions[perm.key] || false}
+                                             onChange={(e) => setEditPermissions({ ...editPermissions, [perm.key]: e.target.checked })}
+                                             className="accent-[#D4AF37]"
+                                         />
+                                         <div>
+                                             <p className="text-xs font-bold text-white">{perm.label}</p>
+                                             <p className="text-[10px] text-gray-500">{perm.desc}</p>
+                                         </div>
+                                     </label>
+                                 ))}
+                             </div>
+                         </div>
+                     </div>
+
+                     <div className="flex gap-3 mt-6">
+                         <button
+                             onClick={() => setEditingUser(null)}
+                             className="flex-1 h-10 rounded-lg border border-[#2A2A2A] text-gray-400 text-xs font-bold uppercase tracking-widest hover:border-[#D4AF37]/30 hover:text-[#D4AF37] transition-colors"
+                         >
+                             Cancel
+                         </button>
+                         <button
+                             onClick={handleSavePermissions}
+                             disabled={savingPermissions}
+                             className="flex-1 h-10 rounded-lg bg-[#D4AF37] text-[#000] text-xs font-black uppercase tracking-widest disabled:opacity-60 hover:bg-[#FFD700] transition-colors"
+                         >
+                             {savingPermissions ? 'Saving...' : 'Save Permissions'}
+                         </button>
+                     </div>
+                 </div>
              </div>
-        </div>
-    )
+         )}
+     )
 }

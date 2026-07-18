@@ -84,6 +84,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import { trpc } from "@/lib/trpc";
 import { RegistrationGate } from "@/components/RegistrationGate";
+import UnifiedRegistrationGate from "@/components/UnifiedRegistrationGate";
 import { useQuizProgress } from "@/hooks/useQuizProgress";
 import { Link, useLocation } from "wouter";
 import NicheQuizExperience from "@/components/NicheQuizExperience";
@@ -638,7 +639,6 @@ export default function NicheMatcher() {
   const [activeTab, setActiveTab] = useState<"quiz" | "browse" | "search">("quiz");
 
   const quizProgressApi = useQuizProgress();
-  const [registered, setRegistered] = useState<boolean>(false);
   const alreadyAuthed = trpc.auth.me.useQuery().data != null;
 
 
@@ -931,40 +931,55 @@ export default function NicheMatcher() {
             </div>
 
                         <div className="flex-1 bg-black p-12 min-h-[750px] relative overflow-hidden">
-               {!registered && <RegistrationGate onRegistered={() => setRegistered(true)} />}
-               {registered && quizProgressApi.saved && !quizProgressApi.saved.completed && Object.keys(quizProgressApi.saved.answers).length > 0 && (
-                 <div className="mb-6 rounded-xl border border-[#2A2A30] bg-[#0B0B0D] px-5 py-3 text-sm text-[#9FA6B2] flex items-center justify-between">
-                   <span>Welcome back — we restored your saved progress ({quizProgressApi.saved.questionsAnswered} answers).</span>
-                   <button onClick={resetQuiz} className="text-[#D4AF37] text-xs uppercase tracking-[0.2em] font-bold">Start over</button>
-                 </div>
-               )}
-               <div className="absolute top-8 right-10 flex gap-8 text-[9px] font-black text-[#1A1A1A] uppercase tracking-[0.5em]">
-                  <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" /> Core Engaged</span>
-                  <span>Region: Global</span>
-               </div>
+                {!alreadyAuthed && (
+                  <UnifiedRegistrationGate
+                    flowType="quiz"
+                    onRegistered={(sessionId) => {
+                      quizProgressApi.save({
+                        lastCompletedQuestionId: quizStep > 0 ? QUIZ_QUESTIONS[quizStep - 1]?.id ?? null : null,
+                        answers: quizAnswers,
+                        questionsAnswered: Object.keys(quizAnswers).length,
+                      });
+                    }}
+                    onDismissed={() => {}}
+                    compact
+                    defaultEmail=""
+                  />
+                )}
+                {quizProgressApi.saved && !quizProgressApi.saved.completed && Object.keys(quizProgressApi.saved.answers).length > 0 && (
+                  <div className="mb-6 rounded-xl border border-[#2A2A30] bg-[#0B0B0D] px-5 py-3 text-sm text-[#9FA6B2] flex items-center justify-between">
+                    <span>Welcome back — we restored your saved progress ({quizProgressApi.saved.questionsAnswered} answers).</span>
+                    <button onClick={resetQuiz} className="text-[#D4AF37] text-xs uppercase tracking-[0.2em] font-bold">Start over</button>
+                  </div>
+                )}
+                <div className="absolute top-8 right-10 flex gap-8 text-[9px] font-black text-[#1A1A1A] uppercase tracking-[0.5em]">
+                   <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" /> Core Engaged</span>
+                   <span>Region: Global</span>
+                </div>
 
-                <AnimatePresence mode="wait">
-                   {activeTab === 'quiz' && (
-                     <motion.div key="quiz-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
-                       <NicheQuizExperience
-                         initialAnswers={quizAnswers}
-                         onComplete={(matchResult, insightResult, attachmentVec) => {
-                           setQuizResults(matchResult);
-                           setQuizInsight(insightResult);
-                           setAttachment(attachmentVec);
-                           setQuizComplete(true);
-                         }}
-                         onReset={() => {
-                           setQuizStep(0);
-                           setQuizAnswers({});
-                           setQuizResults(null);
-                           setQuizInsight(null);
-                           setQuizComplete(false);
-                           setAttachment(null);
-                         }}
-                       />
-                     </motion.div>
-                   )}
+                 <AnimatePresence mode="wait">
+                    {activeTab === 'quiz' && (
+                      <motion.div key="quiz-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
+                        <NicheQuizExperience
+                          progressApi={quizProgressApi}
+                          initialAnswers={quizAnswers}
+                          onComplete={(matchResult, insightResult, attachmentVec) => {
+                            setQuizResults(matchResult);
+                            setQuizInsight(insightResult);
+                            setAttachment(attachmentVec);
+                            setQuizComplete(true);
+                          }}
+                          onReset={() => {
+                            setQuizStep(0);
+                            setQuizAnswers({});
+                            setQuizResults(null);
+                            setQuizInsight(null);
+                            setQuizComplete(false);
+                            setAttachment(null);
+                          }}
+                        />
+                      </motion.div>
+                    )}
 
                   {activeTab === 'browse' && (
                     <motion.div key="browse-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>

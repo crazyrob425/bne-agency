@@ -47,12 +47,12 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {[
                 { href: "/", label: "Home" },
-                { href: "/tiers", label: "Structured Advisory" },
-                { href: "/niche-matcher", label: "Niche Intelligence" },
-                { href: "/services", label: "All Services" },
-                { href: "/tools", label: "Creator Suite" },
-                { href: "/compliance", label: "Legal Framework" },
-                { href: "/onboarding", label: "Apply for Access" },
+                { href: "/solutions", label: "Solutions" },
+                { href: "/services", label: "Services" },
+                { href: "/creator-os", label: "Creator OS" },
+                { href: "/academy", label: "Academy" },
+                { href: "/compliance", label: "Compliance" },
+                { href: "/apply", label: "Apply to B.N.E." },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href}>

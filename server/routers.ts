@@ -6,6 +6,8 @@ import { stripeRouter } from "./stripe/stripeRouter";
 import { toolsRouter } from "./toolsRouter";
 import { authRouter } from "./authRouter";
 import { progressRouter } from "./progressRouter";
+import { draftsRouter } from "./draftsRouter";
+import { adminUserRouter } from "./adminUserRouter";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -22,6 +24,8 @@ export const appRouter = router({
     ...authRouter._def.procedures,
   }),
   progress: progressRouter,
+  drafts: draftsRouter,
+  adminUsers: adminUserRouter,
 
   stripe: stripeRouter,
   tools: toolsRouter,

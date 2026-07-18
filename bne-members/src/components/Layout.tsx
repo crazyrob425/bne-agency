@@ -4,7 +4,7 @@ import { logout } from '../lib/firebase';
 import { LogOut, Home, MessageSquare, Files, Settings, UserCircle, Briefcase } from 'lucide-react';
 
 export default function Layout() {
-  const { user, dbUser, isSpoofing, setOverrideUser } = useAuth();
+  const { user, dbUser, isSpoofing, setOverrideUser, hasPermission } = useAuth();
 
   return (
     <div className="flex w-full h-screen bg-[#0A0A0A] text-[#E0E0E0] font-sans overflow-hidden">
@@ -22,17 +22,23 @@ export default function Layout() {
             <Home className="w-4 h-4" /> <span className="text-sm">Command Center</span>
           </Link>
           
-          <Link to="/messages" className="w-full flex items-center space-x-3 text-gray-400 px-3 py-2 hover:bg-[#1A1A1A] rounded transition-colors">
-            <MessageSquare className="w-4 h-4" /> <span className="text-sm">Secure Inbox</span>
-          </Link>
+          {hasPermission('messaging') && (
+            <Link to="/messages" className="w-full flex items-center space-x-3 text-gray-400 px-3 py-2 hover:bg-[#1A1A1A] rounded transition-colors">
+              <MessageSquare className="w-4 h-4" /> <span className="text-sm">Secure Inbox</span>
+            </Link>
+          )}
 
-          <Link to="/storage" className="w-full flex items-center space-x-3 text-gray-400 px-3 py-2 hover:bg-[#1A1A1A] rounded transition-colors">
-            <Files className="w-4 h-4" /> <span className="text-sm">Vault Storage</span>
-          </Link>
+          {hasPermission('vault') && (
+            <Link to="/storage" className="w-full flex items-center space-x-3 text-gray-400 px-3 py-2 hover:bg-[#1A1A1A] rounded transition-colors">
+              <Files className="w-4 h-4" /> <span className="text-sm">Vault Storage</span>
+            </Link>
+          )}
 
-          <Link to="/classified-gen" className="w-full flex items-center space-x-3 text-gray-400 px-3 py-2 hover:bg-[#1A1A1A] rounded transition-colors">
-            <Briefcase className="w-4 h-4" /> <span className="text-sm">Ad Studio AI</span>
-          </Link>
+          {hasPermission('tools') && (
+            <Link to="/classified-gen" className="w-full flex items-center space-x-3 text-gray-400 px-3 py-2 hover:bg-[#1A1A1A] rounded transition-colors">
+              <Briefcase className="w-4 h-4" /> <span className="text-sm">Ad Studio AI</span>
+            </Link>
+          )}
           
           <Link to="/notes" className="w-full flex items-center space-x-3 text-[#34A853] px-3 py-2 hover:bg-[#1A1A1A] rounded transition-colors">
             <Files className="w-4 h-4" /> <span className="text-sm border-l-2 border-[#34A853] pl-2">Google Keep</span>
@@ -48,7 +54,7 @@ export default function Layout() {
             <Settings className="w-4 h-4" /> <span className="text-sm">Settings & Subs</span>
           </Link>
 
-          {dbUser?.role === 'admin' && (
+          {(dbUser?.role === 'admin' || hasPermission('admin')) && (
              <>
                 <Link to="/admin" className="w-full flex items-center space-x-3 text-rose-400 px-3 py-2 hover:bg-rose-950/30 rounded transition-colors">
                   <Settings className="w-4 h-4" /> <span className="text-sm">Admin Access</span>

@@ -54,6 +54,20 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     if (dbUser?.status === 'suspended') {
        return <div className="p-8 text-center text-rose-500">Account Suspended. Contact Admin.</div>;
     }
+    
+    // Check members access (from Postgres or Firestore)
+    if (dbUser?.status !== 'archived' && !dbUser?.membersAccessGranted) {
+       return <div className="p-8 text-center text-rose-500">Access Denied. Your account does not have members portal access.</div>;
+    }
+    
+    return <>{children}</>;
+};
+
+const ToolRoute = ({ children, permission }: { children: React.ReactNode; permission: string }) => {
+    const { hasPermission } = useAuth();
+    if (!hasPermission(permission)) {
+        return <div className="p-8 text-center text-rose-500">Access Denied. You do not have permission to access this tool.</div>;
+    }
     return <>{children}</>;
 };
 
@@ -66,14 +80,14 @@ export default function App() {
                 <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
                     <Route index element={<Home />} />
                     {/* Placeholder routes */}
-                    <Route path="messages" element={<Messages />} />
-                    <Route path="storage" element={<FilePortal />} />
-                    <Route path="classified-gen" element={<AdGenerator />} />
+                    <Route path="messages" element={<ToolRoute permission="messaging"><Messages /></ToolRoute>} />
+                    <Route path="storage" element={<ToolRoute permission="vault"><FilePortal /></ToolRoute>} />
+                    <Route path="classified-gen" element={<ToolRoute permission="tools"><AdGenerator /></ToolRoute>} />
                     <Route path="mini-board" element={<MiniBoard />} />
                     <Route path="account" element={<AccountPage />} />
-                    <Route path="admin" element={<AdminDashboard />} />
+                    <Route path="admin" element={<ToolRoute permission="admin"><AdminDashboard /></ToolRoute>} />
                     <Route path="notes" element={<KeepNotes />} />
-                    <Route path="ask-ai" element={<AskAIPage />} />
+                    <Route path="ask-ai" element={<ToolRoute permission="tools"><AskAIPage /></ToolRoute>} />
                 </Route>
             </Routes>
         </BrowserRouter>

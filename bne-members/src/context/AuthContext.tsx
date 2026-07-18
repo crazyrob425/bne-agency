@@ -9,6 +9,8 @@ interface DbUser {
   persona?: string;
   contactInfo?: string;
   createdAt: string;
+  membersAccessGranted?: boolean;
+  permissions?: Record<string, boolean>;
 }
 
 interface AuthContextType {
@@ -19,6 +21,7 @@ interface AuthContextType {
   setOverrideUser: (uid: string | null) => Promise<void>;
   isSpoofing: boolean;
   authError: string | null;
+  hasPermission: (permission: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -30,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [spoofDbUser, setSpoofDbUser] = useState<DbUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
-  // Check for OAuth session on mount
+  // Check for OAuth/local session on mount
   useEffect(() => {
     const checkOauthSession = async () => {
       try {
@@ -38,13 +41,46 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (res.ok) {
           const session = await res.json();
           if (session.authenticated) {
-            // OAuth session exists - set a virtual user
-            // The main server (not Firebase) handles the session
+            // OAuth/local session exists — set a virtual user
             setUser({ 
               uid: session.openId, 
               email: session.email,
               displayName: session.name 
             } as User);
+            
+            // Check Postgres members access (primary check)
+            try {
+              const accessRes = await fetch('/api/members/check-access');
+              if (accessRes.ok) {
+                const accessData = await accessRes.json();
+                if (accessData.hasAccess) {
+                  const isAdmin = session.email === 'blacklistedrob@gmail.com';
+                  setDbUser({
+                    email: session.email,
+                    role: isAdmin ? 'admin' : 'member',
+                    status: 'active',
+                    createdAt: new Date().toISOString(),
+                    membersAccessGranted: true,
+                    permissions: accessData.permissions || {},
+                  });
+                } else {
+                  setDbUser({
+                    email: session.email,
+                    role: 'member',
+                    status: 'active',
+                    createdAt: new Date().toISOString(),
+                  });
+                }
+              }
+            } catch (e) {
+              // Access check failed — default to no access
+              setDbUser({
+                email: session.email,
+                role: 'member',
+                status: 'active',
+                createdAt: new Date().toISOString(),
+              });
+            }
           }
         }
       } catch (e) {
@@ -114,8 +150,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const effectiveUser = spoofUid ? ({ ...user, uid: spoofUid, email: spoofDbUser?.email } as unknown as User) : user;
   const effectiveDbUser = spoofUid ? spoofDbUser : dbUser;
 
+  const hasPermission = (permission: string): boolean => {
+    if (effectiveDbUser?.role === 'admin') return true;
+    const perms = effectiveDbUser?.permissions || {};
+    return !!perms[permission];
+  };
+
   return (
-    <AuthContext.Provider value={{ user: effectiveUser, dbUser: effectiveDbUser, loading, login, setOverrideUser, isSpoofing: !!spoofUid, authError }}>
+    <AuthContext.Provider value={{ user: effectiveUser, dbUser: effectiveDbUser, loading, login, setOverrideUser, isSpoofing: !!spoofUid, authError, hasPermission }}>
       {!loading && children}
     </AuthContext.Provider>
   );

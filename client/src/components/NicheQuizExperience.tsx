@@ -3,6 +3,9 @@
  *
  * Uses the existing NicheCard component for results so all detailed
  * card data (descriptions, tips, revenue, clipart) displays correctly.
+ *
+ * Registration is optional: unauthenticated users get localStorage progress
+ * saving plus subtle reminders to create a free account.
  */
 
 import { useState, useCallback, useEffect, useRef } from "react";
@@ -40,9 +43,14 @@ import {
   Users,
   DollarSign,
   CheckCircle2,
+  X,
+  UserPlus,
 } from "lucide-react";
 import { NicheCard } from "@/components/NicheCard";
+import UnifiedRegistrationGate from "@/components/UnifiedRegistrationGate";
 import type { Niche } from "@/data/nicheDatabase";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 // ─── ICON MAP ────────────────────────────────────────────────────────────────
 
@@ -67,21 +75,25 @@ const QUIZ_ICON_MAP: Record<string, React.ElementType> = {
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
+interface ProgressApi {
+  save: (payload: { lastCompletedQuestionId: string | null; answers: QuizAnswers; questionsAnswered: number }) => void;
+  complete: (payload: { answers: QuizAnswers; resultSnapshot: unknown }) => void;
+  registerExit: (state: { lastCompletedQuestionId: string | null; answers: QuizAnswers; questionsAnswered: number }) => void;
+  saved: { lastCompletedQuestionId: string | null; answers: QuizAnswers; questionsAnswered: number; completed: boolean } | null;
+  isAuthenticated: boolean;
+}
+
 interface NicheQuizExperienceProps {
   onComplete?: (result: MatchResult, insight: SubconsciousInsight, attachment: { anxiety: number; avoidance: number; quadrant: string }) => void;
   onReset?: () => void;
   initialAnswers?: QuizAnswers;
-  progressApi?: {
-    save: (payload: { lastCompletedQuestionId: string | null; answers: QuizAnswers; questionsAnswered: number }) => void;
-    complete: (payload: { answers: QuizAnswers; resultSnapshot: unknown }) => void;
-    registerExit: (state: { lastCompletedQuestionId: string | null; answers: QuizAnswers; questionsAnswered: number }) => void;
-    saved: { lastCompletedQuestionId: string | null; answers: QuizAnswers; questionsAnswered: number; completed: boolean } | null;
-  };
+  progressApi?: ProgressApi;
 }
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
 const TOTAL_QUESTIONS = QUIZ_QUESTIONS.length;
+const REMINDER_AT = [10, 15, 20, 25, 30]; // questions at which to show subtle reminders
 
 // ─── ANIMATION VARIANTS ──────────────────────────────────────────────────────
 
@@ -113,14 +125,115 @@ export default function NicheQuizExperience({
   const [insight, setInsight] = useState<SubconsciousInsight | null>(null);
   const [attachment, setAttachment] = useState<{ anxiety: number; avoidance: number; quadrant: string } | null>(null);
   const [selectedValue, setSelectedValue] = useState<string | string[] | null>(null);
+  const [showReminder, setShowReminder] = useState(false);
+  const [showAbandonPopup, setShowAbandonPopup] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
+  const [showRegistrationGate, setShowRegistrationGate] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [savedDraftId, setSavedDraftId] = useState<number | null>(null);
+
+  // Stable session ID for anonymous draft saves
+  const sessionId = useRef(() => {
+    let sid = sessionStorage.getItem("bne_quiz_session_id");
+    if (!sid) {
+      sid = `quiz_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      sessionStorage.setItem("bne_quiz_session_id", sid);
+    }
+    return sid;
+  }).current;
+
+  const draftsApi = trpc.drafts.useUtils();
 
   const currentQuestion = QUIZ_QUESTIONS[step];
+  const questionsAnswered = Object.keys(answers).length;
   const progress = ((step + (complete ? 1 : 0)) / TOTAL_QUESTIONS) * 100;
+  const isAuthenticated = progressApi?.isAuthenticated ?? false;
 
-  // Sync selectedValue with answers when step changes
+  // Show subtle reminder at checkpoints if not authenticated
+  const shouldShowReminder = !isAuthenticated && !complete && REMINDER_AT.includes(questionsAnswered) && !showReminder;
+
+  // Restore saved progress (auth or localStorage) on mount if answers are empty
   useEffect(() => {
-    setSelectedValue(answers[currentQuestion.id] ?? null);
-  }, [step, answers, currentQuestion.id]);
+    if (Object.keys(answers).length === 0 && progressApi?.saved?.answers && Object.keys(progressApi.saved.answers).length > 0) {
+      setAnswers(progressApi.saved.answers);
+      const savedId = progressApi.saved.lastCompletedQuestionId;
+      if (savedId) {
+        const idx = QUIZ_QUESTIONS.findIndex(q => q.id === savedId);
+        if (idx >= 0) setStep(idx + 1);
+      }
+    }
+  }, [progressApi?.saved, answers]);
+
+  // Restore draft from server if exists
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const draft = await draftsApi.get.fetch({ sessionId });
+        if (cancelled || !draft || draft.type !== "quiz") return;
+        if (Object.keys(draft.data || {}).length > 0) {
+          setAnswers(draft.data);
+          const stepIdx = QUIZ_QUESTIONS.findIndex(q => q.id === draft.lastStep);
+          if (stepIdx >= 0) setStep(stepIdx);
+          toast.success("Welcome back — we restored your saved quiz progress.");
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [sessionId, draftsApi]);
+
+  // ─── DRAFT SAVING ────────────────────────────────────────────────────────────
+
+  const saveDraft = useCallback(async (savedForLater = false) => {
+    try {
+      const result = await draftsApi.save.mutate({
+        sessionId,
+        type: "quiz",
+        data: answers,
+        lastStep: currentQuestion.id,
+        savedForLater,
+      });
+      setSavedDraftId(result.id ?? null);
+      setIsSaved(true);
+      return result;
+    } catch (e) {
+      console.error("Failed to save quiz draft:", e);
+    }
+  }, [sessionId, answers, currentQuestion.id, draftsApi]);
+
+  // Auto-save every 20 seconds if there is progress
+  useEffect(() => {
+    if (questionsAnswered === 0 || complete) return;
+    const interval = setInterval(() => saveDraft(false), 20000);
+    return () => clearInterval(interval);
+  }, [questionsAnswered, complete, saveDraft]);
+
+  // Save draft on abandonment
+  useEffect(() => {
+    if (complete || questionsAnswered === 0) return;
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      saveDraft(true);
+      // Original abandonment popup logic
+      if (!isLeaving) {
+        setIsLeaving(true);
+        setShowAbandonPopup(true);
+        e.preventDefault();
+        e.returnValue = "";
+        return "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [complete, questionsAnswered, answers, isLeaving, saveDraft]);
+
+  // Track questions answered and show reminders
+  useEffect(() => {
+    if (shouldShowReminder) {
+      setShowReminder(true);
+    }
+  }, [questionsAnswered, shouldShowReminder]);
 
   // Persist progress
   const persistProgress = useCallback((nextAnswers: QuizAnswers, questionId: string) => {
@@ -163,18 +276,14 @@ export default function NicheQuizExperience({
         persistProgress(next, currentQuestion.id);
         return next;
       });
-      
-      // Single-select: auto-advance after brief delay
       setTimeout(() => {
         if (step < TOTAL_QUESTIONS - 1) {
           setStep((s) => s + 1);
         } else {
-          // Final step: compute results directly
           const finalAnswers = finalAnswersRef.current;
           const attachmentVec = computeAttachmentVector(finalAnswers);
           const matchResult = matchNicheFinder(finalAnswers, attachmentVec);
           const insightResult = getSubconsciousInsight(finalAnswers);
-          
           setAttachment({
             anxiety: attachmentVec.anxiety,
             avoidance: attachmentVec.avoidance,
@@ -206,16 +315,16 @@ export default function NicheQuizExperience({
       return;
     }
 
+    // Save draft before advancing
+    const nextAnswers = { ...ans, [cq.id]: sv };
+    saveDraft(false);
+
     if (step < TOTAL_QUESTIONS - 1) {
       setStep((s) => s + 1);
     } else {
-      const finalAnswers = cq.type === "multi"
-        ? { ...ans, [cq.id]: sv as string[] }
-        : { ...ans, [cq.id]: sv as string };
-
-      const attachmentVec = computeAttachmentVector(finalAnswers);
-      const matchResult = matchNicheFinder(finalAnswers, attachmentVec);
-      const insightResult = getSubconsciousInsight(finalAnswers);
+      const attachmentVec = computeAttachmentVector(nextAnswers);
+      const matchResult = matchNicheFinder(nextAnswers, attachmentVec);
+      const insightResult = getSubconsciousInsight(nextAnswers);
 
       setAttachment({
         anxiety: attachmentVec.anxiety,
@@ -225,14 +334,14 @@ export default function NicheQuizExperience({
       setResults(matchResult);
       setInsight(insightResult);
       setComplete(true);
-      progressApi?.complete({ answers: finalAnswers, resultSnapshot: matchResult });
+      progressApi?.complete({ answers: nextAnswers, resultSnapshot: matchResult });
       onComplete?.(matchResult, insightResult, {
         anxiety: attachmentVec.anxiety,
         avoidance: attachmentVec.avoidance,
         quadrant: attachmentVec.quadrant,
       });
     }
-  }, [step, currentQuestion, onComplete, progressApi]);
+  }, [step, currentQuestion, saveDraft, progressApi, onComplete]);
 
   const handleBack = useCallback(() => {
     if (step > 0) setStep((s) => s - 1);
@@ -246,6 +355,9 @@ export default function NicheQuizExperience({
     setInsight(null);
     setAttachment(null);
     setSelectedValue(null);
+    setShowReminder(false);
+    setShowAbandonPopup(false);
+    setIsLeaving(false);
     onReset?.();
   }, [onReset]);
 
@@ -543,6 +655,90 @@ export default function NicheQuizExperience({
     );
   };
 
+  // ─── RENDER: REMINDER BANNER ───────────────────────────────────────────────
+
+  const renderReminder = () => {
+    if (!showReminder) return null;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        className="mb-3 md:mb-4"
+      >
+        <div className="sapphire-glass diamond-cut border-[#D4AF37]/25 p-3 md:p-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
+            <UserPlus className="h-4 w-4 text-[#D4AF37] flex-shrink-0" />
+            <p className="text-[10px] md:text-xs text-[#AAA] font-bold">
+              Save your progress and pick up where you left off — create a free account.
+            </p>
+          </div>
+          <button
+            onClick={() => setShowReminder(false)}
+            className="text-[#555] hover:text-[#D4AF37] transition-colors flex-shrink-0"
+          >
+            <X className="h-3.5 w-3.5 md:h-4 md:w-4" />
+          </button>
+        </div>
+      </motion.div>
+    );
+  };
+
+  // ─── RENDER: ABANDONMENT POPUP ─────────────────────────────────────────────
+
+  const renderAbandonPopup = () => {
+    if (!showAbandonPopup) return null;
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md rounded-2xl border border-[#D4AF37]/20 bg-[#0A0A0C] p-6 md:p-8 shadow-2xl"
+        >
+          <h3 className="text-xl md:text-2xl font-display text-[#F4F4EE] mb-2">
+            Wait — don't lose your progress
+          </h3>
+          <p className="text-sm text-[#888] mb-6 leading-relaxed">
+            You've answered {questionsAnswered} questions. Save your progress to resume later or create an account to keep your results.
+          </p>
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={async () => {
+                setShowAbandonPopup(false);
+                setIsLeaving(false);
+                await saveDraft(true);
+                toast.success("Progress saved — come back anytime.");
+              }}
+              className="w-full h-12 rounded-lg bg-[#D4AF37] text-[#000] text-sm font-black uppercase tracking-widest hover:bg-[#FFD700] transition-colors"
+            >
+              Save & Finish Later
+            </button>
+            <button
+              onClick={() => {
+                setShowAbandonPopup(false);
+                setIsLeaving(false);
+                setShowRegistrationGate(true);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="w-full h-12 rounded-lg border border-[#D4AF37]/30 text-[#D4AF37] text-sm font-bold uppercase tracking-widest hover:bg-[#D4AF37]/10 transition-colors"
+            >
+              Create Account & Save
+            </button>
+            <button
+              onClick={() => {
+                setShowAbandonPopup(false);
+                setIsLeaving(false);
+              }}
+              className="w-full h-12 rounded-lg border border-white/10 text-[#666] text-sm font-bold uppercase tracking-widest hover:border-[#D4AF37]/30 hover:text-[#D4AF37] transition-colors"
+            >
+              Continue Without Saving
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
+
   // ─── MAIN RENDER ───────────────────────────────────────────────────────────
 
   return (
@@ -572,13 +768,34 @@ export default function NicheQuizExperience({
           className="h-full bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
-           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           style={{ boxShadow: "0 0 8px rgba(212,175,55,0.5)" }}
         />
       </div>
 
       {/* Content area */}
       <div className="flex-1 flex flex-col relative z-10 px-3 md:px-6 lg:px-8 py-3 md:py-4 min-h-0">
+        {/* Unified registration gate — compact banner */}
+        {!isAuthenticated && !complete && (
+          <UnifiedRegistrationGate
+            flowType="quiz"
+            onRegistered={(sessionId) => {
+              setShowRegistrationGate(true);
+              progressApi?.save({
+                lastCompletedQuestionId: currentQuestion.id,
+                answers,
+                questionsAnswered,
+              });
+            }}
+            onDismissed={() => setShowRegistrationGate(false)}
+            compact
+            defaultEmail=""
+          />
+        )}
+
+        {/* Subtle registration reminder */}
+        {renderReminder()}
+
         <AnimatePresence mode="wait">
           {!complete ? (
             <motion.div
@@ -633,6 +850,9 @@ export default function NicheQuizExperience({
           </span>
         </div>
       </div>
+
+      {/* Abandonment popup */}
+      {renderAbandonPopup()}
     </div>
   );
 }

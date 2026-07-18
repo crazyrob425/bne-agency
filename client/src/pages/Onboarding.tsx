@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
@@ -12,6 +12,8 @@ import {
   ArrowRight,
   Lock,
   FileUp,
+  Save,
+  RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +23,9 @@ import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import UnifiedRegistrationGate, { FlowType } from "@/components/UnifiedRegistrationGate";
+import { trpc } from "@/lib/trpc";
+import { generateSessionId } from "@/lib/session";
 
 // ─── REVENUE PATHS ────────────────────────────────────────────────────────────
 const REVENUE_PATHS = [
@@ -100,6 +105,12 @@ export default function Onboarding() {
     sellItemsPlatforms: [],
   });
   const [files, setFiles] = useState<File[]>([]);
+  const [showRegistration, setShowRegistration] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [savedDraftId, setSavedDraftId] = useState<number | null>(null);
+
+  const sessionId = useRef(generateSessionId()).current;
+  const draftsApi = trpc.drafts.useUtils();
 
   const updateField = (field: string, value: any) => setFormData((prev: any) => ({ ...prev, [field]: value }));
 
@@ -108,13 +119,13 @@ export default function Onboarding() {
   const getSteps = () => {
     const steps = [];
     steps.push({ id: "identity", title: "Identity & Paths", icon: User, subtitle: "Let's get to know you." });
-    
+
     if (hasPath("webcam")) steps.push({ id: "webcam", title: "Online Live / Webcam", icon: Camera, subtitle: "Tell us about your interactive streams." });
     if (hasPath("inperson")) steps.push({ id: "inperson", title: "In-Person Entertainment", icon: Star, subtitle: "Tell us about your physical services." });
-    
+
     steps.push({ id: "universal", title: "Business & Growth", icon: Zap, subtitle: "Let's talk business." });
     steps.push({ id: "boundaries", title: "Boundaries & Legal", icon: Lock, subtitle: "Protecting your brand and self." });
-    
+
     return steps;
   };
 
@@ -131,8 +142,72 @@ export default function Onboarding() {
     return true;
   };
 
-  const handleNext = () => {
+  // ─── SAVE DRAFT ─────────────────────────────────────────────────────────────
+
+  const saveDraft = useCallback(async (savedForLater = false) => {
+    try {
+      const result = await draftsApi.save.mutate({
+        sessionId,
+        type: "onboarding",
+        data: formData,
+        files: files.map(f => ({ name: f.name, size: f.size, type: f.type })),
+        lastStep: step?.id,
+        savedForLater,
+      });
+      setSavedDraftId(result.id ?? null);
+      setIsSaved(true);
+      toast.success(savedForLater ? "Draft saved — come back anytime." : "Progress saved.");
+      return result;
+    } catch (e) {
+      console.error("Failed to save draft:", e);
+      toast.error("Could not save progress. Please try again.");
+    }
+  }, [sessionId, formData, files, step, draftsApi]);
+
+  // Restore draft on mount if exists
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const draft = await draftsApi.get.fetch({ sessionId });
+        if (cancelled || !draft) return;
+        if (draft.type === "onboarding") {
+          setFormData(draft.data || {});
+          setFiles([]); // Files can't be restored from JSON; user must re-upload
+          const stepIdx = dynamicSteps.findIndex((s: any) => s.id === draft.lastStep);
+          if (stepIdx >= 0) setCurrentStep(stepIdx);
+          toast.success("Welcome back — we restored your saved draft.");
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [sessionId, draftsApi, dynamicSteps]);
+
+  // Auto-save every 30 seconds if there is progress
+  useEffect(() => {
+    if (Object.keys(formData).length === 0) return;
+    const interval = setInterval(() => saveDraft(false), 30000);
+    return () => clearInterval(interval);
+  }, [formData, saveDraft]);
+
+  // Abandonment detection
+  useEffect(() => {
+    if (Object.keys(formData).length === 0) return;
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      saveDraft(true);
+      e.preventDefault();
+      e.returnValue = "";
+      return "";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [formData, saveDraft]);
+
+  const handleNext = async () => {
     if (!validateStep()) return;
+    await saveDraft(false); // auto-save before advancing
     if (currentStep < dynamicSteps.length - 1) {
       setCurrentStep((s) => s + 1);
       window.scrollTo(0, 0);
@@ -152,10 +227,22 @@ export default function Onboarding() {
           data.append(key, formData[key] || "");
         }
       });
-      
+
       files.forEach((file) => {
         data.append('files', file);
       });
+
+      // Mark draft as completed
+      if (savedDraftId) {
+        await draftsApi.save.mutate({
+          sessionId,
+          type: "onboarding",
+          data: formData,
+          files: files.map(f => ({ name: f.name, size: f.size, type: f.type })),
+          lastStep: "submitted",
+          savedForLater: false,
+        });
+      }
 
       const response = await fetch('/api/onboarding', {
         method: 'POST',
@@ -204,6 +291,17 @@ export default function Onboarding() {
       />
       <Navigation />
 
+      {/* Registration gate — shown inline at top of form */}
+      <div className="container pt-6">
+        <UnifiedRegistrationGate
+          flowType="onboarding"
+          onRegistered={() => setShowRegistration(true)}
+          onDismissed={() => setShowRegistration(false)}
+          compact
+          defaultEmail={formData.email || ""}
+        />
+      </div>
+
       <section className="border-b border-slate-800 py-10">
         <div className="container">
           <div className="flex items-center gap-3 mb-2">
@@ -229,7 +327,7 @@ export default function Onboarding() {
         <div className="max-w-2xl">
           <AnimatePresence mode="wait">
             <motion.div key={step.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="space-y-6">
-              
+
               {/* IDENTITY STEP */}
               {step.id === "identity" && (
                 <>
@@ -254,7 +352,7 @@ export default function Onboarding() {
                       <Label className="text-slate-300 mb-3 block">What are your current OR desired revenue paths? (Select all that apply) *</Label>
                       <MultiSelect options={REVENUE_PATHS} value={formData.revenuePaths} onChange={(v: any) => updateField("revenuePaths", v)} maxCols={1} />
                     </div>
-                    
+
                     <div>
                       <Label className="text-slate-300 mb-1.5 block">Photo / Headshot Uploads (Optional)</Label>
                       <div className="flex items-center gap-4">
@@ -387,6 +485,7 @@ export default function Onboarding() {
             </motion.div>
           </AnimatePresence>
 
+          {/* Action bar */}
           <div className="mt-8 flex items-center justify-between border-t border-slate-800 pt-6">
             <Button
               variant="ghost"
@@ -396,16 +495,38 @@ export default function Onboarding() {
             >
               <ChevronLeft className="mr-2 h-4 w-4" /> Back
             </Button>
-            
-            <Button
-              onClick={handleNext}
-              disabled={isSubmitting || (step.id === "boundaries" && !formData.agreeToNDA)}
-              className="bg-violet-600 text-white hover:bg-violet-500"
-            >
-              {isSubmitting ? "Submitting..." : currentStep === dynamicSteps.length - 1 ? "Submit Application" : "Continue"} 
-              {!isSubmitting && currentStep !== dynamicSteps.length - 1 && <ChevronRight className="ml-2 h-4 w-4" />}
-            </Button>
+
+            <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                onClick={() => saveDraft(true)}
+                disabled={isSubmitting}
+                className="text-slate-500 hover:text-slate-300"
+              >
+                <Save className="mr-2 h-4 w-4" />
+                {isSaved ? "Saved" : "Save & Finish Later"}
+              </Button>
+
+              <Button
+                onClick={handleNext}
+                disabled={isSubmitting || (step.id === "boundaries" && !formData.agreeToNDA)}
+                className="bg-violet-600 text-white hover:bg-violet-500"
+              >
+                {isSubmitting ? "Saving..." : currentStep === dynamicSteps.length - 1 ? "Submit Application" : "Save & Continue"} 
+                {!isSubmitting && currentStep !== dynamicSteps.length - 1 && <ChevronRight className="ml-2 h-4 w-4" />}
+              </Button>
+            </div>
           </div>
+
+          {isSaved && (
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center text-[11px] text-emerald-400 mt-3 font-bold uppercase tracking-widest"
+            >
+              ✓ Draft auto-saved — return anytime to continue
+            </motion.p>
+          )}
         </div>
       </div>
       <Footer />

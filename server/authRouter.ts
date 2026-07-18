@@ -81,7 +81,7 @@ async function upsertSubscriber(
   const [inserted] = await db
     .insert(subscribers)
     .values({ userId, name, email, source, status: "subscribed", tags: tags ?? [] })
-    .returning({ id: users.id });
+    .returning({ id: subscribers.id });
   const created = await db
     .select()
     .from(subscribers)
