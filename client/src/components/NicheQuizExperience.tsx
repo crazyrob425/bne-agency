@@ -1,12 +1,11 @@
 /**
  * NicheQuizExperience — Single-screen luxury quiz console.
  *
- * Fully contained, viewport-fitting quiz interface with no vertical scrolling.
- * Designed as a "bespoke control console" with luxury tech aesthetics:
- * knurled metal, sapphire glass, diamond-cut edges, depth shadows.
+ * Uses the existing NicheCard component for results so all detailed
+ * card data (descriptions, tips, revenue, clipart) displays correctly.
  */
 
-import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   QUIZ_QUESTIONS,
@@ -30,7 +29,6 @@ import {
   Flame,
   Gem,
   Compass,
-  ChevronRight,
   ChevronLeft,
   RotateCcw,
   ArrowRight,
@@ -41,9 +39,10 @@ import {
   Sparkles,
   Users,
   DollarSign,
-  X,
   CheckCircle2,
 } from "lucide-react";
+import { NicheCard } from "@/components/NicheCard";
+import type { Niche } from "@/data/nicheDatabase";
 
 // ─── ICON MAP ────────────────────────────────────────────────────────────────
 
@@ -60,28 +59,10 @@ const QUIZ_ICON_MAP: Record<string, React.ElementType> = {
   eye: Eye,
   activity: Activity,
   target: Target,
-  cpu: () => null,
-  layers: () => null,
-  search: () => null,
   users: Users,
   dollar: DollarSign,
   flame: Flame,
   brain: Brain,
-  package: () => null,
-  lightbulb: () => null,
-  trending: () => null,
-  clipboard: () => null,
-  briefcase: () => null,
-  history: () => null,
-  scale: () => null,
-  camera: () => null,
-  eyeoff: () => null,
-  door: () => null,
-  sword: () => null,
-  crosshair: () => null,
-  burn: Flame,
-  smartphone: () => null,
-  coffee: () => null,
 };
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -105,28 +86,16 @@ const TOTAL_QUESTIONS = QUIZ_QUESTIONS.length;
 // ─── ANIMATION VARIANTS ──────────────────────────────────────────────────────
 
 const fadeIn = {
-  initial: { opacity: 0, y: 12 },
+  initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -12 },
-  transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  exit: { opacity: 0, y: -10 },
+  transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] as const },
 };
 
-const staggerContainer = {
-  animate: {
-    transition: { staggerChildren: 0.04 },
-  },
-};
+// ─── HELPER: Fluid font sizing ───────────────────────────────────────────────
 
-const staggerItem = {
-  initial: { opacity: 0, scale: 0.97 },
-  animate: { opacity: 1, scale: 1 },
-};
-
-// ─── HELPER: Dynamic clamp-based font sizing ─────────────────────────────────
-
-function dynClamp(min: number, preferred: number, max: number, viewport: number) {
-  // Returns a CSS clamp() string for fluid typography
-  return `clamp(${min}px, ${preferred}vw, ${max}px)`;
+function fluidSize(min: number, max: number, viewportMax = 1200): string {
+  return `clamp(${min}px, ${min + (max - min) * (100 / viewportMax) * 12}vw, ${max}px)`;
 }
 
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
@@ -144,7 +113,6 @@ export default function NicheQuizExperience({
   const [insight, setInsight] = useState<SubconsciousInsight | null>(null);
   const [attachment, setAttachment] = useState<{ anxiety: number; avoidance: number; quadrant: string } | null>(null);
   const [selectedValue, setSelectedValue] = useState<string | string[] | null>(null);
-  const [direction, setDirection] = useState<"forward" | "backward">("forward");
 
   const currentQuestion = QUIZ_QUESTIONS[step];
   const progress = ((step + (complete ? 1 : 0)) / TOTAL_QUESTIONS) * 100;
@@ -154,36 +122,91 @@ export default function NicheQuizExperience({
     setSelectedValue(answers[currentQuestion.id] ?? null);
   }, [step, answers, currentQuestion.id]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        e.preventDefault();
-        if (currentQuestion.type === "single" && selectedValue) {
-          handleNext();
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [selectedValue, currentQuestion.type]);
+  // Persist progress
+  const persistProgress = useCallback((nextAnswers: QuizAnswers, questionId: string) => {
+    progressApi?.save({
+      lastCompletedQuestionId: questionId,
+      answers: nextAnswers,
+      questionsAnswered: Object.keys(nextAnswers).length,
+    });
+    progressApi?.registerExit({
+      lastCompletedQuestionId: questionId,
+      answers: nextAnswers,
+      questionsAnswered: Object.keys(nextAnswers).length,
+    });
+  }, [progressApi]);
+
+  const answersRef = useRef(answers);
+  const selectedValueRef = useRef(selectedValue);
+  answersRef.current = answers;
+  selectedValueRef.current = selectedValue;
+
+  const handleSelect = useCallback((value: string) => {
+    if (currentQuestion.type === "multi") {
+      const current = (selectedValueRef.current as string[]) || [];
+      const updated = current.includes(value)
+        ? current.filter((v) => v !== value)
+        : [...current, value];
+      setSelectedValue(updated);
+      setAnswers((prev) => {
+        const next = { ...prev, [currentQuestion.id]: updated };
+        persistProgress(next, currentQuestion.id);
+        return next;
+      });
+    } else {
+      const newValue = value;
+      setSelectedValue(newValue);
+      setAnswers((prev) => {
+        const next = { ...prev, [currentQuestion.id]: newValue };
+        persistProgress(next, currentQuestion.id);
+        return next;
+      });
+      setTimeout(() => {
+        setStep((s) => {
+          if (s < TOTAL_QUESTIONS - 1) return s + 1;
+          // Final step: compute results
+          const finalAnswers = { ...answersRef.current, [currentQuestion.id]: newValue };
+          const attachmentVec = computeAttachmentVector(finalAnswers);
+          const matchResult = matchNicheFinder(finalAnswers, attachmentVec);
+          const insightResult = getSubconsciousInsight(finalAnswers);
+          setAttachment({
+            anxiety: attachmentVec.anxiety,
+            avoidance: attachmentVec.avoidance,
+            quadrant: attachmentVec.quadrant,
+          });
+          setResults(matchResult);
+          setInsight(insightResult);
+          setComplete(true);
+          progressApi?.complete({ answers: finalAnswers, resultSnapshot: matchResult });
+          onComplete?.(matchResult, insightResult, {
+            anxiety: attachmentVec.anxiety,
+            avoidance: attachmentVec.avoidance,
+            quadrant: attachmentVec.quadrant,
+          });
+          return s;
+        });
+      }, 250);
+    }
+  }, [currentQuestion, persistProgress, progressApi, onComplete]);
 
   const handleNext = useCallback(() => {
-    if (currentQuestion.type === "multi") {
-      const current = (selectedValue as string[]) || [];
+    const sv = selectedValueRef.current;
+    const ans = answersRef.current;
+    const cq = currentQuestion;
+
+    if (cq.type === "multi") {
+      const current = (sv as string[]) || [];
       if (current.length === 0) return;
-    } else if (!selectedValue) {
+    } else if (!sv) {
       return;
     }
 
     if (step < TOTAL_QUESTIONS - 1) {
-      setDirection("forward");
       setStep((s) => s + 1);
     } else {
-      // Finish quiz
-      const finalAnswers = currentQuestion.type === "multi"
-        ? { ...answers, [currentQuestion.id]: selectedValue as string[] }
-        : { ...answers, [currentQuestion.id]: selectedValue as string };
+      const finalAnswers = cq.type === "multi"
+        ? { ...ans, [cq.id]: sv as string[] }
+        : { ...ans, [cq.id]: sv as string };
 
       const attachmentVec = computeAttachmentVector(finalAnswers);
       const matchResult = matchNicheFinder(finalAnswers, attachmentVec);
@@ -197,68 +220,17 @@ export default function NicheQuizExperience({
       setResults(matchResult);
       setInsight(insightResult);
       setComplete(true);
-      progressApi?.complete({
-        answers: finalAnswers,
-        resultSnapshot: matchResult,
-      });
+      progressApi?.complete({ answers: finalAnswers, resultSnapshot: matchResult });
       onComplete?.(matchResult, insightResult, {
         anxiety: attachmentVec.anxiety,
         avoidance: attachmentVec.avoidance,
         quadrant: attachmentVec.quadrant,
       });
     }
-  }, [step, selectedValue, answers, currentQuestion, onComplete, progressApi]);
-
-  const handleSelect = useCallback(
-    (value: string) => {
-      if (currentQuestion.type === "multi") {
-        const current = (selectedValue as string[]) || [];
-        const updated = current.includes(value)
-          ? current.filter((v) => v !== value)
-          : [...current, value];
-        setSelectedValue(updated);
-        setAnswers((prev) => {
-          const next = { ...prev, [currentQuestion.id]: updated };
-          progressApi?.save({
-            lastCompletedQuestionId: currentQuestion.id,
-            answers: next,
-            questionsAnswered: Object.keys(next).length,
-          });
-          progressApi?.registerExit({
-            lastCompletedQuestionId: currentQuestion.id,
-            answers: next,
-            questionsAnswered: Object.keys(next).length,
-          });
-          return next;
-        });
-      } else {
-        setSelectedValue(value);
-        setAnswers((prev) => {
-          const next = { ...prev, [currentQuestion.id]: value };
-          progressApi?.save({
-            lastCompletedQuestionId: currentQuestion.id,
-            answers: next,
-            questionsAnswered: Object.keys(next).length,
-          });
-          progressApi?.registerExit({
-            lastCompletedQuestionId: currentQuestion.id,
-            answers: next,
-            questionsAnswered: Object.keys(next).length,
-          });
-          return next;
-        });
-        // Auto-advance after brief delay for single-select
-        setTimeout(() => handleNext(), 280);
-      }
-    },
-    [currentQuestion, selectedValue, handleNext, progressApi]
-  );
+  }, [step, currentQuestion, onComplete, progressApi]);
 
   const handleBack = useCallback(() => {
-    if (step > 0) {
-      setDirection("backward");
-      setStep((s) => s - 1);
-    }
+    if (step > 0) setStep((s) => s - 1);
   }, [step]);
 
   const handleReset = useCallback(() => {
@@ -272,7 +244,7 @@ export default function NicheQuizExperience({
     onReset?.();
   }, [onReset]);
 
-  // ─── RENDER: ACTIVE QUESTION ────────────────────────────────────────────────
+  // ─── RENDER: QUESTION ──────────────────────────────────────────────────────
 
   const renderQuestion = () => {
     const isMulti = currentQuestion.type === "multi";
@@ -287,29 +259,25 @@ export default function NicheQuizExperience({
         className="flex flex-col h-full"
       >
         {/* Header */}
-        <div className="flex items-start justify-between gap-4 mb-3 md:mb-4">
+        <div className="flex items-start justify-between gap-3 mb-2 md:mb-3">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-2 mb-1.5">
               <span
-                className="text-[10px] md:text-[11px] font-black tracking-[0.3em] md:tracking-[0.4em] text-[#D4AF37] uppercase"
-                style={{ fontSize: dynClamp(9, 1.1, 11, 1200) }}
+                className="text-[9px] md:text-[10px] font-black tracking-[0.25em] md:tracking-[0.35em] uppercase"
+                style={{ color: "rgba(212,175,55,0.8)", fontSize: fluidSize(9, 11) }}
               >
                 Protocol {step + 1} / {TOTAL_QUESTIONS}
               </span>
-              <div className="hidden sm:flex items-center gap-1.5 text-[#333]">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/40 animate-pulse" />
-                <span className="text-[9px] font-black uppercase tracking-[0.2em]">Core Engaged</span>
-              </div>
             </div>
             <h2
-              className="text-[#F4F4EE] leading-[1.15] mb-2 font-display"
-              style={{ fontSize: dynClamp(20, 3.2, 42, 1200) }}
+              className="text-[#F4F4EE] leading-[1.2] mb-1.5 font-display"
+              style={{ fontSize: fluidSize(16, 26) }}
             >
               {currentQuestion.question}
             </h2>
             <p
-              className="text-[#555] font-black uppercase tracking-[0.15em] md:tracking-[0.2em]"
-              style={{ fontSize: dynClamp(10, 1.1, 12, 1200) }}
+              className="text-[#777] font-bold uppercase tracking-[0.12em] md:tracking-[0.18em]"
+              style={{ fontSize: fluidSize(9, 11) }}
             >
               {currentQuestion.subtitle}
             </p>
@@ -318,14 +286,14 @@ export default function NicheQuizExperience({
 
         {/* Options Grid */}
         <div
-          className="grid gap-2.5 md:gap-3 flex-1 content-start mt-2 md:mt-4"
+          className="grid gap-2 md:gap-2.5 flex-1 content-start mt-2 md:mt-3"
           style={{
             gridTemplateColumns: isMulti
-              ? "repeat(auto-fill, minmax(min(100%, 280px), 1fr))"
-              : "repeat(auto-fill, minmax(min(100%, 300px), 1fr))",
+              ? "repeat(auto-fill, minmax(min(100%, 260px), 1fr))"
+              : "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
           }}
         >
-          {currentQuestion.options.map((opt, idx) => {
+          {currentQuestion.options.map((opt) => {
             const isSelected = isMulti
               ? ((selectedValue as string[]) || []).includes(opt.value)
               : selectedValue === opt.value;
@@ -335,27 +303,26 @@ export default function NicheQuizExperience({
             return (
               <motion.button
                 key={opt.value}
-                variants={staggerItem}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2 }}
                 onClick={() => handleSelect(opt.value)}
                 className={`
                   relative group text-left overflow-hidden
-                  transition-all duration-300 ease-out
+                  transition-all duration-200 ease-out
                   diamond-cut border
                   ${isSelected
-                    ? "border-[#D4AF37]/70 bg-[#D4AF37]/10 shadow-[0_0_24px_rgba(212,175,55,0.15),inset_0_1px_0_rgba(255,255,255,0.08)]"
-                    : "border-white/[0.06] bg-[#080808]/80 hover:border-[#D4AF37]/30 hover:bg-[#0C0C0E]"
+                    ? "border-[#D4AF37]/60 bg-[#D4AF37]/[0.08]"
+                    : "border-white/[0.06] bg-[#080808]/80 hover:border-[#D4AF37]/25 hover:bg-[#0C0C0E]"
                   }
                 `}
                 style={{
                   boxShadow: isSelected
-                    ? "0 0 24px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.08)"
-                    : "0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03)",
+                    ? "0 0 20px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,255,255,0.06)"
+                    : "0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.02)",
                 }}
               >
-                {/* Lens flare on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                <div className="flex items-start gap-3 md:gap-4 p-4 md:p-5">
+                <div className="flex items-start gap-2.5 md:gap-3 p-3 md:p-4">
                   {/* Icon */}
                   <div
                     className={`
@@ -364,25 +331,17 @@ export default function NicheQuizExperience({
                       ${isSelected ? "bg-[#D4AF37] border-[#FFD700]" : "bg-[#0A0A0A] border-white/10"}
                     `}
                     style={{
-                      width: dynClamp(28, 3.5, 42, 1200),
-                      height: dynClamp(28, 3.5, 42, 1200),
+                      width: fluidSize(26, 34),
+                      height: fluidSize(26, 34),
                     }}
                   >
                     {IconComponent ? (
                       <IconComponent
-                        className={`
-                          ${isSelected ? "text-[#000]" : "text-[#D4AF37]"}
-                        `}
-                        style={{
-                          width: dynClamp(14, 1.6, 20, 1200),
-                          height: dynClamp(14, 1.6, 20, 1200),
-                        }}
+                        className={isSelected ? "text-[#000]" : "text-[#D4AF37]"}
+                        style={{ width: fluidSize(12, 16), height: fluidSize(12, 16) }}
                       />
                     ) : (
-                      <span
-                        className="text-[#D4AF37] font-bold"
-                        style={{ fontSize: dynClamp(12, 1.4, 16, 1200) }}
-                      >
+                      <span className="text-[#D4AF37] font-bold" style={{ fontSize: fluidSize(11, 15) }}>
                         {opt.icon}
                       </span>
                     )}
@@ -391,45 +350,44 @@ export default function NicheQuizExperience({
                   {/* Label */}
                   <span
                     className={`
-                      font-black tracking-wide leading-snug pt-0.5 md:pt-1
-                      transition-colors duration-300
-                      ${isSelected ? "text-[#F4F4EE]" : "text-[#888] group-hover:text-[#AAA]"}
+                      font-bold tracking-wide leading-snug pt-0.5
+                      transition-colors duration-200
+                      ${isSelected ? "text-[#F4F4EE]" : "text-[#999] group-hover:text-[#BBB]"}
                     `}
-                    style={{ fontSize: dynClamp(11, 1.15, 13.5, 1200) }}
+                    style={{ fontSize: fluidSize(10, 12.5) }}
                   >
                     {opt.label}
                   </span>
 
                   {/* Selection indicator */}
-                  <div className="ml-auto flex-shrink-0 pt-1">
+                  <div className="ml-auto flex-shrink-0 pt-0.5">
                     {isSelected ? (
-                      <div className="w-3.5 h-3.5 rounded-full bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.5)] flex items-center justify-center">
-                        <CheckCircle2 className="h-2.5 w-2.5 text-[#000]" />
+                      <div className="w-3 h-3 rounded-full bg-[#D4AF37] shadow-[0_0_6px_rgba(212,175,55,0.5)] flex items-center justify-center">
+                        <CheckCircle2 className="h-2 w-2 text-[#000]" />
                       </div>
                     ) : (
-                      <div className="w-3.5 h-3.5 rounded-full border border-white/10 group-hover:border-[#D4AF37]/30 transition-colors" />
+                      <div className="w-3 h-3 rounded-full border border-white/10" />
                     )}
                   </div>
                 </div>
 
-                {/* Top-edge shine */}
                 {isSelected && (
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-80" />
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70" />
                 )}
               </motion.button>
             );
           })}
         </div>
 
-        {/* Multi-select count & navigation */}
+        {/* Multi-select navigation */}
         {isMulti && (
           <div
-            className="flex items-center justify-between mt-3 md:mt-4 pt-3 md:pt-4 border-t border-white/5"
-            style={{ minHeight: dynClamp(40, 6, 64, 1200) }}
+            className="flex items-center justify-between mt-2.5 md:mt-3 pt-2.5 md:pt-3 border-t border-white/5"
+            style={{ minHeight: fluidSize(38, 52) }}
           >
             <span
-              className="text-[#555] font-black uppercase tracking-[0.2em]"
-              style={{ fontSize: dynClamp(10, 1, 12, 1200) }}
+              className="text-[#666] font-bold uppercase tracking-[0.18em]"
+              style={{ fontSize: fluidSize(9, 11) }}
             >
               {selectedCount > 0
                 ? `${selectedCount} / ${maxSelect} selected`
@@ -439,33 +397,30 @@ export default function NicheQuizExperience({
               onClick={handleNext}
               disabled={!canProceed}
               className={`
-                flex items-center gap-2 md:gap-3 px-5 md:px-8 py-2.5 md:py-3
-                font-black uppercase tracking-[0.2em] md:tracking-[0.3em]
-                transition-all duration-300 diamond-cut border
+                flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5
+                font-bold uppercase tracking-[0.18em] md:tracking-[0.25em]
+                transition-all duration-200 diamond-cut border
                 ${canProceed
-                  ? "bg-[#D4AF37] text-[#000] border-[#FFD700] shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_32px_rgba(212,175,55,0.5)] hover:translate-x-0.5"
+                  ? "bg-[#D4AF37] text-[#000] border-[#FFD700] shadow-[0_0_16px_rgba(212,175,55,0.25)] hover:shadow-[0_0_24px_rgba(212,175,55,0.4)]"
                   : "bg-[#111] text-[#333] border-white/5 cursor-not-allowed"
                 }
               `}
-              style={{ fontSize: dynClamp(10, 1, 12, 1200) }}
+              style={{ fontSize: fluidSize(9, 11) }}
             >
-              Confirm <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              Confirm <ArrowRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
             </button>
           </div>
         )}
 
         {/* Single-select back navigation */}
         {!isMulti && step > 0 && (
-          <div className="mt-2 md:mt-3">
+          <div className="mt-1.5 md:mt-2">
             <button
               onClick={handleBack}
-              className="
-                flex items-center gap-2 text-[#333] hover:text-[#D4AF37]
-                transition-colors duration-300 uppercase tracking-[0.2em] font-black
-              "
-              style={{ fontSize: dynClamp(9, 0.9, 11, 1200) }}
+              className="flex items-center gap-1.5 text-[#444] hover:text-[#D4AF37] transition-colors duration-200 uppercase tracking-[0.18em] font-bold"
+              style={{ fontSize: fluidSize(8, 10) }}
             >
-              <ChevronLeft className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              <ChevronLeft className="h-3 w-3 md:h-3.5 md:w-3.5" />
               Revert
             </button>
           </div>
@@ -487,29 +442,29 @@ export default function NicheQuizExperience({
         className="flex flex-col h-full"
       >
         {/* Results Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 md:gap-6 mb-4 md:mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 md:gap-4 mb-3 md:mb-4">
           <div className="flex-1 min-w-0">
             <h2
-              className="text-[#F4F4EE] leading-[1.1] mb-2 md:mb-3 font-display"
-              style={{ fontSize: dynClamp(22, 3.5, 44, 1200) }}
+              className="text-[#F4F4EE] leading-[1.1] mb-1.5 md:mb-2 font-display"
+              style={{ fontSize: fluidSize(18, 32) }}
             >
               <span className="bling-shine inline">Subconscious Decoded</span>
             </h2>
-            <div className="flex flex-wrap items-center gap-3 md:gap-5">
-              <div className="flex items-center gap-2 text-[#D4AF37]">
-                <Dna className="h-3.5 w-3.5 md:h-4 md:w-4" />
+            <div className="flex flex-wrap items-center gap-2 md:gap-4">
+              <div className="flex items-center gap-1.5 text-[#D4AF37]">
+                <Dna className="h-3 w-3 md:h-3.5 md:w-3.5" />
                 <span
-                  className="font-black uppercase tracking-[0.2em] md:tracking-[0.3em]"
-                  style={{ fontSize: dynClamp(9, 0.95, 11, 1200) }}
+                  className="font-bold uppercase tracking-[0.15em] md:tracking-[0.2em]"
+                  style={{ fontSize: fluidSize(8, 10) }}
                 >
                   Signature: {insight.headline}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-[#444]">
-                <Lock className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              <div className="flex items-center gap-1.5 text-[#555]">
+                <Lock className="h-3 w-3 md:h-3.5 md:w-3.5" />
                 <span
-                  className="font-black uppercase tracking-[0.2em] md:tracking-[0.3em]"
-                  style={{ fontSize: dynClamp(9, 0.95, 11, 1200) }}
+                  className="font-bold uppercase tracking-[0.15em] md:tracking-[0.2em]"
+                  style={{ fontSize: fluidSize(8, 10) }}
                 >
                   Quadrant: {attachment?.quadrant.replace(/-/g, " ")}
                 </span>
@@ -518,95 +473,26 @@ export default function NicheQuizExperience({
           </div>
           <button
             onClick={handleReset}
-            className="flex items-center gap-2 btn-luxury active h-10 md:h-12 px-4 md:px-6 flex-shrink-0"
-            style={{ fontSize: dynClamp(9, 0.9, 11, 1200) }}
+            className="flex items-center gap-1.5 btn-luxury active h-9 md:h-10 px-3 md:px-4 flex-shrink-0"
+            style={{ fontSize: fluidSize(8, 10) }}
           >
-            <RotateCcw className="h-3.5 w-3.5 md:h-4 md:w-4" />
+            <RotateCcw className="h-3 w-3 md:h-3.5 md:w-3.5" />
             Reset Engine
           </button>
         </div>
 
-        {/* Top 3 Matches */}
-        <div className="grid gap-3 md:gap-4 flex-1 content-start" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))" }}>
-          {topMatches.map((match, i) => {
-            const { niche } = match;
-            const fit = Math.round(match.score);
-            return (
-              <motion.div
-                key={niche.keyword}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="sapphire-glass diamond-cut border-[#D4AF37]/30 hover:border-[#D4AF37]/50 transition-all duration-300 group"
-                style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.04)" }}
-              >
-                <div className="p-4 md:p-5 h-full flex flex-col">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="flex-1 min-w-0">
-                      <span
-                        className="text-[#D4AF37] font-black uppercase tracking-[0.25em] block mb-1"
-                        style={{ fontSize: dynClamp(9, 0.8, 10, 1200) }}
-                      >
-                        Dossier #{i + 1}
-                      </span>
-                      <h3
-                        className="text-[#F4F4EE] font-display leading-tight truncate"
-                        style={{ fontSize: dynClamp(18, 2.2, 32, 1200) }}
-                      >
-                        {niche.keyword}
-                      </h3>
-                      <span
-                        className="text-[#555] font-bold uppercase tracking-[0.15em] block mt-1"
-                        style={{ fontSize: dynClamp(9, 0.75, 10, 1200) }}
-                      >
-                        {niche.category}
-                      </span>
-                    </div>
-                    <div
-                      className="bg-[#D4AF37] text-[#000] font-black flex-shrink-0 diamond-cut flex items-center justify-center"
-                      style={{
-                        padding: dynClamp(4, 0.5, 8, 1200),
-                        minWidth: dynClamp(44, 5, 64, 1200),
-                        height: dynClamp(28, 3, 40, 1200),
-                        fontSize: dynClamp(10, 1, 13, 1200),
-                      }}
-                    >
-                      {fit}%
-                    </div>
-                  </div>
-
-                  <div
-                    className="bg-black/50 border-l-2 border-[#D4AF37] p-3 md:p-4 mb-3 md:mb-4 flex-1"
-                    style={{ fontSize: dynClamp(10, 0.95, 12, 1200) }}
-                  >
-                    <span className="text-[#888] italic leading-relaxed">
-                      &ldquo;{match.reason}&rdquo;
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-auto pt-2 border-t border-white/5">
-                    <div className="flex items-center gap-2">
-                      <Gem className="h-3 w-3 text-[#D4AF37]" />
-                      <span
-                        className="text-[#555] font-bold uppercase tracking-widest"
-                        style={{ fontSize: dynClamp(8, 0.7, 9, 1200) }}
-                      >
-                        {niche.earningPotential === "very-high" ? "Elite Yield" :
-                         niche.earningPotential === "high" ? "High Yield" :
-                         niche.earningPotential === "medium" ? "Mid Yield" : "Base"}
-                      </span>
-                    </div>
-                    <span
-                      className="text-[#333] font-black uppercase tracking-[0.2em]"
-                      style={{ fontSize: dynClamp(8, 0.7, 9, 1200) }}
-                    >
-                      Tap to explore
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+        {/* Top 3 Match Cards — using existing NicheCard component */}
+        <div className="grid gap-3 md:gap-4 flex-1 content-start overflow-y-auto pb-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))" }}>
+          {topMatches.map((match, i) => (
+            <motion.div
+              key={match.niche.keyword}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.4 }}
+            >
+              <NicheCard niche={match.niche} />
+            </motion.div>
+          ))}
         </div>
       </motion.div>
     );
@@ -617,35 +503,35 @@ export default function NicheQuizExperience({
   const renderCTA = () => {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-        className="mt-3 md:mt-4 text-center"
+        transition={{ delay: 0.2, duration: 0.4 }}
+        className="mt-3 md:mt-4 text-center flex-shrink-0"
       >
         <div
-          className="sapphire-glass diamond-cut border-[#D4AF37]/25 p-5 md:p-8 relative overflow-hidden"
-          style={{ boxShadow: "0 12px 48px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.03)" }}
+          className="sapphire-glass diamond-cut border-[#D4AF37]/20 p-4 md:p-6 relative overflow-hidden"
+          style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02)" }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.06)_0%,_transparent_60%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.05)_0%,_transparent_55%)] pointer-events-none" />
           <h3
-            className="text-[#F4F4EE] font-display mb-2 md:mb-3 relative z-10"
-            style={{ fontSize: dynClamp(18, 2.5, 32, 1200) }}
+            className="text-[#F4F4EE] font-display mb-1.5 md:mb-2 relative z-10"
+            style={{ fontSize: fluidSize(16, 24) }}
           >
             Commence Partnership
           </h3>
           <p
-            className="text-[#555] font-black uppercase tracking-[0.15em] leading-relaxed mb-4 md:mb-6 max-w-xl mx-auto relative z-10"
-            style={{ fontSize: dynClamp(9, 0.9, 11, 1200) }}
+            className="text-[#666] font-bold uppercase tracking-[0.12em] leading-relaxed mb-3 md:mb-4 max-w-xl mx-auto relative z-10"
+            style={{ fontSize: fluidSize(8, 10) }}
           >
             BNE architects the complete platform infrastructure around your identified segments.
           </p>
           <button
             onClick={() => window.location.href = "/onboarding"}
-            className="btn-luxury active px-6 md:px-10 h-11 md:h-14 text-[10px] md:text-xs relative z-10 inline-flex items-center gap-2 md:gap-3"
-            style={{ fontSize: dynClamp(9, 0.9, 11, 1200) }}
+            className="btn-luxury active px-5 md:px-8 h-10 md:h-12 text-[9px] md:text-xs relative z-10 inline-flex items-center gap-2"
+            style={{ fontSize: fluidSize(9, 11) }}
           >
             Request Private Access
-            <ArrowRight className="h-3.5 w-3.5 md:h-5 md:w-5" />
+            <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
           </button>
         </div>
       </motion.div>
@@ -659,7 +545,7 @@ export default function NicheQuizExperience({
       className="quiz-experience w-full h-full flex flex-col relative overflow-hidden select-none"
       style={{ background: "linear-gradient(180deg, #000 0%, #020202 50%, #000 100%)" }}
     >
-      {/* Ambient background effects */}
+      {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
         <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[140%] h-[60%] bg-[radial-gradient(circle_at_center,_#D4AF37_0%,_transparent_70%)] blur-[100px]" />
       </div>
@@ -667,36 +553,35 @@ export default function NicheQuizExperience({
 
       {/* Bezel frame */}
       <div
-        className="absolute inset-3 md:inset-4 lg:inset-6 pointer-events-none"
+        className="absolute inset-2 md:inset-3 lg:inset-4 pointer-events-none"
         style={{
-          border: "1px solid rgba(212,175,55,0.08)",
+          border: "1px solid rgba(212,175,55,0.06)",
           borderRadius: "0.5rem",
-          boxShadow: "inset 0 0 80px rgba(0,0,0,0.8), 0 24px 64px rgba(0,0,0,0.9)",
+          boxShadow: "inset 0 0 60px rgba(0,0,0,0.7), 0 20px 48px rgba(0,0,0,0.8)",
         }}
       />
 
       {/* Progress bar */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] md:h-[3px] bg-white/[0.02] z-20">
+      <div className="absolute top-0 left-0 right-0 h-[2px] md:h-[2px] bg-white/[0.02] z-20">
         <motion.div
           className="h-full bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.6, ease: "circOut" }}
-          style={{ boxShadow: "0 0 12px rgba(212,175,55,0.6)" }}
+           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          style={{ boxShadow: "0 0 8px rgba(212,175,55,0.5)" }}
         />
       </div>
 
       {/* Content area */}
-      <div className="flex-1 flex flex-col relative z-10 px-4 md:px-8 lg:px-12 py-4 md:py-6 min-h-0">
-        <AnimatePresence mode="wait" custom={direction}>
+      <div className="flex-1 flex flex-col relative z-10 px-3 md:px-6 lg:px-8 py-3 md:py-4 min-h-0">
+        <AnimatePresence mode="wait">
           {!complete ? (
             <motion.div
               key="quiz-active"
-              custom={direction}
-              initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="flex flex-col h-full"
             >
               {renderQuestion()}
@@ -704,12 +589,11 @@ export default function NicheQuizExperience({
           ) : (
             <motion.div
               key="quiz-complete"
-              custom={direction}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const }}
-              className="flex flex-col h-full overflow-y-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col h-full overflow-hidden"
             >
               {renderResults()}
               {renderCTA()}
@@ -719,26 +603,26 @@ export default function NicheQuizExperience({
       </div>
 
       {/* Bottom status bar */}
-      <div className="relative z-10 flex items-center justify-between px-4 md:px-8 lg:px-12 py-2 md:py-3 border-t border-white/[0.03]">
-        <div className="flex items-center gap-2 md:gap-3">
-          <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#D4AF37]/60 shadow-[0_0_6px_rgba(212,175,55,0.3)]" />
+      <div className="relative z-10 flex items-center justify-between px-3 md:px-6 lg:px-8 py-1.5 md:py-2 border-t border-white/[0.03] flex-shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/50 shadow-[0_0_4px_rgba(212,175,55,0.25)]" />
           <span
-            className="text-[#1A1A1A] font-black uppercase tracking-[0.25em] md:tracking-[0.4em]"
-            style={{ fontSize: dynClamp(7, 0.65, 9, 1200) }}
+            className="text-[#1A1A1A] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em]"
+            style={{ fontSize: fluidSize(7, 9) }}
           >
             {complete ? "Analysis Complete" : "Analysis Engine Active"}
           </span>
         </div>
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-2 md:gap-3">
           <span
-            className="text-[#1A1A1A] font-black uppercase tracking-[0.25em] md:tracking-[0.4em] hidden sm:block"
-            style={{ fontSize: dynClamp(7, 0.65, 9, 1200) }}
+            className="text-[#1A1A1A] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] hidden sm:block"
+            style={{ fontSize: fluidSize(7, 9) }}
           >
             {TOTAL_QUESTIONS} Protocols
           </span>
           <span
-            className="text-[#1A1A1A] font-black uppercase tracking-[0.25em] md:tracking-[0.4em]"
-            style={{ fontSize: dynClamp(7, 0.65, 9, 1200) }}
+            className="text-[#1A1A1A] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em]"
+            style={{ fontSize: fluidSize(7, 9) }}
           >
             v2.026
           </span>
