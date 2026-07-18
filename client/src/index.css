@@ -175,4 +175,191 @@
     position: relative;
     @apply flex items-center justify-center;
   }
+
+  /* ─── DIAMOND-CUT CORNERS ────────────────────────────────────────────────── */
+  /* Subtle diagonal chamfer on all four corners */
+  .diamond-cut {
+    clip-path: polygon(
+      0 4px, 4px 0,
+      calc(100% - 4px) 0, 100% 4px,
+      100% calc(100% - 4px), calc(100% - 4px) 100%,
+      4px 100%, 0 calc(100% - 4px)
+    );
+  }
+
+  @media (min-width: 768px) {
+    .diamond-cut {
+      clip-path: polygon(
+        0 6px, 6px 0,
+        calc(100% - 6px) 0, 100% 6px,
+        100% calc(100% - 6px), calc(100% - 6px) 100%,
+        6px 100%, 0 calc(100% - 6px)
+      );
+    }
+  }
+
+  /* ─── BLING SHINE (text) ─────────────────────────────────────────────────── */
+  .bling-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .bling-shine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent
+    );
+    animation: bling-sweep 4s infinite ease-in-out;
+    pointer-events: none;
+  }
+
+  /* ─── LUXURY BUTTON BASE ─────────────────────────────────────────────────── */
+  .btn-luxury {
+    position: relative;
+    background: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition: all 0.2s ease-out;
+  }
+  .btn-luxury:hover:not(:disabled) {
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 24px rgba(212, 175, 55, 0.08);
+  }
+  .btn-luxury:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow:
+      0 1px 4px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  }
+  .btn-luxury.active {
+    background: linear-gradient(180deg, #D4AF37 0%, #B8962E 100%);
+    color: #000000;
+    border-color: #FFD700;
+    box-shadow:
+      0 4px 16px rgba(212, 175, 55, 0.35),
+      inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ─── SAPPHIRE GLASS PANEL ──────────────────────────────────────────────── */
+  .sapphire-glass {
+    background: linear-gradient(165deg, rgba(10, 17, 31, 0.95) 0%, rgba(5, 5, 10, 1) 100%);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ─── KNURLED GOLD METAL ────────────────────────────────────────────────── */
+  .knurled-gold {
+    background:
+      linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.08) 50%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.08) 50%, transparent 52%),
+      linear-gradient(180deg, #FFD700 0%, #D4AF37 50%, #8C6A14 100%);
+    background-size: 4px 4px, 4px 4px, 100% 100%;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 4px 16px rgba(0, 0, 0, 0.8);
+  }
+
+  /* ─── DASHBOARD BEZEL ──────────────────────────────────────────────────── */
+  .dashboard-bezel {
+    border: 1px solid #1A1A1A;
+    background: #030303;
+    box-shadow:
+      0 32px 64px rgba(0, 0, 0, 1),
+      inset 0 0 60px rgba(0, 0, 0, 1);
+  }
+
+  /* ─── LENS FLARE HOVER ─────────────────────────────────────────────────── */
+  .lens-flare-hover {
+    position: relative;
+    overflow: hidden;
+  }
+  .lens-flare-hover::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 55%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .lens-flare-hover:hover::before {
+    opacity: 1;
+  }
+
+  /* ─── ANIMATIONS ────────────────────────────────────────────────────────── */
+  @keyframes bling-sweep {
+    0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+    20% { opacity: 0.8; }
+    50% { opacity: 1; }
+    80% { opacity: 0.8; }
+    100% { transform: translateX(150%) skewX(-25deg); opacity: 0; }
+  }
+
+  @keyframes pulse-gold {
+    0%, 100% { box-shadow: 0 0 6px rgba(212,175,55,0.3); }
+    50% { box-shadow: 0 0 12px rgba(212,175,55,0.6); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+  }
+
+  /* ─── GAUGE TRACK / FILL ────────────────────────────────────────────────── */
+  .gauge-track {
+    stroke: #1A1A1A;
+    stroke-width: 1;
+    fill: none;
+  }
+  .gauge-fill {
+    stroke: #D4AF37;
+    stroke-width: 1.5;
+    fill: none;
+    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.5));
+  }
+
+  /* ─── FONT FAMILY OVERRIDES ─────────────────────────────────────────────── */
+  .font-mono-lux {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* ─── CUSTOM SCROLLBAR ──────────────────────────────────────────────────── */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050505;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D4AF37;
+    border-radius: 0;
+  }
+
+  /* ─── SELECTION STYLE ───────────────────────────────────────────────────── */
+  ::selection {
+    background: rgba(212, 175, 55, 0.3);
+    color: #ffffff;
+  }
 }

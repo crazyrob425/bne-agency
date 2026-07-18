@@ -1,0 +1,11 @@
+import "dotenv/config";
+import { readFileSync } from "node:fs";
+import net from "node:net";
+const host = "dpg-d9d9hevaqgkc7383mhhg-a.oregon-postgres.render.com";
+const port = 5432;
+const sock = net.createConnection({ host, port, timeout: 12000 });
+let done = false;
+sock.on("connect", () => { console.log("TCP CONNECT ok to", host+":"+port); sock.destroy(); done = true; });
+sock.on("error", (e) => { console.log("TCP ERROR:", e.code || e.message); done = true; });
+sock.on("timeout", () => { console.log("TCP TIMEOUT"); sock.destroy(); done = true; });
+setTimeout(() => { if (!done) { console.log("no event (hang)"); process.exit(0); } }, 13000);

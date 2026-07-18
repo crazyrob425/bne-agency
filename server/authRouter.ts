@@ -46,7 +46,7 @@ async function ensureLocalUser(db: NonNullable<Awaited<ReturnType<typeof getDb>>
   const [inserted] = await db
     .insert(users)
     .values({ openId, name, email, loginMethod: "local", lastSignedIn: new Date() })
-    .$returningId();
+    .returning({ id: users.id });
   const created = await db
     .select()
     .from(users)
@@ -81,7 +81,7 @@ async function upsertSubscriber(
   const [inserted] = await db
     .insert(subscribers)
     .values({ userId, name, email, source, status: "subscribed", tags: tags ?? [] })
-    .$returningId();
+    .returning({ id: users.id });
   const created = await db
     .select()
     .from(subscribers)
@@ -234,3 +234,4 @@ function issueSession(ctx: { req: any; res: any }, user: User) {
 function publicUser(u: User) {
   return { id: u.id, name: u.name, email: u.email, loginMethod: u.loginMethod };
 }
+

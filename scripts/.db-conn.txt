@@ -1,0 +1,1 @@
+postgresql://bne_agency_user:wUuY4vu2dfhKFHLpZQAtKImxY90OVHvL@dpg-d9d9hevaqgkc7383mhhg-a.oregon-postgres.render.com:5432/bne_agency
