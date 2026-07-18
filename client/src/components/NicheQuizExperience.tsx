@@ -138,6 +138,7 @@ export default function NicheQuizExperience({
 
   const answersRef = useRef(answers);
   const selectedValueRef = useRef(selectedValue);
+  const finalAnswersRef = useRef<QuizAnswers>({});
   answersRef.current = answers;
   selectedValueRef.current = selectedValue;
 
@@ -158,17 +159,22 @@ export default function NicheQuizExperience({
       setSelectedValue(newValue);
       setAnswers((prev) => {
         const next = { ...prev, [currentQuestion.id]: newValue };
+        finalAnswersRef.current = next;
         persistProgress(next, currentQuestion.id);
         return next;
       });
+      
+      // Single-select: auto-advance after brief delay
       setTimeout(() => {
-        setStep((s) => {
-          if (s < TOTAL_QUESTIONS - 1) return s + 1;
-          // Final step: compute results
-          const finalAnswers = { ...answersRef.current, [currentQuestion.id]: newValue };
+        if (step < TOTAL_QUESTIONS - 1) {
+          setStep((s) => s + 1);
+        } else {
+          // Final step: compute results directly
+          const finalAnswers = finalAnswersRef.current;
           const attachmentVec = computeAttachmentVector(finalAnswers);
           const matchResult = matchNicheFinder(finalAnswers, attachmentVec);
           const insightResult = getSubconsciousInsight(finalAnswers);
+          
           setAttachment({
             anxiety: attachmentVec.anxiety,
             avoidance: attachmentVec.avoidance,
@@ -183,11 +189,10 @@ export default function NicheQuizExperience({
             avoidance: attachmentVec.avoidance,
             quadrant: attachmentVec.quadrant,
           });
-          return s;
-        });
+        }
       }, 250);
     }
-  }, [currentQuestion, persistProgress, progressApi, onComplete]);
+  }, [currentQuestion, step, persistProgress, progressApi, onComplete]);
 
   const handleNext = useCallback(() => {
     const sv = selectedValueRef.current;
