@@ -13,6 +13,13 @@
       "when": 1784398175024,
       "tag": "0001_luxuriant_namorita",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784545121409,
+      "tag": "0002_mysterious_grim_reaper",
+      "breakpoints": true
     }
   ],
   "version": "7",
