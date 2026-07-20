@@ -258,9 +258,17 @@ export default function NicheQuizExperience({
   const handleSelect = useCallback((value: string) => {
     if (currentQuestion.type === "multi") {
       const current = (selectedValueRef.current as string[]) || [];
-      const updated = current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value];
+      const maxSelect = currentQuestion.maxSelect || 999;
+      let updated: string[];
+
+      if (current.includes(value)) {
+        updated = current.filter((v: string) => v !== value);
+      } else if (current.length < maxSelect) {
+        updated = [...current, value];
+      } else {
+        return;
+      }
+
       setSelectedValue(updated);
       setAnswers((prev) => {
         const next = { ...prev, [currentQuestion.id]: updated };
@@ -519,7 +527,7 @@ export default function NicheQuizExperience({
                 transition-all duration-200 diamond-cut border
                 ${canProceed
                   ? "bg-[#D4AF37] text-[#000] border-[#FFD700] shadow-[0_0_16px_rgba(212,175,55,0.25)] hover:shadow-[0_0_24px_rgba(212,175,55,0.4)]"
-                  : "bg-[#111] text-[#333] border-white/5 cursor-not-allowed"
+                  : "bg-[#1A1A1A] text-[#666] border-white/10 cursor-not-allowed"
                 }
               `}
               style={{ fontSize: fluidSize(9, 11) }}
