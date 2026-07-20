@@ -694,7 +694,7 @@ export default function Home() {
           </motion.div>
           <div className="relative">
             <VideoPlayer
-              src={bneVideo?.url || "/media-files/B.N.E.mp4"}
+              src={bneVideo?.url || "/media-files/BNE_Studio_Home_Page_landing_advertisment.mp4"}
               poster="/banner.png"
               title="BNE Agency Briefing"
               description="Welcome to Blacklisted Niche Entertainment. Learn how we build, scale, and secure your brand."

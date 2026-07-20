@@ -65,7 +65,7 @@ const COURSES_META = [
     upsellDesc: "BNE deploys a fully managed native-English chatting team trained in fan psychology and high-ticket sales to handle your inbox 24/7. We turn your audience into passive cash flow.",
     upsellLink: "/tiers",
     upsellButton: "Explore Automation Tiers",
-    keywords: ["scale", "methodology", "empire", "automation", "vetting", "agency", "six-figure", "infrastructure", "toolkit", "creators", "powerhouse", "webcam", "services", "offer", "firm", "bne"]
+    keywords: ["scale", "methodology", "empire", "automation", "vetting", "agency", "six-figure", "infrastructure", "toolkit", "creators", "creator", "powerhouse", "webcam", "services", "offer", "firm", "bne", "partnership", "payments", "percentages", "rates"]
   },
   {
     id: "inperson-booking",
@@ -107,15 +107,18 @@ export function useMediaCatalog() {
     fetchCatalog();
   }, [fetchCatalog]);
 
-  // Helper to find video by filename keyword
+  // Helper to find video by filename keyword — prefers longer/more-specific titles
   const getVideoByKeyword = (keyword: string): MediaCatalogItem | undefined => {
     const kw = keyword.toLowerCase();
-    return catalog.videos.find(
-      (video) =>
-        video.title.toLowerCase().includes(kw) ||
-        video.url.toLowerCase().includes(kw) ||
-        video.description.toLowerCase().includes(kw)
-    );
+    const matches = catalog.videos
+      .filter(
+        (video) =>
+          video.title.toLowerCase().includes(kw) ||
+          video.url.toLowerCase().includes(kw) ||
+          video.description.toLowerCase().includes(kw)
+      )
+      .sort((a, b) => b.title.length - a.title.length);
+    return matches[0];
   };
 
   // Dynamically map items to Courses using keywords

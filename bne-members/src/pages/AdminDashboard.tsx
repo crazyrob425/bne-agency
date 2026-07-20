@@ -137,7 +137,8 @@ export default function AdminDashboard() {
     if (dbUser?.role !== 'admin') return <div className="p-10 text-center text-rose-500">Access Denied. Admins Only.</div>;
 
     return (
-        <div className="space-y-6 font-sans flex flex-col h-full">
+        <>
+            <div className="space-y-6 font-sans flex flex-col h-full">
             <div className="bg-[#121212] border border-[#2A2A2A] rounded p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                  <div>
                      <h2 className="text-sm font-bold text-red-500 uppercase tracking-wider mb-1">System Administration Monitor</h2>
@@ -493,7 +494,8 @@ export default function AdminDashboard() {
                          </button>
                      </div>
                  </div>
-             </div>
-         )}
-     )
+              </div>
+          )}
+      </>
+      )
 }

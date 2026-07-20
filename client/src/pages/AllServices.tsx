@@ -27,7 +27,7 @@ const fadeUp = {
 
 export default function AllServices() {
   const { getVideoByKeyword } = useMediaCatalog();
-  const scaleVideo = getVideoByKeyword("scale");
+  const scaleVideo = getVideoByKeyword("scale") || getVideoByKeyword("methodology") || getVideoByKeyword("agency");
   const servicesSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -150,6 +150,22 @@ export default function AllServices() {
             src={scaleVideo?.url || "/media-files/The_Agency_Scale_Methodology.mp4"}
             title="BNE Scale Methodology"
             description="Learn how we transition solo creators into managed business empires."
+          />
+        </div>
+      </section>
+
+      {/* Partnership & Payment Rates Video */}
+      <section className="py-12 bg-white/2 border-b border-[oklch(0.78_0.16_85/10%)]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-emerald-400 text-xs font-semibold uppercase tracking-wider font-body">Partnership Economics</span>
+            <h2 className="text-2xl font-bold text-zinc-100 font-display mt-2" style={{ fontFamily: 'Space Grotesk' }}>Content Creator Partnership Percentages & Payment Rates</h2>
+            <p className="text-sm text-zinc-400 mt-1 max-w-xl mx-auto font-body" style={{ fontFamily: 'DM Sans' }}>Understand how BNE structures revenue splits, payment schedules, and partnership models to maximize your earnings while maintaining full control.</p>
+          </div>
+          <VideoPlayer
+            src="/media-files/Content_Creator_Partnership_Percentages_Payments_rates.mp4"
+            title="Partnership & Payment Rates"
+            description="How BNE structures revenue splits and payment schedules for creator partnerships."
           />
         </div>
       </section>

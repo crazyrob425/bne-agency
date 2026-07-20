@@ -898,7 +898,7 @@ export default function NicheMatcher() {
           </div>
           <div className="dashboard-bezel p-1 sapphire-glass diamond-cut">
             <VideoPlayer
-              src={nicheVideo?.url || "/media-files/Niche_Domination___Survival.mp4"}
+              src={nicheVideo?.url || "/media-files/Niche_Quiz_Supremacy_–_The_Strategic_Economics_of_Adult_Niche.mp4"}
               title="Strategic Dominance"
               description="Engineering market control in high-yield segments."
             />

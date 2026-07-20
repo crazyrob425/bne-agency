@@ -115,13 +115,29 @@ export default function ComplianceVault() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <span className="text-amber-400 text-xs font-semibold uppercase tracking-wider font-body">Legal Intelligence</span>
-            <h2 className="text-3xl font-bold text-zinc-100 font-display mt-2" style={{ fontFamily: 'Space Grotesk' }}>Building Your Professional Fortress</h2>
+            <h2 className="text-3xl font-bold text-zinc-100 font-display mt-2" style={{ fontFamily: 'Space Grotesk' }}>Building Your Digital Fortress</h2>
             <p className="text-sm text-zinc-400 mt-1 max-w-xl mx-auto font-body" style={{ fontFamily: 'DM Sans' }}>An educational guide on age verification, LLC protection, and federal record custody systems.</p>
           </div>
           <VideoPlayer
-            src={fortressVideo?.url || "/media-files/The_Professional_Fortress.mp4"}
-            title="The Professional Fortress"
+            src={fortressVideo?.url || "/media-files/The_Invisible_Identity_Digital_Fortress.mp4"}
+            title="The Invisible Identity Digital Fortress"
             description="How BNE protects your anonymity and legal compliance."
+          />
+        </div>
+      </section>
+
+      {/* Scammer Survival Video */}
+      <section className="py-12 bg-white/2 border-b border-[oklch(0.78_0.16_85/10%)]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-rose-400 text-xs font-semibold uppercase tracking-wider font-body">Threat Intelligence</span>
+            <h2 className="text-2xl font-bold text-zinc-100 font-display mt-2" style={{ fontFamily: 'Space Grotesk' }}>Surviving the Scammers</h2>
+            <p className="text-sm text-zinc-400 mt-1 max-w-xl mx-auto font-body" style={{ fontFamily: 'DM Sans' }}>Learn to identify and avoid the most common scams targeting adult entertainers — from fake booking agencies to identity theft rings.</p>
+          </div>
+          <VideoPlayer
+            src="/media-files/Surviving_the_Scammers_in_Adult_Entertainment.mp4"
+            title="Surviving the Scammers"
+            description="How to protect yourself from the most common scams in the adult entertainment industry."
           />
         </div>
       </section>
