@@ -21,6 +21,14 @@ import {
 } from "lucide-react";
 import businessCard from "@/../../BNE%20businesscard.png";
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" as const }
+  })
+};
+
 const COUNTRY_CODES = [
   { code: "+1", label: "US/CA (+1)", country: "us" },
   { code: "+44", label: "UK (+44)", country: "gb" },
@@ -248,17 +256,250 @@ export default function Apply() {
     setStep(prev => (prev > 1 ? (prev - 1) as Step : prev));
   }, []);
 
+  const updateField = (field: keyof FormData, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   return (
     <HelmetProvider>
       <Seo title="Apply" description="Apply to BNE Agency - Noir Hacker Syndicate" />
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="flex items-center justify-center min-h-screen p-4">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">Application Wizard</h1>
-            <p className="text-muted-foreground">This page is under construction.</p>
-          </div>
-        </div>
+
+        {submitSuccess ? (
+          <section className="py-20">
+            <div className="max-w-2xl mx-auto px-4 text-center">
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="luxury-card p-8 border border-[oklch(0.78_0.16_85/20%)]">
+                <CheckCircle2 size={48} className="text-emerald-400 mx-auto mb-4" />
+                <h2 className="text-3xl font-display font-bold text-white mb-4">Application Received</h2>
+                <p className="text-[oklch(0.7_0.012_85)] mb-6">We review every application personally. Expect a detailed response within 24 hours.</p>
+                <Link href="/">
+                  <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-8 py-3 text-sm">Back to Home</motion.button>
+                </Link>
+              </motion.div>
+            </div>
+          </section>
+        ) : (
+          <>
+            <section className="relative py-20 overflow-hidden">
+              <div className="absolute inset-0 bg-[oklch(0.04_0.005_85)]" />
+              <motion.div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[700px] rounded-full bg-[oklch(0.78_0.16_85/6%)] blur-[140px] pointer-events-none" />
+              <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div initial="hidden" animate="visible" variants={fadeUp} className="text-center mb-12">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/5%)] mb-6">
+                    <span className="text-[oklch(0.78_0.16_85)] text-xs font-medium tracking-widest uppercase">Apply to BNE</span>
+                  </div>
+                  <h1 className="text-5xl md:text-6xl font-display font-bold text-white leading-[1.1] mb-4">
+                    Start Your <span className="text-[oklch(0.78_0.16_85)]">Empire</span>
+                  </h1>
+                  <p className="text-lg text-[oklch(0.7_0.012_85)] font-body leading-relaxed max-w-2xl mx-auto">
+                    Take the 2-minute application. We read every one personally.
+                  </p>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="luxury-card p-8 border border-[oklch(0.78_0.16_85/15%)]">
+                  <div className="flex items-center justify-between mb-8">
+                    {[1, 2, 3].map((s) => (
+                      <div key={s} className="flex items-center gap-2">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${step >= s ? 'bg-[oklch(0.78_0.16_85)] text-black' : 'bg-[oklch(0.78_0.16_85/10%)] text-[oklch(0.78_0.16_85)]'}`}>
+                          {step > s ? <Check size={14} /> : s}
+                        </div>
+                        <span className={`text-sm ${step >= s ? 'text-white' : 'text-[oklch(0.65_0.012_85)]'}`}>
+                          {s === 1 ? 'Basics' : s === 2 ? 'Goals' : 'Review'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    {step === 1 && (
+                      <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                        <div>
+                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">First Name</label>
+                          <input type="text" value={formData.firstName} onChange={(e) => updateField("firstName", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="Your first name" />
+                          {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Email</label>
+                          <input type="email" value={formData.email} onChange={(e) => updateField("email", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="you@example.com" />
+                          {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Phone</label>
+                            <input type="tel" value={formData.phoneLocal} onChange={(e) => updateField("phoneLocal", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="(555) 000-0000" />
+                            {errors.phoneLocal && <p className="text-red-400 text-xs mt-1">{errors.phoneLocal}</p>}
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Contact Preference</label>
+                            <select value={formData.contactPreference} onChange={(e) => updateField("contactPreference", e.target.value as any)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm">
+                              <option value="">Select...</option>
+                              <option value="whatsapp">WhatsApp</option>
+                              <option value="imessage">iMessage</option>
+                              <option value="call">Phone Call</option>
+                            </select>
+                            {errors.contactPreference && <p className="text-red-400 text-xs mt-1">{errors.contactPreference}</p>}
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Primary Platform</label>
+                            <select value={formData.socialPlatform} onChange={(e) => updateField("socialPlatform", e.target.value as any)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm">
+                              <option value="">Select...</option>
+                              <option value="instagram">Instagram</option>
+                              <option value="tiktok">TikTok</option>
+                              <option value="x">X / Twitter</option>
+                            </select>
+                            {errors.socialPlatform && <p className="text-red-400 text-xs mt-1">{errors.socialPlatform}</p>}
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Handle</label>
+                            <input type="text" value={formData.socialHandle} onChange={(e) => updateField("socialHandle", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="@username" />
+                            {errors.socialHandle && <p className="text-red-400 text-xs mt-1">{errors.socialHandle}</p>}
+                          </div>
+                        </div>
+                        <div className="flex justify-end">
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm">Next Step <ChevronRight size={14} className="inline ml-1" /></motion.button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {step === 2 && (
+                      <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                        <div>
+                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Weekly Hours Available</label>
+                          <div className="grid grid-cols-3 gap-3">
+                            {HOURS_OPTIONS.map((opt) => (
+                              <button key={opt.value} onClick={() => updateField("hours", opt.value)} className={`p-4 rounded-lg border text-sm text-left transition-all ${formData.hours === opt.value ? 'border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white' : 'border-slate-700 text-slate-300 hover:border-slate-500'}`}>
+                                {opt.label}
+                              </button>
+                            ))}
+                          </div>
+                          {errors.hours && <p className="text-red-400 text-xs mt-1">{errors.hours}</p>}
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Primary Goal</label>
+                          <div className="grid grid-cols-2 gap-3">
+                            {GOAL_OPTIONS.map((opt) => (
+                              <button key={opt.value} onClick={() => updateField("goal", opt.value)} className={`p-4 rounded-lg border text-sm text-left transition-all ${formData.goal === opt.value ? 'border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white' : 'border-slate-700 text-slate-300 hover:border-slate-500'}`}>
+                                {opt.label}
+                              </button>
+                            ))}
+                          </div>
+                          {errors.goal && <p className="text-red-400 text-xs mt-1">{errors.goal}</p>}
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Experience Level</label>
+                          <div className="grid grid-cols-3 gap-3">
+                            {EXPERIENCE_OPTIONS.map((opt) => (
+                              <button key={opt.value} onClick={() => updateField("experience", opt.value)} className={`p-4 rounded-lg border text-sm text-left transition-all ${formData.experience === opt.value ? 'border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white' : 'border-slate-700 text-slate-300 hover:border-slate-500'}`}>
+                                {opt.label}
+                              </button>
+                            ))}
+                          </div>
+                          {errors.experience && <p className="text-red-400 text-xs mt-1">{errors.experience}</p>}
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <input type="checkbox" id="age" checked={formData.ageConfirm} onChange={(e) => updateField("ageConfirm", e.target.checked)} className="mt-1" />
+                          <label htmlFor="age" className="text-sm text-slate-300">I am 18+ and all content I create complies with 18 U.S.C. § 2257.</label>
+                        </div>
+                        {errors.ageConfirm && <p className="text-red-400 text-xs">{errors.ageConfirm}</p>}
+                        <div className="flex justify-between">
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-sm text-slate-300 hover:text-white">Back</motion.button>
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm">Next Step <ChevronRight size={14} className="inline ml-1" /></motion.button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {step === 3 && (
+                      <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                        <div className="p-6 rounded-lg border border-slate-700 bg-slate-900/50">
+                          <h3 className="text-white font-semibold mb-4">Confirm Your Details</h3>
+                          <div className="space-y-2 text-sm text-slate-300">
+                            <p><span className="text-slate-500">Name:</span> {formData.firstName}</p>
+                            <p><span className="text-slate-500">Email:</span> {formData.email}</p>
+                            <p><span className="text-slate-500">Phone:</span> {formData.phoneLocal}</p>
+                            <p><span className="text-slate-500">Platform:</span> {formData.socialPlatform}</p>
+                            <p><span className="text-slate-500">Handle:</span> {formData.socialHandle}</p>
+                            <p><span className="text-slate-500">Hours:</span> {formData.hours}</p>
+                            <p><span className="text-slate-500">Goal:</span> {formData.goal}</p>
+                            <p><span className="text-slate-500">Experience:</span> {formData.experience}</p>
+                          </div>
+                        </div>
+                        <div className="flex justify-between">
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-sm text-slate-300 hover:text-white">Back</motion.button>
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={handleSubmit} disabled={isSubmitting} className="btn-gold px-8 py-3 text-sm flex items-center gap-2">
+                            {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <>Submit Application <ArrowRight size={14} /></>}
+                          </motion.button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </div>
+            </section>
+
+            <section className="py-20 bg-[oklch(0.04_0.005_85)]">
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+                  <h2 className="text-3xl font-display font-bold text-white mb-4">The BNE Difference</h2>
+                </motion.div>
+                <div className="grid md:grid-cols-3 gap-8">
+                  {[
+                    { icon: Shield, title: "Privacy First", desc: "Complete anonymity systems. Your real identity never touches any creator asset." },
+                    { icon: Zap, title: "Speed to Revenue", desc: "Launch-ready in days, not months. Our niche-matching algorithm finds your goldmine instantly." },
+                    { icon: Crown, title: "Full Operation", desc: "We handle strategy, content, posting, DMs, compliance, and scaling. You create. We operate." },
+                  ].map((item, i) => (
+                    <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)] text-center">
+                      <div className="w-12 h-12 rounded-xl bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)] mx-auto mb-4">
+                        <item.icon size={24} />
+                      </div>
+                      <h3 className="text-white font-semibold mb-2">{item.title}</h3>
+                      <p className="text-[oklch(0.65_0.012_85)] text-sm">{item.desc}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="py-20">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+                  <h2 className="text-3xl font-display font-bold text-white mb-4">What Creators Are Saying</h2>
+                </motion.div>
+                <div className="luxury-card p-8 border border-[oklch(0.78_0.16_85/10%)]">
+                  <p className="text-lg text-[oklch(0.7_0.012_85)] italic mb-6">"{TESTIMONIALS[activeTestimonial].quote}"</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[oklch(0.78_0.16_85/15%)] flex items-center justify-center text-[oklch(0.78_0.16_85)] font-bold text-sm">
+                      {TESTIMONIALS[activeTestimonial].avatar}
+                    </div>
+                    <div>
+                      <p className="text-white text-sm font-semibold">{TESTIMONIALS[activeTestimonial].author}</p>
+                      <p className="text-[oklch(0.65_0.012_85)] text-xs">{TESTIMONIALS[activeTestimonial].role}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="py-20 bg-[oklch(0.04_0.005_85)]">
+              <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-10">
+                  <h2 className="text-3xl font-display font-bold text-white mb-4">Common Questions</h2>
+                </motion.div>
+                <div className="space-y-4">
+                  {FAQS.map((item, i) => (
+                    <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }} className="luxury-card p-6">
+                      <h4 className="text-white font-semibold mb-2 text-sm">{item.q}</h4>
+                      <p className="text-[oklch(0.65_0.012_85)] text-sm leading-relaxed">{item.a}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
         <Footer />
       </div>
     </HelmetProvider>
