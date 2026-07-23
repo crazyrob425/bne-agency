@@ -102,6 +102,18 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
+  const membersPath = path.resolve(distPath, "members");
+  const membersIndexPath = path.resolve(membersPath, "index.html");
+  const hasMembers = fs.existsSync(membersIndexPath);
+
+  if (hasMembers) {
+    app.use("/members", express.static(membersPath, { fallthrough: true }));
+    app.get("/members/*", async (_req, res) => {
+      const html = await fs.promises.readFile(membersIndexPath, "utf-8");
+      res.set({ "Content-Type": "text/html" }).send(html);
+    });
+  }
+
   app.use("*", async (_req, res) => {
     const indexPath = path.resolve(distPath, "index.html");
     const html = await fs.promises.readFile(indexPath, "utf-8");

@@ -68,6 +68,7 @@ import Compliance2257 from "./pages/Compliance2257";
 import ComplianceDocumentation from "./pages/ComplianceDocumentation";
 import ComplianceResources from "./pages/ComplianceResources";
 import MonetizationOverview from "./pages/MonetizationOverview";
+import FreeLegalTools from "./pages/FreeLegalTools";
 
 function Router() {
   return (
@@ -119,6 +120,7 @@ function Router() {
       <Route path="/performance-utilities" component={PerformanceUtilities} />
       <Route path="/templates" component={Templates} />
       <Route path="/resources" component={ResourcesVault} />
+      <Route path="/free-tools" component={FreeLegalTools} />
       <Route path="/creator-utilities" component={CreatorUtilities} />
       <Route path="/all-courses" component={AllCourses} />
       <Route path="/training-modules" component={TrainingModules} />

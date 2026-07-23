@@ -104,8 +104,15 @@ export default function Dashboard() {
       <section className="py-20 bg-[oklch(0.04_0.005_85)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
-            <h2 className="text-3xl font-display font-bold text-white mb-4">Members-Only Dashboard Features</h2>
+            <h2 className="text-3xl font-display font-bold text-white mb-4">Members Portal Features</h2>
             <p className="text-[oklch(0.7_0.012_85)] max-w-2xl mx-auto">Once you're in, you get access to a full operations suite built for high-performance creators who value privacy, security, and leverage.</p>
+            <div className="mt-4">
+              <Link href="/members">
+                <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-6 py-2.5 text-sm">
+                  Open Members Portal
+                </motion.button>
+              </Link>
+            </div>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -155,7 +162,7 @@ export default function Dashboard() {
       <section className="py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
-            <h2 className="text-3xl font-display font-bold text-white mb-4">Inside the Dashboard</h2>
+            <h2 className="text-3xl font-display font-bold text-white mb-4">Inside the Portal</h2>
             <p className="text-[oklch(0.7_0.012_85)]">A preview of the command center our creators use every day.</p>
           </motion.div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="rounded-xl overflow-hidden border border-[oklch(0.78_0.16_85/15%)] shadow-2xl">
