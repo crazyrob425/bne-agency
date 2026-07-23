@@ -1,0 +1,129 @@
+/**
+ * BNE Creator Operations Page
+ * Full-service creator business operations and management
+ */
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { Link } from "wouter";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
+import InfographicModal from "@/components/InfographicModal";
+import { useMediaCatalog } from "@/hooks/useMediaCatalog";
+import { Wrench, Users, Settings, ArrowRight, Shield, Zap } from "lucide-react";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" as const }
+  })
+};
+
+export default function CreatorOperations() {
+  const { getInfographicByKeyword } = useMediaCatalog();
+  const infographic = getInfographicByKeyword("Professional_Creator_Management_Services");
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Creator Operations | BNE Agency"
+        description="Full-service creator business operations from content calendars and fan chats to brand deals and multi-platform distribution."
+        canonical="/creator-operations"
+      />
+      <Navigation />
+
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-24">
+        <div className="absolute inset-0 bg-[oklch(0.04_0.005_85)]" />
+        <motion.div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[700px] rounded-full bg-[oklch(0.78_0.16_85/6%)] blur-[140px] pointer-events-none" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/5%)] mb-6">
+              <span className="text-[oklch(0.78_0.16_85)] text-xs font-medium tracking-widest uppercase">Operations</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-display font-bold text-white leading-[1.1] mb-6">
+              Creator <span className="text-[oklch(0.78_0.16_85)]">Operations</span>
+            </h1>
+            <p className="text-lg text-[oklch(0.7_0.012_85)] font-body leading-relaxed mb-8 max-w-2xl">
+              We handle the grind so you can stay in your creative zone. From daily fan chats to full content strategy, BNE's operations team keeps your business running like a well-oiled machine.
+            </p>
+            <Link href="/apply">
+              <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-8 py-3 text-sm">
+                Outsource Your Operations
+              </motion.button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <div className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)]">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)]">
+                    <Wrench size={20} />
+                  </div>
+                  <h3 className="text-white font-semibold">Full Backend Coverage</h3>
+                </div>
+                <p className="text-[oklch(0.65_0.012_85)] text-sm">DM management, content scheduling, platform optimization, and revenue tracking — all handled by your dedicated operations team.</p>
+              </div>
+              <div className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)]">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)]">
+                    <Settings size={20} />
+                  </div>
+                  <h3 className="text-white font-semibold">Workflow Automation</h3>
+                </div>
+                <p className="text-[oklch(0.65_0.012_85)] text-sm">Custom workflow systems for content repurposing, fan funnel sequencing, and cross-platform distribution.</p>
+              </div>
+            </div>
+            <div>
+              {infographic && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  onClick={() => setModalOpen(true)}
+                  className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)] cursor-pointer hover:border-[oklch(0.78_0.16_85/30%)] transition-all h-full flex flex-col justify-center"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)]">
+                      <Shield size={20} />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold">Professional Creator Management Services</h3>
+                      <p className="text-[oklch(0.65_0.012_85)] text-sm">Click to view the full service breakdown</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+              <InfographicModal url={infographic?.url || "/media-files/Professional_Creator_Management_Services.png"} title="Professional Creator Management Services" isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+            <h2 className="text-3xl font-display font-bold text-white mb-4">Your Business Should Run Itself</h2>
+            <p className="text-[oklch(0.7_0.012_85)] mb-8">Delegating operations is the fastest path to scaling from 5-figures to 6-figures. Let BNE handle the heavy lifting.</p>
+            <Link href="/apply">
+              <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-10 py-3 text-sm">
+                Apply for Operations Support
+              </motion.button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+

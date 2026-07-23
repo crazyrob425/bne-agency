@@ -111,37 +111,43 @@ let activeMediaRoot: string | null = null;
 
 async function getActiveMediaRoot(): Promise<string> {
   if (activeMediaRoot) return activeMediaRoot;
-  
+
   try {
     await fs.stat(MEDIA_ROOT);
     activeMediaRoot = MEDIA_ROOT;
     console.log(`[Media] Using media folder at: ${MEDIA_ROOT}`);
+    return activeMediaRoot;
   } catch {
     try {
       await fs.stat(PUBLIC_MEDIA_ROOT);
       activeMediaRoot = PUBLIC_MEDIA_ROOT;
       console.log(`[Media] Using fallback public media folder at: ${PUBLIC_MEDIA_ROOT}`);
+      return activeMediaRoot;
     } catch {
-      activeMediaRoot = MEDIA_ROOT; // Default to original path for error logging
+      activeMediaRoot = MEDIA_ROOT;
       console.log(`[Media] No media folder found. Checked: ${MEDIA_ROOT}, ${PUBLIC_MEDIA_ROOT}`);
+      return activeMediaRoot;
     }
   }
-  return activeMediaRoot;
 }
 
 async function mediaRootExists(): Promise<boolean> {
   try {
-    const root = await getActiveMediaRoot();
+    await fs.stat(MEDIA_ROOT);
     return true;
   } catch {
-    return false;
+    try {
+      await fs.stat(PUBLIC_MEDIA_ROOT);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
 
 async function collectMediaFiles(directory: string): Promise<string[]> {
   const entries = await fs.readdir(directory, { withFileTypes: true });
   const files: string[] = [];
-  const activeRoot = await getActiveMediaRoot();
 
   for (const entry of entries) {
     const absolutePath = path.join(directory, entry.name);
@@ -152,8 +158,7 @@ async function collectMediaFiles(directory: string): Promise<string[]> {
     }
 
     if (!entry.isFile()) continue;
-
-    const relativePath = path.relative(activeRoot, absolutePath);
+    const relativePath = path.relative(directory, absolutePath);
     const extension = path.extname(relativePath).toLowerCase();
 
     if (VIDEO_EXTENSIONS.has(extension) || PRINT_EXTENSIONS.has(extension)) {
@@ -164,14 +169,13 @@ async function collectMediaFiles(directory: string): Promise<string[]> {
   return files;
 }
 
-async function scanLocalMediaCatalog(): Promise<MediaCatalogResponse> {
-  const activeRoot = await getActiveMediaRoot();
-  const files = await collectMediaFiles(activeRoot);
+async function scanRootMediaCatalog(rootDir: string): Promise<MediaCatalogResponse> {
+  const files = await collectMediaFiles(rootDir);
   const videos: MediaCatalogItem[] = [];
   const printMaterials: MediaCatalogItem[] = [];
 
   for (const relativePath of files.sort((a, b) => toPosixPath(a).localeCompare(toPosixPath(b)))) {
-    const absolutePath = path.join(activeRoot, relativePath);
+    const absolutePath = path.join(rootDir, relativePath);
     const extension = path.extname(relativePath).toLowerCase();
     const stat = await fs.stat(absolutePath);
     const type: MediaCatalogType = VIDEO_EXTENSIONS.has(extension) ? "video" : "print";
@@ -201,6 +205,43 @@ async function scanLocalMediaCatalog(): Promise<MediaCatalogResponse> {
   return {
     videos: videos.sort((a, b) => a.title.localeCompare(b.title)),
     printMaterials: printMaterials.sort((a, b) => a.title.localeCompare(b.title)),
+  };
+}
+
+async function scanLocalMediaCatalog(): Promise<MediaCatalogResponse> {
+  const roots: string[] = [];
+
+  try {
+    await fs.stat(MEDIA_ROOT);
+    roots.push(MEDIA_ROOT);
+  } catch {
+    console.log(`[Media] media folder not found: ${MEDIA_ROOT}`);
+  }
+
+  try {
+    await fs.stat(PUBLIC_MEDIA_ROOT);
+    roots.push(PUBLIC_MEDIA_ROOT);
+  } catch {
+    console.log(`[Media] public media folder not found: ${PUBLIC_MEDIA_ROOT}`);
+  }
+
+  if (roots.length === 0) {
+    console.log(`[Media] WARNING: no media roots available for catalog scan`);
+    return { videos: [], printMaterials: [] };
+  }
+
+  let combinedVideos: MediaCatalogItem[] = [];
+  let combinedPrint: MediaCatalogItem[] = [];
+
+  for (const root of roots) {
+    const catalog = await scanRootMediaCatalog(root);
+    combinedVideos.push(...catalog.videos);
+    combinedPrint.push(...catalog.printMaterials);
+  }
+
+  return {
+    videos: combinedVideos.sort((a, b) => a.title.localeCompare(b.title)),
+    printMaterials: combinedPrint.sort((a, b) => a.title.localeCompare(b.title)),
   };
 }
 
@@ -272,14 +313,33 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
-// Static media file serving - check both media root locations
+// Static media file serving - mount both media root locations to resolve
+// the "some uploads succeed, some fail" bug caused by single-root caching.
 const serveMediaFiles = async (app: express.Application) => {
-  const primaryRoot = await getActiveMediaRoot();
-  app.use("/media-files", express.static(primaryRoot, { fallthrough: true }));
-  
-  // In production, also serve from public/media-files if different from primary
-  if (primaryRoot !== PUBLIC_MEDIA_ROOT && fsSync.existsSync(PUBLIC_MEDIA_ROOT)) {
-    app.use("/media-files", express.static(PUBLIC_MEDIA_ROOT, { fallthrough: true }));
+  const roots: string[] = [];
+
+  try {
+    await fs.stat(MEDIA_ROOT);
+    roots.push(MEDIA_ROOT);
+    console.log(`[Media] Mounting media folder: ${MEDIA_ROOT}`);
+  } catch {
+    console.log(`[Media] media folder not found: ${MEDIA_ROOT}`);
+  }
+
+  try {
+    await fs.stat(PUBLIC_MEDIA_ROOT);
+    roots.push(PUBLIC_MEDIA_ROOT);
+    console.log(`[Media] Mounting public media folder: ${PUBLIC_MEDIA_ROOT}`);
+  } catch {
+    console.log(`[Media] public media folder not found: ${PUBLIC_MEDIA_ROOT}`);
+  }
+
+  if (roots.length === 0) {
+    console.log(`[Media] WARNING: no media roots available`);
+  }
+
+  for (const root of roots) {
+    app.use("/media-files", express.static(root, { fallthrough: true }));
   }
 };
 

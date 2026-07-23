@@ -36,25 +36,25 @@ const navConfig = [
         {
           heading: "Revenue Growth",
           links: [
-            { label: "Monetization Systems", href: "/services", icon: DollarSign },
-            { label: "Scaling Frameworks", href: "/services", icon: TrendingUp },
-            { label: "Revenue Optimization", href: "/services", icon: BarChart3 },
+            { label: "Monetization Systems", href: "/monetization-systems", icon: DollarSign },
+            { label: "Scaling Frameworks", href: "/scaling-frameworks", icon: TrendingUp },
+            { label: "Revenue Optimization", href: "/revenue-optimization", icon: BarChart3 },
           ],
         },
         {
           heading: "Strategic Advisory",
           links: [
-            { label: "Structured Advisory", href: "/tiers", icon: Briefcase },
-            { label: "Business Strategy", href: "/services", icon: Sparkles },
-            { label: "Creator Positioning", href: "/services", icon: Target },
+            { label: "Structured Advisory", href: "/structured-advisory", icon: Briefcase },
+            { label: "Business Strategy", href: "/business-strategy", icon: Sparkles },
+            { label: "Creator Positioning", href: "/creator-positioning", icon: Target },
           ],
         },
         {
           heading: "Niche Intelligence",
           links: [
             { label: "Niche Matcher", href: "/niche-matcher", icon: Zap },
-            { label: "Audience Intelligence", href: "/niche-matcher", icon: Users },
-            { label: "Market Analysis", href: "/niche-matcher", icon: Layers },
+            { label: "Audience Intelligence", href: "/audience-intelligence", icon: Users },
+            { label: "Market Analysis", href: "/market-analysis", icon: Layers },
           ],
         },
       ],
@@ -76,25 +76,25 @@ const navConfig = [
         {
           heading: "Operations",
           links: [
-            { label: "Backend Management", href: "/services", icon: Settings },
-            { label: "Booking Management", href: "/posting-and-scheduling", icon: Calendar },
-            { label: "Creator Operations", href: "/services", icon: Wrench },
+            { label: "Backend Management", href: "/backend-management", icon: Settings },
+            { label: "Booking Management", href: "/booking-management", icon: Calendar },
+            { label: "Creator Operations", href: "/creator-operations", icon: Wrench },
           ],
         },
         {
           heading: "Growth",
           links: [
-            { label: "Advertising Systems", href: "/services", icon: MessageSquare },
-            { label: "Traffic Strategy", href: "/services", icon: TrendingUp },
-            { label: "Monetization", href: "/services", icon: DollarSign },
+            { label: "Advertising Systems", href: "/advertising-systems", icon: MessageSquare },
+            { label: "Traffic Strategy", href: "/traffic-strategy", icon: TrendingUp },
+            { label: "Monetization", href: "/monetization", icon: DollarSign },
           ],
         },
         {
           heading: "Protection",
           links: [
-            { label: "Privacy Systems", href: "/compliance", icon: Shield },
-            { label: "Security Measures", href: "/compliance", icon: Lock },
-            { label: "Screening Systems", href: "/posting-and-scheduling", icon: Users },
+            { label: "Privacy Systems", href: "/privacy-systems", icon: Shield },
+            { label: "Security Measures", href: "/security-measures", icon: Lock },
+            { label: "Screening Systems", href: "/screening-systems", icon: Users },
           ],
         },
       ],
@@ -116,17 +116,17 @@ const navConfig = [
         {
           heading: "Creator Suite",
           links: [
-            { label: "Dashboard", href: "/tools", icon: Home },
+            { label: "Dashboard", href: "/dashboard", icon: Home },
             { label: "Planning Tools", href: "/tools/workflow-manager", icon: Calendar },
-            { label: "Performance Utilities", href: "/tools", icon: BarChart3 },
+            { label: "Performance Utilities", href: "/performance-utilities", icon: BarChart3 },
           ],
         },
         {
           heading: "Resource Vault",
           links: [
             { label: "Download Library", href: "/downloads", icon: Download },
-            { label: "Templates", href: "/downloads", icon: FileText },
-            { label: "Resources", href: "/downloads", icon: Package },
+            { label: "Templates", href: "/templates", icon: FileText },
+            { label: "Resources", href: "/resources", icon: Package },
           ],
         },
         {
@@ -134,7 +134,7 @@ const navConfig = [
           links: [
             { label: "Workflow Systems", href: "/tools/workflow-manager", icon: Zap },
             { label: "Revenue Calculators", href: "/tools/calculator", icon: Calculator },
-            { label: "Creator Utilities", href: "/tools", icon: Wrench },
+            { label: "Creator Utilities", href: "/creator-utilities", icon: Wrench },
           ],
         },
       ],
@@ -149,25 +149,25 @@ const navConfig = [
         {
           heading: "Blacklisted University",
           links: [
-            { label: "All Courses", href: "/university", icon: Crown },
-            { label: "Training Modules", href: "/university", icon: Video },
-            { label: "Guides", href: "/blog", icon: BookOpen },
+            { label: "All Courses", href: "/all-courses", icon: Crown },
+            { label: "Training Modules", href: "/training-modules", icon: Video },
+            { label: "Guides", href: "/guides", icon: BookOpen },
           ],
         },
         {
           heading: "Intelligence Hub",
           links: [
-            { label: "Intel", href: "/blog", icon: BookOpen },
-            { label: "Industry Analysis", href: "/blog", icon: Layers },
-            { label: "Trends", href: "/blog", icon: TrendingUp },
+            { label: "Intel", href: "/intelligence-hub", icon: BookOpen },
+            { label: "Industry Analysis", href: "/industry-analysis", icon: Layers },
+            { label: "Trends", href: "/trends", icon: TrendingUp },
           ],
         },
         {
           heading: "Case Studies",
           links: [
-            { label: "Success Stories", href: "/blog", icon: Sparkles },
-            { label: "Growth Examples", href: "/blog", icon: BarChart3 },
-            { label: "Playbooks", href: "/blog", icon: FileText },
+            { label: "Success Stories", href: "/success-stories", icon: Sparkles },
+            { label: "Growth Examples", href: "/growth-examples", icon: BarChart3 },
+            { label: "Playbooks", href: "/playbooks", icon: FileText },
           ],
         },
       ],
@@ -182,25 +182,25 @@ const navConfig = [
         {
           heading: "Compliance Center",
           links: [
-            { label: "Compliance Standards", href: "/compliance", icon: Shield },
-            { label: "Terms", href: "/compliance", icon: FileText },
-            { label: "Policies", href: "/compliance", icon: FileText },
+            { label: "Compliance Standards", href: "/compliance-standards", icon: Shield },
+            { label: "Terms", href: "/terms", icon: FileText },
+            { label: "Policies", href: "/policies", icon: FileText },
           ],
         },
         {
           heading: "Protection",
           links: [
-            { label: "Privacy Systems", href: "/compliance", icon: Lock },
-            { label: "Data Protection", href: "/compliance", icon: Shield },
-            { label: "Account Security", href: "/compliance", icon: Shield },
+            { label: "Privacy Systems", href: "/privacy-systems", icon: Lock },
+            { label: "Data Protection", href: "/data-protection", icon: Shield },
+            { label: "Account Security", href: "/account-security", icon: Shield },
           ],
         },
         {
           heading: "Requirements",
           links: [
-            { label: "2257 Compliance", href: "/compliance", icon: Award },
-            { label: "Documentation", href: "/compliance", icon: FileText },
-            { label: "Compliance Resources", href: "/compliance", icon: BookOpen },
+            { label: "2257 Compliance", href: "/2257-compliance", icon: Award },
+            { label: "Documentation", href: "/compliance-documentation", icon: FileText },
+            { label: "Compliance Resources", href: "/compliance-resources", icon: BookOpen },
           ],
         },
       ],

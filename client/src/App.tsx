@@ -29,6 +29,45 @@ import MarketingAssets from "./pages/MarketingAssets";
 import MediaDownloads from "./pages/MediaDownloads";
 import University from "./pages/University";
 import MakeMoney from "./pages/MakeMoney";
+import MonetizationSystems from "./pages/MonetizationSystems";
+import ScalingFrameworks from "./pages/ScalingFrameworks";
+import RevenueOptimization from "./pages/RevenueOptimization";
+import StructuredAdvisory from "./pages/StructuredAdvisory";
+import BusinessStrategy from "./pages/BusinessStrategy";
+import CreatorPositioning from "./pages/CreatorPositioning";
+import AudienceIntelligence from "./pages/AudienceIntelligence";
+import MarketAnalysis from "./pages/MarketAnalysis";
+import BackendManagement from "./pages/BackendManagement";
+import BookingManagement from "./pages/BookingManagement";
+import CreatorOperations from "./pages/CreatorOperations";
+import AdvertisingSystems from "./pages/AdvertisingSystems";
+import TrafficStrategy from "./pages/TrafficStrategy";
+import PrivacySystems from "./pages/PrivacySystems";
+import SecurityMeasures from "./pages/SecurityMeasures";
+import ScreeningSystems from "./pages/ScreeningSystems";
+import Dashboard from "./pages/Dashboard";
+import PerformanceUtilities from "./pages/PerformanceUtilities";
+import Templates from "./pages/Templates";
+import ResourcesVault from "./pages/ResourcesVault";
+import CreatorUtilities from "./pages/CreatorUtilities";
+import AllCourses from "./pages/AllCourses";
+import TrainingModules from "./pages/TrainingModules";
+import Guides from "./pages/Guides";
+import IntelligenceHub from "./pages/IntelligenceHub";
+import IndustryAnalysis from "./pages/IndustryAnalysis";
+import Trends from "./pages/Trends";
+import SuccessStories from "./pages/SuccessStories";
+import GrowthExamples from "./pages/GrowthExamples";
+import Playbooks from "./pages/Playbooks";
+import ComplianceStandards from "./pages/ComplianceStandards";
+import TermsPage from "./pages/TermsPage";
+import PoliciesPage from "./pages/PoliciesPage";
+import DataProtection from "./pages/DataProtection";
+import AccountSecurity from "./pages/AccountSecurity";
+import Compliance2257 from "./pages/Compliance2257";
+import ComplianceDocumentation from "./pages/ComplianceDocumentation";
+import ComplianceResources from "./pages/ComplianceResources";
+import MonetizationOverview from "./pages/MonetizationOverview";
 
 function Router() {
   return (
@@ -59,6 +98,45 @@ function Router() {
       <Route path="/tools/workflow-manager" component={WorkflowManager} />
       <Route path="/tools/classified-generator" component={ClassifiedGenerator} />
       <Route path="/makemoney" component={MakeMoney} />
+      <Route path="/monetization-systems" component={MonetizationSystems} />
+      <Route path="/scaling-frameworks" component={ScalingFrameworks} />
+      <Route path="/revenue-optimization" component={RevenueOptimization} />
+      <Route path="/structured-advisory" component={StructuredAdvisory} />
+      <Route path="/business-strategy" component={BusinessStrategy} />
+      <Route path="/creator-positioning" component={CreatorPositioning} />
+      <Route path="/audience-intelligence" component={AudienceIntelligence} />
+      <Route path="/market-analysis" component={MarketAnalysis} />
+      <Route path="/backend-management" component={BackendManagement} />
+      <Route path="/booking-management" component={BookingManagement} />
+      <Route path="/creator-operations" component={CreatorOperations} />
+      <Route path="/advertising-systems" component={AdvertisingSystems} />
+      <Route path="/traffic-strategy" component={TrafficStrategy} />
+      <Route path="/monetization" component={MonetizationOverview} />
+      <Route path="/privacy-systems" component={PrivacySystems} />
+      <Route path="/security-measures" component={SecurityMeasures} />
+      <Route path="/screening-systems" component={ScreeningSystems} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/performance-utilities" component={PerformanceUtilities} />
+      <Route path="/templates" component={Templates} />
+      <Route path="/resources" component={ResourcesVault} />
+      <Route path="/creator-utilities" component={CreatorUtilities} />
+      <Route path="/all-courses" component={AllCourses} />
+      <Route path="/training-modules" component={TrainingModules} />
+      <Route path="/guides" component={Guides} />
+      <Route path="/intelligence-hub" component={IntelligenceHub} />
+      <Route path="/industry-analysis" component={IndustryAnalysis} />
+      <Route path="/trends" component={Trends} />
+      <Route path="/success-stories" component={SuccessStories} />
+      <Route path="/growth-examples" component={GrowthExamples} />
+      <Route path="/playbooks" component={Playbooks} />
+      <Route path="/compliance-standards" component={ComplianceStandards} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/policies" component={PoliciesPage} />
+      <Route path="/data-protection" component={DataProtection} />
+      <Route path="/account-security" component={AccountSecurity} />
+      <Route path="/2257-compliance" component={Compliance2257} />
+      <Route path="/compliance-documentation" component={ComplianceDocumentation} />
+      <Route path="/compliance-resources" component={ComplianceResources} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

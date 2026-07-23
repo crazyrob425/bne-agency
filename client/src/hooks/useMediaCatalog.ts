@@ -121,6 +121,20 @@ export function useMediaCatalog() {
     return matches[0];
   };
 
+  // Helper to find print/infographic material by filename keyword
+  const getInfographicByKeyword = (keyword: string): MediaCatalogItem | undefined => {
+    const kw = keyword.toLowerCase();
+    const matches = catalog.printMaterials
+      .filter(
+        (item) =>
+          item.title.toLowerCase().includes(kw) ||
+          item.url.toLowerCase().includes(kw) ||
+          item.description.toLowerCase().includes(kw)
+      )
+      .sort((a, b) => b.title.length - a.title.length);
+    return matches[0];
+  };
+
   // Dynamically map items to Courses using keywords
   const getCourses = (): CourseData[] => {
     return COURSES_META.map((meta) => {
@@ -158,6 +172,7 @@ export function useMediaCatalog() {
     error,
     refetch: fetchCatalog,
     getVideoByKeyword,
+    getInfographicByKeyword,
     getCourses,
   };
 }
