@@ -10,7 +10,7 @@ import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
-import { Home, BarChart3, Users, ArrowRight, Crown, Zap } from "lucide-react";
+import { Home, BarChart3, Users, ArrowRight, Crown, Zap, Shield, FileText, MessageCircle, Users2 } from "lucide-react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -101,6 +101,69 @@ export default function Dashboard() {
         </div>
       </section>
 
+      <section className="py-20 bg-[oklch(0.04_0.005_85)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+            <h2 className="text-3xl font-display font-bold text-white mb-4">Members-Only Dashboard Features</h2>
+            <p className="text-[oklch(0.7_0.012_85)] max-w-2xl mx-auto">Once you're in, you get access to a full operations suite built for high-performance creators who value privacy, security, and leverage.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)]">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)]">
+                  <Shield size={20} />
+                </div>
+                <h3 className="text-white font-semibold">Secure Photo & Video Sharing</h3>
+              </div>
+              <p className="text-[oklch(0.65_0.012_85)] text-sm">Share content with your team through encrypted, access-controlled channels. Set expiration dates, watermark previews, and track who viewed what — without exposing your raw files to untrusted platforms.</p>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={1} className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)]">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)]">
+                  <FileText size={20} />
+                </div>
+                <h3 className="text-white font-semibold">Secure Document Archive</h3>
+              </div>
+              <p className="text-[oklch(0.65_0.012_85)] text-sm">Store 2257 compliance records, ID verifications, model releases, and contracts in a private encrypted vault. Everything is audit-ready and accessible only to you and your BNE liaison.</p>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={2} className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)]">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)]">
+                  <MessageCircle size={20} />
+                </div>
+                <h3 className="text-white font-semibold">24/7 Tech Support Chat</h3>
+              </div>
+              <p className="text-[oklch(0.65_0.012_85)] text-sm">Something breaks at 2AM? Our ops team is online. Get instant help with platform outages, content scheduling failures, payment issues, or emergency takedowns — directly from your dashboard.</p>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={3} className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)]">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)]">
+                  <Users2 size={20} />
+                </div>
+                <h3 className="text-white font-semibold">Trusted Classifieds & Duo Partnerships</h3>
+              </div>
+              <p className="text-[oklch(0.65_0.012_85)] text-sm">Connect with other verified BNE clients for collaboration. Whether you need a content creation partner or an escort duo date, our private classifieds board lets you vet, negotiate, and schedule — all within the BNE ecosystem.</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+            <h2 className="text-3xl font-display font-bold text-white mb-4">Inside the Dashboard</h2>
+            <p className="text-[oklch(0.7_0.012_85)]">A preview of the command center our creators use every day.</p>
+          </motion.div>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="rounded-xl overflow-hidden border border-[oklch(0.78_0.16_85/15%)] shadow-2xl">
+            <img src="/media-files/bnestudio_dashboard_peek.png" alt="BNE Dashboard Preview" className="w-full h-auto" />
+          </motion.div>
+        </div>
+      </section>
+
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -119,4 +182,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
