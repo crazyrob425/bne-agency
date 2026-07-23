@@ -4,6 +4,7 @@
  * This is a high-conversion page designed to attract top-tier talent.
  */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";

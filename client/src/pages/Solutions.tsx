@@ -3,6 +3,7 @@
  * A high-level overview of the core problems B.N.E. Studio solves.
  */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";

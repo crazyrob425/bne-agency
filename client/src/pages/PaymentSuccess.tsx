@@ -3,6 +3,7 @@
  * Shown after a successful Stripe checkout
  */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
@@ -147,3 +148,4 @@ export default function PaymentSuccess() {
     </div>
   );
 }
+

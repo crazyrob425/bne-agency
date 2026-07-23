@@ -4,6 +4,7 @@
  * Shows flat-rate pricing, add-ons, one-time packages, and standard partnership CTA
  */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { useState, useRef } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -572,3 +573,4 @@ export default function ServiceTiers() {
     </div>
   );
 }
+

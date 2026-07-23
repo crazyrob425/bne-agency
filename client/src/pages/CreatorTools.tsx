@@ -7,6 +7,7 @@
  */
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   Camera,
   DollarSign,
@@ -798,3 +799,4 @@ export default function CreatorTools() {
     </div>
   );
 }
+

@@ -2,6 +2,7 @@
  * BNE All Services Page
  */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -496,3 +497,4 @@ export default function AllServices() {
     </div>
   );
 }
+

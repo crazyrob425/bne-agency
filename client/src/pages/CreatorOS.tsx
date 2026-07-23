@@ -3,6 +3,7 @@
  * The unified ecosystem for tools, assets, and resources.
  */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";

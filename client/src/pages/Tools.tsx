@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "wouter";
 import { Calculator, FileText, Calendar, CreditCard, Zap, ChevronRight, Users, Target, Sparkles, BarChart3, Clock } from "lucide-react";
 import Navigation from "@/components/Navigation";
@@ -223,3 +224,4 @@ export default function Tools() {
     </div>
   );
 }
+
