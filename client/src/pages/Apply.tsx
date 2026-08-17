@@ -266,6 +266,41 @@ export default function Apply() {
       <div className="min-h-screen bg-background">
         <Navigation />
 
+        {/* Long-form SEO content for the Apply page */}
+        <div className="container py-10">
+          <article className="prose prose-invert max-w-4xl mx-auto text-slate-200">
+            <h2>Applying to BNE — What Every Creator Should Know</h2>
+            <p>
+              Applying is your moment to show focus, ambition, and readiness. BNE partners with creators who want to build a real business — not just a one-hit viral moment. This page guides you through what to prepare, how the review works, and how BNE structures partnerships to maximize earnings while protecting your identity and safety.
+            </p>
+            <h3>What Makes a Strong Applicant</h3>
+            <p>
+              We value clarity of purpose over follower counts. The top signals are: consistent content creation, a clear niche, openness to process, and basic technical readiness (phone or camera capable of 1080p, stable Wi‑Fi, and the ability to record short clips). If you have zero followers but high hustle, you can still be a top candidate.
+            </p>
+            <h3>How BNE Partners Work</h3>
+            <p>
+              Partnerships include content strategy, production, compliance, fan management, and paid marketing. BNE takes an aligned revenue-share approach: we front the costs and scale your account. Our support includes DM management, promotions, pricing strategy, and legal recordkeeping (2257). We prioritize long-term value and creator safety over short-term wins.
+            </p>
+            <h3>Preparing Your Best Application</h3>
+            <ul>
+              <li><strong>Be honest:</strong> Accurate answers speed up onboarding and reduce friction later.</li>
+              <li><strong>Provide contact details:</strong> A reliable email ensures fast replies; add Signal or other preferred secure channels in the form.</li>
+              <li><strong>Upload assets:</strong> If you want anonymity, mark it — we can proceed without real-name reveals and will set up private channels for verification.</li>
+            </ul>
+            <figure>
+              <img src="/media/apply-hero.jpg" alt="Apply to BNE" />
+              <figcaption>We review every application personally — expect clear, direct feedback.</figcaption>
+            </figure>
+            <h3>What Happens After Submission</h3>
+            <p>
+              Within 24–48 hours you'll receive a personal review. If accepted, a partner will outline a 30/60/90 plan, compliance checklist, and onboarding schedule. If declined, you’ll receive constructive feedback so you can reapply with a stronger profile.
+            </p>
+            <p>
+              Helpful links: <a href="/onboarding">Onboarding</a> · <a href="/compliance-vault">Compliance Vault</a> · <a href="/creator-tools">Creator Tools</a>
+            </p>
+          </article>
+        </div>
+
         {submitSuccess ? (
           <section className="py-20">
             <div className="max-w-2xl mx-auto px-4 text-center">

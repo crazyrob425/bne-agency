@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Calculator, TrendingUp, DollarSign, Users, Clock, Shield, ChevronRight, Zap } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 
 export default function CreatorCalculator() {
   const [subscribers, setSubscribers] = useState(500);
@@ -37,8 +38,30 @@ export default function CreatorCalculator() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo title="Creator Revenue Calculator — BNE Studio" description="Estimate your creator earnings across subscriptions, PPV, tips, and after-BNE projections with our all-in-one calculator." canonical="/creator-calculator" />
       <Navigation />
       
+      {/* SEO intro: explain the calculator and how to use it */}
+      <div className="container py-8">
+        <article className="prose prose-invert max-w-3xl mx-auto text-slate-200">
+          <h2>Creator Revenue Calculator — Realistic Projections & BNE Outcomes</h2>
+          <p>
+            This calculator helps creators forecast monthly revenue across subscriptions, PPV, tips, and estimated platform fees. Toggle the sliders to simulate real-world scenarios: conservative growth, current baseline, and the BNE-managed outcome. Use it to set realistic goals, plan content cadence, and compare the efficiency of self-managed versus professionally-managed operations.
+          </p>
+          <h3>What This Tool Includes</h3>
+          <ul>
+            <li>Subscription revenue (subscribers × price)</li>
+            <li>One-time PPV & custom sales</li>
+            <li>Tips & fan contributions</li>
+            <li>Platform fees and management splits</li>
+            <li>Estimated taxes and monthly expenses</li>
+          </ul>
+          <p>
+            The calculator also shows a BNE projection where we model the effect of optimized PPV/pricing, improved funneling, and management-driven monetization. These projections are hypothetical but grounded in our operational data and case studies.
+          </p>
+        </article>
+      </div>
+
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-slate-950 to-emerald-950/20" />

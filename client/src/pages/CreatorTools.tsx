@@ -645,6 +645,31 @@ export default function CreatorTools() {
       <Seo pageKey="creatorTools" />
       <Navigation />
 
+      {/* SEO long-form intro: Creator tools explained */}
+      <div className="container py-8">
+        <article className="prose prose-invert max-w-4xl mx-auto text-slate-200">
+          <h2>The Creator Stack — Tools We Actually Use</h2>
+          <p>
+            This page is a curated, tested list of platforms and services that help creators scale. Unlike generic lists, every item here has been evaluated by our operations team or creators in our network. The stack covers production, distribution, monetization, marketing, finance, and legal protections.
+          </p>
+          <h3>How to Choose Tools for Your Niche</h3>
+          <p>
+            Start by identifying your primary revenue model: subscriptions, PPV, clips, or in-person services. Then choose tools optimized for that model — for example, ManyVids and Clips4Sale for clip revenue, OnlyFans for subscriptions, and Paxum/Wise for payouts. Use lightweight, proven tools at first and add automation as volume grows.
+          </p>
+          <h3>Our Recommendations</h3>
+          <p>
+            Follow the 'one-thing' rule: choose one best-in-class tool per function and learn it deeply. We mark recommended and BNE-verified tools in the list so you can start with what actually works.
+          </p>
+          <figure>
+            <img src="/media/creator-tools-overview.jpg" alt="Creator tools overview" />
+            <figcaption>Use this stack as your baseline and customize as your business grows.</figcaption>
+          </figure>
+          <p>
+            Internal links: <a href="/creator-calculator">Calculator</a> · <a href="/all-services">All Services</a> · <a href="/compliance-vault">Compliance Vault</a>
+          </p>
+        </article>
+      </div>
+
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/30 via-slate-950 to-violet-950/20" />

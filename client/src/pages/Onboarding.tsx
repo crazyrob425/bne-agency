@@ -302,6 +302,49 @@ export default function Onboarding() {
         />
       </div>
 
+      {/* SEO-rich introduction: long-form content to educate visitors and improve organic rankings. */}
+      <div className="container py-10">
+        <article className="prose prose-invert max-w-4xl mx-auto text-slate-200">
+          <h2>Apply to BNE: Your Complete Guide to Getting Started</h2>
+          <p>
+            BNE Studio helps creators transform genuine talent into sustainable, scalable businesses. Whether you're interested in quiet management, silent webcam partnerships, or support for in-person fields, this application is the first step toward building a professional, protected, and profitable brand. Below is everything applicants need to know — how the review works, what we prioritize, what support looks like, and how to prepare your best application.
+          </p>
+          <h3>Why Apply?</h3>
+          <p>
+            Traditional agencies promise the moon. We deliver systems. BNE focuses on creators who want real business outcomes: predictable revenue, legal protection, anonymity when required, and a career that compounds rather than burns out. We invest in creators up front — production, creative direction, ad spend, and compliance infrastructure. Our revenue share aligns incentives: we only win when creators win.
+          </p>
+          <h3>What We Look For</h3>
+          <p>
+            Applications are reviewed by a senior partner who looks for signals beyond followers: clarity of niche, willingness to follow guidance, creative consistency, and basic technical readiness. We recruit for scale and long-term value; creators who can reliably create content, follow production plans, and engage with core audiences are the best fit.
+          </p>
+          <h3>How the Review Works</h3>
+          <ol>
+            <li><strong>Fast initial screen.</strong> We verify age and eligibility, then check basic fit (niche, presentation, and safety concerns).</li>
+            <li><strong>Personal assessment.</strong> A senior partner records a short voice note with candid feedback and next steps — honest and actionable.</li>
+            <li><strong>Decision window.</strong> Most creators receive a response within 24–48 hours. If accepted, we schedule an onboarding call and share the 90-day launch roadmap.</li>
+          </ol>
+          <h3>Preparing a Strong Application</h3>
+          <p>
+            Speed matters, but detail matters more. Provide clear contact info, a reliable email, accurate availability, and honest answers about your experience and goals. Upload good-quality headshots if possible — but anonymity is fully supported when requested. If privacy is a concern, note it clearly in your application and we'll prioritize email or signal-based communication.
+          </p>
+          <h3>What To Expect After Submission</h3>
+          <p>
+            Once submitted, expect a human response. If accepted, the onboarding process includes asset creation, compliance setup (ID verification and record keeping), platform configuration, and a 30/60/90 day growth plan. If declined, we provide constructive feedback so you can reapply with a stronger profile.
+          </p>
+          <figure>
+            <img src="/media/onboarding-hero.jpg" alt="BNE onboarding" />
+            <figcaption>Preparing a standout submission helps speed up the review and improve outcomes.</figcaption>
+          </figure>
+          <h3>Helpful Resources</h3>
+          <p>
+            Use our Creator Tools, Compliance Vault, and Calculator pages (links below) to optimize your application. These resources explain technical setup, legal basics, and projected outcomes so you can apply with confidence.
+          </p>
+          <p>
+            Internal links: <a href="/creator-tools">Creator Tools</a> · <a href="/compliance-vault">Compliance Vault</a> · <a href="/creator-calculator">Creator Calculator</a>
+          </p>
+        </article>
+      </div>
+
       <section className="border-b border-slate-800 py-10">
         <div className="container">
           <div className="flex items-center gap-3 mb-2">

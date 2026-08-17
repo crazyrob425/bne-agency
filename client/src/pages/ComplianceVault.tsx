@@ -72,7 +72,35 @@ export default function ComplianceVault() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo pageKey="complianceVault" />
       <Navigation />
+
+      {/* Long-form compliance primer for SEO and user education */}
+      <div className="container py-8">
+        <article className="prose prose-invert max-w-4xl mx-auto text-slate-200">
+          <h2>Compliance Vault — Your Legal Readiness Checklist</h2>
+          <p>
+            The Compliance Vault centralizes critical legal and privacy information for creators: federal record-keeping (2257), state-by-state age verification nuances, DMCA protections, and best practices for privacy-preserving workflows. This primer explains why these systems matter and how to operationalize them without sacrificing brand or income.
+          </p>
+          <h3>Why Compliance Is Non-Negotiable</h3>
+          <p>
+            Non-compliance risks fines, account suspensions, compromised payments, and legal exposure. BNE treats compliance as infrastructure — a small recurring investment that protects long-term revenue and creator safety. Our Compliance Vault includes checklists, sample record formats, and recommended vendors for verification and record custody.
+          </p>
+          <h3>Practical Steps</h3>
+          <ol>
+            <li>Establish a secure record-keeping folder with limited access and verified backups.</li>
+            <li>Use a 2257-ready age verification provider when required for platform or payment provider rules.</li>
+            <li>Apply DMCA takedowns proactively and monitor leak detection services.</li>
+          </ol>
+          <figure>
+            <img src="/media/compliance-vault-hero.jpg" alt="Compliance vault" />
+            <figcaption>Compliance is insurance — not an optional overhead.</figcaption>
+          </figure>
+          <p>
+            For jurisdiction-specific questions, consult a licensed attorney. Our materials are educational and operational — they're designed to help you get compliant quickly and keep your business running while you grow.
+          </p>
+        </article>
+      </div>
 
       {/* Hero */}
       <section className="relative pt-24 pb-16 overflow-hidden">

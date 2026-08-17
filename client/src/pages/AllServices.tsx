@@ -96,6 +96,31 @@ export default function AllServices() {
       <Seo pageKey="all-services" schema={combinedSchema} />
       <Navigation />
 
+      {/* Long-form SEO introduction to All Services */}
+      <div className="container py-8">
+        <article className="prose prose-invert max-w-5xl mx-auto text-slate-200">
+          <h2>All Services — How BNE Builds Creator Businesses</h2>
+          <p>
+            BNE provides a full suite of services that turn creators into scalable businesses. This includes brand identity, platform strategy, content production, legal compliance, paid growth, community management, and in-person safety services. Each service is modular so we can construct a bespoke plan that meets your goals and risk tolerance.
+          </p>
+          <h3>Service Categories</h3>
+          <p>
+            Our offerings are grouped into launch services, growth operations, legal & compliance, monetization engineering, and in-person support. Depending on your needs we combine these services into a managed plan or a la carte engagement.
+          </p>
+          <h3>How a Partnership Typically Works</h3>
+          <p>
+            After application and acceptance, we implement an initial 30-day launch plan that covers persona creation, content calendar, price testing, and compliance setup. Months 2–3 focus on scale: paid traffic, conversion optimization, and retention. By month 6 we aim for stable recurring revenue and a pathway to expand into additional verticals or international markets.
+          </p>
+          <figure>
+            <img src="/media/all-services-hero.jpg" alt="All services overview" />
+            <figcaption>Services are modular — pick what you need, scale when you're ready.</figcaption>
+          </figure>
+          <p>
+            Internal links: <a href="/onboarding">Apply</a> · <a href="/creator-tools">Creator Tools</a> · <a href="/compliance-vault">Compliance Vault</a>
+          </p>
+        </article>
+      </div>
+
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-violet-900/10 via-transparent to-emerald-900/5" />
