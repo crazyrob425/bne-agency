@@ -38,6 +38,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 
 interface Tool {
   name: string;
@@ -641,6 +642,7 @@ const COLOR_MAP: Record<string, { bg: string; border: string; text: string; badg
 export default function CreatorTools() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="creatorTools" />
       <Navigation />
 
       {/* Hero */}

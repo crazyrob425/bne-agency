@@ -255,10 +255,20 @@ export default function NicheQuizExperience({
   answersRef.current = answers;
   selectedValueRef.current = selectedValue;
 
+  const [isShaking, setIsShaking] = useState(false);
+
   const handleSelect = useCallback((value: string) => {
     if (currentQuestion.type === "multi") {
       const current = (selectedValueRef.current as string[]) || [];
       const maxSelect = currentQuestion.maxSelect || 999;
+      const isAtMax = current.length >= maxSelect && !current.includes(value);
+
+      if (isAtMax) {
+        setIsShaking(true);
+        setTimeout(() => setIsShaking(false), 400);
+        return;
+      }
+
       let updated: string[];
 
       if (current.includes(value)) {
@@ -411,7 +421,10 @@ export default function NicheQuizExperience({
 
         {/* Options Grid */}
         <div
-          className="grid gap-2 md:gap-2.5 flex-1 content-start mt-2 md:mt-3"
+          className={`
+            grid gap-2 md:gap-2.5 flex-1 content-start mt-2 md:mt-3
+            ${isShaking ? "animate-shake" : ""}
+          `}
           style={{
             gridTemplateColumns: isMulti
               ? "repeat(auto-fill, minmax(min(100%, 260px), 1fr))"
@@ -419,9 +432,11 @@ export default function NicheQuizExperience({
           }}
         >
           {currentQuestion.options.map((opt) => {
-            const isSelected = isMulti
-              ? ((selectedValue as string[]) || []).includes(opt.value)
-              : selectedValue === opt.value;
+      const isSelected = isMulti
+        ? ((selectedValue as string[]) || []).includes(opt.value)
+        : selectedValue === opt.value;
+
+      const isAtMax = isMulti && selectedCount >= maxSelect && !isSelected;
 
             const IconComponent = QUIZ_ICON_MAP[opt.icon?.toLowerCase() || ""];
 
@@ -438,7 +453,9 @@ export default function NicheQuizExperience({
                   diamond-cut border
                   ${isSelected
                     ? "border-[#D4AF37]/60 bg-[#D4AF37]/[0.08]"
-                    : "border-white/[0.06] bg-[#080808]/80 hover:border-[#D4AF37]/25 hover:bg-[#0C0C0E]"
+                    : isAtMax
+                      ? "border-white/[0.03] bg-[#080808]/50 opacity-40"
+                      : "border-white/[0.06] bg-[#080808]/80 hover:border-[#D4AF37]/25 hover:bg-[#0C0C0E]"
                   }
                 `}
                 style={{

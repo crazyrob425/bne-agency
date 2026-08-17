@@ -96,12 +96,7 @@ export default function University() {
 
   return (
     <div className="min-h-screen bg-[oklch(0.04_0.005_85)] text-foreground">
-      <Seo
-        title="Blacklisted University | Creator Education & Masterclass"
-        description="Welcome to BU. Master audience psychology, sovereign legal privacy, § 2257 compliance guidelines, in-person booking security, and operational scaling to run a highly profitable adult brand."
-        canonical="/university"
-        schema={universitySchema}
-      />
+      <Seo pageKey="university" schema={universitySchema} />
       <Navigation />
 
       {/* Hero / Ivy League Welcome */}

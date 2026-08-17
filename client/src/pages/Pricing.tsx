@@ -11,6 +11,7 @@ import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 import {
   Check, Zap, Crown, Star, ArrowRight, Shield, Lock, Sparkles, CreditCard, Plus
 } from "lucide-react";

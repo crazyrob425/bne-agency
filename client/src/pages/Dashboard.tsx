@@ -26,11 +26,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Seo
-        title="Dashboard | BNE Creator OS"
-        description="Your creator command center. Monitor revenue, track growth, manage operations, and access your BNE toolkit from one powerful dashboard."
-        canonical="/dashboard"
-      />
+      <Seo pageKey="dashboard" />
       <Navigation />
 
       <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-24">

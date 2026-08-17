@@ -67,7 +67,7 @@ function AgeGate() {
   if (blocked) {
     return (
       <div className="min-h-screen bg-[oklch(0.05_0.004_85)] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
-        <Seo title="Verification Required" description="BNE Studio operations gate. Verification required to view adult content creator operations." noIndex={true} />
+        <Seo pageKey="home" noIndex={true} />
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-[500px] h-[500px] bg-red-500/10 rounded-full blur-[120px]" />
         </div>

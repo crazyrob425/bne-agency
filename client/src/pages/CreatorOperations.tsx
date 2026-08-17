@@ -28,11 +28,7 @@ export default function CreatorOperations() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Seo
-        title="Creator Operations | BNE Agency"
-        description="Full-service creator business operations from content calendars and fan chats to brand deals and multi-platform distribution."
-        canonical="/creator-operations"
-      />
+      <Seo pageKey="creator-operations" />
       <Navigation />
 
       <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-24">

@@ -93,12 +93,7 @@ export default function AllServices() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Seo
-        title="Complete Operations & Brand Management Services"
-        description="Explore BNE's full operational suite: identity design, webcam setups, fan chat management, passive stream creation, legal compliance, and tax assistance."
-        canonical="/services"
-        schema={combinedSchema}
-      />
+      <Seo pageKey="all-services" schema={combinedSchema} />
       <Navigation />
 
       {/* Hero */}

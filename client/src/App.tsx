@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { Helmet } from "react-helmet-async";
+import { pageSeoConfig, baseMetadata, organizationSchema, websiteSchema, breadcrumbSchema } from "./seo.config";
 import Home from "./pages/Home";
 import Splash from "./pages/Splash";
 import ServiceTiers from "./pages/ServiceTiers";

@@ -8,6 +8,7 @@ import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import VideoPlayer from "@/components/VideoPlayer";
+import Seo from "@/components/Seo";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import {
   Shield, FileText, AlertTriangle, CheckCircle, Download,

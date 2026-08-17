@@ -107,12 +107,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Seo
-        title="B.N.E. Agency | Silent Partners to Elite Creator Empires"
-        description="Silent operations partner for digital creators (OnlyFans, webcam modeling setups, multi-platform streaming) and high-end physical companions, companions, fetish performers, and erotic dancers. We handle booking, screening, safety vetting, and marketing."
-        canonical="/home"
-        schema={orgSchema}
-      />
+      <Seo pageKey="home" />
       <Navigation />
 
       {/* ── HERO ── */}

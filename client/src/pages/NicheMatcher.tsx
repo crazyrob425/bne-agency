@@ -496,13 +496,7 @@ function NicheDetailRoutePage({ niche }: { niche: Niche }) {
 
   return (
     <div className="min-h-screen bg-black text-[#F4F4EE] selection:bg-[#D4AF37]/30 selection:text-white">
-      <Seo
-        title={`${niche.keyword} Niche Guide`}
-        description={`${detail.intro} ${detail.whatItInvolves}`}
-        canonical={routePath}
-        keywords={searchTerms}
-        schema={routeSchema}
-      />
+      <Seo pageKey="nicheMatcher" />
       <Navigation />
 
       <main className="max-w-6xl mx-auto px-6 py-28 md:py-36">
@@ -673,12 +667,7 @@ export default function NicheMatcher() {
   if (routeSlug && !routeNiche) {
     return (
       <div className="min-h-screen bg-black text-[#F4F4EE]">
-        <Seo
-          title="Niche not found"
-          description="The niche URL could not be resolved. Return to the main niche matcher to browse the full index."
-          canonical="/niche-matcher"
-          noIndex
-        />
+        <Seo pageKey="nicheMatcher" noIndex />
         <Navigation />
         <main className="max-w-4xl mx-auto px-6 py-32 text-center">
           <p className="text-[10px] font-black tracking-[0.35em] uppercase text-[#D4AF37] mb-4">Invalid niche route</p>
@@ -844,19 +833,7 @@ export default function NicheMatcher() {
 
   return (
     <div className="min-h-screen bg-black text-[#F4F4EE] selection:bg-[#D4AF37]/30 selection:text-white">
-      <Seo
-        title="Elite Niche Matcher | Strategic Inventory"
-        description="Explore, compare, and decode niche categories with detailed cards, adult content market context, and crawlable FAQ answers for niche topic questions."
-        keywords={[
-          "niche matcher",
-          "niche SEO",
-          "content niche research",
-          "adult niche database",
-          "niche topic questions",
-          ...seoSnippets.map((snippet) => snippet.question.replace(/\?$/, "")),
-        ]}
-        schema={webAppSchema}
-      />
+      <Seo pageKey="nicheMatcher" />
       <Navigation />
 
       {/* ── DRAMATIC HERO ── */}

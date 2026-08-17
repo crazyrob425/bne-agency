@@ -165,13 +165,7 @@ export default function Tools() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Seo
-        title="Free Creator Tools & Revenue Calculators | BNE Studio"
-        description="Access free tools for creators and entertainers: OnlyFans revenue calculator, content strategy engines, classified ad generators, and income verification checkers. Backed by $10M+ in creator revenue data."
-        canonical="/tools"
-        schema={toolsSchema}
-        keywords="creator tools, revenue calculator, OnlyFans calculator, content strategy, income verification, creator analytics, BNE Studio"
-      />
+      <Seo pageKey="tools" schema={toolsSchema} />
       <Navigation />
 
       {/* Hero */}

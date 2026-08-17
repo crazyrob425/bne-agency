@@ -1,3 +1,5 @@
+update robots.txt to:
+
 User-agent: *
 Allow: /
 

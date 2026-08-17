@@ -1,84 +1,69 @@
 import { Helmet } from "react-helmet-async";
+import { SeoMetadata, baseMetadata, pageSeoConfig, breadcrumbSchema } from '../seo.config';
 
 interface SeoProps {
-  title: string;
-  description: string;
-  canonical?: string;
-  imageUrl?: string;
-  keywords?: string[];
-  schema?: Record<string, any>;
-  noIndex?: boolean;
-  articlePublishedTime?: string;
-  articleModifiedTime?: string;
-  articleAuthor?: string;
-  articleTags?: string[];
-  type?: "website" | "article";
+  pageKey: string;
+  customMetadata?: Partial<SeoMetadata>;
+  breadcrumbItems?: { name: string; url: string }[];
 }
 
-const SITE_URL = "https://blacklisted.studio";
-const SITE_NAME = "Blacklisted Studio";
-const TWITTER_HANDLE = "@BNEAgency";
-
 export default function Seo({
-  title,
-  description,
-  canonical,
-  imageUrl,
-  keywords,
-  schema,
-  noIndex,
-  articlePublishedTime,
-  articleModifiedTime,
-  articleAuthor,
-  articleTags,
-  type = "website",
+  pageKey,
+  customMetadata = {},
+  breadcrumbItems,
 }: SeoProps) {
-  const fullTitle = title.includes(SITE_NAME) || title.includes("B.N.E.") ? title : `${title} | ${SITE_NAME}`;
-  const fullUrl = canonical ? `${SITE_URL}${canonical}` : SITE_URL;
-  const fullImageUrl = imageUrl ? `${SITE_URL}${imageUrl}` : `${SITE_URL}/og-image.png`;
+  const config = pageSeoConfig[pageKey];
+  if (!config) {
+    console.warn(`No SEO config found for pageKey: ${pageKey}`);
+    return null;
+  }
+
+  const meta = { ...config, ...customMetadata };
+  const title = meta.title || baseMetadata.defaultTitle;
+  const description = meta.description || baseMetadata.defaultDescription;
+  const url = `${baseMetadata.siteUrl}${meta.canonical || ""}`;
+  const image = meta.ogImage || baseMetadata.defaultImage;
+
+  const jsonLdSchemas = [];
+  if (meta.jsonLd) {
+    jsonLdSchemas.push(meta.jsonLd);
+  }
+  if (breadcrumbItems && breadcrumbItems.length > 0) {
+    jsonLdSchemas.push(breadcrumbSchema(breadcrumbItems));
+  }
 
   return (
     <Helmet>
-      <title>{fullTitle}</title>
+      <title>{title}</title>
       <meta name="description" content={description} />
-      {keywords?.length ? <meta name="keywords" content={keywords.join(", ")} /> : null}
-      {noIndex && <meta name="robots" content="noindex, nofollow" />}
+      {meta.keywords && <meta name="keywords" content={meta.keywords} />}
+      {meta.noIndex && <meta name="robots" content="noindex" />}
+      {meta.noFollow && <meta name="robots" content="nofollow" />}
 
-      {/* Canonical */}
-      {canonical && <link rel="canonical" href={fullUrl} />}
+      <link rel="canonical" href={url} />
 
-      {/* Open Graph - Base */}
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={fullUrl} />
-      <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:image" content={fullImageUrl} />
-      <meta property="og:type" content={type} />
-      <meta property="og:locale" content="en_US" />
+      <meta property="og:title" content={meta.ogTitle || title} />
+      <meta property="og:description" content={meta.ogDescription || description} />
+      <meta property="og:image" content={meta.ogImage || baseMetadata.defaultImage} />
+      <meta property="og:type" content={meta.ogType || "website"} />
+      <meta property="og:url" content={url} />
+      <meta property="og:site_name" content={baseMetadata.siteName} />
 
-      {/* Open Graph - Article specific */}
-      {type === "article" && articlePublishedTime && (
-        <meta property="article:published_time" content={articlePublishedTime} />
+      <meta name="twitter:card" content={meta.twitterCard || "summary_large_image"} />
+      <meta name="twitter:title" content={meta.twitterTitle || title} />
+      <meta name="twitter:description" content={meta.twitterDescription || description} />
+      <meta name="twitter:image" content={meta.twitterImage || image} />
+      {baseMetadata.twitterHandle && (
+        <meta name="twitter:site" content={baseMetadata.twitterHandle} />
       )}
-      {type === "article" && articleModifiedTime && (
-        <meta property="article:modified_time" content={articleModifiedTime} />
-      )}
-      {type === "article" && articleAuthor && (
-        <meta property="article:author" content={articleAuthor} />
-      )}
-      {type === "article" && articleTags?.map((tag) => (
-        <meta key={tag} property="article:tag" content={tag} />
-      ))}
 
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={fullImageUrl} />
-      {TWITTER_HANDLE && <meta name="twitter:site" content={TWITTER_HANDLE} />}
-
-      {/* JSON-LD Structured Data */}
-      {schema && <script type="application/ld+json">{JSON.stringify(schema)}</script>}
+      {jsonLdSchemas.length > 0 && (
+        <script type="application/ld+json">
+          {JSON.stringify(
+            jsonLdSchemas.length === 1 ? jsonLdSchemas[0] : jsonLdSchemas
+          )}
+        </script>
+      )}
     </Helmet>
   );
 }
