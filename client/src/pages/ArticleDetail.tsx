@@ -393,7 +393,6 @@ export default function ArticleDetail() {
         articleModifiedTime={article.publishedAt}
         articleAuthor={article.author}
         articleTags={article.tags}
-        type="article"
       />
       <Navigation />
 

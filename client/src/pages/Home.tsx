@@ -16,6 +16,13 @@ import { getFeaturedArticles } from "@/data/blogArticles";
 import { useAuth } from "@/_core/hooks/useAuth";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
+import { usePageContent } from "@/lib/content/hooks";
+import MarkdownRenderer from "@/components/seo/MarkdownRenderer";
+import DefinitionBox from "@/components/seo/DefinitionBox";
+import ComparisonTable from "@/components/seo/ComparisonTable";
+import SeoFaq from "@/components/seo/SeoFaq";
+import KeyTakeaways from "@/components/seo/KeyTakeaways";
+import { buildServiceSchema, buildFaqSchema } from "@/lib/schema/builders";
 
 // Animated counter hook
 function useCounter(target: number, duration: number = 2000, start: boolean = false) {
@@ -849,8 +856,91 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── LONG-FORM SEO CONTENT ── */}
+      <section className="py-20 bg-[oklch(0.04_0.005_85)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-12">
+            <HomeSeoContent />
+            <SeoToc headings={homeSeoHeadings} />
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
 }
+
+function HomeSeoContent() {
+  const { meta, html, readingTime, loading, error } = usePageContent("home");
+
+  if (loading) {
+    return (
+      <div className="animate-pulse space-y-6">
+        <div className="h-8 bg-slate-800 rounded w-3/4" />
+        <div className="h-4 bg-slate-800 rounded w-full" />
+        <div className="h-4 bg-slate-800 rounded w-5/6" />
+      </div>
+    );
+  }
+
+  if (error || !html) {
+    return null;
+  }
+
+  const faqItems = [
+    {
+      question: "What does a silent operations partner actually do?",
+      answer:
+        "A silent operations partner handles the business backend of your creator brand: niche research, identity protection, backend automation, advertising, compliance, and scaling strategy. You create content and engage with your audience; we handle everything else.",
+    },
+    {
+      question: "How is B.N.E. Studio different from a traditional talent manager?",
+      answer:
+        "Traditional managers take a percentage of revenue for basic deal negotiation. B.N.E. Studio builds and operates your entire business infrastructure with proprietary technology, automation systems, and strategic intelligence.",
+    },
+    {
+      question: "What platforms does B.N.E. Studio support?",
+      answer:
+        "We support all major creator platforms including OnlyFans, Fansly, ManyVids, Instagram, TikTok, Twitter/X, and Reddit. Our systems are platform-agnostic and designed to diversify your revenue.",
+    },
+    {
+      question: "How long does it take to see results?",
+      answer:
+        "Most clients see measurable improvements within 30 days. Niche validation happens within 48 hours. Backend systems are deployed within 14 days. Full scaling typically occurs within 90–120 days.",
+    },
+    {
+      question: "Is my personal identity really protected?",
+      answer:
+        "Yes. We use multi-layer identity separation: encrypted vaults, anonymous business structures, privacy-first payment processing, and legal frameworks that separate your personal identity from your creator persona.",
+    },
+    {
+      question: "What does B.N.E. Studio cost?",
+      answer:
+        "Our pricing is performance-aligned, not retainer-based. We invest our systems upfront and earn based on the revenue growth we generate together. Specific terms are discussed after niche validation.",
+    },
+  ];
+
+  return (
+    <div>
+      <MarkdownRenderer html={html} readingTime={readingTime} />
+
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold text-slate-100 mb-8">
+          Frequently Asked Questions
+        </h2>
+        <SeoFaq items={faqItems} />
+      </div>
+    </div>
+  );
+}
+
+const homeSeoHeadings = [
+  { id: "key-takeaways", label: "Key Takeaways", level: 3 },
+  { id: "executive-overview", label: "Executive Overview", level: 2 },
+  { id: "the-creator-economy-infrastructure-gap", label: "The Creator Economy Infrastructure Gap", level: 2 },
+  { id: "step-by-step-the-bne-studio-onboarding-framework", label: "Onboarding Framework", level: 2 },
+  { id: "industry-standards-security-privacy-and-compliance", label: "Security & Compliance", level: 2 },
+  { id: "frequently-asked-questions", label: "FAQ", level: 2 },
+];
 

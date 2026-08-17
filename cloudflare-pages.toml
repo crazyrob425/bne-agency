@@ -1,6 +1,6 @@
 # Cloudflare Pages configuration
 [build]
-command = "pnpm install && pnpm build:static"
+command = "pnpm install && pnpm build"
 output_directory = "dist/public"
 
 [build.environment]
