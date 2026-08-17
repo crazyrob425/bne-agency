@@ -1,0 +1,95 @@
+- generic [ref=f6e2]:
+  - region "Notifications alt+T"
+  - generic [ref=f6e3]:
+    - navigation [ref=f6e4]:
+      - generic [ref=f6e6]:
+        - link "BLACKLISTED Niche Entertainment" [ref=f6e7] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f6e12]:
+            - generic [ref=f6e13]: BLACKLISTED
+            - generic [ref=f6e14]: Niche Entertainment
+        - generic [ref=f6e15]:
+          - link "Home" [ref=f6e17] [cursor=pointer]:
+            - /url: /home
+          - generic [ref=f6e19]: Solutions
+          - generic [ref=f6e21]: Services
+          - generic [ref=f6e23]: Creator OS
+          - generic [ref=f6e25]: Academy
+          - generic [ref=f6e27]: Compliance
+        - generic [ref=f6e29]:
+          - link [ref=f6e30] [cursor=pointer]:
+            - /url: /niche-matcher
+            - button "Find Your Niche" [ref=f6e31]
+          - link [ref=f6e32] [cursor=pointer]:
+            - /url: /apply
+            - button "Apply to B.N.E." [ref=f6e33]
+    - generic [ref=f6e37]:
+      - generic [ref=f6e38]: Resource Vault
+      - heading "Creator Resources" [level=1] [ref=f6e40]
+      - paragraph [ref=f6e41]: From marketing assets to legal frameworks, our vault is loaded with battle-tested resources that save you hours of work and accelerate your growth.
+      - link [ref=f6e42] [cursor=pointer]:
+        - /url: /apply
+        - button "Unlock the Vault" [ref=f6e43]
+    - generic [ref=f6e46]:
+      - heading "Marketing Assets Pack" [level=2] [ref=f6e47]
+      - generic [ref=f6e48]:
+        - generic [ref=f6e49]:
+          - heading "Legal Frameworks" [level=3] [ref=f6e55]
+          - paragraph [ref=f6e56]: Compliant contract templates, release forms, and legal checklists for adult creators.
+        - generic [ref=f6e57]:
+          - heading "Technical Toolkits" [level=3] [ref=f6e62]
+          - paragraph [ref=f6e63]: OBS profiles, workflow setups, and automation scripts to supercharge your production.
+    - generic [ref=f6e66]:
+      - heading "Your Resource Library Awaits" [level=2] [ref=f6e67]
+      - paragraph [ref=f6e68]: Apply to BNE and get instant access to our complete vault of creator resources.
+      - link [ref=f6e69] [cursor=pointer]:
+        - /url: /apply
+        - button "Apply for Access" [ref=f6e70]
+    - contentinfo [ref=f6e71]:
+      - generic: BNE
+      - generic [ref=f6e72]:
+        - generic [ref=f6e73]:
+          - generic [ref=f6e74]:
+            - generic [ref=f6e79]:
+              - generic [ref=f6e80]: BLACKLISTED
+              - generic [ref=f6e81]: Niche Entertainment
+            - paragraph [ref=f6e82]: BNE is the strategic partner for independent adult content creators who demand excellence. We architect privacy, compliance, growth, and monetization — so you can operate at the highest level.
+            - generic [ref=f6e83]: SYSTEMS OPERATIONAL
+          - generic [ref=f6e86]:
+            - heading "Navigation" [level=4] [ref=f6e87]
+            - list [ref=f6e88]:
+              - listitem [ref=f6e89]:
+                - link "Home" [ref=f6e90] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=f6e91]:
+                - link "Solutions" [ref=f6e92] [cursor=pointer]:
+                  - /url: /solutions
+              - listitem [ref=f6e93]:
+                - link "Services" [ref=f6e94] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=f6e95]:
+                - link "Creator OS" [ref=f6e96] [cursor=pointer]:
+                  - /url: /creator-os
+              - listitem [ref=f6e97]:
+                - link "Academy" [ref=f6e98] [cursor=pointer]:
+                  - /url: /academy
+              - listitem [ref=f6e99]:
+                - link "Compliance" [ref=f6e100] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=f6e101]:
+                - link "Apply to B.N.E." [ref=f6e102] [cursor=pointer]:
+                  - /url: /apply
+          - generic [ref=f6e103]:
+            - heading "Legal" [level=4] [ref=f6e104]
+            - list [ref=f6e105]:
+              - listitem [ref=f6e106]: Privacy Policy
+              - listitem [ref=f6e107]: Terms of Service
+              - listitem [ref=f6e108]: 18 U.S.C. § 2257
+              - listitem [ref=f6e109]: DMCA Policy
+              - listitem [ref=f6e110]: Cookie Policy
+        - generic [ref=f6e111]:
+          - paragraph [ref=f6e112]: © 2025 BLACKLISTED NICHE ENTERTAINMENT — ALL RIGHTS RESERVED
+          - paragraph [ref=f6e113]: "ENGINEERED BY BLACKLISTED BINARY LABS · CHIEF ARCHITECT: ROB BRANTING"
+        - paragraph [ref=f6e115]:
+          - strong [ref=f6e116]: Legal Framework
+          - text: Blacklisted Niche Entertainment provides digital marketing, brand architecture, compliance education, and strategic advisory services exclusively for adult content creators operating legally on licensed platforms within the United States. All engagements are conducted in strict adherence to applicable federal and state regulations. BNE does not facilitate, promote, or engage in any unlawful activities. All creators are required to maintain 18 U.S.C. § 2257 record-keeping compliance. This platform is intended exclusively for adults aged 18 and older.

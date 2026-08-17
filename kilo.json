@@ -3,14 +3,31 @@
   "snapshot": false,
   "mcp": {
     "render": {
-      "type": "sse",
+      "type": "remote",
       "url": "https://mcp.render.com/sse",
       "headers": {
         "Authorization": "Bearer rnd_fCogWbnMt71Ix4yW34LS1y67bGhh"
-      },
-      "settings": {
-        "workspace": "bne-agency"
       }
+    },
+    "cloudflare": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-docs": {
+      "type": "remote",
+      "url": "https://docs.mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-bindings": {
+      "type": "remote",
+      "url": "https://bindings.mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-builds": {
+      "type": "remote",
+      "url": "https://builds.mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-observability": {
+      "type": "remote",
+      "url": "https://observability.mcp.cloudflare.com/mcp"
     }
   }
 }

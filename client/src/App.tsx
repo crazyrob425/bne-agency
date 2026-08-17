@@ -23,6 +23,16 @@ import ContentStrategyEngine from "./pages/tools/ContentStrategyEngine";
 import IncomeVerifier from "./pages/tools/IncomeVerifier";
 import WorkflowManager from "./pages/tools/WorkflowManager";
 import ClassifiedGenerator from "./pages/tools/ClassifiedGenerator";
+import CreatorPush from "./pages/tools/CreatorPush";
+import FanBotPro from "./pages/tools/FanBotPro";
+import BrandStamp from "./pages/tools/BrandStamp";
+import CreatorHub from "./pages/tools/CreatorHub";
+import CreatorPulse from "./pages/tools/CreatorPulse";
+import AutoPilotStudio from "./pages/tools/AutoPilotStudio";
+import SceneForge from "./pages/tools/SceneForge";
+import SilentRank from "./pages/tools/SilentRank";
+import TeaserForge from "./pages/tools/TeaserForge";
+import BlacklistedLinks from "./pages/tools/BlacklistedLinks";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import AllServices from "./pages/AllServices";
 import MarketingAssets from "./pages/MarketingAssets";
@@ -98,7 +108,17 @@ function Router() {
       <Route path="/tools/income-verifier" component={IncomeVerifier} />
       <Route path="/tools/workflow-manager" component={WorkflowManager} />
       <Route path="/tools/classified-generator" component={ClassifiedGenerator} />
-      <Route path="/makemoney" component={MakeMoney} />
+      <Route path="/tools/content-calendar" component={CreatorPush} />
+      <Route path="/tools/fanbot-builder" component={FanBotPro} />
+      <Route path="/tools/brandstamp" component={BrandStamp} />
+      <Route path="/tools/creator-link" component={CreatorHub} />
+      <Route path="/tools/creator-pulse" component={CreatorPulse} />
+       <Route path="/tools/autopilot-studio" component={AutoPilotStudio} />
+       <Route path="/tools/sceneforge" component={SceneForge} />
+       <Route path="/tools/silent-rank" component={SilentRank} />
+       <Route path="/tools/teaser-forge" component={TeaserForge} />
+       <Route path="/tools/blacklisted-links" component={BlacklistedLinks} />
+       <Route path="/makemoney" component={MakeMoney} />
       <Route path="/monetization-systems" component={MonetizationSystems} />
       <Route path="/scaling-frameworks" component={ScalingFrameworks} />
       <Route path="/revenue-optimization" component={RevenueOptimization} />

@@ -1,0 +1,116 @@
+- generic [ref=f7e2]:
+  - region "Notifications alt+T"
+  - generic [ref=f7e3]:
+    - navigation [ref=f7e4]:
+      - generic [ref=f7e6]:
+        - link "BLACKLISTED Niche Entertainment" [ref=f7e7] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f7e12]:
+            - generic [ref=f7e13]: BLACKLISTED
+            - generic [ref=f7e14]: Niche Entertainment
+        - generic [ref=f7e15]:
+          - link "Home" [ref=f7e17] [cursor=pointer]:
+            - /url: /home
+          - generic [ref=f7e19]: Solutions
+          - generic [ref=f7e21]: Services
+          - generic [ref=f7e23]: Creator OS
+          - generic [ref=f7e25]: Academy
+          - generic [ref=f7e27]: Compliance
+        - generic [ref=f7e29]:
+          - link [ref=f7e30] [cursor=pointer]:
+            - /url: /niche-matcher
+            - button "Find Your Niche" [ref=f7e31]
+          - link [ref=f7e32] [cursor=pointer]:
+            - /url: /apply
+            - button "Apply to B.N.E." [ref=f7e33]
+    - generic [ref=f7e36]:
+      - button "Dismiss" [ref=f7e37]
+      - generic [ref=f7e41]:
+        - generic [ref=f7e42]:
+          - paragraph [ref=f7e43]: Save your application
+          - paragraph [ref=f7e44]: Create an account to save your application draft and continue later from any device.
+        - generic [ref=f7e45]:
+          - textbox "you@example.com" [ref=f7e46]
+          - button "Save" [ref=f7e47]
+          - button "Login" [ref=f7e51]
+    - generic [ref=f7e59]:
+      - paragraph [ref=f7e60]: Step 1 of 3 — Identity & Paths
+      - heading "Let's get to know you." [level=1] [ref=f7e61]
+    - generic [ref=f7e67]:
+      - generic [ref=f7e69]:
+        - generic [ref=f7e70]:
+          - generic [ref=f7e71]: Creator Name / Stage Alias *
+          - textbox [ref=f7e72]
+        - generic [ref=f7e73]:
+          - generic [ref=f7e74]: Creator Email *
+          - textbox [ref=f7e75]
+        - generic [ref=f7e76]:
+          - generic [ref=f7e77]: Phone / Signal (Optional)
+          - textbox [ref=f7e78]
+        - generic [ref=f7e79]:
+          - generic [ref=f7e80]: Country *
+          - textbox [ref=f7e81]
+        - generic [ref=f7e82]:
+          - generic [ref=f7e83]: What are your current OR desired revenue paths? (Select all that apply) *
+          - generic [ref=f7e84]:
+            - button "Digital Content Creation (OnlyFans, Fansly, etc.)" [ref=f7e85]
+            - button "Webcam modeling, phone sex, sexting / online adult live interactions" [ref=f7e86]
+            - button "In-Person Entertainment / Companion (Escort, Dancer, Fetish, Masseuse, Party Girl)" [ref=f7e87]
+        - generic [ref=f7e88]:
+          - generic [ref=f7e89]: Photo / Headshot Uploads (Optional)
+          - button "Choose File" [ref=f7e91] [cursor=pointer]
+          - paragraph [ref=f7e92]: Upload headshots, digitals, or promos (Max 5MB per file)
+        - generic [ref=f7e93] [cursor=pointer]: I confirm I am 18 years or older. *
+      - generic [ref=f7e96]:
+        - button "Back" [disabled]
+        - generic [ref=f7e97]:
+          - button "Save & Finish Later" [ref=f7e98]
+          - button "Save & Continue" [ref=f7e99]
+    - contentinfo [ref=f7e100]:
+      - generic: BNE
+      - generic [ref=f7e101]:
+        - generic [ref=f7e102]:
+          - generic [ref=f7e103]:
+            - generic [ref=f7e108]:
+              - generic [ref=f7e109]: BLACKLISTED
+              - generic [ref=f7e110]: Niche Entertainment
+            - paragraph [ref=f7e111]: BNE is the strategic partner for independent adult content creators who demand excellence. We architect privacy, compliance, growth, and monetization — so you can operate at the highest level.
+            - generic [ref=f7e112]: SYSTEMS OPERATIONAL
+          - generic [ref=f7e115]:
+            - heading "Navigation" [level=4] [ref=f7e116]
+            - list [ref=f7e117]:
+              - listitem [ref=f7e118]:
+                - link "Home" [ref=f7e119] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=f7e120]:
+                - link "Solutions" [ref=f7e121] [cursor=pointer]:
+                  - /url: /solutions
+              - listitem [ref=f7e122]:
+                - link "Services" [ref=f7e123] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=f7e124]:
+                - link "Creator OS" [ref=f7e125] [cursor=pointer]:
+                  - /url: /creator-os
+              - listitem [ref=f7e126]:
+                - link "Academy" [ref=f7e127] [cursor=pointer]:
+                  - /url: /academy
+              - listitem [ref=f7e128]:
+                - link "Compliance" [ref=f7e129] [cursor=pointer]:
+                  - /url: /compliance
+              - listitem [ref=f7e130]:
+                - link "Apply to B.N.E." [ref=f7e131] [cursor=pointer]:
+                  - /url: /apply
+          - generic [ref=f7e132]:
+            - heading "Legal" [level=4] [ref=f7e133]
+            - list [ref=f7e134]:
+              - listitem [ref=f7e135]: Privacy Policy
+              - listitem [ref=f7e136]: Terms of Service
+              - listitem [ref=f7e137]: 18 U.S.C. § 2257
+              - listitem [ref=f7e138]: DMCA Policy
+              - listitem [ref=f7e139]: Cookie Policy
+        - generic [ref=f7e140]:
+          - paragraph [ref=f7e141]: © 2025 BLACKLISTED NICHE ENTERTAINMENT — ALL RIGHTS RESERVED
+          - paragraph [ref=f7e142]: "ENGINEERED BY BLACKLISTED BINARY LABS · CHIEF ARCHITECT: ROB BRANTING"
+        - paragraph [ref=f7e144]:
+          - strong [ref=f7e145]: Legal Framework
+          - text: Blacklisted Niche Entertainment provides digital marketing, brand architecture, compliance education, and strategic advisory services exclusively for adult content creators operating legally on licensed platforms within the United States. All engagements are conducted in strict adherence to applicable federal and state regulations. BNE does not facilitate, promote, or engage in any unlawful activities. All creators are required to maintain 18 U.S.C. § 2257 record-keeping compliance. This platform is intended exclusively for adults aged 18 and older.

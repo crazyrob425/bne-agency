@@ -1,0 +1,17 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "mcp": {
+    "vexp": {
+      "type": "local",
+      "command": [
+        "node",
+        "c:\\Users\\User\\.vscode-insiders\\extensions\\vexp.vexp-vscode-2.5.2-win32-x64\\dist\\mcp-server.cjs"
+      ],
+      "env": {
+        "VEXP_WORKSPACE": "e:\\bne-agency"
+      },
+      "enabled": true
+    }
+  },
+  "snapshot": false
+}

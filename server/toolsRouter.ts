@@ -2,6 +2,27 @@ import { z } from "zod";
 import { publicProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
 
+// Generic helper for calling Pollinations.ai (free, no API key needed)
+async function callPollinations(systemPrompt: string, userPrompt: string): Promise<string> {
+  const response = await fetch("https://text.pollinations.ai/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+      ],
+      model: "openai"
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to generate content from AI");
+  }
+
+  return await response.text();
+}
+
 export const toolsRouter = router({
   generateStrategy: publicProcedure
     .input(
@@ -139,5 +160,145 @@ Ensure the ad text is completely optimized for ${input.platformTarget}, maintain
       const content = await response.text();
 
       return { content };
+    }),
+
+  // CreatorPush: AI Caption Generator
+  generateCreatorPushCaption: publicProcedure
+    .input(
+      z.object({
+        platform: z.string(),
+        contentType: z.string(),
+        tone: z.string(),
+        goal: z.string(),
+        intensity: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const systemPrompt = `You are the BNE CreatorPush AI, an expert social media copywriter specializing in adult content creator marketing. You write high-converting captions that drive engagement, tips, and subscriptions.`;
+
+      const userPrompt = `Generate 3 caption variations for a ${input.contentType} post on ${input.platform}.
+Tone: ${input.tone}
+Goal: ${input.goal}
+Teaser Intensity: ${input.intensity}/10 (1=subtle, 10=explicit)
+
+For each caption, provide:
+1. The caption text (optimized for the platform's character limits)
+2. Recommended hashtags (3-5 relevant tags)
+3. A brief explanation of why this caption works psychologically
+
+Format as clean markdown.`;
+
+      const content = await callPollinations(systemPrompt, userPrompt);
+      return { content };
+    }),
+
+  // FanBot Pro: AI Chat Response Generator
+  generateFanBotResponse: publicProcedure
+    .input(
+      z.object({
+        botName: z.string(),
+        personality: z.string(),
+        tone: z.string(),
+        userMessage: z.string(),
+        faqs: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const faqContext = input.faqs && input.faqs.length > 0
+        ? `Knowledge Base (answer from here when relevant):\n${input.faqs.map(f => `Q: ${f.question}\nA: ${f.answer}`).join("\n")}`
+        : "";
+
+      const systemPrompt = `You are ${input.botName}, an AI fan assistant for an adult content creator.
+Personality: ${input.personality}
+Tone: ${input.tone}
+
+Rules:
+- Stay in character as ${input.botName}
+- Be friendly, engaging, and professional
+- Never break character or mention you are an AI
+- If asked about pricing, rates, or services, provide helpful information
+- If asked something you don't know, politely redirect to the creator's content
+${faqContext ? `\n${faqContext}` : ""}
+
+Respond naturally and warmly.`;
+
+      const userPrompt = `A fan just sent this message: "${input.userMessage}"
+
+Respond as ${input.botName} would.`;
+
+      const response = await callPollinations(systemPrompt, userPrompt);
+      return { response };
+    }),
+
+  // CreatorPulse: AI Analytics Insights
+  generatePulseInsights: publicProcedure
+    .input(
+      z.object({
+        timeRange: z.string(),
+        topContent: z.array(z.object({
+          title: z.string(),
+          platform: z.string(),
+          views: z.string(),
+          engagement: z.string(),
+        })),
+        totalVisitors: z.number(),
+        totalTips: z.number(),
+        totalSubs: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const systemPrompt = `You are the BNE CreatorPulse AI analytics advisor. You analyze creator performance data and provide actionable, specific insights to help them grow revenue and engagement.`;
+
+      const userPrompt = `Analyze this creator's performance data for the last ${input.timeRange}:
+- Total Visitors: ${input.totalVisitors.toLocaleString()}
+- Tips Received: $${input.totalTips.toLocaleString()}
+- New Subscribers: ${input.totalSubs}
+- Revenue per Visitor: $${(input.totalTips / input.totalVisitors).toFixed(2)}
+
+Top Performing Content:
+${input.topContent.map(c => `- "${c.title}" on ${c.platform}: ${c.views} views, ${c.engagement} engagement`).join("\n")}
+
+Provide 5 specific, actionable insights:
+1. Which platform is converting best and why
+2. What content type drives the most tips
+3. Optimal posting frequency recommendations
+4. One specific content idea to try next week
+5. A pricing or monetization suggestion
+
+Format as numbered list with bold headers.`;
+
+      const insights = await callPollinations(systemPrompt, userPrompt);
+      return { insights };
+    }),
+
+  // SceneForge: AI Storyboard Generator
+  generateSceneStoryboard: publicProcedure
+    .input(
+      z.object({
+        niche: z.string(),
+        sceneCount: z.number(),
+        vibe: z.string(),
+        setting: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const systemPrompt = `You are the BNE SceneForge AI storyboard director. You create professional content production plans for adult creators, focusing on visual storytelling, pacing, and audience engagement.`;
+
+      const userPrompt = `Create ${input.sceneCount} scenes for a ${input.niche} content piece.
+Vibe: ${input.vibe}
+Setting: ${input.setting}
+
+For each scene, provide:
+1. Scene Title (catchy and descriptive)
+2. Shot Description (what the camera captures)
+3. Posing / Action (specific movements and positions)
+4. Lighting Setup (specific lighting recommendations)
+5. Duration Estimate
+6. Pro Tip (one insider tip for this specific scene)
+
+Format each scene clearly with markdown headers.`;
+
+      const storyboard = await callPollinations(systemPrompt, userPrompt);
+      return { storyboard };
     }),
 });

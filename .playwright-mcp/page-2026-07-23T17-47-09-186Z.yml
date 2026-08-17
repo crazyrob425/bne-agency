@@ -1,0 +1,7 @@
+- generic [ref=f2e2]:
+  - region "Notifications alt+T"
+  - generic [ref=f2e5]:
+    - heading "404" [level=1] [ref=f2e11]
+    - heading "Page Not Found" [level=2] [ref=f2e12]
+    - paragraph [ref=f2e13]: Sorry, the page you are looking for doesn't exist.It may have been moved or deleted.
+    - button "Go Home" [ref=f2e15]

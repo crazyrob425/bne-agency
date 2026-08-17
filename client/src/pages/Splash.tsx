@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, ArrowRight, X } from "lucide-react";
@@ -11,10 +11,11 @@ function AgeGate() {
   const [_, navigate] = useLocation();
   const [isEntering, setIsEntering] = useState(false);
   const [introSequence, setIntroSequence] = useState<"playing" | "done">("playing");
+  const [countdown, setCountdown] = useState(5);
+  const countdownRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (confirmed && !isEntering) {
-      // If already confirmed in a previous session, skip the gate instantly
       navigate("/home");
     }
   }, [confirmed, isEntering, navigate]);
@@ -25,17 +26,40 @@ function AgeGate() {
     if (stored === "blocked") setBlocked(true);
   }, []);
 
-  const confirm = () => {
+  useEffect(() => {
+    if (introSequence === "done" && !confirmed && !blocked) {
+      countdownRef.current = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            if (countdownRef.current) clearInterval(countdownRef.current);
+            handleAutoConfirm();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => {
+        if (countdownRef.current) clearInterval(countdownRef.current);
+      };
+    }
+  }, [introSequence, confirmed, blocked]);
+
+  const handleAutoConfirm = () => {
     localStorage.setItem("bne-age-confirmed", "true");
     setIsEntering(true);
-    
-    // Play a brief entry animation, then navigate
     setTimeout(() => {
       navigate("/home");
     }, 800);
   };
 
+  const confirm = () => {
+    if (countdownRef.current) clearInterval(countdownRef.current);
+    handleAutoConfirm();
+  };
+
   const deny = () => {
+    if (countdownRef.current) clearInterval(countdownRef.current);
     localStorage.setItem("bne-age-confirmed", "blocked");
     setBlocked(true);
   };
@@ -179,6 +203,24 @@ function AgeGate() {
             </p>
           </div>
 
+          {/* Countdown Notification */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="mb-8 p-4 rounded-xl bg-white/5 border border-white/10 text-center"
+          >
+            <p className="text-sm text-zinc-400 font-body">
+              Proceeding to site in
+            </p>
+            <div className="mt-2 text-4xl font-black font-display text-[oklch(0.78_0.16_85)] tabular-nums">
+              {countdown}
+            </div>
+            <p className="text-xs text-zinc-500 font-mono-lux mt-1 uppercase tracking-wider">
+              seconds
+            </p>
+          </motion.div>
+
           {/* Action Buttons */}
           <div className="flex flex-col gap-3.5 mt-2">
             <motion.button
@@ -188,7 +230,7 @@ function AgeGate() {
               className="group relative w-full h-14 rounded-xl flex items-center justify-center gap-2 overflow-hidden bg-gradient-to-r from-[oklch(0.78_0.16_85)] via-[oklch(0.85_0.15_90)] to-[oklch(0.78_0.16_85)] text-zinc-950 font-bold text-sm tracking-wide shadow-[0_0_30px_oklch(0.78_0.16_85/30%)] transition-all hover:shadow-[0_0_40px_oklch(0.78_0.16_85/50%)]"
             >
               <span className="relative z-10 flex items-center gap-2">
-                I Confirm I Am 18+
+                Enter Now
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </span>
               <div className="absolute inset-0 bg-white/20 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />

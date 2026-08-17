@@ -16,7 +16,8 @@ import {
   Home, Layers, Zap, Wrench, Shield, FileText, Menu, X, ChevronRight, BookOpen,
   Crown, TrendingUp, DollarSign, Users, BarChart3, Sparkles, Package,
   ArrowRight, Briefcase, Target, Video, Settings, MessageSquare,
-  Heart, Monitor, Download, Calculator, Award, Lock, Calendar
+  Heart, Monitor, Download, Calculator, Award, Lock, Calendar,
+  Search, Link as LinkIcon
 } from "lucide-react";
 
 const MEMBER_APP_URL = "/members";
@@ -132,16 +133,19 @@ const navConfig = [
         {
           heading: "Automation",
           links: [
-            { label: "Workflow Systems", href: "/tools/workflow-manager", icon: Zap },
-            { label: "Revenue Calculators", href: "/tools/calculator", icon: Calculator },
-            { label: "Creator Utilities", href: "/creator-utilities", icon: Wrench },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    id: "academy",
+             { label: "Workflow Systems", href: "/tools/workflow-manager", icon: Zap },
+             { label: "Revenue Calculators", href: "/tools/calculator", icon: Calculator },
+             { label: "Creator Utilities", href: "/creator-utilities", icon: Wrench },
+             { label: "SEO Optimizer", href: "/tools/silent-rank", icon: Search },
+             { label: "Teaser Forge", href: "/tools/teaser-forge", icon: Video },
+             { label: "Blacklisted Links", href: "/tools/blacklisted-links", icon: LinkIcon },
+           ],
+         },
+       ],
+     },
+   },
+   {
+     id: "academy",
     label: "Academy",
     menu: {
       type: "mega",
