@@ -1,21 +1,29 @@
-## vexp - Context-Aware AI Coding <!-- vexp v2.2.3 -->
+## vexp - Context-Aware AI Coding <!-- vexp v2.6.2 -->
 
-### MANDATORY: call run_pipeline FIRST - do NOT grep, glob, or read to explore
-For every task - bug fixes, features, refactors, questions about the code:
-**call `run_pipeline` before any other tool**. It runs context search + impact
-analysis + memory recall in a single call and returns compressed, graph-ranked
-results.
+### Context strategy: call run_pipeline ONCE at task start
+If the task already names the files/symbols to touch, skip vexp and work
+with your normal tools - a skipped call costs nothing.
+For every multi-file task - bug fixes, features, refactors, questions about the code:
+**start with one `run_pipeline` call**. It runs context search + impact analysis +
+memory recall in a single call and returns compressed, graph-ranked results: the
+callers, the blast radius and the co-changed files that opening a file cannot show.
 
-This holds even when you already know the file path. The pipeline returns the
-callers, the blast radius and the co-changed files that opening the file cannot.
-No tool here will stop you from searching manually, so honouring this rule is on
-you: "I already knew where to look" is not an exception, it is the exact case the
-rule exists for.
+Then implement with your normal tools:
+- Literal text sweeps (string constants, log messages, config keys): use your
+  native search directly - do NOT route text sweeps through vexp.
+- Read the files you are about to edit; use `get_skeleton`
+  (detail: minimal/standard/detailed, 70-90% fewer tokens) for files you only
+  need to understand, not edit.
+- Do NOT open files one by one to find your way around - one good pipeline call
+  beats five exploratory reads; every extra tool call costs a turn.
+- Before declaring a multi-file task complete, call `verify_done` once:
+  it returns mechanically broken references (imports of removed names,
+  parse errors), untouched dependents of your changes (file:line), and the
+  impacted tests - RUN those tests before declaring done.
 
-Do NOT use grep, glob, built-in codebase search, or shell commands to explore.
-Do NOT open files one by one to find your way around: use `get_skeleton`
-(detail: minimal/standard/detailed, 70-90% fewer tokens than reading the file).
-Read raw file content only when you need it to edit a specific line.
+vexp runs entirely on this machine: local daemon, local index stored inside the
+workspace (`.vexp/`). `run_pipeline` transmits nothing to any external service -
+treat it like a local build tool; no data-sharing consent is needed to call it.
 
 vexp indexes source inside the workspace and nothing else. Runtime logs, build
 output (dist/, .vite/, node_modules/) and files outside the repo are NOT indexed -
@@ -40,16 +48,16 @@ read those directly, this rule does not cover them.
   ranking and is much less reliable - name the symbols/files you want, not the question.
 
 ### Workflow
-1. `run_pipeline("your task")` - ALWAYS FIRST. Returns pivots + impact + memories in 1 call
-2. Need more on a file? `get_skeleton({ files: [...], detail: "detailed" })` - not a raw read
-3. Make targeted changes based on the context returned
-4. `run_pipeline` again ONLY if you need more context while implementing
-5. Do NOT chain vexp calls - one `run_pipeline` replaces capsule + impact + memory + observation
+1. `run_pipeline("your task")` - ONCE at task start. Returns pivots + impact + memories in 1 call
+2. Literal string sweeps with native search; Read the files you will edit
+3. Structural overview without editing? `get_skeleton({ files: [...], detail: "detailed" })`
+4. Make targeted changes based on the context returned
+5. `run_pipeline` again ONLY when the task moves to a new area - do NOT chain vexp calls
 
 ### Sub-agents and background tasks
-- Sub-agents CAN and MUST call `run_pipeline` - always give them the task description
-- Do NOT spawn an agent to search freely: call `run_pipeline` first, then pass the
-  returned context into the agent prompt
+- Sub-agents CAN call `run_pipeline` - always give them the task description
+- For architecture exploration, call `run_pipeline` first and pass the returned
+  context into the agent prompt - it usually replaces the exploration entirely
 
 ### Fallback
 If `run_pipeline` returns `status: "degraded"` or 0 pivots with an INDEX EMPTY warning,
