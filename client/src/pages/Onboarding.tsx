@@ -332,7 +332,7 @@ export default function Onboarding() {
             Once submitted, expect a human response. If accepted, the onboarding process includes asset creation, compliance setup (ID verification and record keeping), platform configuration, and a 30/60/90 day growth plan. If declined, we provide constructive feedback so you can reapply with a stronger profile.
           </p>
           <figure>
-            <img src="/media/onboarding-hero.jpg" alt="BNE onboarding" />
+                      <img src="/media/Building_a_Six-Figure_Content_Empire.png" alt="BNE onboarding" />
             <figcaption>Preparing a standout submission helps speed up the review and improve outcomes.</figcaption>
           </figure>
           <h3>Helpful Resources</h3>

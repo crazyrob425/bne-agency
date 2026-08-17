@@ -112,7 +112,7 @@ export default function AllServices() {
             After application and acceptance, we implement an initial 30-day launch plan that covers persona creation, content calendar, price testing, and compliance setup. Months 2–3 focus on scale: paid traffic, conversion optimization, and retention. By month 6 we aim for stable recurring revenue and a pathway to expand into additional verticals or international markets.
           </p>
           <figure>
-            <img src="/media/all-services-hero.jpg" alt="All services overview" />
+                      <img src="/media/Studio_Case_Study_Results_Briefing_Dossier.png" alt="All services overview" />
             <figcaption>Services are modular — pick what you need, scale when you're ready.</figcaption>
           </figure>
           <p>

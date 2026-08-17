@@ -288,7 +288,7 @@ export default function Apply() {
               <li><strong>Upload assets:</strong> If you want anonymity, mark it — we can proceed without real-name reveals and will set up private channels for verification.</li>
             </ul>
             <figure>
-              <img src="/media/apply-hero.jpg" alt="Apply to BNE" />
+                          <img src="/media/Professional_Creator_Management_Services.png" alt="Apply to BNE" />
               <figcaption>We review every application personally — expect clear, direct feedback.</figcaption>
             </figure>
             <h3>What Happens After Submission</h3>

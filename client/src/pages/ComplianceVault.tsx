@@ -93,7 +93,7 @@ export default function ComplianceVault() {
             <li>Apply DMCA takedowns proactively and monitor leak detection services.</li>
           </ol>
           <figure>
-            <img src="/media/compliance-vault-hero.jpg" alt="Compliance vault" />
+            <img src="/media/Scaling_and_Securing_Content_Brands.png" alt="Compliance vault" />
             <figcaption>Compliance is insurance — not an optional overhead.</figcaption>
           </figure>
           <p>

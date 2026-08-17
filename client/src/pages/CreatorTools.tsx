@@ -661,7 +661,7 @@ export default function CreatorTools() {
             Follow the 'one-thing' rule: choose one best-in-class tool per function and learn it deeply. We mark recommended and BNE-verified tools in the list so you can start with what actually works.
           </p>
           <figure>
-            <img src="/media/creator-tools-overview.jpg" alt="Creator tools overview" />
+            <img src="/media/Online_Automation_Course_for_Creators.png" alt="Creator tools overview" />
             <figcaption>Use this stack as your baseline and customize as your business grows.</figcaption>
           </figure>
           <p>
