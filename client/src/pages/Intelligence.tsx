@@ -12,7 +12,7 @@ import Seo from "@/components/Seo";
 import AuthorBio from "@/components/AuthorBio";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
-import { professors, getProfessorById } from "@/data/professors";
+import { professors, getProfessorById, getProfessorByExpertise } from "@/data/professors";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import { articles, getFeaturedArticles } from "@/data/blogArticles";
 import {

@@ -13,7 +13,7 @@ import InfographicModal from "@/components/InfographicModal";
 import AuthorBio from "@/components/AuthorBio";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
-import { professors, getProfessorById } from "@/data/professors";
+import { professors, getProfessorById, getProfessorByExpertise } from "@/data/professors";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   FileText, ArrowRight, Crown, Shield, Zap, CheckCircle2,
