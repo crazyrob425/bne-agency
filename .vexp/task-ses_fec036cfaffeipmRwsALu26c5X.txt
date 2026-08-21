@@ -1,0 +1,11 @@
+Search the codebase for all page components that use `pageKey` prop with the Seo component. Look in `client/src/pages/` and report:
+1. Every file that uses `pageKey=`
+2. The exact string value used for each pageKey
+3. Any files that DON'T use pageKey at all
+
+Return a simple list like:
+- CreatorTools.tsx: pageKey="creatorTools"
+- ComplianceVault.tsx: pageKey="complianceVault"
+...
+
+Thoroughness: quick

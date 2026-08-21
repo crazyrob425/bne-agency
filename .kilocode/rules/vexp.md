@@ -1,4 +1,4 @@
-## vexp - Context-Aware AI Coding <!-- vexp v2.6.2 -->
+## vexp - Context-Aware AI Coding <!-- vexp v2.6.3 -->
 
 ### Context strategy: call run_pipeline ONCE at task start
 If the task already names the files/symbols to touch, skip vexp and work

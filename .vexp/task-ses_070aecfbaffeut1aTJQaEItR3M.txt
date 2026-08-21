@@ -1,0 +1,31 @@
+paste this into your ~/.continue/config.json:
+
+JSON
+{
+  "models": [
+    {
+      "title": "Abliterated Gemma 2 9B",
+      "provider": "ollama",
+      "model": "hf.co/bartowski/gemma-2-9b-it-abliterated-GGUF:Q4_K_M",
+      "apiBase": "https://juvenile-repulsive-dose.ngrok-free.dev",
+      "apiKey": "ollama",
+      "requestOptions": {
+        "headers": {
+          "ngrok-skip-browser-warning": "true"
+        }
+      }
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Abliterated Gemma 2 9B Autocomplete",
+    "provider": "ollama",
+    "model": "hf.co/bartowski/gemma-2-9b-it-abliterated-GGUF:Q4_K_M",
+    "apiBase": "https://juvenile-repulsive-dose.ngrok-free.dev",
+    "apiKey": "ollama",
+    "requestOptions": {
+      "headers": {
+        "ngrok-skip-browser-warning": "true"
+      }
+    }
+  }
+}

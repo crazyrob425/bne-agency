@@ -6,7 +6,7 @@
  * + reading-time (readability metrics).
  */
 
-import { readingTime } from "reading-time";
+import readingTime from "reading-time/lib/reading-time";
 import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";

@@ -1,0 +1,8 @@
+<system-reminder>
+This session was forked from an existing session in the current repository or worktree.
+Use this as the current working directory: e:\bne-agency
+For this fork, this location supersedes any earlier repository or worktree location retained in the copied context.
+The prior conversation context was retained intentionally.
+The user may continue the same task, explore an alternative approach, or provide new instructions.
+Follow the user's next instruction as the direction for this fork, using retained context when relevant.
+</system-reminder>

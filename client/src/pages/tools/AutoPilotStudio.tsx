@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Workflow, Zap, Play, Plus, Trash2, Settings, GitBranch, MessageSquare, Calendar, Users, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Workflow, Zap, Play, Plus, Trash2, Settings, GitBranch, MessageSquare, Calendar, Users, ArrowRight, CheckCircle2, Crown } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 

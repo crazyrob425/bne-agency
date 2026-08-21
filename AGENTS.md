@@ -1,6 +1,6 @@
 
 
-## vexp <!-- vexp v2.6.2 -->
+## vexp <!-- vexp v2.6.3 -->
 
 **Call `run_pipeline` ONCE at task start for orientation - then use your normal tools.**
 If the task already names the files/symbols to touch, skip vexp and work

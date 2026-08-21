@@ -22,6 +22,7 @@ import DefinitionBox from "@/components/seo/DefinitionBox";
 import ComparisonTable from "@/components/seo/ComparisonTable";
 import SeoFaq from "@/components/seo/SeoFaq";
 import KeyTakeaways from "@/components/seo/KeyTakeaways";
+import SeoToc from "@/components/seo/SeoToc";
 import { buildServiceSchema, buildFaqSchema } from "@/lib/schema/builders";
 
 // Animated counter hook
