@@ -38,8 +38,8 @@ export const buildOrganizationSchema = (
     "https://twitter.com/blacklistedstudio",
     "https://github.com/blacklistedstudio",
   ],
-  ...opts,
-});
+  ...(opts as object),
+} as WithContext<Organization>);
 
 export const buildWebSiteSchema = (
   siteUrl: string,
@@ -51,12 +51,9 @@ export const buildWebSiteSchema = (
   url: siteUrl,
   description:
     "B.N.E. Studio — creator operations, niche intelligence, and strategic infrastructure.",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
 });
+
+
 
 export const buildBreadcrumbSchema = (
   items: { name: string; url: string }[]

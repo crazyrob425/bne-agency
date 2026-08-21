@@ -178,10 +178,19 @@ function ScrollToTop() {
 }
 
 function App() {
+  // Sitewide JSON-LD schemas injected on every page at root level.
+  // Individual pages can add their own page-specific schemas on top of these.
+  const globalSchemas = [organizationSchema, websiteSchema];
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <HelmetProvider>
+          <Helmet>
+            <script type="application/ld+json">
+              {JSON.stringify(globalSchemas)}
+            </script>
+          </Helmet>
           <TooltipProvider>
             <ScrollToTop />
             <Toaster />

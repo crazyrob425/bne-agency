@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import { buildFaqSchema } from "@/lib/schema/builders";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import {
@@ -136,13 +137,36 @@ export default function ServiceTiers() {
     }
   };
 
+  const faqSchema = buildFaqSchema([
+    {
+      question: "What does BNE Studio do for creators?",
+      answer: "B.N.E. Studio is a silent operations partner for adult content creators. We handle niche intelligence, backend content management, fan engagement, DMCA compliance, 18 U.S.C. 2257 record-keeping, advertising, and revenue scaling — so creators can focus on content.",
+    },
+    {
+      question: "How much does BNE Studio management cost?",
+      answer: "BNE Studio offers three tiers starting from $499/month for Starter-level advisory, $999/month for Pro-level full operations, and $2,499/month for Elite multi-platform management. All plans are flat-rate with no hidden commissions.",
+    },
+    {
+      question: "Do you take a percentage of my earnings?",
+      answer: "No. BNE Studio charges flat monthly rates, not commissions or percentages. Your earnings are 100% yours — we charge for our operational services separately.",
+    },
+    {
+      question: "What platforms does BNE Studio manage?",
+      answer: "We manage operations across OnlyFans, Fansly, ManyVids, webcam platforms, social media (Twitter/X, Reddit, TikTok), and in-person entertainment services for physical performers.",
+    },
+    {
+      question: "How do I apply for BNE Studio management?",
+      answer: "Visit our Onboarding page at blacklisted.studio/apply to submit your application. We review all applications and respond within 48-72 hours.",
+    },
+  ]);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
         title="Management Plans, Pricing & Service Tiers"
         description="Compare BNE's plans: from Glow-Up Launch and Empire Scale to Elite Multi-Front Management. Choose the perfect tier to automate your backend, secure your privacy, and multiply your revenue."
         canonical="/pricing"
-        schema={pricingSchema}
+        schema={[pricingSchema, faqSchema]}
       />
       <Navigation />
 
