@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import {
   Check, Zap, Crown, Star, ArrowRight, Shield, Lock, Sparkles, CreditCard, Plus
 } from "lucide-react";
@@ -423,6 +424,12 @@ export default function Pricing() {
           </div>
         </div>
       </section>
+
+      <TestimonialsSection
+        title="Creator Feedback on Pricing & Value"
+        subtitle="Read real reviews from managed creators on their return on investment with BNE."
+        limit={6}
+      />
 
       {/* ── BOTTOM CTA ── */}
       <section className="py-16 border-t border-[oklch(0.78_0.16_85/8%)]">

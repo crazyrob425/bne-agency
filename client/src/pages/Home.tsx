@@ -24,6 +24,7 @@ import SeoFaq from "@/components/seo/SeoFaq";
 import KeyTakeaways from "@/components/seo/KeyTakeaways";
 import SeoToc from "@/components/seo/SeoToc";
 import { buildServiceSchema, buildFaqSchema } from "@/lib/schema/builders";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 // Animated counter hook
 function useCounter(target: number, duration: number = 2000, start: boolean = false) {
@@ -856,6 +857,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ── VERIFIED CREATOR TESTIMONIALS ── */}
+      <TestimonialsSection
+        title="Verified Creator Testimonials"
+        subtitle="Read real reviews from women operating creator businesses across Washington, Oregon, and California."
+        limit={6}
+      />
 
       {/* ── LONG-FORM SEO CONTENT ── */}
       <section className="py-20 bg-[oklch(0.04_0.005_85)]">

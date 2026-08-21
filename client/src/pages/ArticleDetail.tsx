@@ -35,6 +35,8 @@ import {
   CATEGORY_META_EXPORT,
   type ArticleCategory,
 } from "@/data/blogArticles";
+import AuthorBio from "@/components/AuthorBio";
+import { getProfessorByExpertise } from "@/data/professors";
 
 // Re-export category meta for use here
 const CATEGORY_META: Record<
@@ -503,6 +505,11 @@ export default function ArticleDetail() {
                   <Share2 className="h-4 w-4" /> Share this
                 </button>
               </div>
+            </div>
+
+            {/* Author Bio Card */}
+            <div className="mt-8 p-6 bg-slate-900/60 border border-slate-800 rounded-xl">
+              <AuthorBio professor={getProfessorByExpertise(article.category)} variant="full" showCourses />
             </div>
 
             {/* Related articles */}

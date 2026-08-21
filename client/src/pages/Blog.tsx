@@ -34,6 +34,8 @@ import {
   ALL_CATEGORIES,
   type ArticleCategory,
 } from "@/data/blogArticles";
+import AuthorBio from "@/components/AuthorBio";
+import { professors } from "@/data/professors";
 
 // ─── CATEGORY CONFIG ──────────────────────────────────────────────────────────
 
@@ -436,6 +438,23 @@ export default function Blog() {
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
+      </section>
+
+      {/* ── FACULTY AUTHORS ROSTER ── */}
+      <section className="py-16 border-t border-slate-800 bg-slate-950/40">
+        <div className="container">
+          <div className="text-center mb-10">
+            <span className="text-violet-400 text-xs font-bold tracking-widest uppercase">Expert Authors</span>
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-white mt-1">Blacklisted University Faculty Contributors</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {professors.slice(0, 3).map((prof) => (
+              <div key={prof.id} className="p-6 bg-slate-900/60 border border-slate-800 rounded-xl">
+                <AuthorBio professor={prof} variant="full" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

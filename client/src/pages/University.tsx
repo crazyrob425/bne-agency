@@ -6,6 +6,9 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import AuthorBio from "@/components/AuthorBio";
+import { professors } from "@/data/professors";
 import { Link } from "wouter";
 import {
   Crown, Shield, BookOpen, Printer, Download, Sparkles,
@@ -398,6 +401,30 @@ export default function University() {
           
         </div>
       </section>
+
+      {/* ── FACULTY ROSTER ── */}
+      <section className="py-16 bg-slate-950/60 border-t border-slate-800/40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Academic Leadership</span>
+            <h2 className="text-3xl font-display font-bold text-white mt-2">Blacklisted University Faculty Roster</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {professors.slice(0, 4).map((prof) => (
+              <div key={prof.id} className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl">
+                <AuthorBio professor={prof} variant="full" showCourses />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <TestimonialsSection
+        title="Student & Creator Success Stories"
+        subtitle="Read real reviews from women who transformed their creator business through Blacklisted University masterclasses."
+        limit={6}
+      />
 
       <Footer />
     </div>
