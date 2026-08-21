@@ -23,7 +23,7 @@ export const draftsRouter = router({
       z.object({
         sessionId: z.string().min(8).max(128),
         type: draftTypeSchema,
-        data: z.record(z.any()),
+        data: z.record(z.string(), z.any()),
         files: z.array(z.any()).optional().default([]),
         lastStep: z.string().max(128).optional(),
         savedForLater: z.boolean().optional().default(false),

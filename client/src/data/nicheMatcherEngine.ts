@@ -126,11 +126,15 @@ export function rankNiches(
     const affinity = similarity(userVector, signature);
     const score = Math.round(affinity * 100);
 
+    const primary = userTop[0]?.key;
+    const secondary = userTop[1]?.key;
+
     const base = primary ? REASON_TEMPLATES[primary] : "";
-    const reason = (
-      base +
-      ` That makes “${niche.keyword}” a fit you likely wouldn’t have named yourself.`
-    ).trim();
+    const secondaryText = secondary
+      ? ` Paired with your ${DIMENSION_LABEL[secondary]}, your mindset and lifestyle provide an ideal foundation to build a highly lucrative brand in ${niche.keyword}.`
+      : ` Your natural traits give you a strong competitive edge in ${niche.keyword}.`;
+
+    const reason = (base + secondaryText).trim();
 
     return {
       niche,
@@ -372,10 +376,25 @@ export function matchNicheFinder(
   const boosted = applyAttachmentOverlay(limited, attachment);
   boosted.sort((a, b) => b.score - a.score);
 
+  // Enforce category diversity for the top 3 spots
+  const top3: NicheMatch[] = [];
+  const seenCategories = new Set<string>();
+
+  for (const match of boosted) {
+    if (!seenCategories.has(match.niche.category)) {
+      seenCategories.add(match.niche.category);
+      top3.push(match);
+    }
+    if (top3.length === 3) break;
+  }
+
+  const remaining = boosted.filter((m) => !top3.includes(m));
+  const finalMatches = [...top3, ...remaining].slice(0, limit);
+
   return {
     userVector,
     topDimensions: topDimensions(userVector, 3),
-    matches: boosted.slice(0, limit),
+    matches: finalMatches,
   };
 }
 

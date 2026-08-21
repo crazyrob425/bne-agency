@@ -110,7 +110,8 @@ export default function Onboarding() {
   const [savedDraftId, setSavedDraftId] = useState<number | null>(null);
 
   const sessionId = useRef(generateSessionId()).current;
-  const draftsApi = trpc.drafts.useUtils();
+  const saveDraftMutation = trpc.drafts.save.useMutation();
+  const getDraftQuery = trpc.drafts.get.useQuery({ sessionId }, { enabled: Boolean(sessionId) });
 
   const updateField = (field: string, value: any) => setFormData((prev: any) => ({ ...prev, [field]: value }));
 
@@ -146,7 +147,7 @@ export default function Onboarding() {
 
   const saveDraft = useCallback(async (savedForLater = false) => {
     try {
-      const result = await draftsApi.save.mutate({
+      const result = await saveDraftMutation.mutateAsync({
         sessionId,
         type: "onboarding",
         data: formData,
@@ -154,7 +155,6 @@ export default function Onboarding() {
         lastStep: step?.id,
         savedForLater,
       });
-      setSavedDraftId(result.id ?? null);
       setIsSaved(true);
       toast.success(savedForLater ? "Draft saved — come back anytime." : "Progress saved.");
       return result;
@@ -162,28 +162,21 @@ export default function Onboarding() {
       console.error("Failed to save draft:", e);
       toast.error("Could not save progress. Please try again.");
     }
-  }, [sessionId, formData, files, step, draftsApi]);
+  }, [sessionId, formData, files, step, saveDraftMutation]);
 
   // Restore draft on mount if exists
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const draft = await draftsApi.get.fetch({ sessionId });
-        if (cancelled || !draft) return;
-        if (draft.type === "onboarding") {
-          setFormData(draft.data || {});
-          setFiles([]); // Files can't be restored from JSON; user must re-upload
-          const stepIdx = dynamicSteps.findIndex((s: any) => s.id === draft.lastStep);
-          if (stepIdx >= 0) setCurrentStep(stepIdx);
-          toast.success("Welcome back — we restored your saved draft.");
-        }
-      } catch (e) {
-        // ignore
+    if (getDraftQuery.data && Object.keys(formData).length === 3 && formData.revenuePaths.length === 0) {
+      const draft = getDraftQuery.data;
+      if (draft.type === "onboarding") {
+        setFormData(draft.data || {});
+        setFiles([]);
+        const stepIdx = dynamicSteps.findIndex((s: any) => s.id === draft.lastStep);
+        if (stepIdx >= 0) setCurrentStep(stepIdx);
+        toast.success("Welcome back — we restored your saved draft.");
       }
-    })();
-    return () => { cancelled = true; };
-  }, [sessionId, draftsApi, dynamicSteps]);
+    }
+  }, [getDraftQuery.data, dynamicSteps]);
 
   // Auto-save every 30 seconds if there is progress
   useEffect(() => {
@@ -234,7 +227,7 @@ export default function Onboarding() {
 
       // Mark draft as completed
       if (savedDraftId) {
-        await draftsApi.save.mutate({
+        await saveDraftMutation.mutateAsync({
           sessionId,
           type: "onboarding",
           data: formData,

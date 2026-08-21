@@ -8,7 +8,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { and, eq, sql } from "drizzle-orm";
-import { protectedProcedure, router } from "./_core/trpc";
+import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
 import { quizProgress, subscribers, emailReminders } from "../drizzle/schema";
 import { scheduleReengagement } from "./_core/reengagement";
@@ -58,7 +58,7 @@ export const progressRouter = router({
         lastCompletedQuestionId: input.lastCompletedQuestionId ?? null,
         answers: input.answers,
         questionsAnswered: input.questionsAnswered,
-        completed: input.completed ? "1" : "0",
+        completed: input.completed ? ("1" as const) : ("0" as const),
         resultSnapshot: input.resultSnapshot ?? null,
         updatedAt: new Date(),
       };
@@ -108,7 +108,7 @@ export const progressRouter = router({
         lastCompletedQuestionId: input.lastCompletedQuestionId,
         answers: input.answers,
         questionsAnswered: input.questionsAnswered,
-        completed: "0",
+        completed: "0" as const,
         updatedAt: new Date(),
       };
 
@@ -169,7 +169,7 @@ export const progressRouter = router({
         lastCompletedQuestionId: null,
         answers: input.answers,
         questionsAnswered: Object.keys(input.answers).length,
-        completed: "1",
+        completed: "1" as const,
         resultSnapshot: input.resultSnapshot,
         updatedAt: new Date(),
       };
@@ -198,4 +198,79 @@ export const progressRouter = router({
       .where(eq(emailReminders.userId, ctx.user.id))
       .orderBy(sql`${emailReminders.sequenceIndex} asc`);
   }),
+
+  /** Email detailed strategic psych report & top 3 fetish matches to user. */
+  sendResultsEmail: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+        name: z.string().optional(),
+        answers: answersSchema,
+        resultSnapshot: z.any().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (db) {
+        await db
+          .insert(subscribers)
+          .values({
+            userId: ctx.user?.id ?? null,
+            name: input.name ?? null,
+            email: input.email.toLowerCase(),
+            source: "niche-quiz-report",
+            status: "subscribed",
+            tags: ["quiz-report-sent"],
+          })
+          .onConflictDoUpdate({
+            target: subscribers.email,
+            set: {
+              userId: ctx.user?.id ?? null,
+              name: input.name ?? null,
+              source: "niche-quiz-report",
+              tags: ["quiz-report-sent"],
+              updatedAt: new Date(),
+            },
+          });
+      }
+
+      const { computeAttachmentVector } = await import("../client/src/data/nicheQuiz");
+      const { matchNicheFinder, getSubconsciousInsight } = await import("../client/src/data/nicheMatcherEngine");
+      const { buildQuizResultsReportEmailHtml } = await import("./_core/emailTemplates");
+      const { sendEmail } = await import("./_core/mailer");
+
+      const attachmentVec = computeAttachmentVector(input.answers as any);
+      const matchResult = matchNicheFinder(input.answers as any, attachmentVec);
+      const insightResult = getSubconsciousInsight(input.answers as any);
+
+      const top3Matches = matchResult.matches.slice(0, 3).map((m, i) => ({
+        rank: i + 1,
+        score: m.score,
+        keyword: m.niche.keyword,
+        category: m.niche.category,
+        earningPotential: m.niche.earningPotential,
+        competitionLevel: m.niche.competitionLevel,
+        searchVolume: m.niche.searchVolume,
+        reason: m.reason,
+      }));
+
+      const html = buildQuizResultsReportEmailHtml({
+        name: input.name,
+        email: input.email,
+        headline: insightResult.headline,
+        quadrant: attachmentVec.quadrant,
+        userVector: matchResult.userVector as Record<string, number>,
+        topMatches: top3Matches,
+        siteUrl: process.env.VITE_APP_URL || "https://blacklisted.studio",
+      });
+
+      const sendRes = await sendEmail({
+        to: input.email,
+        subject: "Your Executive Strategic Niche & Psych Blueprint | B.N.E. Studio",
+        html,
+        tags: ["quiz-report"],
+      });
+
+      return { ok: sendRes.ok, messageId: sendRes.messageId };
+    }),
 });
