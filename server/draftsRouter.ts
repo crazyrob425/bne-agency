@@ -6,7 +6,7 @@
  */
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { and, eq, sql, desc } from "drizzle-orm";
+import { and, eq, isNull, sql, desc } from "drizzle-orm";
 import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
 import { applicationDrafts } from "../drizzle/schema";
@@ -41,7 +41,7 @@ export const draftsRouter = router({
         const [anonDraft] = await db
           .select()
           .from(applicationDrafts)
-          .where(and(eq(applicationDrafts.sessionId, input.sessionId), eq(applicationDrafts.userId, null)))
+          .where(and(eq(applicationDrafts.sessionId, input.sessionId), isNull(applicationDrafts.userId)))
           .limit(1);
 
         if (anonDraft) {
@@ -57,7 +57,7 @@ export const draftsRouter = router({
       const [existing] = await db
         .select()
         .from(applicationDrafts)
-        .where(and(eq(applicationDrafts.sessionId, input.sessionId), userId ? eq(applicationDrafts.userId, userId) : eq(applicationDrafts.userId, null)))
+        .where(and(eq(applicationDrafts.sessionId, input.sessionId), userId ? eq(applicationDrafts.userId, userId) : isNull(applicationDrafts.userId)))
         .limit(1);
 
       if (existing) {
@@ -106,7 +106,7 @@ export const draftsRouter = router({
       const [draft] = await db
         .select()
         .from(applicationDrafts)
-        .where(and(eq(applicationDrafts.sessionId, input.sessionId), userId ? eq(applicationDrafts.userId, userId) : eq(applicationDrafts.userId, null)))
+        .where(and(eq(applicationDrafts.sessionId, input.sessionId), userId ? eq(applicationDrafts.userId, userId) : isNull(applicationDrafts.userId)))
         .orderBy(desc(applicationDrafts.updatedAt))
         .limit(1);
 
@@ -157,7 +157,7 @@ export const draftsRouter = router({
       const [existing] = await db
         .select()
         .from(applicationDrafts)
-        .where(and(eq(applicationDrafts.sessionId, input.sessionId), userId ? eq(applicationDrafts.userId, userId) : eq(applicationDrafts.userId, null)))
+        .where(and(eq(applicationDrafts.sessionId, input.sessionId), userId ? eq(applicationDrafts.userId, userId) : isNull(applicationDrafts.userId)))
         .limit(1);
 
       if (existing) {
@@ -186,11 +186,11 @@ export const draftsRouter = router({
    */
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
-    .mutation(async ({ ctx }) => {
+    .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable." });
 
-      await db.delete(applicationDrafts).where(and(eq(applicationDrafts.id, ctx.input.id), eq(applicationDrafts.userId, ctx.user.id)));
+      await db.delete(applicationDrafts).where(and(eq(applicationDrafts.id, input.id), eq(applicationDrafts.userId, ctx.user.id)));
       return { ok: true as const };
     }),
 });

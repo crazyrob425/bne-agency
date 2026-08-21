@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Calendar, Clock, Zap, Share2, Image, Type, BarChart3, ChevronRight, Copy, Check, Send, Trash2, Plus, Sparkles } from "lucide-react";
+import { Calendar, Clock, Zap, Share2, Image, Type, BarChart3, ChevronRight, Copy, Check, Send, Trash2, Plus, Sparkles, FileText } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
@@ -57,7 +57,7 @@ export default function CreatorPush() {
       id: Date.now().toString(),
       date,
       time,
-      platform: selectedPlatform,
+      platform: selectedPlatform as any,
       type: contentType as any,
       caption,
       status: "draft",

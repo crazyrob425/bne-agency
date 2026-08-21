@@ -12,6 +12,7 @@ import { registerStorageProxy } from "./storageProxy";
 import { ENV } from "./env";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
+import { sdk } from "./sdk";
 import { serveStatic, setupVite } from "./vite";
 import { registerStripeWebhook } from "../stripe/webhookHandler";
 import { GoogleGenAI } from "@google/genai";
@@ -582,8 +583,8 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
       // Check OAuth/local session (primary auth method)
       try {
         const session = await sdk.authenticateRequest(req);
-        if (session?.user) {
-          const [user] = await db.select().from(users).where(eq(users.openId, session.user.openId)).limit(1);
+        if (session && session.openId) {
+          const [user] = await db.select().from(users).where(eq(users.openId, session.openId)).limit(1);
           if (user && user.membersAccessGranted === 1) {
             return res.json({ hasAccess: true, method: 'local', userId: user.id, permissions: user.membersPermissions });
           }

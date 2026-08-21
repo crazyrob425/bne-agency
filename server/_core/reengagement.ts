@@ -173,9 +173,7 @@ export async function processDueReminders(): Promise<{ sent: number; failed: num
   await db
     .update(emailReminders)
     .set({ status: "sending", sentAt: now })
-    .where(and(eq(emailReminders.status, "pending"), lte(emailReminders.sendAt, now)))
-    .orderBy(sql`${emailReminders.sendAt} asc`)
-    .limit(CLAIM_BATCH);
+    .where(and(eq(emailReminders.status, "pending"), lte(emailReminders.sendAt, now)));
 
   // Select the claimed batch (plus any leftovers from a previously crashed run,
   // which remain in "sending" until retried). Strictly "sending" = the lock state.

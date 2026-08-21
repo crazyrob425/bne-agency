@@ -58,7 +58,7 @@ export const progressRouter = router({
         lastCompletedQuestionId: input.lastCompletedQuestionId ?? null,
         answers: input.answers,
         questionsAnswered: input.questionsAnswered,
-        completed: input.completed ? ("1" as const) : ("0" as const),
+        completed: input.completed ? "1" : "0",
         resultSnapshot: input.resultSnapshot ?? null,
         updatedAt: new Date(),
       };
@@ -71,7 +71,7 @@ export const progressRouter = router({
         const [inserted] = await db
           .insert(quizProgress)
           .values({ userId: ctx.user.id, ...values })
-          .$returningId();
+          .returning({ id: quizProgress.id });
         progressId = inserted.id;
       }
       return { ok: true as const, progressId };
@@ -108,7 +108,7 @@ export const progressRouter = router({
         lastCompletedQuestionId: input.lastCompletedQuestionId,
         answers: input.answers,
         questionsAnswered: input.questionsAnswered,
-        completed: "0" as const,
+        completed: "0",
         updatedAt: new Date(),
       };
 
@@ -130,7 +130,7 @@ export const progressRouter = router({
             tags: input.tags ?? [],
           })
           .onConflictDoUpdate({
-            columns: [subscribers.email],
+            target: subscribers.email,
             set: {
               userId: ctx.user.id,
               name: input.contact.name ?? null,
@@ -166,10 +166,10 @@ export const progressRouter = router({
         .limit(1);
 
       const values = {
-        lastCompletedQuestionId: null as const,
+        lastCompletedQuestionId: null,
         answers: input.answers,
         questionsAnswered: Object.keys(input.answers).length,
-        completed: "1" as const,
+        completed: "1",
         resultSnapshot: input.resultSnapshot,
         updatedAt: new Date(),
       };
@@ -199,5 +199,3 @@ export const progressRouter = router({
       .orderBy(sql`${emailReminders.sequenceIndex} asc`);
   }),
 });
-
-

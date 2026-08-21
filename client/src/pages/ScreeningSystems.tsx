@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BNE Screening Systems Page
  * Client vetting, reference checks, and blacklist screening
  */
@@ -13,7 +13,7 @@ import FAQAccordion, { SERVICE_FAQS } from "@/components/FAQAccordion";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import {
   Users, Shield, CheckCircle, ArrowRight, Lock, Eye, Star, Heart,
-  TrendingUp, AlertTriangle, BadgeCheck, Network, Gauge
+  TrendingUp, AlertTriangle, BadgeCheck, Network, Gauge, Zap
 } from "lucide-react";
 
 const fadeUp = {
