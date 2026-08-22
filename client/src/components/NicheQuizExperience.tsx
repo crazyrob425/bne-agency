@@ -266,6 +266,26 @@ export default function NicheQuizExperience({
     }
   }, [questionsAnswered, shouldShowReminder]);
 
+  // Synchronize selectedValue state & ref when step / currentQuestion / answers change
+  useEffect(() => {
+    const existing = answers[currentQuestion.id];
+    if (existing !== undefined) {
+      if (currentQuestion.type === "multi") {
+        const arr = Array.isArray(existing) ? existing : [existing];
+        setSelectedValue(arr);
+        selectedValueRef.current = arr;
+      } else {
+        const val = typeof existing === "string" ? existing : (existing[0] ?? null);
+        setSelectedValue(val);
+        selectedValueRef.current = val;
+      }
+    } else {
+      const defaultVal = currentQuestion.type === "multi" ? [] : null;
+      setSelectedValue(defaultVal);
+      selectedValueRef.current = defaultVal;
+    }
+  }, [step, currentQuestion.id, currentQuestion.type, answers]);
+
   // Persist progress
   const persistProgress = useCallback((nextAnswers: QuizAnswers, questionId: string) => {
     progressApi?.save({
@@ -290,27 +310,23 @@ export default function NicheQuizExperience({
 
   const handleSelect = useCallback((value: string) => {
     if (currentQuestion.type === "multi") {
-      const current = (selectedValueRef.current as string[]) || [];
+      const rawCurrent = selectedValueRef.current;
+      const current: string[] = Array.isArray(rawCurrent) ? rawCurrent : [];
       const maxSelect = currentQuestion.maxSelect || 999;
-      const isAtMax = current.length >= maxSelect && !current.includes(value);
+      const isSelected = current.includes(value);
 
-      if (isAtMax) {
+      if (!isSelected && current.length >= maxSelect) {
         setIsShaking(true);
         setTimeout(() => setIsShaking(false), 400);
         return;
       }
 
-      let updated: string[];
-
-      if (current.includes(value)) {
-        updated = current.filter((v: string) => v !== value);
-      } else if (current.length < maxSelect) {
-        updated = [...current, value];
-      } else {
-        return;
-      }
+      const updated = isSelected
+        ? current.filter((v: string) => v !== value)
+        : [...current, value];
 
       setSelectedValue(updated);
+      selectedValueRef.current = updated;
       setAnswers((prev) => {
         const next = { ...prev, [currentQuestion.id]: updated };
         persistProgress(next, currentQuestion.id);
@@ -319,6 +335,7 @@ export default function NicheQuizExperience({
     } else {
       const newValue = value;
       setSelectedValue(newValue);
+      selectedValueRef.current = newValue;
       setAnswers((prev) => {
         const next = { ...prev, [currentQuestion.id]: newValue };
         finalAnswersRef.current = next;
@@ -358,9 +375,9 @@ export default function NicheQuizExperience({
     const cq = currentQuestion;
 
     if (cq.type === "multi") {
-      const current = (sv as string[]) || [];
+      const current = Array.isArray(sv) ? sv : [];
       if (current.length === 0) return;
-    } else if (!sv) {
+    } else if (!sv || typeof sv !== "string") {
       return;
     }
 
@@ -414,9 +431,14 @@ export default function NicheQuizExperience({
 
   const renderQuestion = () => {
     const isMulti = currentQuestion.type === "multi";
-    const maxSelect = currentQuestion.maxSelect || 0;
-    const selectedCount = isMulti ? ((selectedValue as string[]) || []).length : 0;
-    const canProceed = isMulti ? selectedCount > 0 : !!selectedValue;
+    const maxSelect = currentQuestion.maxSelect || 999;
+    const currentSelectedArray: string[] = isMulti
+      ? Array.isArray(selectedValue)
+        ? selectedValue
+        : []
+      : [];
+    const selectedCount = currentSelectedArray.length;
+    const canProceed = isMulti ? selectedCount > 0 : !!selectedValue && typeof selectedValue === "string";
 
     return (
       <motion.div
@@ -463,11 +485,11 @@ export default function NicheQuizExperience({
           }}
         >
           {currentQuestion.options.map((opt) => {
-      const isSelected = isMulti
-        ? ((selectedValue as string[]) || []).includes(opt.value)
-        : selectedValue === opt.value;
+            const isSelected = isMulti
+              ? currentSelectedArray.includes(opt.value)
+              : selectedValue === opt.value;
 
-      const isAtMax = isMulti && selectedCount >= maxSelect && !isSelected;
+            const isAtMax = isMulti && selectedCount >= maxSelect && !isSelected;
 
             const IconComponent = QUIZ_ICON_MAP[opt.icon?.toLowerCase() || ""];
 
