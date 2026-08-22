@@ -620,6 +620,11 @@ export default function NicheQuizExperience({
             </button>
           </div>
         )}
+
+        {/* Bottom registration reminder box — following questions and options */}
+        <div className="mt-3 md:mt-4">
+          {renderReminder()}
+        </div>
       </motion.div>
     );
   };
@@ -955,9 +960,6 @@ export default function NicheQuizExperience({
             defaultEmail=""
           />
         )}
-
-        {/* Subtle registration reminder */}
-        {renderReminder()}
 
         <AnimatePresence mode="wait">
           {!complete ? (
