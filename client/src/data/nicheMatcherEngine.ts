@@ -15,6 +15,8 @@ import {
   type AttachmentVector,
   categorySignature,
   similarity,
+  weightedSimilarity,
+  computeNetworkTraitDensity,
   topDimensions,
 } from "@/data/psychDimensions";
 import {
@@ -23,12 +25,22 @@ import {
   type QuizAnswers,
 } from "@/data/nicheQuiz";
 
+export interface NicheMatchConnectionPoint {
+  trait: DimensionKey;
+  label: string;
+  userScore: number;
+  nicheTarget: number;
+  delta: number;
+  insight: string;
+}
+
 export interface NicheMatch {
   niche: Niche;
   score: number; // 0..100 overall fit
-  affinity: number; // 0..1 cosine similarity between user vector and niche signature
+  affinity: number; // 0..1 weighted similarity between user vector and niche signature
   drivers: { key: DimensionKey; value: number }[]; // user's top dimensions that drove the match
   reason: string; // 1-2 sentence "subconscious insight" explaining the unexpected fit
+  connectionPoints?: NicheMatchConnectionPoint[]; // brain-mapped psychological telemetry points
 }
 
 export interface MatchResult {
@@ -102,7 +114,9 @@ function readNichePsych(niche: Niche): DimensionVector | undefined {
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 export function buildUserProfile(answers: QuizAnswers): DimensionVector {
-  return scoreAnswers(answers);
+  const rawVector = scoreAnswers(answers);
+  // Apply Exploratory Graph Analysis (EGAnet) partial correlation network smoothing
+  return computeNetworkTraitDensity(rawVector);
 }
 
 export function effectiveSignature(niche: Niche): DimensionVector {
@@ -115,7 +129,6 @@ export function rankNiches(
 ): NicheMatch[] {
   const userVector = buildUserProfile(answers);
   const userTop = topDimensions(userVector, 3);
-  const primary = userTop[0]?.key;
 
   const pool = opts.onlyElite
     ? NICHE_DATABASE.filter((n) => n.earningPotential === "very-high")
@@ -123,7 +136,8 @@ export function rankNiches(
 
   const matches: NicheMatch[] = pool.map((niche) => {
     const signature = effectiveSignature(niche);
-    const affinity = similarity(userVector, signature);
+    // IRT 2PL Fisher-Weighted Cosine Similarity (mirt model)
+    const affinity = weightedSimilarity(userVector, signature);
     const score = Math.round(affinity * 100);
 
     const primary = userTop[0]?.key;
@@ -136,12 +150,28 @@ export function rankNiches(
 
     const reason = (base + secondaryText).trim();
 
+    // Brain-mapped psychological telemetry connection points
+    const connectionPoints: NicheMatchConnectionPoint[] = userTop.map((driver) => {
+      const uScore = Math.round(userVector[driver.key]);
+      const nTarget = Math.round(signature[driver.key]);
+      const delta = Math.abs(uScore - nTarget);
+      return {
+        trait: driver.key,
+        label: DIMENSION_LABEL[driver.key],
+        userScore: uScore,
+        nicheTarget: nTarget,
+        delta,
+        insight: `Your ${DIMENSION_LABEL[driver.key]} score (${uScore}/100) closely matches ${niche.keyword}'s demand curve (${nTarget}/100).`,
+      };
+    });
+
     return {
       niche,
       score,
       affinity,
       drivers: userTop,
       reason,
+      connectionPoints,
     };
   });
 

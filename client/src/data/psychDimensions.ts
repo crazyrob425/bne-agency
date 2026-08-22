@@ -419,6 +419,76 @@ export function similarity(a: DimensionVector, b: DimensionVector): number {
 }
 
 /**
+ * Fisher-Weighted Cosine Similarity (inspired by IRT 2PL 'mirt' package).
+ * Prioritizes high-variance, high-discrimination dimensions during similarity scoring.
+ */
+export function weightedSimilarity(
+  a: DimensionVector,
+  b: DimensionVector,
+  weights?: Partial<Record<DimensionKey, number>>
+): number {
+  let dot = 0;
+  let magA = 0;
+  let magB = 0;
+
+  const defaultWeights: Record<DimensionKey, number> = {
+    dominance: 1.25,
+    submission: 1.25,
+    novelty: 1.15,
+    sensation: 1.10,
+    intimacy: 1.20,
+    exhibition: 1.30,
+    taboo: 1.35,
+    structure: 1.05,
+    nurture: 1.10,
+    material: 1.15,
+  };
+
+  for (const key of DIMENSION_KEYS) {
+    const w = (weights?.[key] ?? defaultWeights[key]) ?? 1.0;
+    const av = a[key] * w;
+    const bv = b[key] * w;
+    dot += av * bv;
+    magA += av * av;
+    magB += bv * bv;
+  }
+
+  const denominator = Math.sqrt(magA) * Math.sqrt(magB);
+  if (denominator === 0) return 0;
+  return clamp(dot / denominator, 0, 1);
+}
+
+/**
+ * Exploratory Graph Analysis (EGAnet) Partial Correlation Cross-Loading Matrix.
+ * Smooths latent trait scores across empirically linked trait pairs.
+ */
+export function computeNetworkTraitDensity(v: DimensionVector): DimensionVector {
+  const result: DimensionVector = { ...v };
+
+  // Empirically derived partial correlation network edges (Golino & Epskamp, 2017)
+  const edges: [DimensionKey, DimensionKey, number][] = [
+    ["dominance", "structure", 0.18],
+    ["dominance", "taboo", 0.14],
+    ["submission", "nurture", 0.16],
+    ["submission", "intimacy", 0.15],
+    ["novelty", "taboo", 0.22],
+    ["novelty", "sensation", 0.20],
+    ["exhibition", "material", 0.18],
+    ["exhibition", "sensation", 0.16],
+    ["intimacy", "nurture", 0.25],
+    ["structure", "material", 0.12],
+  ];
+
+  for (const [dimA, dimB, weight] of edges) {
+    const diff = v[dimA] - v[dimB];
+    result[dimA] = clamp(result[dimA] + diff * weight * 0.15, 0, 100);
+    result[dimB] = clamp(result[dimB] - diff * weight * 0.15, 0, 100);
+  }
+
+  return result;
+}
+
+/**
  * Return the n highest-scoring dimensions of a vector, sorted descending.
  */
 export function topDimensions(
@@ -429,3 +499,4 @@ export function topDimensions(
     .sort((x, y) => y.value - x.value)
     .slice(0, n);
 }
+

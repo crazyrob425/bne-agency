@@ -1119,6 +1119,27 @@ export default function NicheQuizExperience({
                         <p className="text-[#CCC] leading-relaxed">{match.reason}</p>
                       </div>
 
+                      {/* Brain-Mapped Telemetry Connection Points */}
+                      {match.connectionPoints && match.connectionPoints.length > 0 && (
+                        <div className="bg-[#0A0A0E] p-3 rounded-lg border border-[#22222E]">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37] block mb-2">
+                            Brain Map Data Connections &amp; Telemetry Points
+                          </span>
+                          <div className="space-y-1.5">
+                            {match.connectionPoints.map((cp) => (
+                              <div key={cp.trait} className="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] bg-[#12121A] p-2 rounded border border-white/[0.04] gap-1">
+                                <span className="text-[#DDD] font-semibold">
+                                  {cp.label}: <strong className="text-[#D4AF37]">{cp.userScore}/100</strong> (Target: {cp.nicheTarget}/100)
+                                </span>
+                                <span className="text-[#888] text-[10px]">
+                                  {cp.insight}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="grid gap-3 sm:grid-cols-2 pt-1">
                         <div className="bg-[#0A0A0E] p-3 rounded-lg">
                           <span className="text-[10px] font-black uppercase tracking-wider text-[#AAA] block mb-1">
