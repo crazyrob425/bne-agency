@@ -287,7 +287,7 @@ export function buildQuizResultsReportEmailHtml(vars: {
               Building a high-yield adult content brand shouldn't mean drowning in legal compliance, 24/7 DM sales, tax shielding, or tech headaches. As your **silent backend partner**, B.N.E. Studio provides:
             </div>
             <ul style="padding-left:18px;margin:0 0 22px;font-family:${FONT};font-size:13px;color:${PAPER};line-height:1.7;">
-              <li><strong>0% Revenue Commission:</strong> You keep 100% of your earnings and account ownership. We operate on a flat retainer.</li>
+              <li><strong>25% Management Commission:</strong> You keep 75% of all revenue while B.N.E. handles 100% of your backend, marketing, and legal compliance.</li>
               <li><strong>18 U.S.C. § 2257 Custodian of Records:</strong> Your real name and identity are 100% shielded from public records.</li>
               <li><strong>Anonymous Holding LLC Shielding:</strong> Clean corporate structure and bank setup for privacy.</li>
               <li><strong>24/7 DM Monetization & Funnels:</strong> Turn casual viewers into high-paying recurring subscribers automatically.</li>

@@ -666,7 +666,7 @@ export default function NicheQuizExperience({
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <Sparkles className="h-4 w-4 text-[#D4AF37] animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#D4AF37]">0% Retainer Commission</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#D4AF37]">25% Commission Model (You Keep 75%)</span>
           </div>
         </div>
 
@@ -771,7 +771,7 @@ export default function NicheQuizExperience({
             className="text-[#666] font-bold uppercase tracking-[0.12em] leading-relaxed mb-4 max-w-xl mx-auto relative z-10"
             style={{ fontSize: fluidSize(8, 10) }}
           >
-            BNE operates as your silent partner backend handling 2257 records custodian compliance, holding LLC shielding, and 24/7 DM monetization — taking 0% revenue commission so you keep 100% of your earnings.
+            BNE operates as your silent partner backend handling 2257 records custodian compliance, holding LLC shielding, and 24/7 DM monetization — managing 100% of the backend on a 25% agency commission.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 relative z-10">
@@ -1128,7 +1128,7 @@ export default function NicheQuizExperience({
                   You Focus 100% On Creating Content. We Handle The Empire.
                 </h3>
                 <p className="text-xs text-[#AAA] leading-relaxed mb-4">
-                  Traditional agencies take 20%–50% of your earnings and demand control. B.N.E. Studio operates on a flat monthly retainer with **0% revenue commission** — keeping 100% of your money, accounts, and IP in your hands.
+                  When you apply and are accepted, B.N.E. Studio operates on a **25% management commission** — meaning you keep 75% of all earnings while we handle 100% of your legal compliance, 24/7 DM sales, and backend infrastructure.
                 </p>
 
                 <div className="grid gap-2 sm:grid-cols-2 text-xs text-[#DDD] mb-6">
@@ -1146,7 +1146,7 @@ export default function NicheQuizExperience({
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-[#D4AF37]" />
-                    <span>0% Revenue Commission (Flat Retainer)</span>
+                    <span>25% Commission Model (You Keep 75%)</span>
                   </div>
                 </div>
 
