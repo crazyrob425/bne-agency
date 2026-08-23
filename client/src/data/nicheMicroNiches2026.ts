@@ -541,5 +541,395 @@ export const MICRO_NICHES_2026: (Niche & { profile: NicheProfile })[] = [
           "Greg, 39, mid-level manager who wants to be beneath a competent woman at work. He pays a strict secretary to process his submission like paperwork, aroused by everyday authority.",
         inventory: ["Pencil skirt", "Blouse", "Glasses", "Stapler / office props", "Desk setup", "Ring light"]
       }
+    },
+    {
+      keyword: "Female Supremacy & Chastity Keyholder",
+      category: "BDSM & Power Exchange",
+      searchVolume: "high",
+      competitionLevel: "medium",
+      earningPotential: "very-high",
+      tags: ["female supremacy", "chastity keyholder", "cage enforcement", "lockdown", "male submission"],
+      profile: {
+        description:
+          "You are the absolute sovereign of his erection: he wears a locked metal or plastic chastity cage, and you hold the key. The visual grammar is crisp and unyielding — keys dangling from your neck or wrist, close-ups of cage lock checks, unlock permission videos, and daily 'keyholder inspection' check-ins. Buyers consume lock-in rituals, cage-cleaning orders, 'key-loss' extortion clips, and long-term lockdown subscriptions. The fantasy is complete physical and psychological relief through surrender of male sexual autonomy.",
+        demographics:
+          "Men 24–55, skew 32–48, high-earning married or single professionals, US/UK/EU/AU. Psychographics: intense submissive orientation, relief-seekers, high compliance, long LTV.",
+        income:
+          "$10k–$38k/mo via keyholding retainer tiers ($150–$600/mo), lock/unlock fee tributes ($50–$300), custom cage inspection videos ($80–$250), and emergency key-request fines ($100+).",
+        engagement:
+          "Exceptional LTV; submissives remain locked for months or years. Daily DM lock-check rituals drive sticky monthly recurring revenue.",
+        related: ["Goddess Devotional Findom", "Strict CEO / Boss-Girl Findom", "CFNM Tease & Denial", "Humiliation & Small Dick Humiliation (SPH)", "Forced Bi / Pegging Instruction"],
+        persona:
+          "David, 42, corporate attorney who feels overwhelmed managing staff. He locks his penis in a cage and sends his keyholder total authority over his orgasms so he can finally feel quiet in his own head.",
+        inventory: ["Chastity key ring", "Brass padlocks", "Measuring tape", "High heels", "Velvet key box", "HD inspection lamp"]
+      },
+      psych: {
+        dominance: 96, submission: 5, novelty: 45, sensation: 40, intimacy: 35,
+        exhibition: 30, taboo: 75, structure: 90, nurture: 15, material: 85
+      }
+    },
+    {
+      keyword: "Spitting & Saliva Domination",
+      category: "Fluid & Bodily",
+      searchVolume: "high",
+      competitionLevel: "low",
+      earningPotential: "very-high",
+      tags: ["spitting fetish", "saliva play", "spit domme", "face spitting", "drool asmr"],
+      profile: {
+        description:
+          "Pure fluid degradation rendered as high-status art: you spit directly into the camera lens, onto his face/tongue POV, or down the polished leather of your boots. The visual grammar captures slow drool strands, mouth-filling saliva builds, high-speed face spits, and crisp spit-shine boot polishing. Buyers consume spit-swallow audio, mouth-watering ASMR, spit-tribute dares, and 'drink from my mouth' roleplays. The kink is intimate degradation — being marked as inferior by your bodily fluid.",
+        demographics:
+          "Men 20–45, skew 24–36, US/UK/DE/JP, hardcore degradation and fluid communities. Psychographics: humiliation-addicted, visceral sensation seekers, high tolerance for fluid taboo.",
+        income:
+          "$7k–$26k/mo via clip packs ($15–$45), custom spit POV shoots ($100–$350), spit-drip ASMR loops ($20–$60), and saliva-stained merch sales ($50–$150).",
+        engagement:
+          "Very loyal niche; faceless-friendly via mouth/boot framing. High repeat buy rate for custom fluid requests.",
+        related: ["Humiliation & Small Dick Humiliation (SPH)", "Worship & Heel Licking / Sole Licking", "Worn Apparel Resale", "Latex Doll / Shiny Aesthetic", "CFNM Tease & Denial"],
+        persona:
+          "Julian, 28, tech lead who craves visceral degradation. He pays for high-definition mouth-spit POV where a dominant woman treats his face like her personal ashtray and spittoon.",
+        inventory: ["Ring light", "Macro camera lens", "Leather boots", "Clear glass cup", "Water / mouthwash", "Microphone pop filter"]
+      },
+      psych: {
+        dominance: 92, submission: 8, novelty: 65, sensation: 70, intimacy: 20,
+        exhibition: 40, taboo: 90, structure: 50, nurture: 5, material: 60
+      }
+    },
+    {
+      keyword: "Squirting / Female Ejaculation Masterclass",
+      category: "Fluid & Bodily",
+      searchVolume: "very-high",
+      competitionLevel: "high",
+      earningPotential: "very-high",
+      tags: ["squirting", "female ejaculation", "g spot climax", "fluid fountain", "squirt masterclass"],
+      profile: {
+        description:
+          "High-volume, authentic female ejaculation showcased through raw, uncensored camera angles and educational/demonstration breakdowns. You capture G-spot stimulation, multi-burst squirt fountains, mattress-soaking climaxes, and clear liquid spray against dark sheets or clear plastic. Buyers consume squirt tutorials, orgasmic buildup clips, squirt-distance challenges, and custom 'squirt my name' requests. The fantasy is witnessing peak female sexual ecstasy and fluid abundance.",
+        demographics:
+          "Men 18–55, global, high volume search across all major tube platforms and premium subscriber networks. Psychographics: visual climax chasers, female orgasm fetishists, proof-seeking voyeurs.",
+        income:
+          "$12k–$45k/mo via subscription ($15–$30), high-ticket PPV squirt packs ($25–$90), custom g-spot videos ($150–$500), and waterproof bed sheet affiliate programs.",
+        engagement:
+          "Massive conversion on PPV clips; high renewal rates when squirt frequency and fluid volume are consistent.",
+        related: ["Sex Acts", "Vibrator Use", "Barebacking", "Multiple Orgasms", "Anal Gaping & Expansion Artistry"],
+        persona:
+          "Marcus, 35, fascinated by extreme female orgasms. He pays top dollar for long, unedited squirt sessions where the fluid spray is undeniable and continuous.",
+        inventory: ["Waterproof mattress cover", "G-spot vibrator", "Dark satin sheets", "High-lumen key light", "4K camera setup", "Towels"]
+      },
+      psych: {
+        dominance: 45, submission: 20, novelty: 50, sensation: 95, intimacy: 60,
+        exhibition: 85, taboo: 40, structure: 30, nurture: 40, material: 30
+      }
+    },
+    {
+      keyword: "Trampling & Heel Crushing",
+      category: "Sensation & Stimulation",
+      searchVolume: "high",
+      competitionLevel: "low",
+      earningPotential: "very-high",
+      tags: ["trampling", "heel crushing", "stiletto walk", "body crushing", "weight distribution"],
+      profile: {
+        description:
+          "The physical sensation and psychological thrill of being walked on, stood upon, or crushed under high heels, boots, or bare feet. You film stiletto heel presses on chest/back POV, food/fruit crushing, full-body trampling sessions, and step-over domination. The visual grammar focuses on needle heels sinking into flesh or objects, calf muscle flex, and cold, authoritative posture.",
+        demographics:
+          "Men 22–50, US/UK/DE/FR, trampling and physical sensation kink communities. Psychographics: sensory pain/pressure seekers, physical submissives, heel fetishists.",
+        income:
+          "$8k–$30k/mo via crushing clip packs ($20–$60), custom trampling requests ($120–$400), and crushed-object merch auctions.",
+        engagement:
+          "High-ticket custom volume; strong repeat orders from dedicated crush buyers.",
+        related: ["Worship & Heel Licking / Sole Licking", "Socks & Sneakers Worship", "Giantess & Foot Crush POV", "Spitting & Saliva Domination", "Latex Doll / Shiny Aesthetic"],
+        persona:
+          "Brandon, 31, who craves the physical weight of a commanding woman standing on his chest in sharp heels, finding intense peace under her total pressure.",
+        inventory: ["Stiletto heels", "Platform leather boots", "Soft trampling mat", "Crush props (fruit, toys)", "Tripod", "Floor camera rig"]
+      },
+      psych: {
+        dominance: 94, submission: 10, novelty: 50, sensation: 85, intimacy: 15,
+        exhibition: 55, taboo: 70, structure: 60, nurture: 5, material: 75
+      }
+    },
+    {
+      keyword: "Deep Throat & Gagging Audio / POV",
+      category: "Sex Acts",
+      searchVolume: "very-high",
+      competitionLevel: "high",
+      earningPotential: "very-high",
+      tags: ["deep throat", "gagging audio", "throat stretching", "mascara tears", "oral pov"],
+      profile: {
+        description:
+          "Extreme oral immersion focusing on deep throat insertion, involuntary gag reflexes, wet throat sounds, mascara tears, and face-holding intensity. You shoot tight mouth-to-throat POV angles, gagging ASMR audio, throat-stretching demonstrations, and eye-contact deep oral. Buyers consume raw gagging audio loops, throat-depth challenges, and extreme oral PPVs.",
+        demographics:
+          "Men 18–45, global, high demand across all platforms. Psychographics: oral intensity fetishists, throat surrender fans, raw audio listeners.",
+        income:
+          "$10k–$35k/mo via subscriptions ($15–$35), oral clip series ($15–$50), and high-demand custom oral videos ($150–$450).",
+        engagement:
+          "Very high click-through rate on PPVs; strong subscription driver.",
+        related: ["Sex Acts", "Face Fucking", "Blowjob / BJ", "Facials", "Cunnilingus"],
+        persona:
+          "Tyler, 26, obsessed with raw oral throat depth and teary eye contact, paying for unedited long-form throat videos.",
+        inventory: ["HD camera ring light", "Waterproof mascara", "Oral throat lube", "Microphone", "Throat toy props"]
+      },
+      psych: {
+        dominance: 30, submission: 80, novelty: 40, sensation: 90, intimacy: 30,
+        exhibition: 75, taboo: 50, structure: 25, nurture: 10, material: 20
+      }
+    },
+    {
+      keyword: "Giantess & Foot Crush POV",
+      category: "Roleplay & Fantasy",
+      searchVolume: "medium",
+      competitionLevel: "micro",
+      earningPotential: "high",
+      tags: ["giantess", "macro pov", "tinies", "scale perspective", "foot crush"],
+      profile: {
+        description:
+          "Macro perspective roleplay where camera angles and props frame you as a 50-foot giantess towering over a tiny submissive viewer. You film camera-stepping POV, hand-scoop holds, micro-city props, and 'you are my bug' dialogue. Buyers consume giantess audio roleplays, foot-step POV loops, and custom scale-play stories.",
+        demographics:
+          "Men 18–40, global, giantess and size-difference fantasy subcultures. Psychographics: scale fetishists, fantasy submissives, visual perspective lovers.",
+        income:
+          "$6k–$22k/mo via specialized clip sales ($15–$45) and high-ticket custom scale roleplays ($100–$350).",
+        engagement:
+          "Ultra-loyal micro audience with low creator competition and high pricing leverage.",
+        related: ["Tiny / Size-Comparison POV", "Trampling & Heel Crushing", "Worship & Heel Licking / Sole Licking", "Socks & Sneakers Worship", "Roleplay & Fantasy"],
+        persona:
+          "Alex, 25, who loves feeling micro-small compared to a towering goddess stepping over the lens.",
+        inventory: ["Miniature city props", "Wide-angle lens", "Low camera floor mount", "Heels / boots", "Ring light"]
+      },
+      psych: {
+        dominance: 88, submission: 15, novelty: 70, sensation: 60, intimacy: 15,
+        exhibition: 50, taboo: 55, structure: 40, nurture: 10, material: 50
+      }
+    },
+    {
+      keyword: "Latex Enema & Fluid Flush Control",
+      category: "Fluid & Bodily",
+      searchVolume: "medium",
+      competitionLevel: "micro",
+      earningPotential: "very-high",
+      tags: ["enema fetish", "fluid flush", "latex medical", "holding control", "medical domme"],
+      profile: {
+        description:
+          "Clinical latex medical roleplay centered around enema administration, fluid holding challenges, rubber catheter gear, and sphincter control. You film latex-gloved equipment setups, fluid volume measurements, hold-on-command timers, and clean release demonstrations. The fantasy combines strict medical protocol with extreme fluid taboo.",
+        demographics:
+          "Men 25–60, US/UK/DE, medical kink and rubber/enema subcultures. Psychographics: medical submissives, extreme fluid enthusiasts, compliance-driven buyers.",
+        income:
+          "$9k–$32k/mo via specialized medical clip sets ($25–$80), long-form custom flush videos ($200–$600), and medical tier subscriptions.",
+        engagement:
+          "Highest average order value per custom; micro competition allows top-tier pricing.",
+        related: ["Fluid & Bodily", "Latex Doll / Shiny Aesthetic", "Sensory Deprivation / Mummification ASMR", "Medical Nurse Inspection & Speculum Roleplay", "BDSM & Power Exchange"],
+        persona:
+          "Frank, 45, who surrenders total internal control to a latex nurse administering strict fluid holding routines.",
+        inventory: ["Enema bag kit", "Latex medical gloves", "Rubber apron", "IV stand prop", "Timer", "Disinfectant tray"]
+      },
+      psych: {
+        dominance: 75, submission: 65, novelty: 80, sensation: 85, intimacy: 10,
+        exhibition: 35, taboo: 95, structure: 85, nurture: 10, material: 40
+      }
+    },
+    {
+      keyword: "Humiliation & Small Dick Humiliation (SPH)",
+      category: "BDSM & Power Exchange",
+      searchVolume: "very-high",
+      competitionLevel: "medium",
+      earningPotential: "very-high",
+      tags: ["sph", "small dick humiliation", "size mockery", "ruler inspection", "penis evaluation"],
+      profile: {
+        description:
+          "Direct, unrelenting verbal and visual mockery focused on small penis size, inadequate stamina, or male vulnerability. You perform tape-measure inspections, laughing POV clips, comparison commentary, and 'too small for a real woman' evaluations. Buyers submit dick rating requests, buy SPH audio loops, and pay for written/video breakdown evaluations.",
+        demographics:
+          "Men 20–55, global, massive SPH and degradation audience. Psychographics: humiliation seekers, vulnerability-eroticizers, submissive buyers.",
+        income:
+          "$11k–$40k/mo via Dick Ratings ($20–$75 each), SPH video clip series ($15–$45), and custom humiliation videos ($100–$350).",
+        engagement:
+          "Enormous volume of short custom dick rating submissions; high daily cash flow.",
+        related: ["BDSM & Power Exchange", "Female Supremacy & Chastity Keyholder", "Cuckold Humiliation Audio", "CFNM Tease & Denial", "Spitting & Saliva Domination"],
+        persona:
+          "Kevin, 34, who experiences intense erotic release when an attractive woman inspects and laughs at his small size with a ruler.",
+        inventory: ["Calipers / tape measure", "Magnifying glass prop", "High heels", "Lighting ring", "Microphone"]
+      },
+      psych: {
+        dominance: 95, submission: 15, novelty: 35, sensation: 45, intimacy: 10,
+        exhibition: 45, taboo: 80, structure: 60, nurture: 5, material: 70
+      }
+    },
+    {
+      keyword: "Anal Gaping & Expansion Artistry",
+      category: "Sex Acts",
+      searchVolume: "high",
+      competitionLevel: "medium",
+      earningPotential: "very-high",
+      tags: ["anal gaping", "anal expansion", "gator plug", "extreme anal", "rosebud"],
+      profile: {
+        description:
+          "Advanced anal flexibility and sphincter control showcasing deep toy insertion, gradual plug sizing, gaping sphincter reveals, and glass wand play. You film macro anal close-ups, slow withdrawal gaping, and multi-plug expansion progress. Buyers consume gaping tutorials, insertion clips, and custom plug reveals.",
+        demographics:
+          "Men 22–50, global, anal enthusiast and extreme fetish communities. Psychographics: anal visual connoisseurs, body capability admirers.",
+        income:
+          "$10k–$36k/mo via premium anal subscriptions ($20–$40), high-ticket gaping PPV packs ($30–$90), and custom toy videos ($150–$500).",
+        engagement:
+          "Very high subscriber retention when anal content is consistent and extreme.",
+        related: ["Sex Acts", "Anal Sex", "Toy Insertion (Plug)", "Fisting", "Squirting / Female Ejaculation Masterclass"],
+        persona:
+          "Jason, 29, fascinated by extreme anal elasticity and gaping reveals captured in crisp 4K detail.",
+        inventory: ["Graduated anal plug set", "Glass anal wand", "High-viscosity anal lube", "4K macro camera", "Ring light"]
+      },
+      psych: {
+        dominance: 25, submission: 75, novelty: 60, sensation: 95, intimacy: 20,
+        exhibition: 80, taboo: 85, structure: 35, nurture: 10, material: 30
+      }
+    },
+    {
+      keyword: "Medical Nurse Inspection & Speculum Roleplay",
+      category: "Occupation Fantasy",
+      searchVolume: "high",
+      competitionLevel: "low",
+      earningPotential: "very-high",
+      tags: ["nurse inspection", "speculum roleplay", "medical fet", "chastity exam", "clinical domme"],
+      profile: {
+        description:
+          "Cold, clinical medical examination roleplay with snap-of-latex gloves, stainless steel speculums, prostate probes, medical charts, and unemotional physical audits. You perform intake exams, chastity compliance audits, and strict clinical instruction. The fantasy is clinical vulnerability and sterile authority.",
+        demographics:
+          "Men 25–55, US/UK/EU, medical fetish and clinical roleplay communities. Psychographics: clinical submissives, privacy lovers, procedure-driven buyers.",
+        income:
+          "$8k–$28k/mo via medical roleplay clip series ($15–$50) and custom clinical evaluation videos ($120–$400).",
+        engagement:
+          "Strong LTV with loyal clinical roleplay buyers.",
+        related: ["Occupation Fantasy", "Latex Enema & Fluid Flush Control", "Strict CEO / Boss-Girl Findom", "Female Supremacy & Chastity Keyholder", "BDSM & Power Exchange"],
+        persona:
+          "Arthur, 48, who loves being ordered onto an exam table for a cold, strict medical chastity checkup.",
+        inventory: ["Medical scrubs / nurse uniform", "Speculum", "Latex gloves", "Stethoscope", "Clipboard & chart", "Exam light"]
+      },
+      psych: {
+        dominance: 85, submission: 15, novelty: 50, sensation: 65, intimacy: 25,
+        exhibition: 35, taboo: 60, structure: 95, nurture: 30, material: 45
+      }
+    },
+    {
+      keyword: "Double Penetration & DP Toy Choreography",
+      category: "Sex Acts",
+      searchVolume: "high",
+      competitionLevel: "medium",
+      earningPotential: "very-high",
+      tags: ["dp", "double penetration", "toy dp", "fucking machine dp", "dual climax"],
+      profile: {
+        description:
+          "Simultaneous vaginal and anal penetration executed using dual dildos, fucking machines, or male co-performers. You capture dual-angle insertion, rhythm synchronization, double stretching, and intense dual orgasms. Buyers consume DP series packs, machine-rigged DP clips, and custom double insertion shoots.",
+        demographics:
+          "Men 18–50, global, high demand across all major adult distribution networks. Psychographics: extreme penetration lovers, double stretch voyeurs.",
+        income:
+          "$12k–$42k/mo via subscriptions ($20–$35), premium DP clip bundles ($30–$100), and custom DP requests ($200–$600).",
+        engagement:
+          "Top-tier PPV conversion rate; high subscriber retention.",
+        related: ["Sex Acts", "Double Penetration (DP)", "Anal Gaping & Expansion Artistry", "Squirting / Female Ejaculation Masterclass", "Threesome / MMF"],
+        persona:
+          "Ryan, 30, who loves watching intense, rhythmic double penetration with simultaneous vaginal and anal stretch.",
+        inventory: ["Dual harness / mounting rig", "Fucking machine", "Suction dildos", "High-grade lube", "Multi-angle lighting"]
+      },
+      psych: {
+        dominance: 35, submission: 70, novelty: 55, sensation: 98, intimacy: 40,
+        exhibition: 85, taboo: 50, structure: 30, nurture: 15, material: 25
+      }
+    },
+    {
+      keyword: "Bred & Creampie Fantasy",
+      category: "Sex Acts",
+      searchVolume: "very-high",
+      competitionLevel: "high",
+      earningPotential: "very-high",
+      tags: ["creampie", "breeding kink", "internal cum", "ovulation roleplay", "post-coital drip"],
+      profile: {
+        description:
+          "Breeding roleplay and raw internal ejaculations capturing full creampie loads leaking post-coitus, ovulation talk, pregnancy fantasy, and internal cum holding. You film slow-drip close-ups, finger-scoop cum play, and breeding dialogue. Buyers consume creampie series, breeding roleplay audio, and aftermath close-ups.",
+        demographics:
+          "Men 20–50, global, massive breeding and creampie interest group. Psychographics: instinctual breeding fetishists, intimacy-taboo seekers.",
+        income:
+          "$11k–$38k/mo via subscription ($15–$30), creampie aftermath PPVs ($20–$75), and custom breeding roleplay videos ($120–$400).",
+        engagement:
+          "Extremely high repeat viewership and loyal fan retention.",
+        related: ["Sex Acts", "Creampie", "Cum Play / Cum Swap", "Barebacking", "Vaginal Sex / PIV"],
+        persona:
+          "Sean, 32, aroused by the taboo intimacy of filling a woman internally and watching the aftermath drip.",
+        inventory: ["Macro lens", "Synthetic or real cum liquid", "Dark bedding", "Ring light", "HD camera"]
+      },
+      psych: {
+        dominance: 20, submission: 60, novelty: 35, sensation: 85, intimacy: 80,
+        exhibition: 70, taboo: 45, structure: 20, nurture: 65, material: 20
+      }
+    },
+    {
+      keyword: "Forced Bi / Pegging Instruction",
+      category: "BDSM & Power Exchange",
+      searchVolume: "high",
+      competitionLevel: "low",
+      earningPotential: "very-high",
+      tags: ["forced bi", "pegging instruction", "strap on domme", "prostate massage", "feminization task"],
+      profile: {
+        description:
+          "Strap-on pegging, prostate massage coaching, and forced-bisexual tasking delivered by a dominant woman taking control of male sexuality. You perform strap-on harness reveals, step-by-step pegging tutorials, sissy/bi assignment tasking, and prostate milking instruction. Buyers consume pegging POV clips, forced-bi audio tasks, and custom strap-on instruction videos.",
+        demographics:
+          "Men 22–55, US/UK/EU/AU, pegging and forced-bi subcultures. Psychographics: role-reversal submissives, prostate pleasure seekers, taboos-surrender buyers.",
+        income:
+          "$10k–$35k/mo via pegging clip series ($20–$60), bi tasking retainers ($100–$400/mo), and custom strap-on videos ($150–$500).",
+        engagement:
+          "Very high LTV and long-term retention through weekly assignment DM tasks.",
+        related: ["BDSM & Power Exchange", "Pegging", "Female Supremacy & Chastity Keyholder", "Cock Milking / Prostate Milking", "CFNM Tease & Denial"],
+        persona:
+          "Gary, 40, married man who craves being taken from behind by a dominant woman wearing a realistic strap-on.",
+        inventory: ["Leather strap-on harness", "Realistic dildo set", "Prostate massager", "Lube dispenser", "Lighting rig"]
+      },
+      psych: {
+        dominance: 92, submission: 25, novelty: 65, sensation: 75, intimacy: 30,
+        exhibition: 40, taboo: 85, structure: 70, nurture: 15, material: 50
+      }
+    },
+    {
+      keyword: "Sensory Wax Play & Temperature Bondage",
+      category: "Sensation & Stimulation",
+      searchVolume: "medium",
+      competitionLevel: "low",
+      earningPotential: "high",
+      tags: ["wax play", "temperature bondage", "ice and fire", "candle wax", "sensation play"],
+      profile: {
+        description:
+          "Low-temperature candle wax dripping, ice cube sensation trails, blindfold impact, and skin reaction ASMR captured in macro detail. You film hot wax pooling on skin, ice melting down torso curves, skin flushes, and gentle sensory bondage. Buyers consume wax ASMR audio, sensory drip clips, and custom temperature play videos.",
+        demographics:
+          "Men & Women 20–45, US/UK/EU, BDSM sensory and aesthetic fetish communities. Psychographics: sensory pain/pleasure blenders, aesthetic bondage lovers.",
+        income:
+          "$6k–$22k/mo via sensory clip packs ($12–$35) and custom wax/ice sensation videos ($100–$300).",
+        engagement:
+          "High aesthetic appeal and cross-platform sharing potential.",
+        related: ["Sensation & Stimulation", "Sensory Deprivation / Mummification ASMR", "Silent ASMR / No-Talk Sensory", "Latex Doll / Shiny Aesthetic", "Nipple Play"],
+        persona:
+          "Clara, 27, who loves the visual contrast of vibrant hot wax dripping across skin under soft lighting.",
+        inventory: ["Low-temp BDSM candles", "Ice bucket & tongs", "Silk blindfold", "Macro lens camera", "Soft ambient lights"]
+      },
+      psych: {
+        dominance: 70, submission: 50, novelty: 55, sensation: 92, intimacy: 45,
+        exhibition: 35, taboo: 40, structure: 60, nurture: 25, material: 30
+      }
+    },
+    {
+      keyword: "Worship & Heel Licking / Sole Licking",
+      category: "Fetish & Kink",
+      searchVolume: "high",
+      competitionLevel: "low",
+      earningPotential: "very-high",
+      tags: ["sole licking", "heel worship", "shoe cleaning", "foot tongue POV", "boot licking"],
+      profile: {
+        description:
+          "Extreme foot and footwear submission focusing on tongue-to-sole contact, stiletto heel licking, shoe-cleaning duty, and arch worship commands. You capture close-up tongue licking of soles, boot-shine mouth work, and 'clean my shoes with your tongue' commands. Buyers consume sole-licking POV loops, footwear cleaning challenges, and custom shoe worship videos.",
+        demographics:
+          "Men 20–50, global, foot and footwear submissive communities. Psychographics: intense foot submissives, boot-worship fans, service degradation buyers.",
+        income:
+          "$9k–$32k/mo via footwear clip sets ($15–$50) and high-demand custom sole-licking videos ($120–$400).",
+        engagement:
+          "Very loyal foot-worship audience with high reorder velocity for custom foot content.",
+        related: ["Fetish & Kink", "Foot Fetish", "Socks & Sneakers Worship", "Spitting & Saliva Domination", "Trampling & Heel Crushing"],
+        persona:
+          "Nate, 33, who feels supreme pleasure kneeling down to lick the dusty soles of a dominant woman's heels clean.",
+        inventory: ["Designer heels / leather boots", "Foot lotion / oils", "Macro camera rig", "Ring light", "Microphone"]
+      },
+      psych: {
+        dominance: 90, submission: 10, novelty: 40, sensation: 65, intimacy: 35,
+        exhibition: 45, taboo: 60, structure: 50, nurture: 15, material: 65
+      }
     }
   ];
