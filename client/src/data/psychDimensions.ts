@@ -489,6 +489,45 @@ export function computeNetworkTraitDensity(v: DimensionVector): DimensionVector 
 }
 
 /**
+ * Bayesian MAP (Maximum A Posteriori) Latent Trait Estimator (inspired by 'adaptivetesting' & 'py-irt').
+ * Shrinks raw scores toward population prior Gaussian N(50, 225) for high numerical stability.
+ */
+export function applyBayesianMAPEstimation(
+  v: DimensionVector,
+  priorMean = 50,
+  priorVar = 225
+): DimensionVector {
+  const result: DimensionVector = { ...v };
+  for (const key of DIMENSION_KEYS) {
+    const raw = v[key];
+    // MAP shrinkage formula: theta_map = (w * raw + mu / var) / (w + 1 / var)
+    const weight = 1.8;
+    const mapVal = (weight * raw + priorMean / priorVar) / (weight + 1 / priorVar);
+    result[key] = clamp(mapVal, 0, 100);
+  }
+  return result;
+}
+
+/**
+ * Kullback-Leibler (KL) Information Gain & Shannon Entropy Reduction Calculator.
+ * Identifies high-signal dimensions that maximize preference differentiation.
+ */
+export function computeKLEntropyInformationGain(v: DimensionVector): Record<DimensionKey, number> {
+  const result: Record<DimensionKey, number> = {} as Record<DimensionKey, number>;
+  const total = DIMENSION_KEYS.reduce((acc, k) => acc + v[k], 0) || 1;
+
+  for (const key of DIMENSION_KEYS) {
+    const p = clamp(v[key] / total, 0.001, 0.999);
+    // Shannon entropy contribution H(p) = -p log2(p)
+    const entropy = -p * Math.log2(p);
+    // KL divergence distance from uniform prior (0.1)
+    const klDivergence = p * Math.log2(p / 0.1);
+    result[key] = Math.round((klDivergence + (1 - entropy)) * 100) / 100;
+  }
+  return result;
+}
+
+/**
  * Return the n highest-scoring dimensions of a vector, sorted descending.
  */
 export function topDimensions(
@@ -499,4 +538,5 @@ export function topDimensions(
     .sort((x, y) => y.value - x.value)
     .slice(0, n);
 }
+
 

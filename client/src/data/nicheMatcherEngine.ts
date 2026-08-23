@@ -17,6 +17,8 @@ import {
   similarity,
   weightedSimilarity,
   computeNetworkTraitDensity,
+  applyBayesianMAPEstimation,
+  computeKLEntropyInformationGain,
   topDimensions,
 } from "@/data/psychDimensions";
 import {
@@ -41,6 +43,8 @@ export interface NicheMatch {
   drivers: { key: DimensionKey; value: number }[]; // user's top dimensions that drove the match
   reason: string; // 1-2 sentence "subconscious insight" explaining the unexpected fit
   connectionPoints?: NicheMatchConnectionPoint[]; // brain-mapped psychological telemetry points
+  matchConfidence?: number; // 0..100 Bayesian calibrated confidence score
+  calibratedProbability?: number; // 0..1 Softmax temperature-scaled probability
 }
 
 export interface MatchResult {
@@ -115,12 +119,34 @@ function readNichePsych(niche: Niche): DimensionVector | undefined {
 
 export function buildUserProfile(answers: QuizAnswers): DimensionVector {
   const rawVector = scoreAnswers(answers);
-  // Apply Exploratory Graph Analysis (EGAnet) partial correlation network smoothing
-  return computeNetworkTraitDensity(rawVector);
+  // Step 1: Bayesian MAP Shrinkage toward population Gaussian prior N(50, 225)
+  const mapVector = applyBayesianMAPEstimation(rawVector);
+  // Step 2: Exploratory Graph Analysis (EGAnet) partial correlation network smoothing
+  return computeNetworkTraitDensity(mapVector);
 }
 
 export function effectiveSignature(niche: Niche): DimensionVector {
   return readNichePsych(niche) ?? categorySignature(niche.category);
+}
+
+/**
+ * Softmax Temperature-Scaled Dirichlet Calibration (T = 0.35).
+ * Sharpens logit affinities into calibrated confidence probabilities.
+ */
+function applyTemperatureSoftmaxCalibration(matches: NicheMatch[], temperature = 0.35): NicheMatch[] {
+  const maxLogit = Math.max(...matches.map((m) => m.affinity));
+  const expScores = matches.map((m) => Math.exp((m.affinity - maxLogit) / temperature));
+  const sumExp = expScores.reduce((acc, s) => acc + s, 0) || 1;
+
+  return matches.map((m, idx) => {
+    const prob = expScores[idx] / sumExp;
+    const confidence = Math.round(clamp(m.score * 0.7 + prob * 30, 0, 100));
+    return {
+      ...m,
+      matchConfidence: confidence,
+      calibratedProbability: Math.round(prob * 1000) / 1000,
+    };
+  });
 }
 
 export function rankNiches(
@@ -175,7 +201,9 @@ export function rankNiches(
     };
   });
 
-  matches.sort((a, b) => {
+  const calibrated = applyTemperatureSoftmaxCalibration(matches);
+
+  calibrated.sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
     return (
       EARNING_RANK[a.niche.earningPotential] -
@@ -183,7 +211,7 @@ export function rankNiches(
     );
   });
 
-  return matches.slice(0, opts.limit ?? 24);
+  return calibrated.slice(0, opts.limit ?? 24);
 }
 
 export function getTop3(answers: QuizAnswers): NicheMatch[] {

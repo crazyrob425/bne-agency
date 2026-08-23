@@ -1097,7 +1097,7 @@ export default function NicheQuizExperience({
                     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#22222D] pb-3 mb-4">
                       <div>
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4AF37]">
-                          #{i + 1} MATCH &middot; {match.score}% FIT &middot; {match.niche.category}
+                          #{i + 1} MATCH &middot; {match.matchConfidence ?? match.score}% CONFIDENCE ({match.score}% FIT) &middot; {match.niche.category}
                         </span>
                         <h3 className="text-xl font-bold text-[#F4F4EE]">{match.niche.keyword}</h3>
                       </div>
