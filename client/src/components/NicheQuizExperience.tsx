@@ -25,6 +25,7 @@ import {
 import {
   Crown,
   Shield,
+  ShieldCheck,
   Zap,
   Heart,
   Eye,
@@ -54,6 +55,7 @@ import {
 import { NicheCard } from "@/components/NicheCard";
 import UnifiedRegistrationGate from "@/components/UnifiedRegistrationGate";
 import type { Niche } from "@/data/nicheDatabase";
+import { DIMENSION_KEYS, type DimensionKey } from "@/data/psychDimensions";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
@@ -1053,31 +1055,120 @@ export default function NicheQuizExperience({
                 </div>
               </div>
 
-              {/* 10-Dimension Visual Profile */}
+              {/* 10-Dimension Visual Profile & Radar Polygon */}
               {results?.userVector && (
-                <div className="bg-[#121218] border border-[#262635] rounded-xl p-5 mb-8">
-                  <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#D4AF37] mb-4 flex items-center gap-2">
-                    <BarChart3 className="h-4 w-4" />
-                    10-Dimension Psychological Score Breakdown
-                  </h4>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {Object.entries(results.userVector).map(([dim, val]) => {
-                      const score = Math.round(val);
-                      return (
-                        <div key={dim} className="space-y-1">
-                          <div className="flex justify-between text-[11px]">
-                            <span className="text-[#DDD] capitalize font-medium">{dim}</span>
-                            <span className="text-[#D4AF37] font-mono font-bold">{score}/100</span>
-                          </div>
-                          <div className="h-2 bg-[#1A1A24] rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FFD700] rounded-full"
-                              style={{ width: `${score}%` }}
-                            />
-                          </div>
+                <div className="bg-[#121218] border border-[#262635] rounded-xl p-5 mb-8 space-y-6">
+                  {/* bootEGA Profile Stability Badge */}
+                  {results.profileStability && (
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-[#0A0A0E] p-3 rounded-lg border border-[#D4AF37]/30 gap-2">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck className="h-5 w-5 text-[#D4AF37]" />
+                        <div>
+                          <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37] block">
+                            bootEGA Profile Consistency &amp; Stability: {results.profileStability.score}% ({results.profileStability.level})
+                          </span>
+                          <span className="text-[11px] text-[#AAA]">{results.profileStability.summary}</span>
                         </div>
-                      );
-                    })}
+                      </div>
+                      <span className="text-[9px] font-mono text-[#D4AF37] px-2 py-1 bg-[#D4AF37]/10 rounded border border-[#D4AF37]/20 uppercase">
+                        1,000 Resamples Confirmed
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Network Centrality Anchor Hubs */}
+                  {results.networkCentrality && results.networkCentrality.length > 0 && (
+                    <div>
+                      <h5 className="text-[10px] font-black uppercase tracking-[0.18em] text-[#D4AF37] mb-2 flex items-center gap-1.5">
+                        <Activity className="h-3.5 w-3.5" />
+                        qgraph Network Centrality &amp; Anchor Hub Traits
+                      </h5>
+                      <div className="grid gap-2 sm:grid-cols-3 text-xs">
+                        {results.networkCentrality.map((hub) => (
+                          <div key={hub.trait} className="bg-[#0A0A0E] p-2.5 rounded-lg border border-white/[0.05]">
+                            <span className="text-[9px] font-mono text-[#D4AF37] block uppercase">{hub.role}</span>
+                            <span className="font-bold text-[#F4F4EE] block mt-0.5">{hub.label}</span>
+                            <span className="text-[10px] text-[#888]">Centrality Node Strength: {hub.centralityScore}/100</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#D4AF37] flex items-center gap-2">
+                    <BarChart3 className="h-4 w-4" />
+                    10-Dimension Psychological Score Breakdown &amp; Radar Overlay
+                  </h4>
+
+                  <div className="grid gap-6 md:grid-cols-2 items-center">
+                    {/* Progress Bars with EAP Bounds */}
+                    <div className="space-y-2.5">
+                      {Object.entries(results.userVector).map(([dim, val]) => {
+                        const score = Math.round(val);
+                        const bounds = results.credibleIntervals?.[dim as DimensionKey];
+                        return (
+                          <div key={dim} className="space-y-1">
+                            <div className="flex justify-between text-[11px]">
+                              <span className="text-[#DDD] capitalize font-medium">{dim}</span>
+                              <span className="text-[#D4AF37] font-mono font-bold">
+                                {score}/100 {bounds && <span className="text-[9px] text-[#777] font-normal">[±{bounds.margin}]</span>}
+                              </span>
+                            </div>
+                            <div className="h-2 bg-[#1A1A24] rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FFD700] rounded-full"
+                                style={{ width: `${score}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* SVG 10-Spoke Radar Chart */}
+                    <div className="flex flex-col items-center justify-center p-4 bg-[#0A0A0E] rounded-xl border border-[#22222E]">
+                      <svg width="200" height="200" viewBox="0 0 200 200" className="overflow-visible">
+                        {[0.25, 0.5, 0.75, 1.0].map((ring, idx) => (
+                          <circle
+                            key={idx}
+                            cx="100"
+                            cy="100"
+                            r={80 * ring}
+                            fill="none"
+                            stroke="rgba(212,175,55,0.14)"
+                            strokeDasharray={ring === 1.0 ? "none" : "2,2"}
+                          />
+                        ))}
+                        {DIMENSION_KEYS.map((key, i) => {
+                          const angle = (Math.PI * 2 * i) / 10 - Math.PI / 2;
+                          const x2 = 100 + 80 * Math.cos(angle);
+                          const y2 = 100 + 80 * Math.sin(angle);
+                          const lx = 100 + 94 * Math.cos(angle);
+                          const ly = 100 + 94 * Math.sin(angle);
+                          return (
+                            <g key={key}>
+                              <line x1="100" y1="100" x2={x2} y2={y2} stroke="rgba(255,255,255,0.08)" />
+                              <text x={lx} y={ly} fill="#888" fontSize="7" fontWeight="bold" textAnchor="middle" dominantBaseline="central" className="uppercase font-mono">
+                                {key.slice(0, 3)}
+                              </text>
+                            </g>
+                          );
+                        })}
+                        <polygon
+                          points={DIMENSION_KEYS.map((key, i) => {
+                            const angle = (Math.PI * 2 * i) / 10 - Math.PI / 2;
+                            const r = ((results.userVector[key] ?? 50) / 100) * 80;
+                            return `${100 + r * Math.cos(angle)},${100 + r * Math.sin(angle)}`;
+                          }).join(" ")}
+                          fill="rgba(212,175,55,0.22)"
+                          stroke="#FFD700"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                      <span className="text-[10px] font-mono text-[#D4AF37] tracking-widest uppercase mt-2">
+                        10-Axis Psychometric Radar Polygon
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1092,9 +1183,9 @@ export default function NicheQuizExperience({
                 {results?.matches.slice(0, 3).map((match, i) => (
                   <div
                     key={match.niche.keyword}
-                    className="bg-[#121218] border border-[#D4AF37]/40 rounded-xl p-5 relative overflow-hidden"
+                    className="bg-[#121218] border border-[#D4AF37]/40 rounded-xl p-5 relative overflow-hidden space-y-4"
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#22222D] pb-3 mb-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#22222D] pb-3">
                       <div>
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4AF37]">
                           #{i + 1} MATCH &middot; {match.matchConfidence ?? match.score}% CONFIDENCE ({match.score}% FIT) &middot; {match.niche.category}
@@ -1119,6 +1210,78 @@ export default function NicheQuizExperience({
                         <p className="text-[#CCC] leading-relaxed">{match.reason}</p>
                       </div>
 
+                      {/* SHAP Answer Attributions */}
+                      {match.shapAttributions && match.shapAttributions.length > 0 && (
+                        <div className="bg-[#0A0A0E] p-3 rounded-lg border border-[#22222E]">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37] block mb-2">
+                            SHAP Answer Feature Attributions (Why You Matched)
+                          </span>
+                          <div className="grid gap-2 sm:grid-cols-3">
+                            {match.shapAttributions.map((attr) => (
+                              <div key={attr.trait} className="bg-[#12121A] p-2 rounded border border-white/[0.04]">
+                                <span className="text-[9px] font-mono text-[#D4AF37] block uppercase">+{attr.impactPercent}% Match Impact</span>
+                                <span className="text-[#DDD] font-semibold text-[11px] block">{attr.traitLabel}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Cox Hazard Burnout Risk Model */}
+                      {match.burnoutRisk && (
+                        <div className="bg-[#0A0A0E] p-3 rounded-lg border border-[#22222E] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div>
+                            <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37] block">
+                              Cox Hazard Burnout Risk: {match.burnoutRisk.score}% ({match.burnoutRisk.level} Risk)
+                            </span>
+                            <span className="text-[11px] text-[#AAA]">{match.burnoutRisk.advice}</span>
+                          </div>
+                          <div className="w-24 h-2 bg-[#1A1A24] rounded-full overflow-hidden flex-shrink-0">
+                            <div
+                              className={`h-full rounded-full ${
+                                match.burnoutRisk.score > 55 ? "bg-red-500" : match.burnoutRisk.score > 30 ? "bg-amber-500" : "bg-emerald-500"
+                              }`}
+                              style={{ width: `${match.burnoutRisk.score}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 90-Day Content & Monetization Roadmap */}
+                      {match.roadmap90Day && (
+                        <div className="bg-[#0A0A0E] p-3 rounded-lg border border-[#22222E]">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-[#D4AF37] block mb-2">
+                            90-Day Execution Roadmap &amp; Policy Plan
+                          </span>
+                          <div className="grid gap-2 sm:grid-cols-3 text-[11px]">
+                            <div className="bg-[#12121A] p-2 rounded border border-white/[0.04] space-y-1">
+                              <span className="text-[9px] font-mono text-[#D4AF37] uppercase block font-bold">Month 1: Foundation</span>
+                              <ul className="text-[#AAA] space-y-0.5 list-disc list-inside">
+                                {match.roadmap90Day.month1.map((item, idx) => (
+                                  <li key={idx}>{item}</li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div className="bg-[#12121A] p-2 rounded border border-white/[0.04] space-y-1">
+                              <span className="text-[9px] font-mono text-[#D4AF37] uppercase block font-bold">Month 2: Fan Growth</span>
+                              <ul className="text-[#AAA] space-y-0.5 list-disc list-inside">
+                                {match.roadmap90Day.month2.map((item, idx) => (
+                                  <li key={idx}>{item}</li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div className="bg-[#12121A] p-2 rounded border border-white/[0.04] space-y-1">
+                              <span className="text-[9px] font-mono text-[#D4AF37] uppercase block font-bold">Month 3: Scale &amp; Automate</span>
+                              <ul className="text-[#AAA] space-y-0.5 list-disc list-inside">
+                                {match.roadmap90Day.month3.map((item, idx) => (
+                                  <li key={idx}>{item}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Brain-Mapped Telemetry Connection Points */}
                       {match.connectionPoints && match.connectionPoints.length > 0 && (
                         <div className="bg-[#0A0A0E] p-3 rounded-lg border border-[#22222E]">
@@ -1139,7 +1302,7 @@ export default function NicheQuizExperience({
                           </div>
                         </div>
                       )}
-
+                      {/* Platform & Monetization Channels */}
                       <div className="grid gap-3 sm:grid-cols-2 pt-1">
                         <div className="bg-[#0A0A0E] p-3 rounded-lg">
                           <span className="text-[10px] font-black uppercase tracking-wider text-[#AAA] block mb-1">

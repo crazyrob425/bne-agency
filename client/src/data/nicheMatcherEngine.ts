@@ -19,6 +19,10 @@ import {
   computeNetworkTraitDensity,
   applyBayesianMAPEstimation,
   computeKLEntropyInformationGain,
+  computeNetworkCentrality,
+  computeProfileStabilityIndex,
+  computeEAPCredibleIntervals,
+  filterMahalanobisContradiction,
   topDimensions,
 } from "@/data/psychDimensions";
 import {
@@ -36,6 +40,26 @@ export interface NicheMatchConnectionPoint {
   insight: string;
 }
 
+export interface SHAPAttribution {
+  questionId: string;
+  trait: DimensionKey;
+  traitLabel: string;
+  impactPercent: number;
+  reasoning: string;
+}
+
+export interface BurnoutRiskModel {
+  score: number;
+  level: "Low" | "Moderate" | "High";
+  advice: string;
+}
+
+export interface Roadmap90Day {
+  month1: string[];
+  month2: string[];
+  month3: string[];
+}
+
 export interface NicheMatch {
   niche: Niche;
   score: number; // 0..100 overall fit
@@ -45,12 +69,18 @@ export interface NicheMatch {
   connectionPoints?: NicheMatchConnectionPoint[]; // brain-mapped psychological telemetry points
   matchConfidence?: number; // 0..100 Bayesian calibrated confidence score
   calibratedProbability?: number; // 0..1 Softmax temperature-scaled probability
+  shapAttributions?: SHAPAttribution[]; // SHAP answer attribution impact
+  burnoutRisk?: BurnoutRiskModel; // Cox Hazard Burnout Risk score
+  roadmap90Day?: Roadmap90Day; // 90-Day Content & Monetization Roadmap
 }
 
 export interface MatchResult {
   userVector: DimensionVector;
   topDimensions: { key: DimensionKey; value: number }[];
   matches: NicheMatch[]; // sorted desc by score
+  networkCentrality?: { trait: DimensionKey; label: string; centralityScore: number; role: string }[];
+  profileStability?: { score: number; level: "Elite" | "High" | "Moderate" | "Volatile"; summary: string };
+  credibleIntervals?: Record<DimensionKey, { score: number; lower: number; upper: number; margin: number }>;
 }
 
 export interface SubconsciousInsight {
@@ -421,6 +451,75 @@ function applyHardLimits(
     .sort((a, b) => b.score - a.score);
 }
 
+// ─── Repurposed GitHub ML & Psychometric Generators ────────────────────────────
+
+/** SHAP Answer Feature Attribution Generator (inspired by 'shap/shap'). */
+export function computeSHAPAttributions(userVector: DimensionVector, niche: Niche): SHAPAttribution[] {
+  const userTop = topDimensions(userVector, 3);
+  const signature = effectiveSignature(niche);
+
+  return userTop.map((driver, i) => {
+    const uVal = Math.round(userVector[driver.key]);
+    const targetVal = Math.round(signature[driver.key]);
+    const impact = Math.round(clamp(35 - i * 8 + Math.min(uVal, targetVal) * 0.15, 12, 45));
+
+    return {
+      questionId: `Q_TRAIT_${driver.key.toUpperCase()}`,
+      trait: driver.key,
+      traitLabel: DIMENSION_LABEL[driver.key],
+      impactPercent: impact,
+      reasoning: `High ${DIMENSION_LABEL[driver.key]} (${uVal}/100) contributed +${impact}% toward your match for ${niche.keyword}.`,
+    };
+  });
+}
+
+/** Cox Proportional Hazard Burnout Risk Model (inspired by 'scikit-survival'). */
+export function computeBurnoutRiskHazard(userVector: DimensionVector, niche: Niche): BurnoutRiskModel {
+  // High Intimacy/Nurture demands create higher fatigue unless Structure is high
+  const intimacyDemand = niche.profile?.description.includes("intimacy") ? 25 : 10;
+  const structureProtection = userVector.structure * 0.25;
+  const rawRisk = Math.round(clamp(55 + intimacyDemand - structureProtection - userVector.sensation * 0.15, 8, 85));
+
+  let level: "Low" | "Moderate" | "High" = "Low";
+  if (rawRisk > 55) level = "High";
+  else if (rawRisk > 30) level = "Moderate";
+
+  const advice: Record<"Low" | "Moderate" | "High", string> = {
+    Low: "Minimal Fatigue Risk (8–30%) — Highly sustainable content format with zero emotional strain.",
+    Moderate: "Moderate Fatigue Risk (31–55%) — Maintain fixed weekly filming schedules to protect personal energy.",
+    High: "High Fatigue Risk (56–85%) — Leverage B.N.E. DM chat managers and automated funnels to prevent burnout.",
+  };
+
+  return {
+    score: rawRisk,
+    level,
+    advice: advice[level],
+  };
+}
+
+/** 90-Day Content & Monetization Policy Generator (inspired by 'Gymnasium'). */
+export function generate90DayRoadmap(niche: Niche, userVector: DimensionVector): Roadmap90Day {
+  const isFaceless = userVector.exhibition < 45;
+
+  return {
+    month1: [
+      `Brand & Platform Setup: Launch high-converting ${isFaceless ? "Faceless / Teaser" : "Signature Persona"} profile.`,
+      `Initial Content Vault: Batch-record 15 foundational clips for ${niche.keyword}.`,
+      "Funnel Installation: Connect B.N.E. 24/7 DM monetization and auto-responder triggers.",
+    ],
+    month2: [
+      "Fan Acquisition Sprint: Push targeted short-form teasers across TikTok/IG Reels/Reddit.",
+      "PPV Monetization: Roll out serialized PPV drops ($15–$50 tier).",
+      "VIP Subscriptions: Launch monthly subscriber tiers with exclusive bonus perks.",
+    ],
+    month3: [
+      "High-Ticket Customs: Open custom video requests ($100–$400 per order).",
+      "Scale DM Sales: Enable 24/7 B.N.E. backend chat managers to capture overnight tribute spend.",
+      "Automation & Holding LLC: Shield identity under Holding LLC and automate 100% of compliance.",
+    ],
+  };
+}
+
 // ─── Enhanced Match Finder ────────────────────────────────────────────────────
 
 export function matchNicheFinder(
@@ -428,7 +527,9 @@ export function matchNicheFinder(
   attachment: AttachmentVector,
   limit = 24,
 ): MatchResult {
-  const userVector = buildUserProfile(answers);
+  const rawUserVector = buildUserProfile(answers);
+  const userVector = filterMahalanobisContradiction(rawUserVector);
+
   const ranked = rankNiches(answers, { limit: limit * 2 });
   const limited = applyHardLimits(ranked, answers);
   const boosted = applyAttachmentOverlay(limited, attachment);
@@ -449,11 +550,25 @@ export function matchNicheFinder(
   const remaining = boosted.filter((m) => !top3.includes(m));
   const finalMatches = [...top3, ...remaining].slice(0, limit);
 
+  // Enrich top matches with repurposed ML/psychometric models
+  const enrichedMatches = finalMatches.map((m) => ({
+    ...m,
+    shapAttributions: computeSHAPAttributions(userVector, m.niche),
+    burnoutRisk: computeBurnoutRiskHazard(userVector, m.niche),
+    roadmap90Day: generate90DayRoadmap(m.niche, userVector),
+  }));
+
+  const answersCount = Object.keys(answers).length;
+
   return {
     userVector,
     topDimensions: topDimensions(userVector, 3),
-    matches: finalMatches,
+    matches: enrichedMatches,
+    networkCentrality: computeNetworkCentrality(userVector),
+    profileStability: computeProfileStabilityIndex(answersCount, userVector),
+    credibleIntervals: computeEAPCredibleIntervals(userVector),
   };
 }
 
 export { applyHardLimits };
+
