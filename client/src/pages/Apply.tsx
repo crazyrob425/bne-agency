@@ -17,7 +17,7 @@ import {
   DollarSign, Award, ArrowRight, MessageSquare, Phone, Mail,
   Instagram, Hash, Target, Clock, Star, Sparkles, Loader2,
   Upload, Image as ImageIcon, Eye, BarChart3, TrendingUp,
-  FileText, Heart, AlertCircle, CheckCircle2
+  FileText, Heart, AlertCircle, CheckCircle2, Crown
 } from "lucide-react";
 import businessCard from "@/../../BNE%20businesscard.png";
 

@@ -22,6 +22,7 @@ import multer from "multer";
 import { getDb } from "../db";
 import { onboardingApplications, users } from "../../drizzle/schema";
 import { desc, eq } from "drizzle-orm";
+import { getMarkdownForUrl, estimateTokenCount } from "../../shared/markdown-negotiation";
 
 // Resolve project root correctly for both dev (tsx) and production (esbuild bundled)
 // In dev: import.meta.dirname is server/_core, resolve ../.. for project root
@@ -354,6 +355,24 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   // Cookie parser for OAuth session handling
   app.use(cookieParser());
+
+  // Agent Markdown Content Negotiation (Accept: text/markdown)
+  app.use((req, res, next) => {
+    res.setHeader("Vary", "Accept");
+    const acceptHeader = (req.headers.accept || "").toString();
+
+    if (acceptHeader.includes("text/markdown") && !req.path.startsWith("/api/") && !req.path.startsWith("/assets/")) {
+      const pageUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+      const markdown = getMarkdownForUrl(pageUrl);
+      const tokenCount = estimateTokenCount(markdown);
+
+      res.setHeader("Content-Type", "text/markdown; charset=utf-8");
+      res.setHeader("x-markdown-tokens", tokenCount.toString());
+      return res.status(200).send(markdown);
+    }
+    next();
+  });
+
   registerStorageProxy(app);
   registerOAuthRoutes(app);
   registerStripeWebhook(app);

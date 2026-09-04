@@ -1,0 +1,35 @@
+# Cloudflare Pages Headers Configuration for BNE Studio (blacklisted.studio)
+
+# Security and Global Headers for ALL requests
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-XSS-Protection: 1; mode=block
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Immutable Caching for Bundled Static JS/CSS/Image Assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Prevent Stale Caching of HTML Entry Point (Ensures instant deployment updates)
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Fast Edge Caching for SEO Sitemap & RSS Feeds (24-hour edge TTL)
+/sitemap.xml
+  Cache-Control: public, max-age=86400, s-maxage=86400
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-images.xml
+  Cache-Control: public, max-age=86400, s-maxage=86400
+  Content-Type: application/xml; charset=utf-8
+
+/rss.xml
+  Cache-Control: public, max-age=86400, s-maxage=86400
+  Content-Type: application/xml; charset=utf-8
+
+/robots.txt
+  Cache-Control: public, max-age=86400, s-maxage=86400
+  Content-Type: text/plain; charset=utf-8

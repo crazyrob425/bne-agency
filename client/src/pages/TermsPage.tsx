@@ -49,9 +49,9 @@ const TERMS_CLAUSES = [
   },
   {
     icon: Shield,
-    title: "4. Flat Retainer Payment & Termination Terms",
-    description: "Partnerships operate on flat monthly retainers billed on the 1st of each month. Initial 3-month setup period followed by flexible month-to-month terms with 30-day notice.",
-    detail: "No percentage commissions, revenue shares, or surprise billing adjustments.",
+    title: "4. 25% Performance Commission & Contract Terms",
+    description: "Partnerships operate on a transparent 25% agency commission (you keep 75% of earnings). Initial 3-month setup period followed by flexible month-to-month terms with 30-day notice.",
+    detail: "Performance-aligned commission structure with 100% creator IP ownership and zero hidden billing adjustments.",
   },
 ];
 
@@ -77,7 +77,7 @@ export default function TermsPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Seo
         title="Terms of Service & Agency Master Agreement | BNE Studio"
-        description="Review BNE Studio's transparent Terms of Service: 100% creator content ownership, flat retainer terms, non-disclosure guarantees, and legal agreement terms."
+        description="Review BNE Studio's transparent Terms of Service: 100% creator content ownership, 25% management commission structure, non-disclosure guarantees, and legal agreement terms."
         canonical="/terms"
         schema={faqSchema}
         keywords="BNE terms of service, adult creator agency contract, OnlyFans management agreement, creator IP ownership terms, BNE legal terms"

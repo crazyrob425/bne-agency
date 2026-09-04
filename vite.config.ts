@@ -171,6 +171,27 @@ export default defineConfig({
     rollupOptions: {
       cache: false,
       maxParallelFileOps: 2,
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react") || id.includes("react-dom") || id.includes("wouter")) {
+              return "vendor-core";
+            }
+            if (id.includes("@radix-ui") || id.includes("lucide-react") || id.includes("sonner")) {
+              return "vendor-ui";
+            }
+            if (id.includes("recharts")) {
+              return "vendor-charts";
+            }
+            if (id.includes("framer-motion")) {
+              return "vendor-motion";
+            }
+            if (id.includes("@tanstack") || id.includes("@trpc")) {
+              return "vendor-query";
+            }
+          }
+        },
+      },
     },
   },
   server: {

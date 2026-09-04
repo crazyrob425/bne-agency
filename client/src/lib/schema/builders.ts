@@ -23,17 +23,39 @@ export const buildOrganizationSchema = (
   opts?: Partial<Organization>
 ): WithContext<Organization> => ({
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "B.N.E. Studio",
+  "@type": "ProfessionalService",
+  name: "Blacklisted Niche Entertainment",
+  alternateName: "B.N.E. Studio",
   url: siteUrl,
   description:
-    "Silent operations partner for digital creators. We handle booking, screening, safety vetting, and marketing.",
-  foundingDate: "2018",
+    "Full-stack operational agency, web developer, e-commerce architect, and management firm taking newcomers to 6-figure adult empires within 90 days via flat-fee and 25% profit-share models.",
+  founder: {
+    "@type": "Person",
+    name: "Rob Branting",
+  },
+  parentOrganization: {
+    "@type": "Organization",
+    name: "Blacklisted Binary Labs",
+  },
+  areaServed: "United States",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "sales",
     email: "hello@blacklisted.studio",
   },
+  knowsAbout: [
+    "Newcomer Adult Creator Incubation (0 to 6 Figures in 90 Days)",
+    "Flat Fee 0% Commission Management",
+    "25% Full Sponsored Silent Business Partnership",
+    "OnlyFans & Fansly Full Account Management",
+    "Webcam Multi-Platform Syndication (Chaturbate, CamSoda, Stripchat)",
+    "Companion to Digital Creator Crossover Strategies",
+    "Vetted In-Person Superfan Session Coordination",
+    "Fan Collectibles & Worn Items E-Commerce Storefronts",
+    "Custom Adult Website Development",
+    "Adult Brand Persona & Visual Design",
+    "18 U.S.C. § 2257 Legal Compliance & Privacy Firewalls",
+  ],
   sameAs: [
     "https://twitter.com/blacklistedstudio",
     "https://github.com/blacklistedstudio",

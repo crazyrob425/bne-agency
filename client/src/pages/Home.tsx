@@ -10,8 +10,10 @@ import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import {
   ChevronRight, TrendingUp, Shield, Zap, Users, DollarSign,
-  Lock, Eye, BarChart3, Award, ArrowRight, Layers, BookOpen, Clock, Crown, Play
+  Lock, Eye, BarChart3, Award, ArrowRight, Layers, BookOpen, Clock, Crown, Play,
+  ZoomIn, Maximize2
 } from "lucide-react";
+import InfographicModal from "@/components/InfographicModal";
 import { getFeaturedArticles } from "@/data/blogArticles";
 import { useAuth } from "@/_core/hooks/useAuth";
 import VideoPlayer from "@/components/VideoPlayer";
@@ -83,6 +85,8 @@ export default function Home() {
   const { getVideoByKeyword } = useMediaCatalog();
   const bneVideo = getVideoByKeyword("B.N.E");
 
+  const [mainImageModalOpen, setMainImageModalOpen] = useState(false);
+
   const powerLawRef = useRef(null);
   const powerLawInView = useInView(powerLawRef, { once: true, margin: "-100px" });
 
@@ -120,7 +124,7 @@ export default function Home() {
       <Navigation />
 
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-20 pb-16">
         {/* Cinematic multi-layer background */}
         <div className="absolute inset-0 bg-[oklch(0.04_0.005_85)]" />
         {/* Radial gold glow — top center */}
@@ -151,92 +155,244 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-          <div className="max-w-4xl">
-            {/* Luxury badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.15, duration: 0.5 }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/20%)] mb-8"
-            >
-              <Crown size={13} className="text-[oklch(0.78_0.16_85)]" />
-              <span className="text-[oklch(0.78_0.14_85)] text-xs font-semibold tracking-[0.15em] uppercase font-body">
-                Blacklisted Niche Entertainment
-              </span>
-            </motion.div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12">
+          {/* Main 2-Column Split Grid */}
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            {/* Left Column: Copy & Actions */}
+            <div className="lg:col-span-7 xl:col-span-7">
+              {/* Luxury badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15, duration: 0.5 }}
+                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/20%)] mb-6 sm:mb-8"
+              >
+                <Crown size={13} className="text-[oklch(0.78_0.16_85)]" />
+                <span className="text-[oklch(0.78_0.14_85)] text-xs font-semibold tracking-[0.15em] uppercase font-body">
+                  Blacklisted Niche Entertainment
+                </span>
+              </motion.div>
 
-            {/* Hero headline — high-energy, direct */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.7, ease: cubicEase }}
-              className="heading-xl text-[oklch(0.94_0.01_85)] mb-6 max-w-3xl font-display"
-            >
-              Go Make Your Money.<br />
-              We'll Handle The <span className="gradient-text-gold">Grind & The Danger.</span>
-            </motion.h1>
+              {/* Hero headline — high-energy, direct */}
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.7, ease: cubicEase }}
+                className="heading-xl text-[oklch(0.94_0.01_85)] mb-6 font-display"
+              >
+                Go Make Your Money.<br />
+                We'll Handle The <span className="gradient-text-gold">Grind & The Danger.</span>
+              </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.6 }}
-              className="text-[oklch(0.65_0.012_85)] text-lg sm:text-xl leading-relaxed max-w-2xl mb-10 font-body"
-            >
-              You're the talent. We're your silent partner. Whether you are building an online OnlyFans empire, dominating webcam sites like Chaturbate, or running a luxury in-person companion brand — BNE covers your entire backend. We handle the setups, the screening, the booking, the ad posting, and the safety, leaving you 100% free to stack cash.
-            </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.6 }}
+                className="text-[oklch(0.65_0.012_85)] text-lg sm:text-xl leading-relaxed mb-8 sm:mb-10 font-body max-w-2xl"
+              >
+                You're the talent. We're your silent partner. Blacklisted Niche Entertainment fast-tracks complete newcomers from zero to six figures in 90 days across OnlyFans, webcam multi-streaming (Chaturbate, CamSoda, Stripchat), fan collectibles e-commerce stores, and companion crossover services under <strong className="text-[oklch(0.88_0.01_85)]">Zero-Commission Flat-Fee (you keep 100%)</strong> or <strong className="text-[oklch(0.88_0.01_85)]">25% Sponsored Profit-Share (you keep 75%)</strong> models with <strong className="text-[oklch(0.88_0.01_85)]">100% IP ownership</strong> and <strong className="text-[oklch(0.88_0.01_85)]">§ 2257 legal protection</strong>.
+              </motion.p>
 
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 mb-14 font-body"
-            >
-              <Link href="/niche-matcher">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center justify-center gap-2.5 px-7 py-4 rounded-full btn-gold text-base font-semibold w-full sm:w-auto magnetic-hover"
-                >
-                  <Zap size={18} />
-                  Find Your Niche & Double Your Earning
-                  <ChevronRight size={16} />
-                </motion.button>
-              </Link>
-              <Link href="/services">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center justify-center gap-2.5 px-7 py-4 rounded-full btn-gold-outline text-base font-semibold w-full sm:w-auto"
-                >
-                  <ArrowRight size={18} />
-                  Outsource Your Backend
-                </motion.button>
-              </Link>
-            </motion.div>
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="flex flex-col sm:flex-row gap-4 mb-10 sm:mb-12 font-body"
+              >
+                <Link href="/niche-matcher">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="flex items-center justify-center gap-2.5 px-7 py-4 rounded-full btn-gold text-base font-semibold w-full sm:w-auto magnetic-hover shadow-[0_0_30px_oklch(0.78_0.16_85/30%)]"
+                  >
+                    <Zap size={18} />
+                    Find Your Niche & Double Your Earning
+                    <ChevronRight size={16} />
+                  </motion.button>
+                </Link>
+                <Link href="/services">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="flex items-center justify-center gap-2.5 px-7 py-4 rounded-full btn-gold-outline text-base font-semibold w-full sm:w-auto"
+                  >
+                    <ArrowRight size={18} />
+                    Explore 6-Figure Infrastructure
+                  </motion.button>
+                </Link>
+              </motion.div>
 
-            {/* Trust indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="flex flex-wrap gap-8"
-            >
-              {[
-                { icon: Shield, label: "Your Privacy Comes First" },
-                { icon: Lock, label: "Legally Protected, Always" },
-                { icon: TrendingUp, label: "Real Revenue Growth" },
-              ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2.5 text-[oklch(0.65_0.012_85)] text-sm font-body">
-                  <div className="w-8 h-8 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/15%)] flex items-center justify-center">
-                    <Icon size={14} className="text-[oklch(0.78_0.16_85)]" />
+              {/* Trust indicators */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="flex flex-wrap gap-6"
+              >
+                {[
+                  { icon: Shield, label: "0 to $100K in 90 Days" },
+                  { icon: Lock, label: "18 U.S.C. § 2257 Protected" },
+                  { icon: TrendingUp, label: "Flat-Fee (0%) OR Sponsored (25%)" },
+                ].map(({ icon: Icon, label }) => (
+                  <div key={label} className="flex items-center gap-2.5 text-[oklch(0.65_0.012_85)] text-sm font-body">
+                    <div className="w-8 h-8 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/15%)] flex items-center justify-center">
+                      <Icon size={14} className="text-[oklch(0.78_0.16_85)]" />
+                    </div>
+                    {label}
                   </div>
-                  {label}
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Right Column: Hero Master Showcase Graphic */}
+            <div className="lg:col-span-5 xl:col-span-5 relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.8, ease: cubicEase }}
+                className="relative group cursor-pointer"
+                onClick={() => setMainImageModalOpen(true)}
+              >
+                {/* Ambient backlighting glow */}
+                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-[oklch(0.78_0.16_85/40%)] via-[oklch(0.72_0.12_85/20%)] to-[oklch(0.78_0.16_85/40%)] blur-2xl opacity-75 group-hover:opacity-100 transition duration-700 pointer-events-none" />
+
+                {/* Glassmorphic gold border frame */}
+                <div className="relative rounded-2xl p-[1.5px] bg-gradient-to-b from-[oklch(0.78_0.16_85/60%)] via-[oklch(0.78_0.16_85/20%)] to-[oklch(0.78_0.16_85/40%)] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.95)]">
+                  <div className="relative bg-[oklch(0.06_0.006_85)] rounded-[15px] overflow-hidden border border-[oklch(0.78_0.16_85/25%)]">
+                    
+                    {/* Studio Console Header */}
+                    <div className="px-4 py-3 bg-[oklch(0.09_0.01_85)] border-b border-[oklch(0.78_0.16_85/15%)] flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.78_0.16_85)] shadow-[0_0_8px_oklch(0.78_0.16_85)]" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.72_0.12_85/40%)]" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.72_0.12_85/20%)]" />
+                        <span className="text-[11px] font-mono-lux tracking-widest text-[oklch(0.78_0.14_85)] ml-2 uppercase">
+                          BNE MASTER PORTAL
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[oklch(0.78_0.16_85/12%)] border border-[oklch(0.78_0.16_85/25%)]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        <span className="text-[10px] font-mono-lux text-emerald-300 font-semibold tracking-wider">
+                          LIVE SYSTEM
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Master Hero Image Container */}
+                    <div className="relative overflow-hidden group">
+                      <img
+                        src="/blacklisted-niche-entertainment-onlyfans-webcam-escorts-marketing.jpg"
+                        alt="Blacklisted Niche Entertainment - Professional Creator Management, Marketing & Monetization Infrastructure for OnlyFans, Webcam Models, and Escorts"
+                        className="w-full h-auto object-cover transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                      />
+
+                      {/* Shimmer overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-black/20 opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
+
+                      {/* Hover Fullscreen Prompt Badge */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/50 backdrop-blur-[2px]">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          className="px-5 py-3 rounded-full bg-[oklch(0.78_0.16_85)] text-slate-950 font-bold text-xs tracking-wider uppercase shadow-[0_0_25px_oklch(0.78_0.16_85/60%)] flex items-center gap-2 font-body"
+                        >
+                          <ZoomIn size={16} />
+                          Inspect Blueprint (4K Lightbox)
+                        </motion.div>
+                      </div>
+
+                      {/* Corner luxury accent tags */}
+                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                        <div className="px-3 py-1 rounded-md bg-black/80 backdrop-blur-md border border-[oklch(0.78_0.16_85/30%)] text-[10px] font-mono-lux text-[oklch(0.88_0.01_85)]">
+                          YOUR EMPIRE. OUR SHIELD.
+                        </div>
+                        <div className="px-2.5 py-1 rounded-md bg-[oklch(0.78_0.16_85/90%)] text-slate-950 text-[10px] font-mono-lux font-bold flex items-center gap-1">
+                          <Maximize2 size={10} />
+                          4K ULTRA HD
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom Console Feature Strip */}
+                    <div className="p-3 bg-[oklch(0.04_0.005_85)] border-t border-[oklch(0.78_0.16_85/15%)] grid grid-cols-3 gap-2 text-center text-[10px] font-mono-lux">
+                      <div className="p-1.5 rounded bg-[oklch(0.78_0.16_85/6%)] border border-[oklch(0.78_0.16_85/10%)] text-[oklch(0.78_0.14_85)] font-semibold">
+                        FLAT 0% OR SPONSORED 25%
+                      </div>
+                      <div className="p-1.5 rounded bg-[oklch(0.78_0.16_85/6%)] border border-[oklch(0.78_0.16_85/10%)] text-[oklch(0.78_0.14_85)] font-semibold">
+                        100% IP OWNERSHIP
+                      </div>
+                      <div className="p-1.5 rounded bg-[oklch(0.78_0.16_85/6%)] border border-[oklch(0.78_0.16_85/10%)] text-[oklch(0.78_0.14_85)] font-semibold">
+                        0 TO 6 FIGURES IN 90 DAYS
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
-              ))}
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
+
+          {/* Master Widescreen Interactive Feature Showcase Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.8 }}
+            className="mt-14 sm:mt-16 relative rounded-3xl p-6 sm:p-8 luxury-card-elevated border border-[oklch(0.78_0.16_85/20%)] bg-gradient-to-b from-[oklch(0.08_0.008_85)] to-[oklch(0.04_0.004_85)]"
+          >
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-6 pb-6 border-b border-[oklch(0.78_0.16_85/15%)]">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[oklch(0.78_0.16_85/10%)] border border-[oklch(0.78_0.16_85/20%)] text-[oklch(0.78_0.16_85)] text-xs font-semibold uppercase tracking-widest font-body mb-2">
+                  <Crown size={12} />
+                  Master Architecture Blueprint
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold text-[oklch(0.94_0.01_85)] font-display">
+                  Blacklisted Niche Entertainment Infrastructure
+                </h3>
+                <p className="text-[oklch(0.65_0.012_85)] text-sm mt-1 font-body">
+                  The complete operations, privacy shielding, DM monetization, and legal compliance engine for elite creators.
+                </p>
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setMainImageModalOpen(true)}
+                className="flex items-center gap-2 px-6 py-3 rounded-full btn-gold text-xs font-bold uppercase tracking-wider font-body whitespace-nowrap self-start lg:self-auto shadow-[0_0_20px_oklch(0.78_0.16_85/30%)]"
+              >
+                <ZoomIn size={16} />
+                Open High-Res Blueprint
+              </motion.button>
+            </div>
+
+            <div
+              className="relative rounded-2xl overflow-hidden cursor-pointer group border border-[oklch(0.78_0.16_85/25%)] shadow-2xl"
+              onClick={() => setMainImageModalOpen(true)}
+            >
+              <img
+                src="/blacklisted-niche-entertainment-onlyfans-webcam-escorts-marketing.jpg"
+                alt="Blacklisted Niche Entertainment Master Architecture Blueprint"
+                className="w-full h-auto object-cover transform group-hover:scale-[1.01] transition-transform duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-300" />
+              
+              <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4 pointer-events-none">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[oklch(0.78_0.16_85)] text-slate-950 flex items-center justify-center font-bold">
+                    <Shield size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-base font-display">YOUR EMPIRE. OUR SHIELD.</h4>
+                    <p className="text-amber-200/80 text-xs font-body">25% Agency Commission (You Keep 75%) • 100% IP Ownership • 24/7 DM Monetization</p>
+                  </div>
+                </div>
+
+                <div className="px-4 py-2 rounded-full bg-black/70 backdrop-blur-md border border-[oklch(0.78_0.16_85/40%)] text-[oklch(0.78_0.14_85)] text-xs font-semibold font-mono-lux flex items-center gap-2">
+                  <Maximize2 size={14} />
+                  Click to Expand Interactive View
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Scroll indicator */}
@@ -244,7 +400,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="flex flex-col items-center gap-2 mt-12"
         >
           <span className="text-[oklch(0.58_0.015_85/60%)] text-[10px] font-mono-lux tracking-[0.2em]">SCROLL</span>
           <motion.div
@@ -876,6 +1032,13 @@ export default function Home() {
       </section>
 
       <Footer />
+
+      <InfographicModal
+        url="/blacklisted-niche-entertainment-onlyfans-webcam-escorts-marketing.jpg"
+        title="Blacklisted Niche Entertainment — Master Creator Operations & Marketing System"
+        isOpen={mainImageModalOpen}
+        onClose={() => setMainImageModalOpen(false)}
+      />
     </div>
   );
 }
@@ -944,7 +1107,7 @@ function HomeSeoContent() {
   );
 }
 
-const homeSeoHeadings = [
+const homeSeoHeadings: { id: string; label: string; level: 2 | 3 }[] = [
   { id: "key-takeaways", label: "Key Takeaways", level: 3 },
   { id: "executive-overview", label: "Executive Overview", level: 2 },
   { id: "the-creator-economy-infrastructure-gap", label: "The Creator Economy Infrastructure Gap", level: 2 },
