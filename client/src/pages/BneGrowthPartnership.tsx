@@ -41,10 +41,10 @@ export default function BneGrowthPartnership() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-5xl sm:text-6xl font-bold text-zinc-100 mt-3 mb-6" style={{ fontFamily: 'Space Grotesk' }}>
-              We Only Win When You Win
+              Two Paths to Empire. Same Elite Infrastructure.
             </h1>
             <p className="text-zinc-400 text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto" style={{ fontFamily: 'DM Sans' }}>
-              We believe great partnerships are built on alignment, commitment, performance, and shared success. If B.N.E. Studio chooses to work with you, we are investing time, systems, expertise, labor, support, education, strategy, research, and infrastructure into your growth.
+              Whether you choose <strong className="text-white">The Sponsored Partner Roster</strong> (where B.N.E. fronts capital, staffing, and 24/7 DM chatter teams for a performance split) or <strong className="text-emerald-400">The Private Reserve Suite</strong> (where you retain <strong className="text-white">100% of your earnings</strong> on flat membership tiers), you get access to the industry's most potent growth engine.
             </p>
           </motion.div>
         </div>
@@ -227,15 +227,15 @@ export default function BneGrowthPartnership() {
 }
 
 const PARTNERSHIP_FAQS = [
-  { question: "What's the difference between a Growth Partnership and a flat-rate service?", answer: "A Growth Partnership is a long-term, all-inclusive relationship based on revenue sharing. We become your entire operational team. Flat-rate services are for specific, a-la-carte projects like a brand build-out or a compliance audit, where you pay a fixed price and retain 100% of your earnings." },
-  { question: "Is there an upfront cost for the Growth Partnership?", answer: "No. For our Growth Partnership, there are zero upfront fees. We invest our time, systems, and resources into your brand first. We only make money after you start making significantly more money." },
-  { question: "What are the typical revenue sharing percentages?", answer: "Percentages are customized for each partnership and are not public. They depend on your starting revenue, the scope of work required, and the projected growth. This is discussed in detail during your confidential strategy session if your application is approved." },
+  { question: "What are B.N.E. Studio's partnership structures?", answer: "We offer two distinct creator-first options: Zero-Commission Management (Flat Fee), where you keep 100% of your earnings while we power your entire backend; and Full Sponsored Management (25% Profit Share), where BNE absorbs all operational overhead and ad spend in exchange for an industry-low 25% split (allowing you to retain 75%)." },
+  { question: "Is there an upfront cost for Full Sponsored Management?", answer: "No. For our 25% Full Sponsored Management model, there are zero upfront fees. BNE invests all technology, software tools, live-cam studio tuning, e-commerce storefronts, and marketing spend into your brand. You keep 75% of all revenue." },
+  { question: "How quickly can a newcomer reach six figures?", answer: "Our 90-day newcomer incubation pipeline is specifically engineered to fast-track beginner accounts from zero to a six-figure run rate within 90 days by leveraging high-ticket niche positioning, 24/7 DM monetization, and multi-platform syndication." },
   { question: "How long is the partnership agreement?", answer: "Our standard agreements are structured for long-term growth, typically with an initial commitment period and performance-based renewal clauses. We're building a business with you, not just running a campaign." },
   { question: "What if I'm already earning a good income?", answer: "Excellent. We specialize in scaling established creators. We analyze your existing operations to identify efficiency gaps, new monetization opportunities, and automation potential to multiply your income while reducing your workload." },
-  { question: "Do I lose control of my accounts?", answer: "You always retain full ownership of your brand and accounts. We act as trusted operators with delegated access, similar to how a CEO delegates tasks to their team. All actions are transparent and aligned with our shared strategy." },
-  { question: "What kind of results can I realistically expect?", answer: "While we cannot promise specific earnings, our partners typically see a 200-400% revenue increase within the first 90-120 days. This is a result of implementing our proven systems for niche marketing, monetization, and fan engagement." },
-  { question: "How does B.N.E. handle my privacy and data?", answer: "With extreme prejudice. All partnerships operate under a strict NDA from day one. We use encrypted communication channels and build firewalls between your personal identity and your creator persona. Your privacy is our paramount concern." },
+  { question: "Do I lose control of my accounts?", answer: "Never. You always retain 100% legal ownership of your brand, custom domains, fan databases, and platform accounts. BNE operates as your silent infrastructure partner with zero credential lock-in." },
+  { question: "What kind of results can I realistically expect?", answer: "Our case benchmarks include an average monthly net growth of +$7,200/mo per creator, PPV funnel conversion increases from 22% to 51%, and subscriber churn reduction from 38% down to 11%." },
+  { question: "How does B.N.E. handle my privacy and data?", answer: "With extreme prejudice. All partnerships operate under strict NDAs, anonymous Holding LLC identity firewalls, city/state geoblocking, and 18 U.S.C. § 2257 Custodian of Records legal representation." },
   { question: "What if I want to leave the partnership?", answer: "Our agreements include clear terms for dissolution. Our goal is a mutually beneficial partnership, and if it's no longer serving your goals, we have a professional and structured off-boarding process." },
   { question: "Do you work with creators outside the US?", answer: "Yes. We have partners across North America, Europe, and Australia. We handle the complexities of international payment processing, compliance, and platform access." },
-  { question: "What if my application isn't accepted?", answer: "If a full Growth Partnership isn't the right fit at this time, we will always explain why and often recommend specific a-la-carte services or provide a clear roadmap of what you need to work on to be ready for a partnership in the future." },
+  { question: "What if my application isn't accepted?", answer: "If a full Growth Partnership isn't the right fit at this time, we will always explain why and recommend specific flat-rate services or provide a clear roadmap of what you need to work on to be ready for a partnership in the future." },
 ];

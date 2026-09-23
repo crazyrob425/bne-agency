@@ -31,21 +31,21 @@ const fadeUp = {
 const POLICIES_LIST = [
   {
     icon: DollarSign,
-    title: "1. Zero-Commission & Flat-Retainer Financial Transparency",
-    description: "BNE operates strictly on flat monthly retainers. We never take revenue percentages or equity in your platforms, content, or brand assets.",
-    detail: "You retain 100% of your earnings across OnlyFans, Fansly, clip stores, and custom sales. Full financial transparency with zero hidden fees.",
+    title: "1. Transparent 25% Commission & Financial Clarity",
+    description: "BNE operates on a transparent 25% performance commission model. You keep 75% of all revenue while we handle 100% of your backend, DM sales, and compliance.",
+    detail: "You retain 75% of your earnings across OnlyFans, Fansly, clip stores, and custom sales, alongside 100% creator IP and account ownership.",
   },
   {
     icon: HeartHandshake,
     title: "2. Absolute Performer Autonomy & Boundary Non-Negotiables",
-    description: "You maintain total creative control over your content, pricing, schedule, and personal boundaries. BNE never coerces creators into un-comfortable niches.",
+    description: "You maintain total creative control over your content, pricing, schedule, and personal boundaries. BNE never coerces creators into uncomfortable niches.",
     detail: "Every custom menu, photoshoot, and chat script strictly adheres to your pre-defined personal boundaries and comfort parameters.",
   },
   {
     icon: UserCheck,
     title: "3. 24/7 DM Chat Management Code of Conduct",
     description: "Our dedicated DM chat teams follow strict voice guides and ethical fan relationship management standards calibrated to your brand tone.",
-    detail: "Zero deception or un-authorized promises. All chat staff undergo rigorous background checks and training in subscriber LTV optimization.",
+    detail: "Zero deception or unauthorized promises. All chat staff undergo rigorous background checks and training in subscriber LTV optimization.",
   },
   {
     icon: Lock,
@@ -58,7 +58,7 @@ const POLICIES_LIST = [
 const faqSchema = buildFaqSchema([
   {
     question: "What is BNE Studio's pricing policy?",
-    answer: "BNE operates strictly on transparent, flat monthly partnership retainers. We never charge revenue commissions or percentages of your earnings.",
+    answer: "BNE operates on a transparent 25% management commission (creators keep 75% of all earnings). We handle 100% of backend management, § 2257 compliance, and 24/7 DM sales.",
   },
   {
     question: "Does BNE require creators to sign long-term lock-in contracts?",
@@ -77,10 +77,10 @@ export default function PoliciesPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Seo
         title="Creator Operational Policies & Agency Governance | BNE Studio"
-        description="Review BNE Studio's creator partnership policies: flat-fee financial transparency, performer autonomy guarantees, DM team conduct, and anonymity protections."
+        description="Review BNE Studio's creator partnership policies: 25% commission performance model, 75% creator revenue share, performer autonomy guarantees, DM team conduct, and anonymity protections."
         canonical="/policies"
         schema={faqSchema}
-        keywords="BNE studio policies, creator agency ethics, OnlyFans management policy, flat fee creator agency, performer autonomy policy"
+        keywords="BNE studio policies, creator agency ethics, OnlyFans management policy, 25% commission creator agency, performer autonomy policy"
       />
       <Navigation />
 
@@ -99,10 +99,10 @@ export default function PoliciesPage() {
               <span className="text-3xl md:text-4xl text-slate-400 font-normal">Ethical Agency Governance & Full Transparency.</span>
             </h1>
             <p className="text-lg text-[oklch(0.7_0.012_85)] font-body leading-relaxed mb-8 max-w-2xl">
-              Traditional adult creator agencies exploit talent through predatory percentage splits and coercive content demands. BNE Studio operates differently.
+              Traditional adult creator agencies exploit talent through predatory 50%+ splits and coercive content demands. BNE Studio operates differently.
             </p>
             <p className="text-lg text-[oklch(0.7_0.012_85)] font-body leading-relaxed mb-10 max-w-2xl">
-              Our operational policies guarantee zero revenue commissions, total performer creative autonomy, strict DM team codes of conduct, and airtight identity protection.
+              Our operational policies guarantee a transparent 25% agency commission (you keep 75%), total performer creative autonomy, strict DM team codes of conduct, and airtight identity protection.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/apply">

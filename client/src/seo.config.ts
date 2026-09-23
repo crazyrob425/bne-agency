@@ -30,9 +30,9 @@ export interface SeoMetadata {
 
 export const baseMetadata = {
   siteUrl: 'https://blacklisted.studio',
-  siteName: 'B.N.E. Studio',
-  defaultTitle: 'B.N.E. Studio — Silent Partner for Elite Creator Empires',
-  defaultDescription: 'B.N.E. Studio is the silent operations partner for digital creators. We handle niche intelligence, backend management, compliance, advertising, and scaling so you can focus on content.',
+  siteName: 'Blacklisted Niche Entertainment (B.N.E. Studio)',
+  defaultTitle: 'B.N.E. Studio — Newcomer to 6-Figure Adult Creator Incubation',
+  defaultDescription: 'Blacklisted Niche Entertainment (B.N.E. Studio) is the operational agency, brand incubator, and technical systems backend scaling adult entertainers, webcam broadcasters, digital creators, and companions from 0 to 6 figures in 90 days under The Sponsored Partner Roster or The Private Reserve Suite (100% earnings retention) models.',
   defaultImage: 'https://blacklisted.studio/BNE%20logo2.png',
   twitterHandle: '@blacklistedstudio',
 };
@@ -40,11 +40,12 @@ export const baseMetadata = {
 export const pageSeoConfig: Record<string, SeoMetadata> = {
   // ── Core pages ──────────────────────────────────────────────────────────────
   home: {
-    title: 'B.N.E. Studio — Silent Partner for Elite Creator Empires',
-    description: 'B.N.E. Studio is the silent operations partner for digital creators. We handle niche intelligence, backend management, compliance, advertising, and scaling so you can focus on content.',
+    title: 'Blacklisted Niche Entertainment — 90-Day 6-Figure Creator Incubation',
+    description: 'Blacklisted Niche Entertainment (B.N.E. Studio) scales adult creators, webcam multi-streamers, and companions from 0 to 6 figures in 90 days. Offers The Sponsored Partner Roster and The Private Reserve Suite (creator retains 100% earnings) models.',
     canonical: '/home',
     ogType: 'website',
-    keywords: 'creator management, silent partner, OnlyFans management, adult content operations, creator business infrastructure',
+    ogImage: '/blacklisted-niche-entertainment-onlyfans-webcam-escorts-marketing.jpg',
+    keywords: 'adult creator management, OnlyFans management 25% profit share, webcam multi streaming Chaturbate, escort to digital creator crossover, 18 USC 2257 compliance, 90 day 6 figure creator incubation, Rob Branting',
   },
 
   // ── Tools & Niche ────────────────────────────────────────────────────────────

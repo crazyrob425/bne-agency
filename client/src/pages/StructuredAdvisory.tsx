@@ -65,8 +65,8 @@ const faqSchema = buildFaqSchema([
     answer: "Structured Advisory provides executive-level strategy, weekly/bi-weekly advisory calls, brand playbooks, and audits while you handle daily DM chats and posting. Full management includes 24/7 DM chat teams and automated operations.",
   },
   {
-    question: "Are there any percentage revenue cuts in Structured Advisory?",
-    answer: "No. BNE Structured Advisory operates strictly on a transparent, flat monthly retainer with zero percentage cuts.",
+    question: "How are management fees structured?",
+    answer: "Full creator management operates on a performance-aligned 25% agency commission (you keep 75% of earnings) with 100% creator IP ownership and zero predatory hidden fees.",
   },
   {
     question: "What is included in the Brand Playbook?",

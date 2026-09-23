@@ -54,8 +54,9 @@ for path in "${paths[@]}"; do
   # Try to deinit first (safe even if missing)
   git submodule deinit -f -- "$path" 2>/dev/null || true
 
-  # Remove the gitlink from the index and working tree
-  git rm -f -- "$path" || true
+  # Remove the gitlink from the index
+  git rm --cached -f -- "$path" 2>/dev/null || true
+  rm -rf "$path"
 
   # Remove any loose module metadata
   if [ -d ".git/modules/$path" ]; then
@@ -66,7 +67,7 @@ for path in "${paths[@]}"; do
   # Replace with placeholder dir so builds expecting a path won't fail
   mkdir -p "$path"
   touch "$path/.gitkeep"
-  git add "$path/.gitkeep"
+  git add -f "$path/.gitkeep"
 
 done
 

@@ -27,7 +27,7 @@ const openMemberApp = () => {
 
 //#region Navigation Data Structure
 const navConfig = [
-  { id: "home", label: "Home", href: "/home" },
+  { id: "home", label: "Home", href: "/" },
   {
     id: "solutions",
     label: "Solutions",
@@ -249,6 +249,7 @@ export default function Navigation() {
     <>
       {/* Desktop / Tablet Nav */}
       <motion.nav
+        aria-label="Primary navigation"
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1], delay: 0.2 }}
@@ -310,6 +311,10 @@ export default function Navigation() {
             {/* Mobile Toggle */}
             <div className="flex items-center gap-4 lg:hidden">
               <motion.button
+                type="button"
+                aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-navigation-drawer"
                 whileTap={{ scale: 0.92 }}
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="p-2.5 rounded-xl text-[oklch(0.65_0.012_85)] hover:text-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.78_0.16_85/8%)] transition-all duration-300"
@@ -337,6 +342,10 @@ export default function Navigation() {
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
+              id="mobile-navigation-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
               initial={{ x: "100%" }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0.8 }}
@@ -354,6 +363,8 @@ export default function Navigation() {
                   </span>
                 </div>
                 <motion.button
+                  type="button"
+                  aria-label="Close navigation menu"
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setMobileOpen(false)}
                   className="p-2 rounded-xl text-[oklch(0.65_0.012_85)] hover:text-[oklch(0.78_0.16_85)] hover:bg-[oklch(0.78_0.16_85/8%)] transition-all"
@@ -363,7 +374,7 @@ export default function Navigation() {
               </div>
 
               {/* Drawer Nav Links */}
-              <nav className="flex-1 overflow-y-auto p-4 flex flex-col">
+              <nav aria-label="Mobile navigation links" className="flex-1 overflow-y-auto p-4 flex flex-col">
                 {/* Main Links */}
                 <div className="flex flex-col gap-1.5">
                   {navConfig.map((item, i) => (
@@ -397,6 +408,7 @@ export default function Navigation() {
                     </motion.div>
                   </Link>
                   <motion.button
+                    type="button"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4, duration: 0.3 }}
@@ -409,10 +421,11 @@ export default function Navigation() {
 
                 {/* Footer Links */}
                 <div className="mt-auto pt-6 text-center text-xs text-[oklch(0.58_0.015_85)] space-x-4">
-                  <Link href="/compliance"><span className="hover:text-white">Privacy</span></Link>
-                  <Link href="/compliance"><span className="hover:text-white">Terms</span></Link>
-                  <Link href="/compliance"><span className="hover:text-white">2257</span></Link>
+                  <Link href="/policies"><span className="hover:text-white cursor-pointer">Privacy</span></Link>
+                  <Link href="/terms"><span className="hover:text-white cursor-pointer">Terms</span></Link>
+                  <Link href="/2257-compliance"><span className="hover:text-white cursor-pointer">2257</span></Link>
                 </div>
+
               </nav>
 
               {/* Drawer Footer */}
@@ -547,15 +560,19 @@ function MobileNavItem({ item, i }: { item: any; i: number }) {
       transition={{ delay: i * 0.04, duration: 0.3 }}
     >
       <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-controls={`mobile-menu-${item.id}`}
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium text-[oklch(0.8_0.012_85)] hover:text-white hover:bg-[oklch(0.78_0.16_85/6%)]"
       >
         {item.label}
-        <ChevronRight size={16} className={`transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+        <ChevronRight aria-hidden="true" size={16} className={`transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
       </button>
       <AnimatePresence>
         {isOpen && item.menu?.columns && (
           <motion.div
+            id={`mobile-menu-${item.id}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

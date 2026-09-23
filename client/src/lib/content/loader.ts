@@ -6,14 +6,14 @@
  * + reading-time (readability metrics).
  */
 
-import readingTime from "reading-time/lib/reading-time";
+import readingTime from "reading-time";
 import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
-import type { ContentMap, PageFrontmatter } from "./types";
+import type { ContentMap, PageContent, PageFrontmatter } from "./types";
 
 const markdownProcessor = unified()
   .use(remarkParse)

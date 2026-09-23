@@ -99,8 +99,8 @@ const faqSchema = buildFaqSchema([
     answer: "BNE offers flexible partnership tiers. You can select modular solutions like Strategic Advisory or delegate complete 24/7 operations.",
   },
   {
-    question: "Does BNE charge a percentage of my earnings?",
-    answer: "No. BNE operates strictly on transparent, flat monthly partnership retainers. You keep 100% of your earnings across all platforms.",
+    question: "How does BNE's agency fee structure work?",
+    answer: "BNE operates on a transparent 25% agency commission model — meaning you keep 75% of all earnings while we handle 100% of legal compliance, 24/7 DM sales, and backend infrastructure.",
   },
 ]);
 

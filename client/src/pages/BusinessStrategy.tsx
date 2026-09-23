@@ -14,7 +14,7 @@ import FAQAccordion, { SERVICE_FAQS } from "@/components/FAQAccordion";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import {
   Sparkles, ArrowRight, TrendingUp, DollarSign, Target, Zap, FileText,
-  Eye, Lock, Star, Users, Heart, Shield, BarChart3, Crown, Compass, Map, Flag
+  Eye, Lock, Star, Users, Heart, Shield, BarChart3, Crown, Compass, Map, Flag, Layers
 } from "lucide-react";
 
 const fadeUp = {
