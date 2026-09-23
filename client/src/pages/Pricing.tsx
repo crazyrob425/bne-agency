@@ -104,7 +104,7 @@ export default function Pricing() {
           >
             <CreditCard size={13} className="text-[oklch(0.78_0.16_85)]" />
             <span className="text-[oklch(0.78_0.14_85)] text-xs font-semibold tracking-[0.15em] uppercase font-body">
-              Straightforward Pricing
+              Two Paths to Empire • Zero Hidden Fees
             </span>
           </motion.div>
           <motion.h1
@@ -113,17 +113,31 @@ export default function Pricing() {
             transition={{ delay: 0.1, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
             className="heading-xl text-[oklch(0.94_0.01_85)] mb-5"
           >
-            Pick Your <span className="gradient-text-gold">Growth Level</span>
+            Two Paths to Empire. <span className="gradient-text-gold">Same Elite Infrastructure.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.5 }}
-            className="text-[oklch(0.65_0.012_85)] text-lg max-w-2xl mx-auto font-body"
+            className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto font-body leading-relaxed mb-8"
           >
-            Whether you're just getting started or ready to scale to six figures — we have a package that fits.
-            No fine print, no long-term contracts, cancel anytime.
+            Choose between <strong className="text-white">The Sponsored Partnership</strong> (performance-based revenue split with zero upfront capital) or <strong className="text-[oklch(0.78_0.16_85)]">The Private Reserve Suite</strong> (flat membership tiers & a la carte services where you keep <strong className="text-emerald-400 font-bold">100% of your earnings</strong>). Total account control, zero equity lockups, complete IP ownership under both models.
           </motion.p>
+          
+          <div className="grid md:grid-cols-2 gap-4 text-left max-w-3xl mx-auto p-5 rounded-2xl bg-[oklch(0.78_0.16_85/5%)] border border-[oklch(0.78_0.16_85/15%)]">
+            <div className="p-4 rounded-xl bg-black/40 border border-violet-500/20">
+              <span className="text-xs font-bold text-violet-300 font-mono-lux uppercase tracking-wider block mb-1">01. The Sponsored Partnership</span>
+              <p className="text-xs text-zinc-300 font-body leading-relaxed">
+                We invest our capital, software, and 24/7 DM chatter teams in exchange for a shared revenue split. Requires intake application & strict monthly roster limits.
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-black/40 border border-emerald-500/20">
+              <span className="text-xs font-bold text-emerald-300 font-mono-lux uppercase tracking-wider block mb-1">02. The Private Reserve Suite</span>
+              <p className="text-xs text-zinc-300 font-body leading-relaxed">
+                Prepaid membership tiers & a la carte tools for creators who refuse to give up profit equity. Instant deployment, <strong className="text-emerald-300">100% revenue retention</strong> from day one.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -389,24 +403,24 @@ export default function Pricing() {
           <div className="space-y-4">
             {[
               {
-                q: "Can I cancel anytime?",
-                a: "Absolutely. No contracts, no cancellation fees, no guilt trips. Cancel from your account anytime and you keep access through the end of your billing period."
+                q: "How does B.N.E. Studio charge for its management and growth services?",
+                a: "We offer two flexible operational structures tailored to your financial objectives: The Sponsored Partner Roster (a zero-upfront performance split where B.N.E. invests its software, capital, and 24/7 staffing into your brand) and The Private Reserve Suite (an independent model with flat membership tiers or a la carte packages where you retain 100% of your earnings)."
               },
               {
-                q: "What payment methods do you accept?",
-                a: "All major cards through Stripe — Visa, Mastercard, Amex, Discover. Your payment info is encrypted and never touches our servers."
+                q: "Why is there an application process and strict roster limit for Revenue Share?",
+                a: "To deliver high-touch, round-the-clock management—including 24/7 live DM chatting teams, § 2257 legal protection, automated DMCA takedowns, and multi-stream tuning—we strictly cap client intake each month. We never compromise client security or stretch operational resources thin."
               },
               {
-                q: "Do I need an account to purchase?",
-                a: "Yes — we need an account to connect your purchase to your profile and get everything set up for you. It takes about 30 seconds. No spam, no data sharing."
+                q: "What if the Revenue-Share roster is full, or I prefer not to share my profits?",
+                a: "Our Private Reserve Suite is engineered specifically for creators who demand complete financial autonomy. You gain instant access to B.N.E.’s elite tools, legal protection, and growth infrastructure on a simple prepaid or membership basis—keeping 100% of your monthly revenue."
               },
               {
-                q: "What if a package isn't the right fit?",
-                a: "Contact us within the first 7 days of any subscription and we'll make it right or refund you. We're not here to take money from people we can't help."
+                q: "Are there any hidden fees, surprise expenses, or long-term lock-in contracts?",
+                a: "Never. Complete transparency is fundamental to our agency model. Under the Sponsored Partner Roster, you pay zero upfront and we only earn when you earn. Under the Private Reserve Suite, all tier rates are locked in upfront with zero surprise expenses. You retain 100% ownership of your accounts, assets, and brand under both paths."
               },
               {
-                q: "Are these services legal?",
-                a: "Yes. BNE provides business advisory services exclusively for creators operating legally on licensed platforms within the United States. We support full § 2257 compliance and all applicable regulations."
+                q: "Can I upgrade, switch models, or cancel anytime?",
+                a: "Yes. No predatory contracts or guilt trips. You can scale between Private Reserve membership tiers as your monthly volume grows, or apply to transition into the Sponsored Roster whenever spots become available."
               },
             ].map((item, i) => (
               <motion.div

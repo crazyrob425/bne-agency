@@ -32,7 +32,7 @@ export const baseMetadata = {
   siteUrl: 'https://blacklisted.studio',
   siteName: 'Blacklisted Niche Entertainment (B.N.E. Studio)',
   defaultTitle: 'B.N.E. Studio — Newcomer to 6-Figure Adult Creator Incubation',
-  defaultDescription: 'Blacklisted Niche Entertainment (B.N.E. Studio) is the operational agency, brand incubator, and technical systems backend scaling adult entertainers, webcam broadcasters, digital creators, and companions from 0 to 6 figures in 90 days under Flat-Fee (0% Commission) or 25% Sponsored Profit-Share models.',
+  defaultDescription: 'Blacklisted Niche Entertainment (B.N.E. Studio) is the operational agency, brand incubator, and technical systems backend scaling adult entertainers, webcam broadcasters, digital creators, and companions from 0 to 6 figures in 90 days under The Sponsored Partner Roster or The Private Reserve Suite (100% earnings retention) models.',
   defaultImage: 'https://blacklisted.studio/BNE%20logo2.png',
   twitterHandle: '@blacklistedstudio',
 };
@@ -41,7 +41,7 @@ export const pageSeoConfig: Record<string, SeoMetadata> = {
   // ── Core pages ──────────────────────────────────────────────────────────────
   home: {
     title: 'Blacklisted Niche Entertainment — 90-Day 6-Figure Creator Incubation',
-    description: 'Blacklisted Niche Entertainment (B.N.E. Studio) scales adult creators, webcam multi-streamers, and companions from 0 to 6 figures in 90 days. Offers Flat-Fee (0% Commission) and 25% Sponsored Profit-Share (creator retains 75%) models.',
+    description: 'Blacklisted Niche Entertainment (B.N.E. Studio) scales adult creators, webcam multi-streamers, and companions from 0 to 6 figures in 90 days. Offers The Sponsored Partner Roster and The Private Reserve Suite (creator retains 100% earnings) models.',
     canonical: '/home',
     ogType: 'website',
     ogImage: '/blacklisted-niche-entertainment-onlyfans-webcam-escorts-marketing.jpg',

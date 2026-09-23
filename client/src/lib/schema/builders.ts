@@ -45,7 +45,7 @@ export const buildOrganizationSchema = (
   },
   knowsAbout: [
     "Newcomer Adult Creator Incubation (0 to 6 Figures in 90 Days)",
-    "Flat Fee 0% Commission Management",
+    "Flat-Fee Infrastructure Management",
     "25% Full Sponsored Silent Business Partnership",
     "OnlyFans & Fansly Full Account Management",
     "Webcam Multi-Platform Syndication (Chaturbate, CamSoda, Stripchat)",

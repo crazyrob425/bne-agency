@@ -41,10 +41,10 @@ export default function BneGrowthPartnership() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-5xl sm:text-6xl font-bold text-zinc-100 mt-3 mb-6" style={{ fontFamily: 'Space Grotesk' }}>
-              We Only Win When You Win
+              Two Paths to Empire. Same Elite Infrastructure.
             </h1>
             <p className="text-zinc-400 text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto" style={{ fontFamily: 'DM Sans' }}>
-              We believe great partnerships are built on alignment, commitment, performance, and shared success. If B.N.E. Studio chooses to work with you, we are investing time, systems, expertise, labor, support, education, strategy, research, and infrastructure into your growth.
+              Whether you choose <strong className="text-white">The Sponsored Partner Roster</strong> (where B.N.E. fronts capital, staffing, and 24/7 DM chatter teams for a performance split) or <strong className="text-emerald-400">The Private Reserve Suite</strong> (where you retain <strong className="text-white">100% of your earnings</strong> on flat membership tiers), you get access to the industry's most potent growth engine.
             </p>
           </motion.div>
         </div>

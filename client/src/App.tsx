@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
+import { MotionConfig } from "framer-motion";
 import { Route, Switch, useLocation } from "wouter";
 import { Toaster } from "@/components/ui/sonner";
 import { HelmetProvider, Helmet } from "react-helmet-async";
@@ -8,13 +9,13 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { organizationSchema, websiteSchema } from "./seo.config";
 
 // Primary core entry routes (eagerly loaded for fast initial LCP)
-import Splash from "./pages/Splash";
 import Home from "./pages/Home";
 import NotFound from "@/pages/NotFound";
 
 // Lazy-loaded routes for code-splitting
 const ServiceTiers = lazy(() => import("./pages/ServiceTiers"));
 const NicheMatcher = lazy(() => import("./pages/NicheMatcher"));
+const NicheDetailPage = lazy(() => import("./pages/NicheMatcher").then((m) => ({ default: m.NicheDetailPage })));
 const PostingAndScheduling = lazy(() => import("./pages/PostingAndScheduling"));
 const CreatorTools = lazy(() => import("./pages/CreatorTools"));
 const ComplianceVault = lazy(() => import("./pages/ComplianceVault"));
@@ -83,6 +84,12 @@ const ComplianceDocumentation = lazy(() => import("./pages/ComplianceDocumentati
 const ComplianceResources = lazy(() => import("./pages/ComplianceResources"));
 const MonetizationOverview = lazy(() => import("./pages/MonetizationOverview"));
 const FreeLegalTools = lazy(() => import("./pages/FreeLegalTools"));
+const Solutions = lazy(() => import("./pages/Solutions"));
+const CreatorOS = lazy(() => import("./pages/CreatorOS"));
+const Academy = lazy(() => import("./pages/Academy"));
+const ApplyPage = lazy(() => import("./pages/Apply"));
+const PricingPage = lazy(() => import("./pages/Pricing"));
+const BneGrowthPartnership = lazy(() => import("./pages/BneGrowthPartnership"));
 
 function PageFallback() {
   return (
@@ -99,21 +106,25 @@ function Router() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Switch>
-        <Route path="/" component={Splash} />
+        <Route path="/" component={Home} />
         <Route path="/home" component={Home} />
         <Route path="/tiers" component={ServiceTiers} />
-        <Route path="/niche-matcher/:slug" component={NicheMatcher} />
+        <Route path="/niche-matcher/:slug" component={NicheDetailPage} />
         <Route path="/niche-matcher" component={NicheMatcher} />
         <Route path="/solutions/niche-intelligence" component={NicheMatcher} />
         <Route path="/posting-and-scheduling" component={PostingAndScheduling} />
         <Route path="/creator-tools" component={CreatorTools} />
         <Route path="/compliance" component={ComplianceVault} />
         <Route path="/university" component={University} />
+        <Route path="/solutions" component={Solutions} />
+        <Route path="/creator-os" component={CreatorOS} />
+        <Route path="/academy" component={Academy} />
+        <Route path="/bne-growth-partnership" component={BneGrowthPartnership} />
         <Route path="/onboarding" component={Onboarding} />
-        <Route path="/apply" component={Onboarding} />
+        <Route path="/apply" component={ApplyPage} />
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={ArticleDetail} />
-        <Route path="/pricing" component={ServiceTiers} />
+        <Route path="/pricing" component={PricingPage} />
         <Route path="/payment/success" component={PaymentSuccess} />
         <Route path="/services" component={AllServices} />
         <Route path="/media" component={MarketingAssets} />
@@ -170,6 +181,7 @@ function Router() {
         <Route path="/compliance-standards" component={ComplianceStandards} />
         <Route path="/terms" component={TermsPage} />
         <Route path="/policies" component={PoliciesPage} />
+        <Route path="/privacy" component={PoliciesPage} />
         <Route path="/data-protection" component={DataProtection} />
         <Route path="/account-security" component={AccountSecurity} />
         <Route path="/2257-compliance" component={Compliance2257} />
@@ -197,8 +209,9 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="dark">
-        <HelmetProvider>
+      <MotionConfig reducedMotion="user">
+        <ThemeProvider defaultTheme="dark">
+          <HelmetProvider>
           <Helmet>
             <script type="application/ld+json">
               {JSON.stringify(globalSchemas)}
@@ -209,8 +222,9 @@ function App() {
             <Toaster />
             <Router />
           </TooltipProvider>
-        </HelmetProvider>
-      </ThemeProvider>
+          </HelmetProvider>
+        </ThemeProvider>
+      </MotionConfig>
     </ErrorBoundary>
   );
 }

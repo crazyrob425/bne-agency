@@ -1,32 +1,33 @@
 ---
-title: "Creator Partnership Structures & Pricing Menu — B.N.E. Studio"
-description: "Compare B.N.E. Studio's two side-by-side creator partnership structures: Zero-Commission Management (Flat Fee) where creator retains 100% earnings, and Full Sponsored Management (25% Profit Share) where creator retains 75%."
-canonical: "/pricing"
-keywords: "zero-commission adult creator management, flat-rate OnlyFans infrastructure management, 25% profit share creator partnership, sponsored adult management, BNE Studio pricing, Rob Branting"
+title: "Creator Management Plans & Pricing — B.N.E. Studio"
+description: "Compare B.N.E. Studio's two side-by-side creator partnership structures: Flat-Fee Infrastructure Management where creator retains 100% earnings, and Full Sponsored Management (25% Profit Share) where creator retains 75%."
+canonical: "/tiers"
+keywords: "flat-rate OnlyFans infrastructure management, 25% profit share creator partnership, sponsored adult management, BNE Studio pricing, Rob Branting"
 ogType: "website"
 ---
 
-# Creator Partnership Structures & Pricing Menu — B.N.E. Studio
+# B.N.E. Studio — Two Paths to Empire: Partnership Structures & Pricing
 
-Blacklisted Niche Entertainment (B.N.E. Studio), led by Chief Architect Rob Branting and Blacklisted Binary Labs, presents two side-by-side creator partnership structures designed to scale adult entertainers, webcam broadcasters, digital creators, and companions to 6-figure empires within 90 days.
+B.N.E. Studio offers two distinct, creator-first partnership options:
 
 ---
 
-## 1. Zero-Commission Management (Flat Fee)
-- **Target Audience:** Open and available to all legal content creators, adult entertainers, webcam models, and companions seeking a massive upgrade to their brand.
-- **Description:** Fixed-cost operational execution where creator retains **100% of earnings** while BNE powers all backend infrastructure, funnels, and technical setups. Designed as a welcoming, highly accessible, and immediate upgrade for creators seeking **zero-commission adult creator management** and **flat-rate OnlyFans infrastructure management**.
-- **Flat-Rate Plans:**
+## 1. The Private Reserve Suite (A La Carte & Membership Tiers)
+
+- **Target Audience:** Independent content creators, adult performers, webcam models, and companions who demand 100% financial autonomy.
+- **Description:** Fixed-cost operational execution where creator retains **100% of earnings** from day one. You invest in your own infrastructure with zero profit split while BNE powers all backend systems, funnels, and technical setups. Provides immediate onboarding and complete IP ownership.
+- **Membership & Advisory Tiers:**
   - **Starter Level ($499/mo)**: Identity architecture, § 2257 compliance docs, 30-day social playbook, niche validation.
   - **Growth Level ($999/mo)**: Everything in Starter + automated DM funnels, multi-platform revenue stack, email list capture.
   - **Elite Level ($2,499/mo)**: Everything in Growth + 24/7 dedicated DM chatter team, DMCA web monitoring, official Custodian of Records representation, bookkeeping.
 
 ---
 
-## 2. Full Sponsored Management (25% Profit-Share)
+## 2. The Sponsored Partner Roster (Performance Revenue Share)
 
-> **\*B.N.E. Studio makes it a strict priority to ensure we have enough dedicated time, energy, and high-touch operational support available to fully give our sponsored partners the attention they deserve. Because of this, we limit available sponsored spots to the partners we believe are the best strategic fit with our team. To see if you are the type of partner we are eager to work with, [Apply Now](https://blacklisted.studio/apply).\***
+> **\*The Sponsored Partnership requires application review and board approval due to strictly capped monthly intake. B.N.E. invests software, capital, and 24/7 staffing into your brand for a performance split. We only win when you win. [Apply Now](https://blacklisted.studio/apply).\***
 
-- **Description:** Complete, fully funded silent partnership where BNE absorbs operational overhead, marketing funnels, live-cam studio setups, e-commerce storefronts, and daily backend management in exchange for an industry-low 25% revenue split (allowing creator to retain 75%).
+- **Description:** Zero-out-of-pocket capital partnership where BNE absorbs operational overhead, marketing funnels, live-cam studio setups, e-commerce storefronts, and 24/7 DM chatting teams in exchange for a performance split.
 - **The Industry Benchmark vs. Conventional Agency Extortion:** While traditional adult creator management companies demand **40% to 60% of creator revenue** for basic social media posting, B.N.E. Studio caps our performance split at an **industry-low 25%** (letting creators retain **75%**) while delivering 10x the technical backend execution, live-cam multi-streaming, 24/7 DM chatter teams, and official 18 U.S.C. § 2257 legal custodian protection.
 - **Full Sponsored Capabilities:**
   - **$0 Upfront Overhead**: $0 initial cost for BNE operational labor, custom web builds, and sales funnels.

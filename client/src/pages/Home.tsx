@@ -119,12 +119,13 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-[100dvh] bg-background text-foreground">
       <Seo pageKey="home" />
       <Navigation />
 
+      <main id="main-content">
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-20 pb-16">
+      <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden pt-20 pb-16">
         {/* Cinematic multi-layer background */}
         <div className="absolute inset-0 bg-[oklch(0.04_0.005_85)]" />
         {/* Radial gold glow — top center */}
@@ -190,7 +191,7 @@ export default function Home() {
                 transition={{ delay: 0.45, duration: 0.6 }}
                 className="text-[oklch(0.65_0.012_85)] text-lg sm:text-xl leading-relaxed mb-8 sm:mb-10 font-body max-w-2xl"
               >
-                You're the talent. We're your silent partner. Blacklisted Niche Entertainment fast-tracks complete newcomers from zero to six figures in 90 days across OnlyFans, webcam multi-streaming (Chaturbate, CamSoda, Stripchat), fan collectibles e-commerce stores, and companion crossover services under <strong className="text-[oklch(0.88_0.01_85)]">Zero-Commission Flat-Fee (you keep 100%)</strong> or <strong className="text-[oklch(0.88_0.01_85)]">25% Sponsored Profit-Share (you keep 75%)</strong> models with <strong className="text-[oklch(0.88_0.01_85)]">100% IP ownership</strong> and <strong className="text-[oklch(0.88_0.01_85)]">§ 2257 legal protection</strong>.
+                You're the talent. We're your silent partner. Blacklisted Niche Entertainment fast-tracks complete newcomers from zero to six figures in 90 days across OnlyFans, webcam multi-streaming, fan collectibles e-commerce stores, and companion crossover services under <strong className="text-[oklch(0.88_0.01_85)]">The Sponsored Partnership (zero upfront capital)</strong> or <strong className="text-[oklch(0.88_0.01_85)]">The Private Reserve Suite (you keep 100% of earnings)</strong> with <strong className="text-[oklch(0.88_0.01_85)]">100% IP & account ownership</strong> and <strong className="text-[oklch(0.88_0.01_85)]">18 U.S.C. § 2257 legal protection</strong>.
               </motion.p>
 
               {/* CTAs */}
@@ -233,7 +234,7 @@ export default function Home() {
                 {[
                   { icon: Shield, label: "0 to $100K in 90 Days" },
                   { icon: Lock, label: "18 U.S.C. § 2257 Protected" },
-                  { icon: TrendingUp, label: "Flat-Fee (0%) OR Sponsored (25%)" },
+                  { icon: TrendingUp, label: "Sponsored (0% Upfront) OR Private Reserve (100% Earnings)" },
                 ].map(({ icon: Icon, label }) => (
                   <div key={label} className="flex items-center gap-2.5 text-[oklch(0.65_0.012_85)] text-sm font-body">
                     <div className="w-8 h-8 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/15%)] flex items-center justify-center">
@@ -252,7 +253,16 @@ export default function Home() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ delay: 0.35, duration: 0.8, ease: cubicEase }}
                 className="relative group cursor-pointer"
+                role="button"
+                tabIndex={0}
+                aria-label="Open the BNE master blueprint image"
                 onClick={() => setMainImageModalOpen(true)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setMainImageModalOpen(true);
+                  }
+                }}
               >
                 {/* Ambient backlighting glow */}
                 <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-[oklch(0.78_0.16_85/40%)] via-[oklch(0.72_0.12_85/20%)] to-[oklch(0.78_0.16_85/40%)] blur-2xl opacity-75 group-hover:opacity-100 transition duration-700 pointer-events-none" />
@@ -345,9 +355,9 @@ export default function Home() {
                   <Crown size={12} />
                   Master Architecture Blueprint
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-[oklch(0.94_0.01_85)] font-display">
+                <h2 className="text-2xl sm:text-3xl font-bold text-[oklch(0.94_0.01_85)] font-display">
                   Blacklisted Niche Entertainment Infrastructure
-                </h3>
+                </h2>
                 <p className="text-[oklch(0.65_0.012_85)] text-sm mt-1 font-body">
                   The complete operations, privacy shielding, DM monetization, and legal compliance engine for elite creators.
                 </p>
@@ -366,7 +376,16 @@ export default function Home() {
 
             <div
               className="relative rounded-2xl overflow-hidden cursor-pointer group border border-[oklch(0.78_0.16_85/25%)] shadow-2xl"
+              role="button"
+              tabIndex={0}
+              aria-label="Open the BNE master architecture blueprint"
               onClick={() => setMainImageModalOpen(true)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setMainImageModalOpen(true);
+                }
+              }}
             >
               <img
                 src="/blacklisted-niche-entertainment-onlyfans-webcam-escorts-marketing.jpg"
@@ -381,7 +400,7 @@ export default function Home() {
                     <Shield size={20} />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-base font-display">YOUR EMPIRE. OUR SHIELD.</h4>
+                    <p className="text-white font-bold text-base font-display">YOUR EMPIRE. OUR SHIELD.</p>
                     <p className="text-amber-200/80 text-xs font-body">25% Agency Commission (You Keep 75%) • 100% IP Ownership • 24/7 DM Monetization</p>
                   </div>
                 </div>
@@ -1030,6 +1049,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
 

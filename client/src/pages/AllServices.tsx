@@ -96,29 +96,39 @@ export default function AllServices() {
       <Seo pageKey="all-services" schema={combinedSchema} />
       <Navigation />
 
-      {/* Long-form SEO introduction to All Services */}
-      <div className="container py-8">
-        <article className="prose prose-invert max-w-5xl mx-auto text-slate-200">
-          <h2>All Services — How BNE Builds Creator Businesses</h2>
-          <p>
-            BNE provides a full suite of services that turn creators into scalable businesses. This includes brand identity, platform strategy, content production, legal compliance, paid growth, community management, and in-person safety services. Each service is modular so we can construct a bespoke plan that meets your goals and risk tolerance.
-          </p>
-          <h3>Service Categories</h3>
-          <p>
-            Our offerings are grouped into launch services, growth operations, legal & compliance, monetization engineering, and in-person support. Depending on your needs we combine these services into a managed plan or a la carte engagement.
-          </p>
-          <h3>How a Partnership Typically Works</h3>
-          <p>
-            After application and acceptance, we implement an initial 30-day launch plan that covers persona creation, content calendar, price testing, and compliance setup. Months 2–3 focus on scale: paid traffic, conversion optimization, and retention. By month 6 we aim for stable recurring revenue and a pathway to expand into additional verticals or international markets.
-          </p>
-          <figure>
-                      <img src="/media/Studio_Case_Study_Results_Briefing_Dossier.png" alt="All services overview" />
-            <figcaption>Services are modular — pick what you need, scale when you're ready.</figcaption>
-          </figure>
-          <p>
-            Internal links: <a href="/onboarding">Apply</a> · <a href="/creator-tools">Creator Tools</a> · <a href="/compliance-vault">Compliance Vault</a>
-          </p>
-        </article>
+{/* Long-form SEO introduction to All Services */}
+      <div className="py-8 bg-background">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <h2 className="font-display text-2xl font-bold text-[oklch(0.94_0.01_85)] mb-4">
+              All Services — How BNE Builds Creator Businesses
+            </h2>
+            <p className="text-[oklch(0.65_0.012_85)] text-base leading-relaxed mb-5 font-body">
+              BNE provides a full suite of services that turn creators into scalable digital empires. We operate under two distinct paths: <strong className="text-white">The Sponsored Partner Roster</strong> (where B.N.E. invests capital, 24/7 chatter teams, and software for a performance revenue split) and <strong className="text-[oklch(0.78_0.16_85)]">The Private Reserve Suite</strong> (where you select modular, flat-rate services or bulk packages and keep <strong className="text-emerald-400">100% of your earnings</strong> from day one).
+            </p>
+            <h3 className="font-display text-lg font-bold text-[oklch(0.94_0.01_85)] mb-2 mt-6">
+              Service Categories
+            </h3>
+            <p className="text-[oklch(0.65_0.012_85)] text-base leading-relaxed mb-5 font-body">
+              Our offerings are grouped into launch services, growth operations, legal & compliance, monetization engineering, and in-person support. Depending on your needs we combine these services into a managed plan or a la carte engagement.
+            </p>
+            <h3 className="font-display text-lg font-bold text-[oklch(0.94_0.01_85)] mb-2 mt-6">
+              How a Partnership Typically Works
+            </h3>
+            <p className="text-[oklch(0.65_0.012_85)] text-base leading-relaxed mb-5 font-body">
+              After application and acceptance, we implement an initial 30-day launch plan that covers persona creation, content calendar, price testing, and compliance setup. Months 2–3 focus on scale: paid traffic, conversion optimization, and retention. By month 6 we aim for stable recurring revenue and a pathway to expand into additional verticals or international markets.
+            </p>
+            <figure className="mb-6">
+              <img src="/media/Studio_Case_Study_Results_Briefing_Dossier.png" alt="All services overview" className="w-full rounded-xl border border-[oklch(0.78_0.16_85/15%)]" />
+              <figcaption className="text-[oklch(0.58_0.015_85)] text-xs text-center mt-2 font-body tracking-wide">
+                Services are modular — pick what you need, scale when you're ready.
+              </figcaption>
+            </figure>
+            <p className="text-[oklch(0.65_0.012_85)] text-base leading-relaxed mb-5 font-body">
+              Internal links: <Link href="/onboarding" className="text-[oklch(0.78_0.16_85)] hover:text-white transition-colors underline underline-offset-2">Apply</Link> · <Link href="/creator-tools" className="text-[oklch(0.78_0.16_85)] hover:text-white transition-colors underline underline-offset-2">Creator Tools</Link> · <Link href="/compliance-vault" className="text-[oklch(0.78_0.16_85)] hover:text-white transition-colors underline underline-offset-2">Compliance Vault</Link>
+            </p>
+          </motion.div>
+        </div>
       </div>
 
       {/* Hero */}

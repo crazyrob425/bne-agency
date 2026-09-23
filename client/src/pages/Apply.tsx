@@ -1,25 +1,20 @@
 /**
- * BNE Apply Page — Noir Hacker Syndicate Design
- * Wrapped with HelmetProvider and SEO component for meta tags
- * Multi-step intake wizard inspired by Aruna Talent, rebuilt in BNE's persona
- * Sections: Hero + Wizard Form, Fit Check, The BNE Difference, Two Futures, $20K Guarantee, FAQ, Business Card
+ * BNE Apply Page — Executive Creator Application & Comprehensive Intake Audit
+ * 10-Section Intake Form with 5-Step Wizard & Two Paths Framework
  */
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { HelmetProvider } from "react-helmet-async";
 import Seo from "@/components/Seo";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import {
-  ChevronRight, ChevronLeft, Check, X, Shield, Lock, Zap, Users,
-  DollarSign, Award, ArrowRight, MessageSquare, Phone, Mail,
-  Instagram, Hash, Target, Clock, Star, Sparkles, Loader2,
-  Upload, Image as ImageIcon, Eye, BarChart3, TrendingUp,
-  FileText, Heart, AlertCircle, CheckCircle2, Crown
+  ChevronRight, ChevronLeft, Check, Shield, Lock, Zap, Users,
+  DollarSign, Award, ArrowRight, ArrowLeft, Star, Sparkles, Loader2,
+  Eye, BarChart3, TrendingUp, CheckCircle2, Crown, Brain, HelpCircle
 } from "lucide-react";
-import businessCard from "@/../../BNE%20businesscard.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -29,75 +24,115 @@ const fadeUp = {
   })
 };
 
-const COUNTRY_CODES = [
-  { code: "+1", label: "US/CA (+1)", country: "us" },
-  { code: "+44", label: "UK (+44)", country: "gb" },
-  { code: "+61", label: "AU (+61)", country: "au" },
-  { code: "+64", label: "NZ (+64)", country: "nz" },
-  { code: "+33", label: "FR (+33)", country: "fr" },
-  { code: "+49", label: "DE (+49)", country: "de" },
-  { code: "+31", label: "NL (+31)", country: "nl" },
-  { code: "+34", label: "ES (+34)", country: "es" },
-  { code: "+39", label: "IT (+39)", country: "it" },
-  { code: "+55", label: "BR (+55)", country: "br" },
-  { code: "+52", label: "MX (+52)", country: "mx" },
-  { code: "+27", label: "ZA (+27)", country: "za" },
-];
+type IntakeFormData = {
+  // Section 1: Relationship Model
+  relationshipModel: string;
 
-type FormData = {
-  firstName: string;
+  // Section 2: Applicant Profile
+  stageName: string;
   email: string;
-  phoneCountryCode: string;
-  phoneLocal: string;
-  contactPreference: "whatsapp" | "imessage" | "call" | "";
-  socialPlatform: "instagram" | "tiktok" | "x" | "";
-  socialHandle: string;
-  hours: string;
-  goal: string;
-  experience: string;
-  photo: File | null;
-  photoPreview: string | null;
-  ageConfirm: boolean;
-  marketingConsent: boolean;
+  contactMessenger: string;
+  location: string;
+  ageVerified: boolean;
+
+  // Section 3: Industry Experience
+  experienceDuration: string;
+  experienceSectors: string[];
+  experienceSectorsOther: string;
+  monthlyRevenueTier: string;
+
+  // Section 4: Privacy & Anonymity
+  anonymityLevel: string;
+  concealmentRules: string[];
+  concealmentRulesOther: string;
+  blockedRegions: string;
+
+  // Section 5: Revenue Streams & Services
+  digitalOfferings: string[];
+  digitalOfferingsOther: string;
+  inPersonStance: string;
+  inPersonStanceOther: string;
+
+  // Section 6: Niche & Persona Vision
+  nicheCategories: string[];
+  nicheCategoriesOther: string;
+  plannedPersona: string;
+  plannedPersonaOther: string;
+  urlOnlyFans: string;
+  urlSocials: string;
+  urlWebcams: string;
+  urlWebsite: string;
+
+  // Section 7: Logistics & Hardware
+  hoursDedicated: string;
+  equipmentOwned: string[];
+  equipmentOwnedOther: string;
+
+  // Section 8: Agency Support & Goals
+  primaryBottlenecks: string[];
+  primaryBottlenecksOther: string;
+  targetMonthlyRevenue: string;
+
+  // Section 9 & 10: Prior Agency History & Final Submission
+  priorAgencyStatus: string;
+  priorContractStatus: string;
+  priorAgencyIssues: string[];
+  priorAgencyIssuesOther: string;
+  referenceCheckWillingness: string;
+  priorAgencyDetails: string;
+  legalCertification: boolean;
 };
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2 | 3 | 4 | 5;
 
-const initialFormData: FormData = {
-  firstName: "",
+const initialFormData: IntakeFormData = {
+  relationshipModel: "",
+  stageName: "",
   email: "",
-  phoneCountryCode: "+1",
-  phoneLocal: "",
-  contactPreference: "",
-  socialPlatform: "",
-  socialHandle: "",
-  hours: "",
-  goal: "",
-  experience: "",
-  photo: null,
-  photoPreview: null,
-  ageConfirm: false,
-  marketingConsent: false,
+  contactMessenger: "",
+  location: "",
+  ageVerified: false,
+
+  experienceDuration: "",
+  experienceSectors: [],
+  experienceSectorsOther: "",
+  monthlyRevenueTier: "",
+
+  anonymityLevel: "",
+  concealmentRules: [],
+  concealmentRulesOther: "",
+  blockedRegions: "",
+
+  digitalOfferings: [],
+  digitalOfferingsOther: "",
+  inPersonStance: "",
+  inPersonStanceOther: "",
+
+  nicheCategories: [],
+  nicheCategoriesOther: "",
+  plannedPersona: "",
+  plannedPersonaOther: "",
+  urlOnlyFans: "",
+  urlSocials: "",
+  urlWebcams: "",
+  urlWebsite: "",
+
+  hoursDedicated: "",
+  equipmentOwned: [],
+  equipmentOwnedOther: "",
+
+  primaryBottlenecks: [],
+  primaryBottlenecksOther: "",
+  targetMonthlyRevenue: "",
+
+  priorAgencyStatus: "",
+  priorContractStatus: "",
+  priorAgencyIssues: [],
+  priorAgencyIssuesOther: "",
+  referenceCheckWillingness: "",
+  priorAgencyDetails: "",
+  legalCertification: false,
 };
-
-const HOURS_OPTIONS = [
-  { value: "15-20", label: "15–20 hrs/week — Side hustle energy" },
-  { value: "20-30", label: "20–30 hrs/week — Serious builder mode" },
-  { value: "30+", label: "30+ hrs/week — All in, let's go" },
-];
-
-const GOAL_OPTIONS = [
-  { value: "quit-job", label: "Quit my 9–5 and do this full-time" },
-  { value: "side-income", label: "Add serious side income ($3K–$10K/mo)" },
-  { value: "financial-freedom", label: "Build generational wealth & total freedom" },
-  { value: "not-sure", label: "Not sure yet — just exploring" },
-];
-
-const EXPERIENCE_OPTIONS = [
-  { value: "none", label: "Never done this — total beginner" },
-  { value: "some", label: "Dabbled a bit — know the basics" },
-  { value: "active", label: "Already creating — want to scale" },
-];
 
 const TESTIMONIALS = [
   {
@@ -113,7 +148,7 @@ const TESTIMONIALS = [
     avatar: "KR"
   },
   {
-    quote: "I'm 34 and thought I aged out. The team laughed kindly and proved me wrong in week one. Age is just a number when you've got the right niche and a 100-person machine behind you.",
+    quote: "I'm 34 and thought I aged out. The team proved me wrong in week one. Age is just a number when you've got the right niche and a dedicated machine behind you.",
     author: "T.L.",
     role: "Former bartender → $52K/mo",
     avatar: "TL"
@@ -128,61 +163,34 @@ const TESTIMONIALS = [
 
 const FAQS = [
   {
+    q: "What is the difference between The Sponsored Partnership and The Private Reserve Suite?",
+    a: "The Sponsored Partner Roster is a zero-upfront-cost partnership where B.N.E. invests capital, software, and 24/7 DM chatter teams in exchange for a performance revenue split. The Private Reserve Suite is designed for creators who want 100% earnings retention through flat membership tiers or a la carte services with zero profit split."
+  },
+  {
+    q: "Why is there an application review for the Revenue Share roster?",
+    a: "To deliver high-touch 24/7 backend management—including live chatting teams, § 2257 legal protection, automated DMCA takedowns, and platform automation—we strictly cap client intake each month. We never stretch resources or compromise client security."
+  },
+  {
     q: "Do I need followers or an existing audience to apply?",
-    a: "Absolutely not. Some of our highest earners started with zero followers. We build your audience from scratch using our niche-matching algorithm, SEO-optimized landing pages, and paid traffic systems. Your 'following' is our job — your job is showing up and creating."
+    a: "No. Many of our highest earners started with zero followers. We build your audience using our niche-matching algorithm, SEO-optimized funnels, and traffic strategy."
   },
   {
     q: "What if I want to stay completely anonymous / faceless?",
-    a: "That's not just supported — it's a specialty. We've launched 40+ fully faceless creators who out-earn face creators in their niches. We build you a complete pseudonym persona, geo-block your entire personal network, set up separate payment rails, and your real identity never touches any creator asset. Ever."
+    a: "That's a B.N.E. specialty. We've launched 40+ fully faceless creators who out-earn face creators in their niches. We build you a complete pseudonym persona, geo-block your personal network, and separate payment rails."
   },
   {
-    q: "How does the $20K first-week guarantee actually work?",
-    a: "Simple: if your account doesn't hit at least $20,000 in gross revenue within the first 7 days of launch, we walk away. No fees owed, no contracts binding you, no hard feelings. We've launched 80+ creators and never had to honor it — but the guarantee exists because our systems genuinely deliver. Results vary by niche, platform, and your effort level. Past performance ≠ future guarantee, but we stand behind our machine."
-  },
-  {
-    q: "What's the actual time commitment on my end?",
-    a: "Most creators spend 2–4 hours/week filming content. We handle everything else: strategy, niche research, content planning, editing, posting, DM management, fan retention, upsells, DMCA protection, compliance, analytics, and scaling. You're the talent. We're the operation."
-  },
-  {
-    q: "Is there any upfront cost to join?",
-    a: "Zero. $0 down. We invest in you first — our team, our systems, our ad spend, our infrastructure. We only win when you win. Our revenue share kicks in after you're profitable. If you don't make money, we don't make money. Period."
-  },
-  {
-    q: "How long does the application review take?",
-    a: "A senior partner reviews every application personally within 24 hours — usually under 4 hours during business days. You'll get a detailed voice note or video response explaining exactly what we see in you, which niches we'd put you in, and what your 90-day roadmap looks like. No generic auto-replies."
-  },
-  {
-    q: "What if I'm not in the US?",
-    a: "We work with creators in 12+ countries. As long as you're 18+, have valid ID, and can legally create adult content in your jurisdiction, we can build your business. We handle international compliance, payment routing, and platform access. Your location doesn't limit your bag."
-  },
-  {
-    q: "Can I see examples of creators you've launched?",
-    a: "For their privacy and safety, we don't publicly share our roster. But during your application review, we'll walk you through anonymized case studies — niches, timelines, revenue curves, and exactly what the build-out looked like. You'll see the receipts before you commit."
+    q: "Are there any hidden fees or surprise costs?",
+    a: "Never. Under the Sponsored Partner Roster, you pay zero upfront and we only earn when you earn. Under the Private Reserve Suite, all tier rates are locked in upfront with zero surprise expenses. You retain 100% ownership of your accounts, assets, and brand under both models."
   },
 ];
 
 export default function Apply() {
   const [step, setStep] = useState<Step>(1);
-  const [formData, setFormData] = useState<FormData>(initialFormData);
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  const [formData, setFormData] = useState<IntakeFormData>(initialFormData);
+  const [errors, setErrors] = useState<Partial<Record<keyof IntakeFormData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [referrerName, setReferrerName] = useState<string | null>(null);
-
-  const step1Ref = useRef<HTMLDivElement>(null);
-  const step2Ref = useRef<HTMLDivElement>(null);
-  const step3Ref = useRef<HTMLDivElement>(null);
-  const formCardRef = useRef<HTMLDivElement>(null);
-
-  // Check for referrer on mount
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get("ref");
-    if (ref) {
-      setReferrerName(ref);
-    }
-  }, []);
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -195,16 +203,16 @@ export default function Apply() {
   // Save draft to localStorage
   useEffect(() => {
     const draft = { formData, step, timestamp: Date.now() };
-    localStorage.setItem("bne-apply-draft", JSON.stringify(draft));
+    localStorage.setItem("bne-apply-intake-draft", JSON.stringify(draft));
   }, [formData, step]);
 
   // Restore draft on mount
   useEffect(() => {
-    const saved = localStorage.getItem("bne-apply-draft");
+    const saved = localStorage.getItem("bne-apply-intake-draft");
     if (saved) {
       try {
         const { formData: savedData, step: savedStep, timestamp } = JSON.parse(saved);
-        if (Date.now() - timestamp < 7 * 24 * 60 * 60 * 1000) { // 7 days
+        if (Date.now() - timestamp < 7 * 24 * 60 * 60 * 1000) {
           setFormData(savedData);
           setStep(savedStep);
         }
@@ -212,328 +220,861 @@ export default function Apply() {
     }
   }, []);
 
+  // Array toggle helper for multi-select
+  const toggleArrayItem = (field: keyof IntakeFormData, item: string) => {
+    const current = (formData[field] as string[]) || [];
+    const updated = current.includes(item)
+      ? current.filter(i => i !== item)
+      : [...current, item];
+    setFormData(prev => ({ ...prev, [field]: updated }));
+  };
+
+  const updateField = (field: keyof IntakeFormData, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   // Validation per step
   const validateStep = useCallback((s: Step): boolean => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {};
+    const newErrors: Partial<Record<keyof IntakeFormData, string>> = {};
 
     if (s === 1) {
-      if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
-      if (!formData.email.trim()) newErrors.email = "Email is required";
-      if (!formData.phoneLocal.trim()) newErrors.phoneLocal = "Phone number is required";
-      if (!formData.contactPreference) newErrors.contactPreference = "Contact preference is required";
-      if (!formData.socialPlatform) newErrors.socialPlatform = "Social platform is required";
-      if (!formData.socialHandle.trim()) newErrors.socialHandle = "Social handle is required";
+      if (!formData.relationshipModel) newErrors.relationshipModel = "Please select a relationship model path";
+      if (!formData.stageName.trim()) newErrors.stageName = "Stage/Performer name is required";
+      if (!formData.email.trim()) newErrors.email = "Primary contact email is required";
+      if (!formData.contactMessenger.trim()) newErrors.contactMessenger = "Encrypted messenger ID is required";
+      if (!formData.location.trim()) newErrors.location = "State/Region is required";
+      if (!formData.ageVerified) newErrors.ageVerified = "You must confirm you are 18+ with legal ID";
     } else if (s === 2) {
-      if (!formData.hours) newErrors.hours = "Hours commitment is required";
-      if (!formData.goal) newErrors.goal = "Your goal is required";
-      if (!formData.experience) newErrors.experience = "Experience level is required";
-      if (!formData.ageConfirm) newErrors.ageConfirm = "Age confirmation is required";
+      if (!formData.experienceDuration) newErrors.experienceDuration = "Select your duration of experience";
+      if (!formData.monthlyRevenueTier) newErrors.monthlyRevenueTier = "Select your current revenue tier";
+      if (!formData.anonymityLevel) newErrors.anonymityLevel = "Select your required privacy level";
+    } else if (s === 3) {
+      if (!formData.inPersonStance) newErrors.inPersonStance = "Please select your stance on in-person services";
+      if (!formData.plannedPersona) newErrors.plannedPersona = "Select your planned or existing persona";
+    } else if (s === 4) {
+      if (!formData.hoursDedicated) newErrors.hoursDedicated = "Select your available weekly hours";
+      if (formData.primaryBottlenecks.length === 0) newErrors.primaryBottlenecks = "Select at least 1 primary bottleneck";
+    } else if (s === 5) {
+      if (!formData.priorAgencyStatus) newErrors.priorAgencyStatus = "Select your prior agency history";
+      if (!formData.legalCertification) newErrors.legalCertification = "You must certify accuracy of information";
     }
 
+    setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }, [formData]);
 
-  // Handle form submission
-  const handleSubmit = useCallback(async () => {
+  const handleNext = () => {
+    if (validateStep(step)) {
+      setStep(prev => (prev < 5 ? (prev + 1) as Step : prev));
+      window.scrollTo({ top: 400, behavior: "smooth" });
+    }
+  };
+
+  const handlePrev = () => {
+    setStep(prev => (prev > 1 ? (prev - 1) as Step : prev));
+    window.scrollTo({ top: 400, behavior: "smooth" });
+  };
+
+  const handleSubmit = async () => {
     if (!validateStep(step)) return;
     setIsSubmitting(true);
-    // TODO: Connect to backend API
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitSuccess(true);
-    }, 1000);
-  }, [step, validateStep, formData]);
-
-  // Handle next step
-  const handleNext = useCallback(() => {
-    if (validateStep(step)) {
-      setStep(prev => (prev < 3 ? (prev + 1) as Step : prev));
-    }
-  }, [step, validateStep]);
-
-  // Handle previous step
-  const handlePrev = useCallback(() => {
-    setStep(prev => (prev > 1 ? (prev - 1) as Step : prev));
-  }, []);
-
-  const updateField = (field: keyof FormData, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+      localStorage.removeItem("bne-apply-intake-draft");
+    }, 1200);
   };
 
   return (
     <HelmetProvider>
-      <Seo title="Apply" description="Apply to BNE Agency - Noir Hacker Syndicate" />
-      <div className="min-h-screen bg-background">
+      <Seo
+        title="Executive Creator Application & Intake Audit"
+        description="Apply for B.N.E. Studio's Sponsored Partner Roster or Private Reserve Suite. Confidential intake audit for ambitious adult content creators."
+        canonical="/apply"
+      />
+      <div className="min-h-screen bg-background text-foreground">
         <Navigation />
 
-        {/* Long-form SEO content for the Apply page */}
-        <div className="container py-10">
-          <article className="prose prose-invert max-w-4xl mx-auto text-slate-200">
-            <h2>Applying to BNE — What Every Creator Should Know</h2>
-            <p>
-              Applying is your moment to show focus, ambition, and readiness. BNE partners with creators who want to build a real business — not just a one-hit viral moment. This page guides you through what to prepare, how the review works, and how BNE structures partnerships to maximize earnings while protecting your identity and safety.
-            </p>
-            <h3>What Makes a Strong Applicant</h3>
-            <p>
-              We value clarity of purpose over follower counts. The top signals are: consistent content creation, a clear niche, openness to process, and basic technical readiness (phone or camera capable of 1080p, stable Wi‑Fi, and the ability to record short clips). If you have zero followers but high hustle, you can still be a top candidate.
-            </p>
-            <h3>How BNE Partners Work</h3>
-            <p>
-              Partnerships include content strategy, production, compliance, fan management, and paid marketing. BNE takes an aligned revenue-share approach: we front the costs and scale your account. Our support includes DM management, promotions, pricing strategy, and legal recordkeeping (2257). We prioritize long-term value and creator safety over short-term wins.
-            </p>
-            <h3>Preparing Your Best Application</h3>
-            <ul>
-              <li><strong>Be honest:</strong> Accurate answers speed up onboarding and reduce friction later.</li>
-              <li><strong>Provide contact details:</strong> A reliable email ensures fast replies; add Signal or other preferred secure channels in the form.</li>
-              <li><strong>Upload assets:</strong> If you want anonymity, mark it — we can proceed without real-name reveals and will set up private channels for verification.</li>
-            </ul>
-            <figure>
-                          <img src="/media/Professional_Creator_Management_Services.png" alt="Apply to BNE" />
-              <figcaption>We review every application personally — expect clear, direct feedback.</figcaption>
-            </figure>
-            <h3>What Happens After Submission</h3>
-            <p>
-              Within 24–48 hours you'll receive a personal review. If accepted, a partner will outline a 30/60/90 plan, compliance checklist, and onboarding schedule. If declined, you’ll receive constructive feedback so you can reapply with a stronger profile.
-            </p>
-            <p>
-              Helpful links: <a href="/onboarding">Onboarding</a> · <a href="/compliance-vault">Compliance Vault</a> · <a href="/creator-tools">Creator Tools</a>
-            </p>
-          </article>
-        </div>
+        {/* ── HEADER ── */}
+        <section className="pt-28 pb-12 relative overflow-hidden bg-[oklch(0.04_0.005_85)]">
+          <div className="absolute inset-0 bg-gradient-to-b from-violet-950/20 via-transparent to-black" />
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[oklch(0.78_0.16_85/10%)] border border-[oklch(0.78_0.16_85/25%)] mb-5">
+                <Crown size={14} className="text-[oklch(0.78_0.16_85)]" />
+                <span className="text-[oklch(0.78_0.16_85)] text-xs font-mono-lux uppercase tracking-widest">
+                  CONFIDENTIAL INTAKE AUDIT
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-white tracking-tight mb-4">
+                Executive Creator Application
+              </h1>
+              <p className="text-[oklch(0.65_0.012_85)] text-base sm:text-lg max-w-2xl mx-auto font-body leading-relaxed mb-6">
+                Two Paths to Empire. Same Elite Infrastructure. Complete this intake audit to evaluate your strategic fit for <strong className="text-white">The Sponsored Partner Roster</strong> or immediate deployment in <strong className="text-[oklch(0.78_0.16_85)]">The Private Reserve Suite</strong>.
+              </p>
 
+              <div className="p-4 rounded-xl bg-violet-500/10 border border-violet-500/25 max-w-2xl mx-auto text-xs text-violet-200 font-body flex items-start gap-3 text-left">
+                <Lock size={16} className="text-violet-400 shrink-0 mt-0.5" />
+                <span>
+                  <strong className="text-white font-semibold">Strict Confidentiality Assurance:</strong> All submitted details, links, and identity metrics are encrypted. Information is strictly accessed by B.N.E. leadership for NDA-backed partnership evaluation.
+                </span>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── FORM CONTAINER / SUCCESS MESSAGE ── */}
         {submitSuccess ? (
           <section className="py-20">
             <div className="max-w-2xl mx-auto px-4 text-center">
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="luxury-card p-8 border border-[oklch(0.78_0.16_85/20%)]">
-                <CheckCircle2 size={48} className="text-emerald-400 mx-auto mb-4" />
-                <h2 className="text-3xl font-display font-bold text-white mb-4">Application Received</h2>
-                <p className="text-[oklch(0.7_0.012_85)] mb-6">We review every application personally. Expect a detailed response within 24 hours.</p>
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="luxury-card p-10 border border-[oklch(0.78_0.16_85/30%)]">
+                <CheckCircle2 size={56} className="text-emerald-400 mx-auto mb-4" />
+                <h2 className="text-3xl font-display font-bold text-white mb-3">Intake Audit Submitted</h2>
+                <p className="text-[oklch(0.7_0.012_85)] mb-6 leading-relaxed font-body">
+                  Thank you, <strong className="text-white">{formData.stageName}</strong>. A senior B.N.E. partner is reviewing your intake audit. Expect a confidential message via <strong className="text-emerald-400">{formData.contactMessenger || formData.email}</strong> within 24 hours.
+                </p>
                 <Link href="/">
-                  <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-8 py-3 text-sm">Back to Home</motion.button>
+                  <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-8 py-3.5 text-sm font-semibold">
+                    Return to B.N.E. Studio
+                  </motion.button>
                 </Link>
               </motion.div>
             </div>
           </section>
         ) : (
-          <>
-            <section className="relative py-20 overflow-hidden">
-              <div className="absolute inset-0 bg-[oklch(0.04_0.005_85)]" />
-              <motion.div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[700px] rounded-full bg-[oklch(0.78_0.16_85/6%)] blur-[140px] pointer-events-none" />
-              <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div initial="hidden" animate="visible" variants={fadeUp} className="text-center mb-12">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/5%)] mb-6">
-                    <span className="text-[oklch(0.78_0.16_85)] text-xs font-medium tracking-widest uppercase">Apply to BNE</span>
-                  </div>
-                  <h1 className="text-5xl md:text-6xl font-display font-bold text-white leading-[1.1] mb-4">
-                    Start Your <span className="text-[oklch(0.78_0.16_85)]">Empire</span>
-                  </h1>
-                  <p className="text-lg text-[oklch(0.7_0.012_85)] font-body leading-relaxed max-w-2xl mx-auto">
-                    Take the 2-minute application. We read every one personally.
-                  </p>
-                </motion.div>
+          <section className="py-12 bg-black relative z-10">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              
+              {/* Progress Tracker */}
+              <div className="mb-10 luxury-card p-4 sm:p-6 border border-[oklch(0.78_0.16_85/15%)]">
+                <div className="flex items-center justify-between mb-3 text-xs font-mono-lux">
+                  <span className="text-[oklch(0.78_0.16_85)] uppercase tracking-wider font-bold">
+                    Stage {step} of 5 — {step === 1 ? "Path & Profile" : step === 2 ? "Experience & Anonymity" : step === 3 ? "Services & Persona" : step === 4 ? "Logistics & Goals" : "Prior History & Audit"}
+                  </span>
+                  <span className="text-zinc-400">{step * 20}% Complete</span>
+                </div>
+                <div className="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
+                  <div
+                    className="h-full bg-gradient-to-r from-[oklch(0.78_0.16_85)] via-amber-400 to-emerald-400 transition-all duration-500 ease-out"
+                    style={{ width: `${step * 20}%` }}
+                  />
+                </div>
+                <div className="grid grid-cols-5 gap-1 mt-4 text-[10px] text-center font-mono-lux text-zinc-400">
+                  <span className={step >= 1 ? "text-violet-300 font-bold" : ""}>1. Path & Bio</span>
+                  <span className={step >= 2 ? "text-violet-300 font-bold" : ""}>2. Experience</span>
+                  <span className={step >= 3 ? "text-violet-300 font-bold" : ""}>3. Services</span>
+                  <span className={step >= 4 ? "text-violet-300 font-bold" : ""}>4. Setup</span>
+                  <span className={step >= 5 ? "text-violet-300 font-bold" : ""}>5. History</span>
+                </div>
+              </div>
 
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="luxury-card p-8 border border-[oklch(0.78_0.16_85/15%)]">
-                  <div className="flex items-center justify-between mb-8">
-                    {[1, 2, 3].map((s) => (
-                      <div key={s} className="flex items-center gap-2">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${step >= s ? 'bg-[oklch(0.78_0.16_85)] text-black' : 'bg-[oklch(0.78_0.16_85/10%)] text-[oklch(0.78_0.16_85)]'}`}>
-                          {step > s ? <Check size={14} /> : s}
+              {/* Form Body */}
+              <div className="luxury-card p-6 sm:p-10 border border-[oklch(0.78_0.16_85/20%)] bg-zinc-950/80">
+                <AnimatePresence mode="wait">
+                  
+                  {/* ── STEP 1: SECTION 1 & SECTION 2 ── */}
+                  {step === 1 && (
+                    <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
+                      <div>
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 1</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-2">Relationship Model</h2>
+                        <p className="text-xs text-zinc-400 font-body mb-4">Which operational path fits your immediate business goals?</p>
+                        
+                        <div className="space-y-3">
+                          {[
+                            {
+                              id: "sponsored",
+                              title: "The Sponsored Partner Roster (Revenue Share)",
+                              desc: "Zero upfront cost. Full 24/7 backend management, chatting teams, legal protection, and growth capital in exchange for a performance split. (Requires selective review & board approval).",
+                              badge: "POPULAR • CAPTURE GROWTH"
+                            },
+                            {
+                              id: "private_reserve",
+                              title: "The Private Reserve Suite (Prepaid / Membership Tiers)",
+                              desc: "A la carte or bulk package agency tools. Retain 100% of your earnings from day one. (Instant deployment for independent creators).",
+                              badge: "100% EARNINGS RETENTION"
+                            },
+                            {
+                              id: "undecided",
+                              title: "Undecided / Open to Guidance",
+                              desc: "I would like B.N.E. Studio to recommend the best model based on my intake assessment.",
+                              badge: "ADVISORY RECOMMENDATION"
+                            }
+                          ].map((opt) => (
+                            <div
+                              key={opt.id}
+                              onClick={() => updateField("relationshipModel", opt.id)}
+                              className={`p-4 rounded-xl border cursor-pointer transition-all ${formData.relationshipModel === opt.id ? "border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white shadow-[0_0_20px_rgba(212,175,55,0.15)]" : "border-zinc-800 bg-zinc-900/50 text-zinc-300 hover:border-zinc-700"}`}
+                            >
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-bold text-sm text-white font-display">{opt.title}</span>
+                                <span className="text-[9px] font-mono-lux font-bold px-2 py-0.5 rounded bg-violet-500/15 text-violet-300 border border-violet-500/30">{opt.badge}</span>
+                              </div>
+                              <p className="text-xs text-zinc-400 font-body leading-relaxed">{opt.desc}</p>
+                            </div>
+                          ))}
                         </div>
-                        <span className={`text-sm ${step >= s ? 'text-white' : 'text-[oklch(0.65_0.012_85)]'}`}>
-                          {s === 1 ? 'Basics' : s === 2 ? 'Goals' : 'Review'}
-                        </span>
+                        {errors.relationshipModel && <p className="text-red-400 text-xs mt-1.5">{errors.relationshipModel}</p>}
                       </div>
-                    ))}
-                  </div>
 
-                  <AnimatePresence mode="wait">
-                    {step === 1 && (
-                      <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                        <div>
-                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">First Name</label>
-                          <input type="text" value={formData.firstName} onChange={(e) => updateField("firstName", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="Your first name" />
-                          {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Email</label>
-                          <input type="email" value={formData.email} onChange={(e) => updateField("email", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="you@example.com" />
-                          {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
+                      <div className="pt-6 border-t border-zinc-800 space-y-4">
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 2</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-2">Applicant Profile & Contact Verification</h2>
+                        
+                        <div className="grid sm:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Phone</label>
-                            <input type="tel" value={formData.phoneLocal} onChange={(e) => updateField("phoneLocal", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="(555) 000-0000" />
-                            {errors.phoneLocal && <p className="text-red-400 text-xs mt-1">{errors.phoneLocal}</p>}
+                            <label className="block text-xs font-semibold text-zinc-300 mb-1.5 font-body">1. Stage / Performer Name *</label>
+                            <input
+                              type="text"
+                              value={formData.stageName}
+                              onChange={(e) => updateField("stageName", e.target.value)}
+                              placeholder="e.g. Vesper Rose"
+                              className="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl px-4 py-3 text-sm focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                            {errors.stageName && <p className="text-red-400 text-xs mt-1">{errors.stageName}</p>}
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Contact Preference</label>
-                            <select value={formData.contactPreference} onChange={(e) => updateField("contactPreference", e.target.value as any)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm">
-                              <option value="">Select...</option>
-                              <option value="whatsapp">WhatsApp</option>
-                              <option value="imessage">iMessage</option>
-                              <option value="call">Phone Call</option>
-                            </select>
-                            {errors.contactPreference && <p className="text-red-400 text-xs mt-1">{errors.contactPreference}</p>}
+                            <label className="block text-xs font-semibold text-zinc-300 mb-1.5 font-body">2. Primary Contact Email *</label>
+                            <input
+                              type="email"
+                              value={formData.email}
+                              onChange={(e) => updateField("email", e.target.value)}
+                              placeholder="creator@domain.com"
+                              className="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl px-4 py-3 text-sm focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                            {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+
+                        <div className="grid sm:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Primary Platform</label>
-                            <select value={formData.socialPlatform} onChange={(e) => updateField("socialPlatform", e.target.value as any)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm">
-                              <option value="">Select...</option>
-                              <option value="instagram">Instagram</option>
-                              <option value="tiktok">TikTok</option>
-                              <option value="x">X / Twitter</option>
-                            </select>
-                            {errors.socialPlatform && <p className="text-red-400 text-xs mt-1">{errors.socialPlatform}</p>}
+                            <label className="block text-xs font-semibold text-zinc-300 mb-1.5 font-body">3. Encrypted Messenger (Telegram / WhatsApp / Signal) *</label>
+                            <input
+                              type="text"
+                              value={formData.contactMessenger}
+                              onChange={(e) => updateField("contactMessenger", e.target.value)}
+                              placeholder="e.g. Telegram: @vesper_bne"
+                              className="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl px-4 py-3 text-sm focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                            {errors.contactMessenger && <p className="text-red-400 text-xs mt-1">{errors.contactMessenger}</p>}
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Handle</label>
-                            <input type="text" value={formData.socialHandle} onChange={(e) => updateField("socialHandle", e.target.value)} className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 text-sm" placeholder="@username" />
-                            {errors.socialHandle && <p className="text-red-400 text-xs mt-1">{errors.socialHandle}</p>}
+                            <label className="block text-xs font-semibold text-zinc-300 mb-1.5 font-body">4. Operating Location (State/Region for time zone alignment) *</label>
+                            <input
+                              type="text"
+                              value={formData.location}
+                              onChange={(e) => updateField("location", e.target.value)}
+                              placeholder="e.g. California, US (PST)"
+                              className="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl px-4 py-3 text-sm focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                            {errors.location && <p className="text-red-400 text-xs mt-1">{errors.location}</p>}
                           </div>
                         </div>
-                        <div className="flex justify-end">
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm">Next Step <ChevronRight size={14} className="inline ml-1" /></motion.button>
-                        </div>
-                      </motion.div>
-                    )}
 
-                    {step === 2 && (
-                      <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                        <div>
-                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Weekly Hours Available</label>
-                          <div className="grid grid-cols-3 gap-3">
-                            {HOURS_OPTIONS.map((opt) => (
-                              <button key={opt.value} onClick={() => updateField("hours", opt.value)} className={`p-4 rounded-lg border text-sm text-left transition-all ${formData.hours === opt.value ? 'border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white' : 'border-slate-700 text-slate-300 hover:border-slate-500'}`}>
-                                {opt.label}
-                              </button>
-                            ))}
-                          </div>
-                          {errors.hours && <p className="text-red-400 text-xs mt-1">{errors.hours}</p>}
+                        <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex items-start gap-3 mt-3">
+                          <input
+                            type="checkbox"
+                            id="ageVerified"
+                            checked={formData.ageVerified}
+                            onChange={(e) => updateField("ageVerified", e.target.checked)}
+                            className="mt-1 accent-[oklch(0.78_0.16_85)] w-4 h-4"
+                          />
+                          <label htmlFor="ageVerified" className="text-xs text-zinc-200 leading-relaxed font-body cursor-pointer">
+                            <strong>5. Age Verification Confirmation:</strong> I confirm I am 18 years of age or older and possess valid legal government identification for federal § 2257 compliance records. *
+                          </label>
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Primary Goal</label>
-                          <div className="grid grid-cols-2 gap-3">
-                            {GOAL_OPTIONS.map((opt) => (
-                              <button key={opt.value} onClick={() => updateField("goal", opt.value)} className={`p-4 rounded-lg border text-sm text-left transition-all ${formData.goal === opt.value ? 'border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white' : 'border-slate-700 text-slate-300 hover:border-slate-500'}`}>
-                                {opt.label}
-                              </button>
-                            ))}
-                          </div>
-                          {errors.goal && <p className="text-red-400 text-xs mt-1">{errors.goal}</p>}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-[oklch(0.78_0.16_85)] mb-2">Experience Level</label>
-                          <div className="grid grid-cols-3 gap-3">
-                            {EXPERIENCE_OPTIONS.map((opt) => (
-                              <button key={opt.value} onClick={() => updateField("experience", opt.value)} className={`p-4 rounded-lg border text-sm text-left transition-all ${formData.experience === opt.value ? 'border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white' : 'border-slate-700 text-slate-300 hover:border-slate-500'}`}>
-                                {opt.label}
-                              </button>
-                            ))}
-                          </div>
-                          {errors.experience && <p className="text-red-400 text-xs mt-1">{errors.experience}</p>}
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <input type="checkbox" id="age" checked={formData.ageConfirm} onChange={(e) => updateField("ageConfirm", e.target.checked)} className="mt-1" />
-                          <label htmlFor="age" className="text-sm text-slate-300">I am 18+ and all content I create complies with 18 U.S.C. § 2257.</label>
-                        </div>
-                        {errors.ageConfirm && <p className="text-red-400 text-xs">{errors.ageConfirm}</p>}
-                        <div className="flex justify-between">
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-sm text-slate-300 hover:text-white">Back</motion.button>
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm">Next Step <ChevronRight size={14} className="inline ml-1" /></motion.button>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {step === 3 && (
-                      <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                        <div className="p-6 rounded-lg border border-slate-700 bg-slate-900/50">
-                          <h3 className="text-white font-semibold mb-4">Confirm Your Details</h3>
-                          <div className="space-y-2 text-sm text-slate-300">
-                            <p><span className="text-slate-500">Name:</span> {formData.firstName}</p>
-                            <p><span className="text-slate-500">Email:</span> {formData.email}</p>
-                            <p><span className="text-slate-500">Phone:</span> {formData.phoneLocal}</p>
-                            <p><span className="text-slate-500">Platform:</span> {formData.socialPlatform}</p>
-                            <p><span className="text-slate-500">Handle:</span> {formData.socialHandle}</p>
-                            <p><span className="text-slate-500">Hours:</span> {formData.hours}</p>
-                            <p><span className="text-slate-500">Goal:</span> {formData.goal}</p>
-                            <p><span className="text-slate-500">Experience:</span> {formData.experience}</p>
-                          </div>
-                        </div>
-                        <div className="flex justify-between">
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-sm text-slate-300 hover:text-white">Back</motion.button>
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={handleSubmit} disabled={isSubmitting} className="btn-gold px-8 py-3 text-sm flex items-center gap-2">
-                            {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <>Submit Application <ArrowRight size={14} /></>}
-                          </motion.button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              </div>
-            </section>
-
-            <section className="py-20 bg-[oklch(0.04_0.005_85)]">
-              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
-                  <h2 className="text-3xl font-display font-bold text-white mb-4">The BNE Difference</h2>
-                </motion.div>
-                <div className="grid md:grid-cols-3 gap-8">
-                  {[
-                    { icon: Shield, title: "Privacy First", desc: "Complete anonymity systems. Your real identity never touches any creator asset." },
-                    { icon: Zap, title: "Speed to Revenue", desc: "Launch-ready in days, not months. Our niche-matching algorithm finds your goldmine instantly." },
-                    { icon: Crown, title: "Full Operation", desc: "We handle strategy, content, posting, DMs, compliance, and scaling. You create. We operate." },
-                  ].map((item, i) => (
-                    <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="luxury-card p-6 border border-[oklch(0.78_0.16_85/10%)] text-center">
-                      <div className="w-12 h-12 rounded-xl bg-[oklch(0.78_0.16_85/10%)] flex items-center justify-center text-[oklch(0.78_0.16_85)] mx-auto mb-4">
-                        <item.icon size={24} />
+                        {errors.ageVerified && <p className="text-red-400 text-xs mt-1">{errors.ageVerified}</p>}
                       </div>
-                      <h3 className="text-white font-semibold mb-2">{item.title}</h3>
-                      <p className="text-[oklch(0.65_0.012_85)] text-sm">{item.desc}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </section>
 
-            <section className="py-20">
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
-                  <h2 className="text-3xl font-display font-bold text-white mb-4">What Creators Are Saying</h2>
-                </motion.div>
-                <div className="luxury-card p-8 border border-[oklch(0.78_0.16_85/10%)]">
-                  <p className="text-lg text-[oklch(0.7_0.012_85)] italic mb-6">"{TESTIMONIALS[activeTestimonial].quote}"</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[oklch(0.78_0.16_85/15%)] flex items-center justify-center text-[oklch(0.78_0.16_85)] font-bold text-sm">
-                      {TESTIMONIALS[activeTestimonial].avatar}
-                    </div>
-                    <div>
-                      <p className="text-white text-sm font-semibold">{TESTIMONIALS[activeTestimonial].author}</p>
-                      <p className="text-[oklch(0.65_0.012_85)] text-xs">{TESTIMONIALS[activeTestimonial].role}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="py-20 bg-[oklch(0.04_0.005_85)]">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-10">
-                  <h2 className="text-3xl font-display font-bold text-white mb-4">Common Questions</h2>
-                </motion.div>
-                <div className="space-y-4">
-                  {FAQS.map((item, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }} className="luxury-card p-6">
-                      <h4 className="text-white font-semibold mb-2 text-sm">{item.q}</h4>
-                      <p className="text-[oklch(0.65_0.012_85)] text-sm leading-relaxed">{item.a}</p>
+                      <div className="flex justify-end pt-4">
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm font-semibold flex items-center gap-2">
+                          Next Stage: Experience & Anonymity <ChevronRight size={14} />
+                        </motion.button>
+                      </div>
                     </motion.div>
-                  ))}
-                </div>
+                  )}
+
+                  {/* ── STEP 2: SECTION 3 & SECTION 4 ── */}
+                  {step === 2 && (
+                    <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
+                      <div>
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 3</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-4">Industry Experience & Background</h2>
+                        
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">1. Active duration in adult entertainment / digital content *</label>
+                        <div className="grid sm:grid-cols-2 gap-3 mb-5">
+                          {[
+                            { id: "0-3m", label: "Brand New Entry: 0–3 months (Building from scratch)" },
+                            { id: "3-12m", label: "Emerging Talent: 3–12 months" },
+                            { id: "1-3y", label: "Established Performer: 1–3 years" },
+                            { id: "3y+", label: "Industry Veteran: 3+ years" },
+                          ].map((opt) => (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              onClick={() => updateField("experienceDuration", opt.id)}
+                              className={`p-3 rounded-xl border text-xs text-left font-body transition-all ${formData.experienceDuration === opt.id ? "border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white font-semibold" : "border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                        {errors.experienceDuration && <p className="text-red-400 text-xs mb-4">{errors.experienceDuration}</p>}
+
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">2. Industry sectors with past/current experience (Select all that apply)</label>
+                        <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                          {[
+                            "Subscription Digital Content (OnlyFans, Fansly, LoyalFans, Subify)",
+                            "Webcam Performance (MFC, Chaturbate, Stripchat, Streamate)",
+                            "Independent Escorting / Companion Services",
+                            "Exotic Dancing / Club Performance",
+                            "Fetish & BDSM (Domme, Findom, Roleplay)",
+                            "Custom Media Sales (ManyVids, Clips4Sale, IWB)",
+                            "Phone Sex (PSO) / Sexting Networks",
+                            "Mainstream Modeling / Acting / Social Media",
+                          ].map((sector) => (
+                            <div
+                              key={sector}
+                              onClick={() => toggleArrayItem("experienceSectors", sector)}
+                              className={`p-3 rounded-xl border text-xs cursor-pointer font-body transition-all flex items-center gap-2 ${formData.experienceSectors.includes(sector) ? "border-violet-500 bg-violet-500/15 text-white" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${formData.experienceSectors.includes(sector) ? "bg-violet-500 border-violet-400 text-white" : "border-zinc-700"}`}>
+                                {formData.experienceSectors.includes(sector) && <Check size={10} />}
+                              </div>
+                              <span>{sector}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">3. Average current monthly gross earnings across all adult streams *</label>
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                          {[
+                            { id: "tier1", label: "Tier 1: $0 – $2,000 / mo" },
+                            { id: "tier2", label: "Tier 2: $2,000 – $5,000 / mo" },
+                            { id: "tier3", label: "Tier 3: $5,000 – $15,000 / mo" },
+                            { id: "tier4", label: "Tier 4: $15,000 – $35,000 / mo" },
+                            { id: "tier5", label: "Tier 5 (VIP): $35,000+ / mo" },
+                          ].map((tier) => (
+                            <button
+                              key={tier.id}
+                              type="button"
+                              onClick={() => updateField("monthlyRevenueTier", tier.id)}
+                              className={`p-3 rounded-xl border text-xs text-center font-body transition-all ${formData.monthlyRevenueTier === tier.id ? "border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/15%)] text-white font-bold" : "border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              {tier.label}
+                            </button>
+                          ))}
+                        </div>
+                        {errors.monthlyRevenueTier && <p className="text-red-400 text-xs mt-1.5">{errors.monthlyRevenueTier}</p>}
+                      </div>
+
+                      <div className="pt-6 border-t border-zinc-800 space-y-4">
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 4</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-2">Privacy, Anonymity & Safety Requirements</h2>
+                        
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">1. Identity Concealment Level Required *</label>
+                        <div className="space-y-2 mb-5">
+                          {[
+                            { id: "level1", title: "Level 1 — Absolute Anonymity Required", desc: "Zero facial visibility, full voice modification, strict geo-blocking." },
+                            { id: "level2", title: "Level 2 — High Discretion", desc: "Face shown on adult platforms only, heavy geo-blocking of specific states/cities." },
+                            { id: "level3", title: "Level 3 — Moderate Privacy", desc: "Public persona, but real legal name, location, and mainstream life completely separated." },
+                            { id: "level4", title: "Level 4 — Open Branding", desc: "Fully public brand with no concealment requirements." },
+                          ].map((lvl) => (
+                            <div
+                              key={lvl.id}
+                              onClick={() => updateField("anonymityLevel", lvl.id)}
+                              className={`p-3 rounded-xl border cursor-pointer text-xs font-body transition-all ${formData.anonymityLevel === lvl.id ? "border-emerald-500 bg-emerald-500/10 text-white font-semibold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <strong className="text-white font-display block mb-0.5">{lvl.title}</strong>
+                              <span className="text-zinc-400">{lvl.desc}</span>
+                            </div>
+                          ))}
+                        </div>
+                        {errors.anonymityLevel && <p className="text-red-400 text-xs mb-4">{errors.anonymityLevel}</p>}
+
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">2. Identity concealment rules to enforce (Select all that apply)</label>
+                        <div className="grid sm:grid-cols-2 gap-2 mb-4">
+                          {[
+                            "Faceless Content Only (Masks, crop below chin)",
+                            "Tattoo / Birthmark Digital Concealment",
+                            "Strict Regional Geo-Blocking",
+                            "Voice Modification / Alteration for Audio & Video",
+                            "Separate Anonymous LLC & Banking Setup Required",
+                            "Automated DMCA & Facial Recognition Takedown Sweeps",
+                          ].map((rule) => (
+                            <div
+                              key={rule}
+                              onClick={() => toggleArrayItem("concealmentRules", rule)}
+                              className={`p-3 rounded-xl border text-xs cursor-pointer font-body transition-all flex items-center gap-2 ${formData.concealmentRules.includes(rule) ? "border-emerald-500 bg-emerald-500/15 text-white" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${formData.concealmentRules.includes(rule) ? "bg-emerald-500 border-emerald-400 text-white" : "border-zinc-700"}`}>
+                                {formData.concealmentRules.includes(rule) && <Check size={10} />}
+                              </div>
+                              <span>{rule}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-zinc-300 mb-1.5 font-body">3. Specific cities, states, or regions that MUST be blocked</label>
+                          <textarea
+                            value={formData.blockedRegions}
+                            onChange={(e) => updateField("blockedRegions", e.target.value)}
+                            placeholder="e.g. Block Texas, Florida, and Seattle metro area..."
+                            rows={2}
+                            className="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl p-3 text-xs focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between pt-4">
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-xs text-zinc-400 hover:text-white flex items-center gap-1">
+                          <ChevronLeft size={14} /> Back
+                        </motion.button>
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm font-semibold flex items-center gap-2">
+                          Next Stage: Services & Persona <ChevronRight size={14} />
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ── STEP 3: SECTION 5 & SECTION 6 ── */}
+                  {step === 3 && (
+                    <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
+                      <div>
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 5</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-4">Revenue Stream & Service Preferences</h2>
+                        
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">1. DIGITAL offerings active or interested in launching (Select all that apply)</label>
+                        <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                          {[
+                            "Subscription Platforms (OnlyFans, Fansly, LoyalFans)",
+                            "Interactive Webcam Streaming (Solo, Couple, Tipping)",
+                            "Phone Sex (PSO) & Voice Sessions",
+                            "Texting / SMS / Chat Sexting",
+                            "Custom Video & Photo Clips",
+                            "Pre-Recorded Audio Content (Erotic Stories)",
+                            "Wearables & Physical Goods (Socks, merch)",
+                            "Financial Domination (Findom) & Cash Tributes",
+                          ].map((offering) => (
+                            <div
+                              key={offering}
+                              onClick={() => toggleArrayItem("digitalOfferings", offering)}
+                              className={`p-3 rounded-xl border text-xs cursor-pointer font-body transition-all flex items-center gap-2 ${formData.digitalOfferings.includes(offering) ? "border-violet-500 bg-violet-500/15 text-white" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${formData.digitalOfferings.includes(offering) ? "bg-violet-500 border-violet-400 text-white" : "border-zinc-700"}`}>
+                                {formData.digitalOfferings.includes(offering) && <Check size={10} />}
+                              </div>
+                              <span>{offering}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">2. Stance on IN-PERSON companion services *</label>
+                        <div className="space-y-2">
+                          {[
+                            { id: "digital_only", title: "Digital Only", desc: "Strictly zero in-person meetings under any circumstances." },
+                            { id: "selective_in_person", title: "Selective In-Person", desc: "Currently offer or open to offering high-end VIP companion dates with strict vetting & safety." },
+                            { id: "transitioning", title: "Transitioning", desc: "Currently escorting/dancing, but active goal is to replace in-person income 100% with digital." },
+                          ].map((st) => (
+                            <div
+                              key={st.id}
+                              onClick={() => updateField("inPersonStance", st.id)}
+                              className={`p-3 rounded-xl border cursor-pointer text-xs font-body transition-all ${formData.inPersonStance === st.id ? "border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white font-semibold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <strong className="text-white font-display block mb-0.5">{st.title}</strong>
+                              <span className="text-zinc-400">{st.desc}</span>
+                            </div>
+                          ))}
+                        </div>
+                        {errors.inPersonStance && <p className="text-red-400 text-xs mt-1.5">{errors.inPersonStance}</p>}
+                      </div>
+
+                      <div className="pt-6 border-t border-zinc-800 space-y-4">
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 6</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-2">Niche, Persona & Brand Vision</h2>
+                        
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">1. Niche categories describing your look or target market (Select all that apply)</label>
+                        <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                          {[
+                            "BDSM / Dominance / Submissive (Findom, Femdom, SART)",
+                            "Tactile / Body Part Niches (Foot Fetish, Hands, BBW, Petite)",
+                            "Girlfriend Experience (GFE) / Virtual Companion",
+                            "Cosplay / Alternative / Goth / E-Girl",
+                            "MILF / Mature / Executive / Cougar",
+                            "Fitness / Athletic / Muscle / Toned",
+                            "Lingerie / Glamour / High Fashion Fetish",
+                            "Uncertain / Need B.N.E. Niche Matcher Assessment",
+                          ].map((niche) => (
+                            <div
+                              key={niche}
+                              onClick={() => toggleArrayItem("nicheCategories", niche)}
+                              className={`p-3 rounded-xl border text-xs cursor-pointer font-body transition-all flex items-center gap-2 ${formData.nicheCategories.includes(niche) ? "border-amber-500 bg-amber-500/15 text-white" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${formData.nicheCategories.includes(niche) ? "bg-amber-500 border-amber-400 text-white" : "border-zinc-700"}`}>
+                                {formData.nicheCategories.includes(niche) && <Check size={10} />}
+                              </div>
+                              <span>{niche}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">2. Planned or existing online persona *</label>
+                        <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                          {[
+                            { id: "sweet", label: "The Sweet / Welcoming Companion (Warm GFE)" },
+                            { id: "dominant", label: "The Cold / Dominant Powerhouse (High rate, command)" },
+                            { id: "siren", label: "The Mysterious / Exotic Siren (Selective luxury)" },
+                            { id: "playful", label: "The Playful / Quirky Girl-Next-Door (Relatable community)" },
+                          ].map((p) => (
+                            <button
+                              key={p.id}
+                              type="button"
+                              onClick={() => updateField("plannedPersona", p.id)}
+                              className={`p-3 rounded-xl border text-xs text-left font-body transition-all ${formData.plannedPersona === p.id ? "border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white font-semibold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              {p.label}
+                            </button>
+                          ))}
+                        </div>
+                        {errors.plannedPersona && <p className="text-red-400 text-xs mb-4">{errors.plannedPersona}</p>}
+
+                        <div className="space-y-3">
+                          <label className="block text-xs font-semibold text-zinc-300 font-body">3. Current Digital Footprint Links (Provide URLs if active)</label>
+                          <div className="grid sm:grid-cols-2 gap-3">
+                            <input
+                              type="text"
+                              value={formData.urlOnlyFans}
+                              onChange={(e) => updateField("urlOnlyFans", e.target.value)}
+                              placeholder="OnlyFans / Fansly URL"
+                              className="bg-zinc-900 border border-zinc-800 text-white rounded-xl p-3 text-xs focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                            <input
+                              type="text"
+                              value={formData.urlSocials}
+                              onChange={(e) => updateField("urlSocials", e.target.value)}
+                              placeholder="Social Media (X, IG, TikTok, Reddit) URL"
+                              className="bg-zinc-900 border border-zinc-800 text-white rounded-xl p-3 text-xs focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                            <input
+                              type="text"
+                              value={formData.urlWebcams}
+                              onChange={(e) => updateField("urlWebcams", e.target.value)}
+                              placeholder="Webcam / MV / C4S URL"
+                              className="bg-zinc-900 border border-zinc-800 text-white rounded-xl p-3 text-xs focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                            <input
+                              type="text"
+                              value={formData.urlWebsite}
+                              onChange={(e) => updateField("urlWebsite", e.target.value)}
+                              placeholder="Personal Website / Portfolio URL"
+                              className="bg-zinc-900 border border-zinc-800 text-white rounded-xl p-3 text-xs focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between pt-4">
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-xs text-zinc-400 hover:text-white flex items-center gap-1">
+                          <ChevronLeft size={14} /> Back
+                        </motion.button>
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm font-semibold flex items-center gap-2">
+                          Next Stage: Logistics & Goals <ChevronRight size={14} />
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ── STEP 4: SECTION 7 & SECTION 8 ── */}
+                  {step === 4 && (
+                    <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
+                      <div>
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 7</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-4">Production Logistics & Hardware Setup</h2>
+                        
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">1. Hours per week dedicated strictly to content creation *</label>
+                        <div className="grid sm:grid-cols-3 gap-3 mb-5">
+                          {[
+                            { id: "5-10", label: "5–10 hours / week (Part-time / Side Hustle)" },
+                            { id: "10-20", label: "10–20 hours / week (Dedicated Growth)" },
+                            { id: "20-40", label: "20–40+ hours / week (Full-time Empire)" },
+                          ].map((hr) => (
+                            <button
+                              key={hr.id}
+                              type="button"
+                              onClick={() => updateField("hoursDedicated", hr.id)}
+                              className={`p-3 rounded-xl border text-xs text-left font-body transition-all ${formData.hoursDedicated === hr.id ? "border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white font-bold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              {hr.label}
+                            </button>
+                          ))}
+                        </div>
+                        {errors.hoursDedicated && <p className="text-red-400 text-xs mb-4">{errors.hoursDedicated}</p>}
+
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">2. Hardware and equipment owned & ready to use (Select all that apply)</label>
+                        <div className="grid sm:grid-cols-2 gap-2">
+                          {[
+                            "High-End Smartphone (iPhone 13+ or equivalent Android)",
+                            "Professional Camera (DSLR / Mirrorless / 4K Webcam)",
+                            "Lighting Setup (Ring Light, Softboxes, LED Panels)",
+                            "Dedicated High-Spec PC / Laptop (For multi-streaming)",
+                            "Dedicated High-Speed Fiber Internet Connection",
+                            "Private, Secure Film Location / Studio Space",
+                            "Specialty Wardrobe / Fetish Gear / Props",
+                            "None / Need B.N.E. Equipment Recommendation",
+                          ].map((eq) => (
+                            <div
+                              key={eq}
+                              onClick={() => toggleArrayItem("equipmentOwned", eq)}
+                              className={`p-3 rounded-xl border text-xs cursor-pointer font-body transition-all flex items-center gap-2 ${formData.equipmentOwned.includes(eq) ? "border-violet-500 bg-violet-500/15 text-white" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${formData.equipmentOwned.includes(eq) ? "bg-violet-500 border-violet-400 text-white" : "border-zinc-700"}`}>
+                                {formData.equipmentOwned.includes(eq) && <Check size={10} />}
+                              </div>
+                              <span>{eq}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-6 border-t border-zinc-800 space-y-4">
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 8</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-2">Agency Support Needs & Primary Bottlenecks</h2>
+                        
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">1. Single biggest bottleneck holding your business back right now (Select up to 3) *</label>
+                        <div className="grid sm:grid-cols-2 gap-2 mb-4">
+                          {[
+                            "Burnout & Time Deficit (Too much DM chat/admin)",
+                            "Low Traffic & Marketing (Can't convert views into paid subs)",
+                            "Inconsistent Revenue (Income swings month to month)",
+                            "Lack of Direct Guidance (Pricing, PPV upsells, tip menus)",
+                            "Safety & Legal Concerns (Leaks, § 2257 compliance, stalkers)",
+                            "Tech Barriers (Websites, automation, multi-streaming)",
+                          ].map((bn) => (
+                            <div
+                              key={bn}
+                              onClick={() => toggleArrayItem("primaryBottlenecks", bn)}
+                              className={`p-3 rounded-xl border text-xs cursor-pointer font-body transition-all flex items-center gap-2 ${formData.primaryBottlenecks.includes(bn) ? "border-amber-500 bg-amber-500/15 text-white font-semibold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${formData.primaryBottlenecks.includes(bn) ? "bg-amber-500 border-amber-400 text-white" : "border-zinc-700"}`}>
+                                {formData.primaryBottlenecks.includes(bn) && <Check size={10} />}
+                              </div>
+                              <span>{bn}</span>
+                            </div>
+                          ))}
+                        </div>
+                        {errors.primaryBottlenecks && <p className="text-red-400 text-xs mb-4">{errors.primaryBottlenecks}</p>}
+
+                        <div>
+                          <label className="block text-xs font-semibold text-zinc-300 mb-1.5 font-body">2. Target monthly net revenue goal within 90 days of working with B.N.E.</label>
+                          <input
+                            type="text"
+                            value={formData.targetMonthlyRevenue}
+                            onChange={(e) => updateField("targetMonthlyRevenue", e.target.value)}
+                            placeholder="e.g. $25,000 / month net"
+                            className="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl p-3 text-xs focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between pt-4">
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-xs text-zinc-400 hover:text-white flex items-center gap-1">
+                          <ChevronLeft size={14} /> Back
+                        </motion.button>
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm font-semibold flex items-center gap-2">
+                          Next Stage: Prior History & Audit Submit <ChevronRight size={14} />
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ── STEP 5: SECTION 9 & SECTION 10 ── */}
+                  {step === 5 && (
+                    <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
+                      <div>
+                        <span className="text-xs font-mono-lux text-violet-400 uppercase tracking-widest block mb-1">SECTION 9 & 10</span>
+                        <h2 className="text-2xl font-bold font-display text-white mb-4">Prior Agency History & Audit Submission</h2>
+                        
+                        <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">1. Have you previously worked with or hired an adult management company or agency? *</label>
+                        <div className="grid sm:grid-cols-3 gap-2 mb-5">
+                          {[
+                            { id: "currently_managed", label: "Currently Managed (Active contract)" },
+                            { id: "previously_managed", label: "Previously Managed (Past contract)" },
+                            { id: "independent", label: "100% Independent (Never hired agency)" },
+                          ].map((st) => (
+                            <button
+                              key={st.id}
+                              type="button"
+                              onClick={() => updateField("priorAgencyStatus", st.id)}
+                              className={`p-3 rounded-xl border text-xs text-left font-body transition-all ${formData.priorAgencyStatus === st.id ? "border-[oklch(0.78_0.16_85)] bg-[oklch(0.78_0.16_85/10%)] text-white font-semibold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                            >
+                              {st.label}
+                            </button>
+                          ))}
+                        </div>
+                        {errors.priorAgencyStatus && <p className="text-red-400 text-xs mb-4">{errors.priorAgencyStatus}</p>}
+
+                        {formData.priorAgencyStatus && formData.priorAgencyStatus !== "independent" && (
+                          <>
+                            <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">2. Status of that prior agency contract / relationship</label>
+                            <div className="space-y-2 mb-5">
+                              {[
+                                { id: "completed", title: "Completed Successfully", desc: "Completed full contract term with clean separation." },
+                                { id: "mutually_released", title: "Mutually Released", desc: "Terminated early via clean, mutual written agreement." },
+                                { id: "active", title: "Active Contract", desc: "Seeking transition away from current management (need exit guidance)." },
+                                { id: "terminated_cause", title: "Terminated for Cause / Dispute", desc: "Left agency due to breach of contract, poor performance, hidden fees, or coercive practices." },
+                              ].map((cs) => (
+                                <div
+                                  key={cs.id}
+                                  onClick={() => updateField("priorContractStatus", cs.id)}
+                                  className={`p-3 rounded-xl border cursor-pointer text-xs font-body transition-all ${formData.priorContractStatus === cs.id ? "border-amber-500 bg-amber-500/10 text-white font-semibold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                                >
+                                  <strong className="text-white block mb-0.5">{cs.title}</strong>
+                                  <span className="text-zinc-400">{cs.desc}</span>
+                                </div>
+                              ))}
+                            </div>
+
+                            <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">3. Issues or gaps experienced with prior management (Select all that apply)</label>
+                            <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                              {[
+                                "Poor Chatting / Inbox Management (Low conversion, out-of-character DMs)",
+                                "Lack of Traffic / Marketing (Failed to deliver real subscriber growth)",
+                                "Financial Transparency Issues (Hidden fees, delayed payouts)",
+                                "Account Control / Security Risk (Held credentials hostage)",
+                                "Communication Deficit (Slow responses, ghosting)",
+                              ].map((iss) => (
+                                <div
+                                  key={iss}
+                                  onClick={() => toggleArrayItem("priorAgencyIssues", iss)}
+                                  className={`p-3 rounded-xl border text-xs cursor-pointer font-body transition-all flex items-center gap-2 ${formData.priorAgencyIssues.includes(iss) ? "border-red-500/50 bg-red-500/10 text-white" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                                >
+                                  <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${formData.priorAgencyIssues.includes(iss) ? "bg-red-500 border-red-400 text-white" : "border-zinc-700"}`}>
+                                    {formData.priorAgencyIssues.includes(iss) && <Check size={10} />}
+                                  </div>
+                                  <span>{iss}</span>
+                                </div>
+                              ))}
+                            </div>
+
+                            <label className="block text-xs font-semibold text-zinc-300 mb-2 font-body">4. Willingness to provide contact details for confidential reference check</label>
+                            <div className="grid sm:grid-cols-2 gap-2 mb-4">
+                              {[
+                                { id: "yes", label: "Yes — Ready to provide contact details upon request" },
+                                { id: "conditional", label: "Conditional — Willing after receiving conditional offer" },
+                                { id: "no_nda", label: "No / NDA Protected — Unable due to NDA or dispute" },
+                                { id: "na", label: "N/A — No prior agency representation" },
+                              ].map((ref) => (
+                                <button
+                                  key={ref.id}
+                                  type="button"
+                                  onClick={() => updateField("referenceCheckWillingness", ref.id)}
+                                  className={`p-3 rounded-xl border text-xs text-left font-body transition-all ${formData.referenceCheckWillingness === ref.id ? "border-violet-500 bg-violet-500/15 text-white font-semibold" : "border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700"}`}
+                                >
+                                  {ref.label}
+                                </button>
+                              ))}
+                            </div>
+                          </>
+                        )}
+
+                        <div>
+                          <label className="block text-xs font-semibold text-zinc-300 mb-1.5 font-body">Previous Agency Name & Contact Information for Reference Check (Optional / Confidential)</label>
+                          <textarea
+                            value={formData.priorAgencyDetails}
+                            onChange={(e) => updateField("priorAgencyDetails", e.target.value)}
+                            placeholder="Agency Name, Manager Contact, or details..."
+                            rows={2}
+                            className="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl p-3 text-xs focus:border-[oklch(0.78_0.16_85)] focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Final Legal Certification */}
+                        <div className="p-4 rounded-xl bg-violet-950/20 border border-violet-500/30 flex items-start gap-3 mt-6">
+                          <input
+                            type="checkbox"
+                            id="legalCertification"
+                            checked={formData.legalCertification}
+                            onChange={(e) => updateField("legalCertification", e.target.checked)}
+                            className="mt-1 accent-[oklch(0.78_0.16_85)] w-4 h-4"
+                          />
+                          <label htmlFor="legalCertification" className="text-xs text-zinc-200 leading-relaxed font-body cursor-pointer">
+                            * <strong>Legal Certification:</strong> I certify that all information provided above is accurate to the best of my knowledge. I understand that submitting this intake audit places me under no financial obligation and that all details remain strictly confidential under B.N.E. Studio's privacy protocols.
+                          </label>
+                        </div>
+                        {errors.legalCertification && <p className="text-red-400 text-xs mt-1">{errors.legalCertification}</p>}
+                      </div>
+
+                      <div className="flex justify-between pt-6 border-t border-zinc-800">
+                        <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-xs text-zinc-400 hover:text-white flex items-center gap-1">
+                          <ChevronLeft size={14} /> Back
+                        </motion.button>
+                        <motion.button
+                          whileTap={{ scale: 0.97 }}
+                          onClick={handleSubmit}
+                          disabled={isSubmitting}
+                          className="btn-gold px-9 py-4 text-sm font-bold flex items-center gap-2 shadow-[0_0_30px_rgba(212,175,55,0.3)] disabled:opacity-60"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Loader2 size={16} className="animate-spin" />
+                              Encrypting & Transmitting Audit...
+                            </>
+                          ) : (
+                            <>
+                              <Shield size={16} />
+                              SUBMIT COMPREHENSIVE INTAKE AUDIT
+                              <ArrowRight size={14} />
+                            </>
+                          )}
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                </AnimatePresence>
               </div>
-            </section>
-          </>
+            </div>
+          </section>
         )}
+
+        {/* ── TESTIMONIALS & FAQ ── */}
+        <section className="py-16 border-t border-zinc-800 bg-[oklch(0.04_0.005_85)]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <span className="text-xs font-mono-lux text-[oklch(0.78_0.16_85)] uppercase tracking-widest">REAL CREATOR VERIFICATION</span>
+              <h2 className="text-3xl font-display font-bold text-white mt-2">What Partners Experience</h2>
+            </div>
+            <div className="luxury-card p-8 border border-[oklch(0.78_0.16_85/15%)]">
+              <p className="text-lg text-zinc-200 italic mb-6 leading-relaxed font-body">"{TESTIMONIALS[activeTestimonial].quote}"</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[oklch(0.78_0.16_85/15%)] flex items-center justify-center text-[oklch(0.78_0.16_85)] font-bold text-sm">
+                  {TESTIMONIALS[activeTestimonial].avatar}
+                </div>
+                <div>
+                  <p className="text-white text-sm font-semibold font-display">{TESTIMONIALS[activeTestimonial].author}</p>
+                  <p className="text-[oklch(0.65_0.012_85)] text-xs font-body">{TESTIMONIALS[activeTestimonial].role}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 border-t border-zinc-800">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-display font-bold text-white">Application & Intake FAQ</h2>
+            </div>
+            <div className="space-y-4">
+              {FAQS.map((item, i) => (
+                <div key={i} className="luxury-card p-6 border border-zinc-800">
+                  <h4 className="text-white font-semibold mb-2 text-sm font-display">{item.q}</h4>
+                  <p className="text-zinc-400 text-xs leading-relaxed font-body">{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <Footer />
       </div>

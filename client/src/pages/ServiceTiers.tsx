@@ -194,13 +194,13 @@ export default function ServiceTiers() {
             transition={{ duration: 0.6 }}
           >
             <span className="text-violet-400 text-xs font-semibold tracking-widest font-mono-lux uppercase">
-              Partnership Architecture
+              Two Paths to Empire • Same Elite Infrastructure
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-100 mt-3 mb-6" style={{ fontFamily: 'Space Grotesk' }}>
-              Choose Your Partnership Structure
+              Two Paths to Empire
             </h1>
             <p className="text-zinc-400 text-base sm:text-lg max-w-3xl mx-auto font-body leading-relaxed">
-              We offer two distinct, creator-first operational frameworks: 100% Flat-Fee Independence OR Fully Funded 25% Sponsored Incubation. Select the path that aligns with your brand goals.
+              Whether you choose <strong className="text-violet-300">The Sponsored Partner Roster</strong> (zero upfront cost, 25% performance split, capped roster) or <strong className="text-emerald-300">The Private Reserve Suite</strong> (prepaid membership tiers & a la carte tools where you retain <strong className="text-white">100% of your earnings</strong>), B.N.E. Studio equips your business with Fortune-500 firepower.
             </p>
           </motion.div>
         </div>
@@ -211,7 +211,7 @@ export default function ServiceTiers() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start">
 
-            {/* ── LEFT COLUMN: Zero-Commission Management (Flat Fee) ── */}
+            {/* ── LEFT COLUMN: The Private Reserve Suite (100% Earnings Retention) ── */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -222,23 +222,23 @@ export default function ServiceTiers() {
                 {/* Column Badge */}
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/15 border border-violet-500/30 text-violet-300 text-xs font-semibold uppercase tracking-widest font-mono-lux mb-4">
                   <Shield size={13} />
-                  100% EARNINGS RETENTION — OPEN TO ALL CREATORS
+                  THE PRIVATE RESERVE SUITE — 100% REVENUE RETENTION
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-bold text-zinc-100 mb-4 font-display">
-                  Zero-Commission Management (Flat Fee)
+                  The Private Reserve Suite (A La Carte & Membership Tiers)
                 </h2>
 
                 {/* Expanded Description with Keywords & Welcoming Message */}
                 <div className="p-4 rounded-xl bg-violet-500/8 border border-violet-500/20 text-zinc-300 text-sm leading-relaxed mb-6 font-body">
                   <p className="mb-3">
-                    Fixed-cost operational execution where the creator retains <strong className="text-violet-300">100% of their earnings</strong> while B.N.E. powers all backend infrastructure, sales funnels, and technical setups.
+                    Engineered specifically for independent creators who refuse to give up equity or share monthly profits. You invest in your own infrastructure and retain <strong className="text-violet-300">100% of your revenue</strong> from day one.
                   </p>
                   <p className="mb-3">
-                    This structure provides premier <strong className="text-violet-300">zero-commission adult creator management</strong> and <strong className="text-violet-300">flat-rate OnlyFans infrastructure management</strong> without giving up a single percentage point of your income growth.
+                    Provides industry-low flat-rate membership tiers and a la carte services with <strong className="text-violet-300">zero profit share</strong>, immediate onboarding, and complete IP ownership.
                   </p>
                   <p className="text-xs text-violet-300/90 font-medium">
-                    ✨ <strong>Welcome & Open Access:</strong> B.N.E. Studio proudly makes this partnership structure open and available to <em>all legal content creators, adult entertainers, webcam broadcasters, and companions</em> looking for an immediate, massive upgrade to their brand infrastructure.
+                    ✨ <strong>Immediate Onboarding:</strong> Open access for legal performers, webcam broadcasters, digital creators, and companions who want agency firepower while remaining 100% financially autonomous.
                   </p>
                 </div>
 
@@ -337,26 +337,26 @@ export default function ServiceTiers() {
                 {/* Column Badge */}
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest font-mono-lux mb-4">
                   <Crown size={13} />
-                  FULLY FUNDED SILENT PARTNERSHIP — 25% REVENUE SHARE
+                  THE SPONSORED PARTNER ROSTER — ZERO UPFRONT CAPITAL
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-bold text-zinc-100 mb-4 font-display">
-                  Full Sponsored Management (25% Profit-Share)
+                  The Sponsored Partner Roster (Performance Revenue Share)
                 </h2>
 
                 {/* Top Bold Asterisk Note */}
                 <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs leading-relaxed mb-5 font-body">
                   <p className="font-bold">
-                    *B.N.E. Studio makes it a strict priority to ensure we have enough dedicated time, energy, and high-touch operational support available to fully give our sponsored partners the attention they deserve. Because of this, we limit available sponsored spots to the partners we believe are the best strategic fit with our team. To see if you are the type of partner we are eager to work with,{" "}
+                    *We invest our capital, software, and 24/7 staffing into your brand for a shared slice of the future. Because we provide round-the-clock live chatting teams, legal representation, and ad spend, this path requires an application & board approval, with strictly limited roster spots each month.*{" "}
                     <Link href="/apply">
-                      <span className="underline font-extrabold text-amber-300 hover:text-white cursor-pointer">Apply Now</span>
-                    </Link>.*
+                      <span className="underline font-extrabold text-amber-300 hover:text-white cursor-pointer">Apply For Sponsored Roster</span>
+                    </Link>.
                   </p>
                 </div>
 
                 {/* Description */}
                 <p className="text-zinc-300 text-sm leading-relaxed mb-4 font-body">
-                  Complete, fully funded silent partnership where B.N.E. absorbs operational overhead and backend management in exchange for an industry-low 25% revenue split (allowing creator to retain 75%).
+                  Zero out-of-pocket capital partnership where B.N.E. handles 24/7 DM monetization, technical setups, DMCA takedowns, and growth capital in exchange for a performance split. We only get paid when you do.
                 </p>
 
                 {/* Unfair Industry Standard vs. BNE Benchmark Callout */}
