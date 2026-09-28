@@ -21,7 +21,7 @@ const feed = new Feed({
   id: SITE_URL,
   link: SITE_URL,
   language: 'en',
-  image: `${SITE_URL}/og-image.png`,
+  image: `${SITE_URL}/og-image.jpg`,
   favicon: `${SITE_URL}/favicon.ico`,
   copyright: '',
   updated: new Date(),
@@ -60,7 +60,7 @@ articles.forEach(article => {
       },
       ...article.tags.map(tag => ({ name: tag })),
     ],
-    image: article.graphics?.[0]?.url || `${SITE_URL}/og-image.png`,
+    image: article.graphics?.[0]?.url || `${SITE_URL}/og-image.jpg`,
   });
 });
 
