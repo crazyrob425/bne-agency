@@ -67,7 +67,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "What is the difference between flat-rate partnership and percentage split?",
-    answer: "Percentage splits take 20% to 50% of your gross earnings forever. BNE's flat-rate model charges a fixed monthly management fee, ensuring 100% of your earnings growth stays in your pocket.",
+    answer: "Predatory agency splits take 20% to 50% of your gross earnings forever, whether you grow or not. BNE\u2019s Growth Partnership is also percentage-based — but with zero upfront cost and terms tied to the growth we generate. Prefer a fixed cost? BNE\u2019s flat-rate model charges a fixed monthly management fee, ensuring 100% of your earnings growth stays in your pocket.",
   },
   {
     question: "Can BNE integrate with my existing platforms?",
@@ -139,7 +139,7 @@ export default function MonetizationSystems() {
                 Partnership & Payment Systems Breakdown
               </h2>
               <p className="text-[oklch(0.7_0.012_85)] font-body leading-relaxed mb-6">
-                Understand the economics of creator partnerships. Compare percentage-based agency splits against BNE's transparent flat-rate model.
+                Understand the economics of creator partnerships. Compare predatory agency splits against BNE's performance-aligned partnership and transparent flat-rate options.
               </p>
               {video && (
                 <div className="rounded-xl overflow-hidden border border-[oklch(0.78_0.16_85/15%)] shadow-xl">
