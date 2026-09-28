@@ -91,7 +91,7 @@ const serviceSchema = {
 const faqSchema = buildFaqSchema([
   {
     question: "Does BNE Studio take a percentage of my OnlyFans earnings?",
-    answer: "No. BNE operates on transparent flat monthly partnership retainers. You keep 100% of your earnings across every platform — we never touch your payouts.",
+    answer: "Our standard management partnership is percentage-based: nothing upfront, and we only earn when you earn. If you'd rather keep 100% of everything you make, flat-rate advisory and marketing packages are available instead.",
   },
   {
     question: "Which fan platforms do you manage besides OnlyFans?",
@@ -218,7 +218,7 @@ export default function OnlyFansManagement() {
           <h2 className="text-2xl font-display font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "Does BNE take a percentage of my earnings?", a: "No. Flat monthly retainers only — you keep 100% of everything you earn, on every platform." },
+              { q: "Does BNE take a percentage of my earnings?", a: "Our standard management partnership is percentage-based: nothing upfront, and we only earn when you earn. If you'd rather keep 100% of everything you make, flat-rate advisory and marketing packages are available instead." }},
               { q: "I'm already doing okay solo. Why would I need management?", a: "Solo creators hit a ceiling around the hours they can work. Management removes the ceiling: 24/7 inbox coverage, systematic traffic, and pricing built on data instead of instinct." },
               { q: "Will my subscribers know I have a team?", a: "No. Chatters are trained in your voice, on your boundaries, with your approval workflows. To your fans, it's always you." },
               { q: "What do you need from me to start?", a: "Apply for a free confidential consultation. We audit your accounts, identify the leaks, and propose the exact systems for your situation." },
