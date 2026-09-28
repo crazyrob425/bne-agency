@@ -110,6 +110,18 @@ export function serveStatic(app: Express) {
     );
   }
 
+  // Vanity URL 301s (server-side so crawlers see them without JS)
+  const VANITY_REDIRECTS: Record<string, string> = {
+    "/solutions": "/services",
+    "/creator-os": "/tools",
+    "/academy": "/university",
+  };
+  app.get("*", (req, res, next) => {
+    const dest = VANITY_REDIRECTS[req.path];
+    if (dest) return res.redirect(301, dest);
+    next();
+  });
+
   // Serve build-time prerendered per-route HTML (dist/public/<route>/index.html)
   // directly at the clean URL — no trailing-slash 301, so the canonical
   // (e.g. /home) matches the served URL exactly.
@@ -139,13 +151,22 @@ export function serveStatic(app: Express) {
     });
   }
 
-  app.use("*", async (_req, res) => {
+  app.use("*", async (req, res) => {
     const indexPath = path.resolve(distPath, "index.html");
     const html = await fs.promises.readFile(indexPath, "utf-8");
 
     const env = loadEnv(process.cwd());
     const replaced = replacePlaceholders(html, env);
 
-    res.set({ "Content-Type": "text/html" }).send(replaced);
+    // Unknown extensionless page (no prerendered file, not an asset/API):
+    // real 404 status, but still serve the SPA shell so the client router
+    // renders the branded 404 page.
+    const urlPath: string = req.path;
+    const isUnknownPage =
+      req.method === "GET" &&
+      !urlPath.startsWith("/api/") &&
+      !/\.[a-zA-Z0-9]+$/.test(urlPath);
+
+    res.status(isUnknownPage ? 404 : 200).set({ "Content-Type": "text/html" }).send(replaced);
   });
 }
