@@ -12,7 +12,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Video, Gift, HeartHandshake, Clapperboard, EyeOff, CalendarCheck,
-  ArrowRight, Layers
+  ArrowRight, Layers, Radio, MessagesSquare
 } from "lucide-react";
 
 const fadeUp = {
@@ -28,7 +28,7 @@ const CAM_PILLARS = [
     icon: Video,
     title: "1. Show Strategy & Room Traffic",
     href: "/traffic-strategy",
-    description: "Broadcast schedules engineered around platform algorithms and peak-spend hours — plus off-platform funnels that fill your room with buyers, not lurkers.",
+    description: "Broadcast schedules engineered around platform algorithms and peak-spend hours — including multistream setups that put one show in front of several platforms' audiences at once — plus off-platform funnels that fill your room with buyers, not lurkers.",
     detail: "Cam platforms reward consistency and conversion. We build the schedule and the traffic engine that keeps your room ranked and tipping.",
   },
   {
@@ -105,6 +105,14 @@ const faqSchema = buildFaqSchema([
     question: "How does camming fit with OnlyFans?",
     answer: "They're built to feed each other: cam rooms drive traffic to your fan pages, and recorded shows become PPV clip inventory. We run both as one business instead of two side hustles.",
   },
+  {
+    question: "Do you provide chatters for live cam shows?",
+    answer: "Yes. Our live chatter service staffs your broadcasts with trained operators who engage the room, run tip goals and events, and keep energy high while you perform.",
+  },
+  {
+    question: "Can I really stream to multiple cam sites at the same time?",
+    answer: "Yes — multistreaming (simulcasting) lets one broadcast run on several platforms simultaneously. We handle the encoding setup, per-platform rules, and chat aggregation so you just perform.",
+  },
 ]);
 
 export default function WebcamModels() {
@@ -115,7 +123,7 @@ export default function WebcamModels() {
         description="BNE Studio manages webcam model businesses end-to-end: show strategy, tip menu engineering, high-spender cultivation, clip repurposing, privacy shielding, and sustainable scheduling."
         canonical="/webcam-models"
         schema={[serviceSchema, faqSchema]}
-        keywords="webcam model management, cam model agency, camgirl management, chaturbate management, webcam business growth, cam model marketing"
+        keywords="webcam model management, cam model agency, camgirl management, chaturbate management, webcam business growth, cam model marketing, multistream cam setup, simulcast streaming, cam chatter service, live show chatters"
       />
       <Navigation />
 
@@ -148,6 +156,45 @@ export default function WebcamModels() {
               </Link>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── SIGNATURE SERVICES ── */}
+      <section className="py-16 bg-slate-950/60 border-y border-slate-800/40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-violet-400 text-xs font-bold tracking-widest uppercase">Signature Services</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">Two Things That Change Everything</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="bg-slate-900/60 p-8 border border-violet-500/30 rounded-2xl">
+              <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-5">
+                <Radio className="h-6 w-6 text-violet-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-zinc-100 mb-3 font-display">Multistream to Every Platform at Once</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
+                One performance, multiple rooms, multiplied tip volume. We set up and manage simultaneous
+                streaming across Chaturbate, Stripchat, Streamate, and more — encoding, per-platform
+                compliance, and chat aggregation handled for you. Stop choosing which audience to serve;
+                serve them all at the same time.
+              </p>
+              <p className="text-slate-500 text-xs leading-relaxed">Models streaming 3+ platforms simultaneously routinely 2–3x their per-hour earnings versus single-platform broadcasting.</p>
+            </motion.div>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="bg-slate-900/60 p-8 border border-violet-500/30 rounded-2xl">
+              <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-5">
+                <MessagesSquare className="h-6 w-6 text-violet-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-zinc-100 mb-3 font-display">Live Show Chatter Service</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
+                Never let your room go quiet. Trained chatters staff your broadcasts live — greeting newcomers,
+                running tip goals and ticket events, hyping the room, and converting lurkers into tippers —
+                while you focus on performing. Your energy stays on camera; ours stays on the chat.
+              </p>
+              <p className="text-slate-500 text-xs leading-relaxed">An engaged room tips more, stays longer, and ranks higher on every cam platform algorithm.</p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -217,6 +264,7 @@ export default function WebcamModels() {
               { q: "I'm new to camming. Is management overkill?", a: "New models benefit the most — you skip the expensive beginner mistakes (bad pricing, no privacy setup, burnout schedules) and start with professional systems on day one." },
               { q: "Can you help me stay anonymous?", a: "Yes. Geo-blocking, stage-name operations, DMCA enforcement, and compartmentalized tech are core to our privacy stack — including fully faceless positioning strategies." },
               { q: "What do you need from me to start?", a: "Apply for a free confidential consultation. We review your current setup (or your goals if you're new) and propose the exact systems for your situation." },
+              { q: "How does the multistream setup work?", a: "We configure your encoding and platform accounts so a single broadcast goes live on multiple cam sites at once — with chats aggregated so you never miss a tip." },
             ].map((faq, i) => (
               <div key={faq.q} className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl">
                 <h4 className="text-white font-semibold text-sm mb-2">{faq.q}</h4>
