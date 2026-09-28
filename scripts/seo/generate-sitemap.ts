@@ -29,6 +29,9 @@ const ROUTE_PRIORITY: Record<string, number> = {
   "/university": 0.8,
   "/blog": 0.8,
   "/onboarding": 0.7,
+  "/onlyfans-management": 0.85,
+  "/webcam-models": 0.85,
+  "/in-person-companions": 0.85,
   "/apply": 0.7,
 };
 
@@ -41,6 +44,9 @@ const ROUTE_CHANGEFREQ: Record<string, string> = {
   "/tools": "weekly",
   "/pricing": "weekly",
   "/services": "weekly",
+  "/onlyfans-management": "weekly",
+  "/webcam-models": "weekly",
+  "/in-person-companions": "weekly",
 };
 
 function getPriority(path: string): number {
