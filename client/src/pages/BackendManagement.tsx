@@ -71,7 +71,7 @@ const STATS = [
 
 const WHAT_WE_DONT_DO = [
   "We never require exclusivity — you always own your business",
-  "We never take a percentage of your earnings — flat rate only",
+  "We never take surprise cuts of your earnings — flat-rate plans keep 100% of payouts yours",
   "We never make content decisions without your approval",
   "We never contact your platforms pretending to be you without authorization",
   "We never share your identity or location with any third party",
@@ -286,7 +286,7 @@ export default function BackendManagement() {
               { q: "Do I lose control of my accounts?", a: "Never. You maintain full ownership and access to every account. BNE operates with delegated access at the level you authorize — we can't move money, change payment info, or take any action outside your approved scope." },
               { q: "Can I see what's being sent in my DMs?", a: "Yes. You have full transparency into every conversation. We provide daily summary reports and you can review or override any message at any time. Your approval is required for anything outside your established guidelines." },
               { q: "What's the minimum commitment?", a: "We work with a 3-month initial term to allow enough time for backend systems to be built and optimized. Most creators stay significantly longer once they see the operational difference." },
-              { q: "How does BNE make money if they don't take a percentage?", a: "Flat monthly subscription fees based on your selected management tier. Our business model is aligned with yours — we succeed when you retain clients long-term, not when you make a single large transaction." },
+              { q: "How does BNE make money?", a: "Two ways: Growth Partnerships are percentage-based — nothing upfront, we earn only when you earn. Flat-rate plans pay a monthly subscription based on the selected management tier. Either way our model is aligned with yours — we succeed when you grow and stay long-term." },
             ].map((faq, i) => (
               <motion.div key={faq.q} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i} className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl">
                 <h4 className="text-white font-semibold text-sm mb-2">{faq.q}</h4>
