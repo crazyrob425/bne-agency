@@ -81,7 +81,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "Does BNE take a percentage of these 6 revenue streams?",
-    answer: "No. BNE operates strictly on transparent, flat-rate monthly partnership tiers. You keep 100% of your earnings across all platforms.",
+    answer: "BNE offers two partnership models. Our standard Growth Partnership is percentage-based — nothing upfront, we only earn when you earn (qualification required). If you would rather keep 100% of your earnings, transparent flat-rate monthly tiers are available instead.",
   },
   {
     question: "Can I start with online revenue streams before doing in-person work?",
@@ -197,7 +197,7 @@ export default function MakeMoney() {
             {[
               { q: "Which revenue engine should I set up first?", a: "We begin by optimizing your primary subscription paywall and PPV messaging funnel, as these generate the fastest initial cash flow returns." },
               { q: "Do I have to do all 6 revenue engines?", a: "In-person companion booking is 100% optional. The 5 online revenue engines can be deployed for any creator." },
-              { q: "How does BNE handle payment splits?", a: "BNE charges zero revenue split. You pay a transparent flat monthly rate for management services while keeping 100% of gross earnings." },
+              { q: "How does BNE handle payment splits?", a: "Two options: our standard Growth Partnership is percentage-based with nothing upfront — we only earn when you earn. Or choose a transparent flat monthly rate and keep 100% of gross earnings." },
               { q: "How do I get started?", a: "Submit an application at blacklisted.studio/apply for a free confidential consultation and account revenue audit." },
             ].map((faq, i) => (
               <div key={faq.q} className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl">
