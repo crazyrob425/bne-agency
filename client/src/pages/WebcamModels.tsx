@@ -91,7 +91,7 @@ const serviceSchema = {
 const faqSchema = buildFaqSchema([
   {
     question: "Does BNE Studio take a percentage of my cam earnings?",
-    answer: "No. BNE operates on transparent flat monthly partnership retainers. You keep 100% of your earnings across every cam site and clip store.",
+    answer: "Our standard management partnership is percentage-based: nothing upfront, and we only earn when you earn. If you'd rather keep 100% of everything you make, flat-rate advisory and marketing packages are available instead.",
   },
   {
     question: "Which cam sites do you support?",
@@ -278,7 +278,7 @@ export default function WebcamModels() {
           <h2 className="text-2xl font-display font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "Does BNE take a percentage of my earnings?", a: "No. Flat monthly retainers only — you keep 100% of everything you earn, on every platform." },
+              { q: "Does BNE take a percentage of my earnings?", a: "Our standard management partnership is percentage-based: nothing upfront, and we only earn when you earn. If you'd rather keep 100% of everything you make, flat-rate advisory and marketing packages are available instead." }},
               { q: "I'm new to camming. Is management overkill?", a: "New models benefit the most — you skip the expensive beginner mistakes (bad pricing, no privacy setup, burnout schedules) and start with professional systems on day one." },
               { q: "Can you help me stay anonymous?", a: "Yes. Geo-blocking, stage-name operations, DMCA enforcement, and compartmentalized tech are core to our privacy stack — including fully faceless positioning strategies." },
               { q: "What do you need from me to start?", a: "Apply for a free confidential consultation. We review your current setup (or your goals if you're new) and propose the exact systems for your situation." },
