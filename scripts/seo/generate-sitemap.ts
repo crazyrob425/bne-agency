@@ -20,7 +20,8 @@ const OUTPUT_PATH = resolve(process.cwd(), "dist/public/sitemap.xml");
 
 // Priority/changefreq defaults by route pattern
 const ROUTE_PRIORITY: Record<string, number> = {
-  "/": 1.0,
+  "/home": 1.0,
+  "/": 0.2,
   "/pricing": 0.9,
   "/services": 0.9,
   "/niche-matcher": 0.85,
@@ -32,6 +33,7 @@ const ROUTE_PRIORITY: Record<string, number> = {
 };
 
 const ROUTE_CHANGEFREQ: Record<string, string> = {
+  "/home": "weekly",
   "/blog": "daily",
   "/": "weekly",
   "/university": "weekly",
@@ -72,7 +74,7 @@ function extractRoutesFromApp(): string[] {
     const path = match[1];
     // Skip dynamic slugs that we handle separately; /home 301-redirects to /
     // and must not appear as a separate indexed URL
-    if (!path.includes(":slug") && path !== "/404" && path !== "/home") {
+    if (!path.includes(":slug") && path !== "/404" && path !== "/") {
       routes.push(path);
     }
   }
