@@ -4,20 +4,33 @@
   "description": "Expert guides on compliance, niche strategy, monetization, and operational security for adult content creators.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#6d28d9",
+  "background_color": "#060607",
+  "theme_color": "#0a0a0f",
   "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
     {
       "src": "/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/favicon.png",
-      "sizes": "any",
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ],
-  "categories": ["business", "education"],
+  "categories": [
+    "business",
+    "education"
+  ],
   "lang": "en-US"
 }
