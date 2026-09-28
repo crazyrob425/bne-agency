@@ -3,7 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { useEffect } from "react";
-import { Route, Switch, useLocation } from "wouter";
+import { Route, Switch, Redirect, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Helmet } from "react-helmet-async";
@@ -161,6 +161,10 @@ function Router() {
       <Route path="/2257-compliance" component={Compliance2257} />
       <Route path="/compliance-documentation" component={ComplianceDocumentation} />
       <Route path="/compliance-resources" component={ComplianceResources} />
+      {/* Vanity URLs for mega-menu labels -> real hub pages */}
+      <Redirect path="/solutions" to="/services" />
+      <Redirect path="/creator-os" to="/tools" />
+      <Redirect path="/academy" to="/university" />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
