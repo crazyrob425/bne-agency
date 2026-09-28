@@ -162,9 +162,9 @@ function Router() {
       <Route path="/compliance-documentation" component={ComplianceDocumentation} />
       <Route path="/compliance-resources" component={ComplianceResources} />
       {/* Vanity URLs for mega-menu labels -> real hub pages */}
-      <Redirect path="/solutions" to="/services" />
-      <Redirect path="/creator-os" to="/tools" />
-      <Redirect path="/academy" to="/university" />
+      <Route path="/solutions"><Redirect to="/services" /></Route>
+      <Route path="/creator-os"><Redirect to="/tools" /></Route>
+      <Route path="/academy"><Redirect to="/university" /></Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
