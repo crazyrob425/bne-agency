@@ -77,7 +77,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "Does BNE charge a percentage of my earnings?",
-    answer: "No. BNE operates strictly on flat-rate monthly partnership tiers. You keep 100% of your gross earnings across all platforms.",
+    answer: "BNE offers two partnership models. Our standard Growth Partnership is percentage-based — nothing upfront, we only earn when you earn (qualification required). If you would rather keep 100% of your gross earnings, transparent flat-rate monthly tiers are available instead.",
   },
   {
     question: "How do you optimize my subscription tier pricing?",
@@ -172,9 +172,9 @@ export default function MonetizationOverview() {
               <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-xl">
                 <div className="flex items-center gap-3 mb-2">
                   <DollarSign className="text-[oklch(0.78_0.16_85)]" size={20} />
-                  <h3 className="text-white font-bold">100% Revenue Ownership</h3>
+                  <h3 className="text-white font-bold">Two Ways to Partner</h3>
                 </div>
-                <p className="text-slate-400 text-sm">BNE charges zero percentage of your earnings. You pay a transparent flat monthly rate for operational infrastructure while keeping 100% of gross platform payouts.</p>
+                <p className="text-slate-400 text-sm">Choose the model that fits: a percentage-based Growth Partnership with nothing upfront — we only earn when you earn — or a transparent flat monthly rate where you keep 100% of gross platform payouts.</p>
               </div>
 
               <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-xl">
