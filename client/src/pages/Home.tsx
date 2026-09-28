@@ -912,7 +912,7 @@ function HomeSeoContent() {
     {
       question: "How is B.N.E. Studio different from a traditional talent manager?",
       answer:
-        "Traditional managers take a percentage of revenue for basic deal negotiation. B.N.E. Studio builds and operates your entire business infrastructure with proprietary technology, automation systems, and strategic intelligence.",
+        "Traditional managers take a percentage of revenue for basic deal negotiation. B.N.E. Studio earns its percentage by building and operating your entire business infrastructure with proprietary technology, automation systems, and strategic intelligence.",
     },
     {
       question: "What platforms does B.N.E. Studio support?",
@@ -932,7 +932,7 @@ function HomeSeoContent() {
     {
       question: "What does B.N.E. Studio cost?",
       answer:
-        "Our pricing is performance-aligned, not retainer-based. We invest our systems upfront and earn based on the revenue growth we generate together. Specific terms are discussed after niche validation.",
+        "Our Growth Partnership pricing is performance-aligned, not retainer-based. We invest our systems upfront and earn based on the revenue growth we generate together. Prefer a fixed cost? Flat-rate packages are also available. Specific terms are discussed after niche validation.",
     },
   ];
 
