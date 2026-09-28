@@ -160,6 +160,12 @@ export default function WebcamModels() {
               </Link>
             </div>
           </motion.div>
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mt-14">
+            <div className="relative rounded-2xl overflow-hidden border border-violet-500/20 shadow-[0_0_80px_-20px_rgba(139,92,246,0.45)]">
+              <img src="/images/hubs/webcam-models-hero.webp" alt="Premium live-streaming studio with violet ring light, broadcast camera, and dual chat monitors — the operations setup behind BNE-managed webcam model businesses" className="w-full h-auto" fetchPriority="high" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent pointer-events-none" />
+            </div>
+          </motion.div>
         </div>
       </section>
 
