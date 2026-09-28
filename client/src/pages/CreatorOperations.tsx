@@ -278,7 +278,7 @@ export default function CreatorOperations() {
               { q: "How quickly can BNE take over my daily operations?", a: "After completing your initial account audit and voice playbook setup (usually 3 to 5 business days), BNE ops can assume full scheduling, DM management, and platform syndication." },
               { q: "What if I want to answer DMs myself sometimes?", a: "You retain full access to all your accounts. Our team monitors and responds seamlessly, stepping back whenever you want to engage directly with fans." },
               { q: "Are your DM chatters native English speakers?", a: "Yes. All BNE communication managers are native English speakers trained specifically in US/West Coast creator dialect, sales psychology, and boundary management." },
-              { q: "Do you take commissions on DM sales?", a: "No. BNE charges a flat monthly management fee. You keep 100% of your earnings across all platforms." },
+              { q: "Do you take commissions on DM sales?", a: "It depends on your plan. Growth Partnerships are percentage-based with nothing upfront — we only earn when you earn. On flat-rate plans you pay a fixed monthly management fee and keep 100% of your earnings across all platforms." },
             ].map((faq, i) => (
               <div key={faq.q} className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl">
                 <h4 className="text-white font-semibold text-sm mb-2">{faq.q}</h4>
