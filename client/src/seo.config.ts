@@ -33,7 +33,7 @@ export const baseMetadata = {
   siteName: 'B.N.E. Studio',
   defaultTitle: 'B.N.E. Studio — Silent Partner for Elite Creator Empires',
   defaultDescription: 'B.N.E. Studio is the silent operations partner for digital creators. We handle niche intelligence, backend management, compliance, advertising, and scaling so you can focus on content.',
-  defaultImage: 'https://blacklisted.studio/og-image.png',
+  defaultImage: 'https://blacklisted.studio/og-image.jpg',
   twitterHandle: '@blacklistedstudio',
 };
 
