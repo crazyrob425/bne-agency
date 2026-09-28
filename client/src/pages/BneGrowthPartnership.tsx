@@ -59,7 +59,7 @@ export default function BneGrowthPartnership() {
               A Partnership, Not a Paycheck
             </motion.h2>
             <motion.p variants={fadeUp} className="text-zinc-400 max-w-3xl mx-auto" style={{ fontFamily: 'DM Sans' }}>
-              Traditional agencies charge retainers, taking your money whether you succeed or not. We rejected that model. A B.N.E. Growth Partnership is a long-term, alignment-based relationship where our success is directly tied to yours.
+              Traditional agencies charge retainers, taking your money whether you succeed or not. For Growth Partnerships, we rejected that model. A B.N.E. Growth Partnership is a long-term, alignment-based relationship where our success is directly tied to yours.
             </motion.p>
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
