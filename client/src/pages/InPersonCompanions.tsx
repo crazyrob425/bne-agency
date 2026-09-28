@@ -151,6 +151,12 @@ export default function InPersonCompanions() {
               </Link>
             </div>
           </motion.div>
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mt-14">
+            <div className="relative rounded-2xl overflow-hidden border border-violet-500/20 shadow-[0_0_80px_-20px_rgba(139,92,246,0.45)]">
+              <img src="/images/hubs/in-person-companions-hero.webp" alt="Luxury penthouse lounge overlooking a night city skyline — the discreet, high-end world of BNE's companion business infrastructure" className="w-full h-auto" fetchPriority="high" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent pointer-events-none" />
+            </div>
+          </motion.div>
         </div>
       </section>
 
