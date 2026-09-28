@@ -119,7 +119,7 @@ export function serveStatic(app: Express) {
     if (/\.[a-zA-Z0-9]+$/.test(urlPath)) return next(); // assets, not pages
     const normalized = urlPath.length > 1 ? urlPath.replace(/\/+$/, "") : urlPath;
     const candidate = path.join(distPath, normalized, "index.html");
-    if (fs.existsSync(candidate)) {
+    if (candidate.startsWith(distPath) && fs.existsSync(candidate)) {
       return res.sendFile(candidate);
     }
     next();
