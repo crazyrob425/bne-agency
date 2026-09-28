@@ -148,7 +148,7 @@ export default function ServiceTiers() {
     },
     {
       question: "Do you take a percentage of my earnings?",
-      answer: "No. BNE Studio charges flat monthly rates, not commissions or percentages. Your earnings are 100% yours — we charge for our operational services separately.",
+      answer: "Our standard management plan is percentage-based — you pay nothing upfront and we only make money when you make money (qualification required). If you would rather keep 100% of your earnings, the flat-rate tiers on this page are the alternative.",
     },
     {
       question: "What platforms does BNE Studio manage?",
