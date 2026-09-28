@@ -86,7 +86,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[oklch(0.45_0.01_85/70%)] text-xs font-mono-lux tracking-wide">
-            © 2025 BLACKLISTED NICHE ENTERTAINMENT — ALL RIGHTS RESERVED
+            © {new Date().getFullYear()} BLACKLISTED NICHE ENTERTAINMENT — ALL RIGHTS RESERVED
           </p>
           <p className="text-[oklch(0.40_0.008_85/60%)] text-xs font-mono-lux tracking-wide">
             ENGINEERED BY BLACKLISTED BINARY LABS · CHIEF ARCHITECT: ROB BRANTING
