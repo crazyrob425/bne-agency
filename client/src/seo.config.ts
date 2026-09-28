@@ -230,6 +230,27 @@ export const pageSeoConfig: Record<string, SeoMetadata> = {
     ogType: 'website',
     keywords: 'creator case studies, BNE portfolio, creator empire results',
   },
+  'onlyfans-management': {
+    title: 'OnlyFans Management Agency — Scale Your Fan Business | BNE Studio',
+    description: 'BNE Studio is the silent operations partner for OnlyFans creators: niche positioning, 24/7 DM operations, content systems, pricing engineering, 2257 compliance, and traffic growth.',
+    canonical: '/onlyfans-management',
+    ogType: 'website',
+    keywords: 'onlyfans management agency, onlyfans manager, onlyfans growth agency, fan platform management, onlyfans marketing',
+  },
+  'webcam-models': {
+    title: 'Webcam Model Management — Grow Your Cam Business | BNE Studio',
+    description: 'BNE Studio manages webcam model businesses end-to-end: show strategy, tip menu engineering, high-spender cultivation, clip repurposing, privacy shielding, and sustainable scheduling.',
+    canonical: '/webcam-models',
+    ogType: 'website',
+    keywords: 'webcam model management, cam model agency, camgirl management, chaturbate management, webcam business growth',
+  },
+  'in-person-companions': {
+    title: 'Business Management for In-Person Companions | BNE Studio',
+    description: 'BNE Studio provides business infrastructure for independent in-person companions: brand positioning, screening and safety systems, client management, discreet digital presence, and bookkeeping.',
+    canonical: '/in-person-companions',
+    ogType: 'website',
+    keywords: 'in-person companion business management, companion branding agency, independent companion business support, companion screening systems',
+  },
 };
 
 export const organizationSchema = buildOrganizationSchema(baseMetadata.siteUrl);
