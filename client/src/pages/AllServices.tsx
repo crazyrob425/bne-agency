@@ -29,6 +29,7 @@ const fadeUp = {
 export default function AllServices() {
   const { getVideoByKeyword } = useMediaCatalog();
   const scaleVideo = getVideoByKeyword("scale") || getVideoByKeyword("methodology") || getVideoByKeyword("agency");
+  const partnershipVideo = getVideoByKeyword("partnership") || getVideoByKeyword("payment");
   const servicesSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -97,29 +98,6 @@ export default function AllServices() {
       <Navigation />
 
       {/* Long-form SEO introduction to All Services */}
-      <div className="container py-8">
-        <article className="prose prose-invert max-w-5xl mx-auto text-slate-200">
-          <h2>All Services — How BNE Builds Creator Businesses</h2>
-          <p>
-            BNE provides a full suite of services that turn creators into scalable businesses. This includes brand identity, platform strategy, content production, legal compliance, paid growth, community management, and in-person safety services. Each service is modular so we can construct a bespoke plan that meets your goals and risk tolerance.
-          </p>
-          <h3>Service Categories</h3>
-          <p>
-            Our offerings are grouped into launch services, growth operations, legal & compliance, monetization engineering, and in-person support. Depending on your needs we combine these services into a managed plan or a la carte engagement.
-          </p>
-          <h3>How a Partnership Typically Works</h3>
-          <p>
-            After application and acceptance, we implement an initial 30-day launch plan that covers persona creation, content calendar, price testing, and compliance setup. Months 2–3 focus on scale: paid traffic, conversion optimization, and retention. By month 6 we aim for stable recurring revenue and a pathway to expand into additional verticals or international markets.
-          </p>
-          <figure>
-                      <img src="/media/Studio_Case_Study_Results_Briefing_Dossier.png" alt="All services overview" />
-            <figcaption>Services are modular — pick what you need, scale when you're ready.</figcaption>
-          </figure>
-          <p>
-            Internal links: <a href="/onboarding">Apply</a> · <a href="/creator-tools">Creator Tools</a> · <a href="/compliance-vault">Compliance Vault</a>
-          </p>
-        </article>
-      </div>
 
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden">
@@ -159,6 +137,31 @@ export default function AllServices() {
         </div>
       </section>
 
+      {/* SEO editorial block — below the hero by design */}
+      <div className="container py-8">
+        <article className="prose prose-invert max-w-5xl mx-auto text-slate-200">
+          <h2>All Services — How BNE Builds Creator Businesses</h2>
+          <p>
+            BNE provides a full suite of services that turn creators into scalable businesses. This includes brand identity, platform strategy, content production, legal compliance, paid growth, community management, and in-person safety services. Each service is modular so we can construct a bespoke plan that meets your goals and risk tolerance.
+          </p>
+          <h3>Service Categories</h3>
+          <p>
+            Our offerings are grouped into launch services, growth operations, legal & compliance, monetization engineering, and in-person support. Depending on your needs we combine these services into a managed plan or a la carte engagement.
+          </p>
+          <h3>How a Partnership Typically Works</h3>
+          <p>
+            After application and acceptance, we implement an initial 30-day launch plan that covers persona creation, content calendar, price testing, and compliance setup. Months 2–3 focus on scale: paid traffic, conversion optimization, and retention. By month 6 we aim for stable recurring revenue and a pathway to expand into additional verticals or international markets.
+          </p>
+          <figure>
+                      <img src="/media/Studio_Case_Study_Results_Briefing_Dossier.png" alt="All services overview" />
+            <figcaption>Services are modular — pick what you need, scale when you're ready.</figcaption>
+          </figure>
+          <p>
+            Internal links: <a href="/onboarding">Apply</a> · <a href="/creator-tools">Creator Tools</a> · <a href="/compliance">Compliance Vault</a>
+          </p>
+        </article>
+      </div>
+
       {/* Scale Methodology Video */}
       <section className="py-12 bg-white/2 border-b border-[oklch(0.78_0.16_85/10%)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -175,7 +178,8 @@ export default function AllServices() {
         </div>
       </section>
 
-      {/* Partnership & Payment Rates Video */}
+      {/* Partnership & Payment Rates Video — hidden until the real video is uploaded to media/ */}
+      {partnershipVideo && (
       <section className="py-12 bg-white/2 border-b border-[oklch(0.78_0.16_85/10%)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
@@ -184,12 +188,13 @@ export default function AllServices() {
             <p className="text-sm text-zinc-400 mt-1 max-w-xl mx-auto font-body" style={{ fontFamily: 'DM Sans' }}>Understand how BNE structures revenue splits, payment schedules, and partnership models to maximize your earnings while maintaining full control.</p>
           </div>
           <VideoPlayer
-            src="/media-files/Content_Creator_Partnership_Percentages_Payments_rates.mp4"
+            src={partnershipVideo.url}
             title="Partnership & Payment Rates"
             description="How BNE structures revenue splits and payment schedules for creator partnerships."
           />
         </div>
       </section>
+      )}
 
       {/* Services Grid */}
       <section className="py-20">
@@ -408,8 +413,8 @@ export default function AllServices() {
               const StepIcon = item.icon;
               return (
                 <motion.div key={item.step} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }} className="relative">
-                  <div className="text-center mb-4"><span className="text-5xl font-bold text-violet-500/20 mono-stat">{item.step}</span></div>
                   <div className="text-center">
+                    <div aria-hidden="true" className="text-center mb-4"><span className="text-5xl font-bold text-violet-500/20 mono-stat">{item.step}</span></div>
                     <div className="w-14 h-14 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mx-auto mb-4"><StepIcon className="h-7 w-7 text-violet-400" /></div>
                     <h3 className="text-lg font-bold text-zinc-100 mb-2" style={{ fontFamily: 'Space Grotesk' }}>{item.title}</h3>
                     <p className="text-zinc-400 text-sm leading-relaxed" style={{ fontFamily: 'DM Sans' }}>{item.desc}</p>
