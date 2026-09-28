@@ -42,7 +42,7 @@ export const pageSeoConfig: Record<string, SeoMetadata> = {
   home: {
     title: 'B.N.E. Studio — Silent Partner for Elite Creator Empires',
     description: 'B.N.E. Studio is the silent operations partner for digital creators. We handle niche intelligence, backend management, compliance, advertising, and scaling so you can focus on content.',
-    canonical: '/',
+    canonical: '/home',
     ogType: 'website',
     keywords: 'creator management, silent partner, OnlyFans management, adult content operations, creator business infrastructure',
   },
