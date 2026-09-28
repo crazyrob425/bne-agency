@@ -49,9 +49,9 @@ const TERMS_CLAUSES = [
   },
   {
     icon: Shield,
-    title: "4. Flat Retainer Payment & Termination Terms",
-    description: "Partnerships operate on flat monthly retainers billed on the 1st of each month. Initial 3-month setup period followed by flexible month-to-month terms with 30-day notice.",
-    detail: "No percentage commissions, revenue shares, or surprise billing adjustments.",
+    title: "4. Flat-Rate Track Payment & Termination Terms",
+    description: "Flat-rate partnerships operate on flat monthly retainers billed on the 1st of each month. Initial 3-month setup period followed by flexible month-to-month terms with 30-day notice.",
+    detail: "No surprise billing adjustments on flat-rate plans. Growth Partnerships operate under separate percentage-based terms.",
   },
 ];
 
