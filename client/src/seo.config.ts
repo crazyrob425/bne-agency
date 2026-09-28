@@ -33,7 +33,7 @@ export const baseMetadata = {
   siteName: 'B.N.E. Studio',
   defaultTitle: 'B.N.E. Studio — Silent Partner for Elite Creator Empires',
   defaultDescription: 'B.N.E. Studio is the silent operations partner for digital creators. We handle niche intelligence, backend management, compliance, advertising, and scaling so you can focus on content.',
-  defaultImage: 'https://blacklisted.studio/BNE%20logo2.png',
+  defaultImage: 'https://blacklisted.studio/og-image.png',
   twitterHandle: '@blacklistedstudio',
 };
 
@@ -42,7 +42,7 @@ export const pageSeoConfig: Record<string, SeoMetadata> = {
   home: {
     title: 'B.N.E. Studio — Silent Partner for Elite Creator Empires',
     description: 'B.N.E. Studio is the silent operations partner for digital creators. We handle niche intelligence, backend management, compliance, advertising, and scaling so you can focus on content.',
-    canonical: '/home',
+    canonical: '/',
     ogType: 'website',
     keywords: 'creator management, silent partner, OnlyFans management, adult content operations, creator business infrastructure',
   },
