@@ -31,9 +31,9 @@ const fadeUp = {
 const POLICIES_LIST = [
   {
     icon: DollarSign,
-    title: "1. Zero-Commission & Flat-Retainer Financial Transparency",
-    description: "BNE operates strictly on flat monthly retainers. We never take revenue percentages or equity in your platforms, content, or brand assets.",
-    detail: "You retain 100% of your earnings across OnlyFans, Fansly, clip stores, and custom sales. Full financial transparency with zero hidden fees.",
+    title: "1. Transparent Two-Track Pricing & Financial Clarity",
+    description: "BNE offers a percentage-based Growth Partnership — nothing upfront, we earn only when you earn — alongside transparent flat monthly retainers for those who prefer to keep 100% of their earnings. We never take equity in your platforms, content, or brand assets.",
+    detail: "Full financial transparency with zero hidden fees: choose aligned profit-sharing or a fixed flat rate across OnlyFans, Fansly, clip stores, and custom sales.",
   },
   {
     icon: HeartHandshake,
@@ -58,7 +58,7 @@ const POLICIES_LIST = [
 const faqSchema = buildFaqSchema([
   {
     question: "What is BNE Studio's pricing policy?",
-    answer: "BNE operates strictly on transparent, flat monthly partnership retainers. We never charge revenue commissions or percentages of your earnings.",
+    answer: "BNE offers two transparent models: a percentage-based Growth Partnership with zero upfront cost (qualification required), and flat monthly partnership retainers with no revenue commissions. You choose the model that fits your goals.",
   },
   {
     question: "Does BNE require creators to sign long-term lock-in contracts?",
@@ -99,10 +99,10 @@ export default function PoliciesPage() {
               <span className="text-3xl md:text-4xl text-slate-400 font-normal">Ethical Agency Governance & Full Transparency.</span>
             </h1>
             <p className="text-lg text-[oklch(0.7_0.012_85)] font-body leading-relaxed mb-8 max-w-2xl">
-              Traditional adult creator agencies exploit talent through predatory percentage splits and coercive content demands. BNE Studio operates differently.
+              Traditional adult creator agencies exploit talent through misaligned incentives and coercive content demands. BNE Studio operates differently — our percentage-based partnership means we only earn when you earn.
             </p>
             <p className="text-lg text-[oklch(0.7_0.012_85)] font-body leading-relaxed mb-10 max-w-2xl">
-              Our operational policies guarantee zero revenue commissions, total performer creative autonomy, strict DM team codes of conduct, and airtight identity protection.
+              Our operational policies guarantee transparent pricing with no hidden fees, total performer creative autonomy, strict DM team codes of conduct, and airtight identity protection.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/apply">
@@ -187,7 +187,7 @@ export default function PoliciesPage() {
       {/* ── TESTIMONIALS ── */}
       <TestimonialsSection
         title="Creator Agency Policy Reviews"
-        subtitle="Read how creators thrive in a transparent, zero-commission partnership."
+        subtitle="Read how creators thrive in a transparent, performance-aligned partnership."
         limit={3}
       />
 
@@ -197,7 +197,7 @@ export default function PoliciesPage() {
           <h2 className="text-2xl font-display font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "How do flat monthly retainers work compared to percentage agencies?", a: "With flat retainers, you pay a set monthly fee for full backend management. As your monthly earnings grow from $10k to $50k+, your agency cost stays completely fixed, saving you thousands." },
+              { q: "How does BNE pricing work — flat rate or percentage?", a: "Both. Our standard Growth Partnership is percentage-based with nothing upfront — our earnings are tied directly to your growth. Prefer a fixed cost? Flat monthly retainers keep your agency cost fixed as you scale from $10k to $50k+ months." },
               { q: "Can I terminate my partnership if my situation changes?", a: "Yes. Following the initial 3-month setup period, partnerships operate month-to-month with 30-day notice." },
             ].map((faq, i) => (
               <div key={faq.q} className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl">
@@ -214,7 +214,7 @@ export default function PoliciesPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
             <h2 className="text-3xl font-display font-bold text-white mb-4">Experience Ethical Creator Agency Management</h2>
-            <p className="text-slate-400 mb-8 max-w-2xl mx-auto">Apply for BNE Studio partnership today to experience flat-rate pricing and complete creative control.</p>
+            <p className="text-slate-400 mb-8 max-w-2xl mx-auto">Apply for BNE Studio partnership today to experience transparent, performance-aligned pricing and complete creative control.</p>
             <Link href="/apply">
               <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-10 py-4 text-base">
                 Apply for Partnership →
