@@ -110,7 +110,22 @@ export function serveStatic(app: Express) {
     );
   }
 
-  app.use(express.static(distPath));
+  // Serve build-time prerendered per-route HTML (dist/public/<route>/index.html)
+  // directly at the clean URL — no trailing-slash 301, so the canonical
+  // (e.g. /home) matches the served URL exactly.
+  app.get("*", (req, res, next) => {
+    const urlPath = req.path;
+    if (urlPath.startsWith("/api/")) return next();
+    if (/\.[a-zA-Z0-9]+$/.test(urlPath)) return next(); // assets, not pages
+    const normalized = urlPath.length > 1 ? urlPath.replace(/\/+$/, "") : urlPath;
+    const candidate = path.join(distPath, normalized, "index.html");
+    if (fs.existsSync(candidate)) {
+      return res.sendFile(candidate);
+    }
+    next();
+  });
+
+  app.use(express.static(distPath, { redirect: false }));
 
   const membersPath = path.resolve(distPath, "members");
   const membersIndexPath = path.resolve(membersPath, "index.html");
