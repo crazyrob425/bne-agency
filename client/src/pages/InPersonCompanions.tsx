@@ -105,7 +105,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "Does BNE take a percentage of my earnings?",
-    answer: "No. BNE operates on transparent flat monthly partnership retainers. You keep 100% of your earnings — we never touch your income.",
+    answer: "Our standard management partnership is percentage-based: nothing upfront, and we only earn when you earn. If you'd rather keep 100% of everything you make, flat-rate advisory and marketing packages are available instead.",
   },
 ]);
 
@@ -218,7 +218,7 @@ export default function InPersonCompanions() {
           <h2 className="text-2xl font-display font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "Does BNE take a percentage of my earnings?", a: "No. Flat monthly retainers only — you keep 100% of everything you earn." },
+              { q: "Does BNE take a percentage of my earnings?", a: "Our standard management partnership is percentage-based: nothing upfront, and we only earn when you earn. If you'd rather keep 100% of everything you make, flat-rate advisory and marketing packages are available instead." }},
               { q: "I'm established already. What would change?", a: "Most established providers run on improvised systems — spreadsheets, memory, and hope. We replace that with professional infrastructure: real screening, real books, real brand equity." },
               { q: "How discreet is the partnership itself?", a: "Completely. Anonymous entities, encrypted comms, and strict compartmentalization apply to our relationship too — not just your public brand." },
               { q: "What do you need from me to start?", a: "Apply for a free confidential consultation. We review your current operation and propose the exact infrastructure for your situation." },
