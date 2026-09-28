@@ -37,6 +37,9 @@ import TeaserForge from "./pages/tools/TeaserForge";
 import BlacklistedLinks from "./pages/tools/BlacklistedLinks";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import AllServices from "./pages/AllServices";
+import OnlyFansManagement from "./pages/OnlyFansManagement";
+import WebcamModels from "./pages/WebcamModels";
+import InPersonCompanions from "./pages/InPersonCompanions";
 import MarketingAssets from "./pages/MarketingAssets";
 import MediaDownloads from "./pages/MediaDownloads";
 import University from "./pages/University";
@@ -102,6 +105,9 @@ function Router() {
       <Route path="/pricing" component={ServiceTiers} />
       <Route path="/payment/success" component={PaymentSuccess} />
       <Route path="/services" component={AllServices} />
+  <Route path="/onlyfans-management" component={OnlyFansManagement} />
+  <Route path="/webcam-models" component={WebcamModels} />
+  <Route path="/in-person-companions" component={InPersonCompanions} />
       <Route path="/media" component={MarketingAssets} />
       <Route path="/downloads" component={MediaDownloads} />
       <Route path="/tools" component={Tools} />
