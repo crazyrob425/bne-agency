@@ -49,7 +49,13 @@ function StatCard({ value, suffix, label, sublabel, color }: {
 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
-  const count = useCounter(value, 2000, inView);
+  // Safety net: if the in-view observer never fires, start the count-up anyway
+  const [forceStart, setForceStart] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setForceStart(true), 2500);
+    return () => clearTimeout(t);
+  }, []);
+  const count = useCounter(value, 2000, inView || forceStart);
   return (
     <motion.div
       ref={ref}
