@@ -239,7 +239,7 @@ export const pageSeoConfig: Record<string, SeoMetadata> = {
   },
   'webcam-models': {
     title: 'Webcam Model Management — Grow Your Cam Business | BNE Studio',
-    description: 'BNE Studio manages webcam model businesses end-to-end: show strategy, tip menu engineering, high-spender cultivation, clip repurposing, privacy shielding, and sustainable scheduling.',
+    description: 'BNE Studio manages webcam model businesses end-to-end: multistream simulcasting, live show chatter service, tip menu engineering, high-spender cultivation, clip repurposing, privacy shielding, and sustainable scheduling.',
     canonical: '/webcam-models',
     ogType: 'website',
     keywords: 'webcam model management, cam model agency, camgirl management, chaturbate management, webcam business growth',
