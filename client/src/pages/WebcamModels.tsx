@@ -12,7 +12,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Video, Gift, HeartHandshake, Clapperboard, EyeOff, CalendarCheck,
-  ArrowRight, Layers, Radio, MessagesSquare
+  ArrowRight, Layers, Radio, MessagesSquare, UserCheck
 } from "lucide-react";
 
 const fadeUp = {
@@ -113,6 +113,10 @@ const faqSchema = buildFaqSchema([
     question: "Can I really stream to multiple cam sites at the same time?",
     answer: "Yes — multistreaming (simulcasting) lets one broadcast run on several platforms simultaneously. We handle the encoding setup, per-platform rules, and chat aggregation so you just perform.",
   },
+  {
+    question: "How do duo shows and collab partnerships work?",
+    answer: "Tell us what you —re looking for and we connect you with trusted, identity-verified performers from our network — for duo broadcasts, guest appearances, and content collabs. Every partner is vetted, so you never collab with a stranger.",
+  },
 ]);
 
 export default function WebcamModels() {
@@ -123,7 +127,7 @@ export default function WebcamModels() {
         description="BNE Studio manages webcam model businesses end-to-end: show strategy, tip menu engineering, high-spender cultivation, clip repurposing, privacy shielding, and sustainable scheduling."
         canonical="/webcam-models"
         schema={[serviceSchema, faqSchema]}
-        keywords="webcam model management, cam model agency, camgirl management, chaturbate management, webcam business growth, cam model marketing, multistream cam setup, simulcast streaming, cam chatter service, live show chatters"
+        keywords="webcam model management, cam model agency, camgirl management, chaturbate management, webcam business growth, cam model marketing, multistream cam setup, simulcast streaming, cam chatter service, live show chatters, duo cam shows, verified performer network"
       />
       <Navigation />
 
@@ -164,9 +168,9 @@ export default function WebcamModels() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-violet-400 text-xs font-bold tracking-widest uppercase">Signature Services</span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">Two Things That Change Everything</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">Three Things That Change Everything</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
               className="bg-slate-900/60 p-8 border border-violet-500/30 rounded-2xl">
               <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-5">
@@ -193,6 +197,20 @@ export default function WebcamModels() {
                 while you focus on performing. Your energy stays on camera; ours stays on the chat.
               </p>
               <p className="text-slate-500 text-xs leading-relaxed">An engaged room tips more, stays longer, and ranks higher on every cam platform algorithm.</p>
+            </motion.div>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="bg-slate-900/60 p-8 border border-violet-500/30 rounded-2xl md:col-span-2 lg:col-span-1">
+              <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-5">
+                <UserCheck className="h-6 w-6 text-violet-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-zinc-100 mb-3 font-display">Trusted Verified Partners for Duo Shows</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
+                Duo shows print money — when the partner is trustworthy. We connect you with trusted,
+                identity-verified performers for duo broadcasts, guest appearances, and content collabs.
+                No strangers, no drama, no scams: every partner is vetted through our network so you can
+                collab with confidence and cross-pollinate audiences.
+              </p>
+              <p className="text-slate-500 text-xs leading-relaxed">Duo and collab shows consistently rank among the highest-tipped formats on every major cam platform.</p>
             </motion.div>
           </div>
         </div>
@@ -265,6 +283,7 @@ export default function WebcamModels() {
               { q: "Can you help me stay anonymous?", a: "Yes. Geo-blocking, stage-name operations, DMCA enforcement, and compartmentalized tech are core to our privacy stack — including fully faceless positioning strategies." },
               { q: "What do you need from me to start?", a: "Apply for a free confidential consultation. We review your current setup (or your goals if you're new) and propose the exact systems for your situation." },
               { q: "How does the multistream setup work?", a: "We configure your encoding and platform accounts so a single broadcast goes live on multiple cam sites at once — with chats aggregated so you never miss a tip." },
+              { q: "How do duo shows and collabs work?", a: "We match you with trusted, identity-verified performers for duo broadcasts, guest appearances, and content collabs — vetted through our network, so no strangers." },
             ].map((faq, i) => (
               <div key={faq.q} className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl">
                 <h4 className="text-white font-semibold text-sm mb-2">{faq.q}</h4>
