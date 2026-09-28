@@ -164,7 +164,7 @@ function main() {
   try {
     for (const niche of NICHE_DATABASE as any[]) {
       const route = getNichePath(niche);
-      const name = niche.name || niche.title || "Creator Niche";
+      const name = niche.keyword || niche.name || niche.title || "Creator Niche";
       metas.push({
         route,
         title: `${name} — Creator Niche Analysis — B.N.E. Studio`,
