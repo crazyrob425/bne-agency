@@ -100,7 +100,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "Does BNE charge a percentage of my earnings?",
-    answer: "No. BNE operates strictly on transparent, flat monthly partnership retainers. You keep 100% of your earnings across all platforms.",
+    answer: "BNE offers two partnership models. Our standard Growth Partnership is percentage-based — nothing upfront, we only earn when you earn (qualification required). If you would rather keep 100% of your earnings, transparent flat monthly retainers are available instead.",
   },
 ]);
 
