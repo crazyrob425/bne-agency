@@ -26,7 +26,7 @@ const SITE_URL = baseMetadata.siteUrl;
 const DIST = resolve(process.cwd(), "dist/public");
 
 // Routes that must never get a prerendered file (redirects, private, or app-only)
-const SKIP_ROUTES = new Set(["/home", "/404", "/dashboard", "/admin", "/members"]);
+const SKIP_ROUTES = new Set(["/404", "/dashboard", "/admin", "/members"]);
 
 interface RouteMeta {
   route: string;
@@ -90,6 +90,13 @@ function injectHead(html: string, m: RouteMeta): string {
   head = head.replace(/<meta name="twitter:description" content=".*?" \/>/, `<meta name="twitter:description" content="${desc}" />`);
   head = head.replace(/<meta name="twitter:image" content=".*?" \/>/, `<meta name="twitter:image" content="${m.image}" />`);
 
+  if (m.route === "/") {
+    head = head.replace(
+      "</head>",
+      '    <meta name="robots" content="noindex, nofollow" />\n  </head>'
+    );
+  }
+
   if (m.jsonLd.length > 0) {
     const tags = m.jsonLd
       .map((s) => `<script type="application/ld+json">${JSON.stringify(s).replace(/<\//g, "<\\/")}</script>`)
@@ -132,7 +139,7 @@ function main() {
   for (const route of extractRoutes()) {
     const cfg = byCanonical.get(route);
     const m = metaFromConfig(route, cfg || {});
-    if (route === "/") m.jsonLd.push(organizationSchema, websiteSchema);
+    if (route === "/home") m.jsonLd.push(organizationSchema, websiteSchema);
     metas.push(m);
   }
 
