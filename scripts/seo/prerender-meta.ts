@@ -21,6 +21,7 @@ import {
 } from "../../client/src/seo.config.js";
 import { articles } from "../../client/src/data/blogArticles.js";
 import { NICHE_DATABASE, getNichePath } from "../../client/src/data/nicheDatabase.js";
+import { FREE_SOFTWARE } from "../../client/src/data/freeSoftware.js";
 
 const SITE_URL = baseMetadata.siteUrl;
 const DIST = resolve(process.cwd(), "dist/public");
@@ -177,6 +178,49 @@ function main() {
     }
   } catch (e) {
     console.warn("prerender-meta: niche pages skipped:", (e as Error).message);
+  }
+
+  // Free software review pages — SoftwareApplication + breadcrumb SEO per tool
+  try {
+    for (const tool of FREE_SOFTWARE as any[]) {
+      const route = `/free-software/${tool.slug}`;
+      const url = `${SITE_URL}${route}`;
+      metas.push({
+        route,
+        title: `${tool.name} Review — Free for Creators — B.N.E. Studio`,
+        description: tool.tagline || tool.seoDescription || baseMetadata.defaultDescription,
+        canonical: route,
+        ogType: "website",
+        image: toAbsolute(tool.screenshot || baseMetadata.defaultImage),
+        jsonLd: [
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: tool.name,
+            url,
+            applicationCategory: tool.category || "MultimediaApplication",
+            operatingSystem: (tool.platforms || []).join(", "),
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: String(tool.rating || 4),
+              bestRating: "5",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+              { "@type": "ListItem", position: 2, name: "Free Software", item: `${SITE_URL}/free-software` },
+              { "@type": "ListItem", position: 3, name: tool.name, item: url },
+            ],
+          },
+        ],
+      });
+    }
+  } catch (e) {
+    console.warn("prerender-meta: free-software pages skipped:", (e as Error).message);
   }
 
   let count = 0;

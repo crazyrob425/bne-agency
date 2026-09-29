@@ -71,6 +71,13 @@ export const pageSeoConfig: Record<string, SeoMetadata> = {
     ogType: 'website',
     keywords: 'free creator tools, OnlyFans calculator, adult creator tools, SEO optimizer, revenue calculator',
   },
+  'free-software': {
+    title: 'Free Software Arsenal for Creators — 40 Free & Open-Source Tools',
+    description: '40 genuinely free and open-source apps for OnlyFans creators, webcam models, and in-person companions — streaming, editing, scheduling, bookkeeping, and safety. Honest free-tier details, no trials masquerading as free.',
+    canonical: '/free-software',
+    ogType: 'website',
+    keywords: 'free software for creators, open source creator tools, free OBS plugins, free video editor, free scheduling app, creator free software',
+  },
   // creatorTools key used by CreatorTools.tsx
   creatorTools: {
     title: 'Creator Tool Stack — Productivity & Growth Tools for Creators',
