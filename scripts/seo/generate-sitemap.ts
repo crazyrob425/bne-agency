@@ -14,6 +14,7 @@ import { SitemapStream } from "sitemap";
 // Import blog articles for dynamic blog URL inclusion
 import { articles } from "../../client/src/data/blogArticles.js";
 import { NICHE_DATABASE, getNichePath } from "../../client/src/data/nicheDatabase.js";
+import { FREE_SOFTWARE } from "../../client/src/data/freeSoftware.js";
 
 const SITE_URL = "https://blacklisted.studio";
 const OUTPUT_PATH = resolve(process.cwd(), "dist/public/sitemap.xml");
@@ -135,6 +136,16 @@ async function generateSitemap() {
         caption: g.caption,
         title: g.alt,
       })),
+    });
+  }
+
+  // Add all free-software review pages
+  for (const tool of FREE_SOFTWARE) {
+    sitemapStream.write({
+      url: `/free-software/${tool.slug}`,
+      changefreq: "monthly",
+      priority: 0.7,
+      lastmod: today,
     });
   }
 

@@ -22,8 +22,11 @@ import {
   PlayCircle,
   BookOpen,
   BadgeCheck,
+  Download,
+  Star,
 } from "lucide-react";
 import { getArticleBySlug } from "@/data/blogArticles";
+import { getToolsByGroup, type CreatorGroup, type FreeSoftwareTool } from "@/data/freeSoftware";
 import type { CreatorResourceConfig, ToolEntry } from "@/data/creatorResources";
 
 const TOOL_ICONS: Record<string, typeof Calculator> = {
@@ -254,6 +257,95 @@ export function IntelCollection({ config }: { config: CreatorResourceConfig }) {
           <Link href="/blog">
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-[oklch(0.85_0.14_85)] transition-colors cursor-pointer">
               Browse the full intel library <ArrowRight className="h-4 w-4" />
+            </span>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * FreeSoftwareSpotlight — the free/open-source software menu for one creator
+ * lane. Shown on the creator landing pages under the resource hub.
+ */
+function licensePill(tool: FreeSoftwareTool) {
+  if (tool.licenseType === "open-source")
+    return { label: "Open Source", cls: "bg-sky-500/15 border-sky-500/40 text-sky-300" };
+  if (tool.licenseType === "free")
+    return { label: "100% Free", cls: "bg-emerald-500/15 border-emerald-500/40 text-emerald-300" };
+  return { label: "Freemium", cls: "bg-amber-500/15 border-amber-500/40 text-amber-300" };
+}
+
+export function FreeSoftwareSpotlight({ group, heading }: { group: CreatorGroup; heading?: string }) {
+  const tools = getToolsByGroup(group).slice(0, 6);
+  if (tools.length === 0) return null;
+
+  return (
+    <section className="py-20 sm:py-24 bg-[oklch(0.07_0.008_85)] border-y border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <span className="inline-flex items-center gap-2 text-sky-400 text-xs font-semibold uppercase tracking-[0.2em]">
+            <Download className="h-3.5 w-3.5" /> Free software, zero cost
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: "Space Grotesk" }}>
+            {heading ?? "Your Free Software Stack"}
+          </h2>
+          <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: "DM Sans" }}>
+            Every app below is genuinely free or open source — researched across the web and GitHub,
+            honestly reviewed, with the freemium traps called out. Each gets its own full review.
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+          {tools.map((tool, i) => {
+            const pill = licensePill(tool);
+            return (
+              <motion.div
+                key={tool.slug}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+              >
+                <Link href={`/free-software/${tool.slug}`}>
+                  <div className="group h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[oklch(0.78_0.16_85/40%)] hover:bg-white/[0.05] cursor-pointer flex flex-col">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border ${pill.cls}`}>
+                        {pill.label}
+                      </span>
+                      <span className="inline-flex items-center gap-0.5">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star key={s} className={`h-3 w-3 ${s <= tool.rating ? "text-[oklch(0.78_0.16_85)] fill-[oklch(0.78_0.16_85)]" : "text-zinc-700"}`} />
+                        ))}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-zinc-100 mb-1 leading-snug group-hover:text-[oklch(0.9_0.12_85)] transition-colors" style={{ fontFamily: "Space Grotesk" }}>
+                      {tool.name}
+                    </h3>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">{tool.category}</p>
+                    <p className="text-zinc-400 text-[13px] leading-relaxed mb-5 flex-1" style={{ fontFamily: "DM Sans" }}>
+                      {tool.tagline}
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 text-[oklch(0.85_0.14_85)] text-[13px] font-semibold group-hover:gap-2.5 transition-all">
+                      Read the full review <ArrowUpRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <div className="text-center">
+          <Link href="/free-software">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-[oklch(0.85_0.14_85)] transition-colors cursor-pointer">
+              Browse all {getToolsByGroup(group).length} free tools for your lane <ArrowRight className="h-4 w-4" />
             </span>
           </Link>
         </div>

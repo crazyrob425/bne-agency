@@ -396,6 +396,11 @@ export default function FreeCreatorTools() {
                   Watch Free Courses
                 </span>
               </Link>
+              <Link href="/free-software">
+                <span className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-200 text-base font-semibold hover:bg-sky-500/15 transition-all cursor-pointer">
+                  Browse 40 Free Apps
+                </span>
+              </Link>
             </div>
           </motion.div>
         </div>

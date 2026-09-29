@@ -9,7 +9,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import { ToolMenuCards, IntelCollection } from "@/components/CreatorResourceHub";
+import { ToolMenuCards, IntelCollection, FreeSoftwareSpotlight } from "@/components/CreatorResourceHub";
 import { CREATOR_RESOURCES } from "@/data/creatorResources";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
@@ -216,6 +216,7 @@ export default function OnlyFansManagement() {
             {/* ── FREE TOOL MENU + INTEL COLLECTION ── */}
       <ToolMenuCards config={CREATOR_RESOURCES.onlyfans} />
       <IntelCollection config={CREATOR_RESOURCES.onlyfans} />
+      <FreeSoftwareSpotlight group="onlyfans" heading="Free Software for Fan-Platform Creators" />
 
       {/* ── TESTIMONIALS ── */}
       <TestimonialsSection

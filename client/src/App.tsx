@@ -20,6 +20,8 @@ import ArticleDetail from "./pages/ArticleDetail";
 import Pricing from "./pages/Pricing";
 import Tools from "./pages/Tools";
 import FreeCreatorTools from "./pages/FreeCreatorTools";
+import FreeSoftware from "./pages/FreeSoftware";
+import SoftwareReview from "./pages/SoftwareReview";
 import CreatorCalculator from "./pages/CreatorCalculator";
 import ContentStrategyEngine from "./pages/tools/ContentStrategyEngine";
 import IncomeVerifier from "./pages/tools/IncomeVerifier";
@@ -114,6 +116,8 @@ function Router() {
       <Route path="/downloads" component={MediaDownloads} />
       <Route path="/tools" component={Tools} />
       <Route path="/free-creator-tools" component={FreeCreatorTools} />
+      <Route path="/free-software" component={FreeSoftware} />
+      <Route path="/free-software/:slug" component={SoftwareReview} />
       <Route path="/tools/calculator" component={CreatorCalculator} />
       <Route path="/tools/strategy-engine" component={ContentStrategyEngine} />
       <Route path="/tools/income-verifier" component={IncomeVerifier} />
