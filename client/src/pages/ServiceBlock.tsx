@@ -56,18 +56,31 @@ export function ServiceBlock({
   );
 
   if (link) {
+    const card = (
+      <motion.div
+        variants={fadeUp}
+        custom={0}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+        className={`glass-card p-6 border transition-all duration-300 hover:-translate-y-1 cursor-pointer group flex flex-col h-full ${border}`}
+      >
+        {content}
+      </motion.div>
+    );
+
+    // External URLs (sister sites) use a plain anchor — wouter's Link is for internal routes only.
+    if (link.startsWith("http")) {
+      return (
+        <a href={link} className="block h-full">
+          {card}
+        </a>
+      );
+    }
+
     return (
       <Link href={link}>
-        <motion.div
-          variants={fadeUp}
-          custom={0}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className={`glass-card p-6 border transition-all duration-300 hover:-translate-y-1 cursor-pointer group flex flex-col h-full ${border}`}
-        >
-          {content}
-        </motion.div>
+        {card}
       </Link>
     );
   }
