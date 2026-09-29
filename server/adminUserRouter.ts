@@ -9,6 +9,7 @@ import { and, eq, sql, desc } from "drizzle-orm";
 import { adminProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
 import { users, applicationDrafts, subscribers, quizProgress } from "../drizzle/schema";
+import { MEMBER_MODULE_KEYS } from "@shared/memberModules";
 
 const permissionSchema = z.object({
   dashboard: z.boolean().default(true),
@@ -17,6 +18,11 @@ const permissionSchema = z.object({
   admin: z.boolean().default(false),
   messaging: z.boolean().default(false),
   billing: z.boolean().default(false),
+  /** Per-client module keys from the shared registry (shared/memberModules.ts). */
+  modules: z.array(z.string()).default([]).refine(
+    (mods) => mods.every((m) => MEMBER_MODULE_KEYS.includes(m)),
+    { message: "Unknown module key" }
+  ),
 });
 
 export const adminUserRouter = router({

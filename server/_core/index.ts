@@ -20,7 +20,7 @@ import cookieParser from "cookie-parser";
 import { COOKIE_NAME } from "@shared/const";
 import multer from "multer";
 import { getDb } from "../db";
-import { onboardingApplications, users } from "../../drizzle/schema";
+import { onboardingApplications, users, contentSubmissions } from "../../drizzle/schema";
 import { desc, eq } from "drizzle-orm";
 
 // Resolve project root correctly for both dev (tsx) and production (esbuild bundled)
@@ -480,13 +480,39 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
     }
   });
 
-  app.get('/api/admin/applications', async (req, res) => {
+  // ─── Admin session gate (mirrors server/_core/trpc.ts adminProcedure) ──────────
+  // Every /api/admin/* Express endpoint must run through this. There is no
+  // legitimate unauthenticated caller for admin user/application management.
+  async function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
+    try {
+      const db = await getDb();
+      if (!db) return res.status(500).json({ error: 'Database unavailable' });
+      let openId: string | null = null;
+      try {
+        const session = await sdk.authenticateRequest(req);
+        openId = session?.openId ?? null;
+      } catch {
+        openId = null; // no valid session cookie
+      }
+      if (!openId) return res.status(401).json({ error: 'Not signed in' });
+      const [user] = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+      if (!user || user.role !== 'admin') {
+        return res.status(403).json({ error: 'Admin access required' });
+      }
+      (req as any).adminUser = user;
+      next();
+    } catch (error: any) {
+      console.error('Admin gate error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  app.get('/api/admin/applications', requireAdmin, async (req, res) => {
     try {
       const db = await getDb();
       if (!db) {
         return res.status(500).json({ error: 'Database unavailable' });
       }
-      // In production this should verify admin session (omitted for now since it's an internal MVP)
       const apps = await db.select().from(onboardingApplications).orderBy(desc(onboardingApplications.createdAt));
       res.json({ applications: apps });
     } catch (error: any) {
@@ -497,7 +523,7 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
 
   // ─── ADMIN USER MANAGEMENT ─────────────────────────────────────────────────
   // List all users with permission summary
-  app.get('/api/admin/users', async (req, res) => {
+  app.get('/api/admin/users', requireAdmin, async (req, res) => {
     try {
       const db = await getDb();
       if (!db) return res.status(500).json({ error: 'Database unavailable' });
@@ -522,7 +548,7 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
   });
 
   // Update user permissions
-  app.post('/api/admin/users/:id/permissions', async (req, res) => {
+  app.post('/api/admin/users/:id/permissions', requireAdmin, async (req, res) => {
     try {
       const db = await getDb();
       if (!db) return res.status(500).json({ error: 'Database unavailable' });
@@ -541,7 +567,7 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
   });
 
   // Grant members access
-  app.post('/api/admin/users/:id/grant-access', async (req, res) => {
+  app.post('/api/admin/users/:id/grant-access', requireAdmin, async (req, res) => {
     try {
       const db = await getDb();
       if (!db) return res.status(500).json({ error: 'Database unavailable' });
@@ -558,7 +584,7 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
   });
 
   // Revoke members access
-  app.post('/api/admin/users/:id/revoke-access', async (req, res) => {
+  app.post('/api/admin/users/:id/revoke-access', requireAdmin, async (req, res) => {
     try {
       const db = await getDb();
       if (!db) return res.status(500).json({ error: 'Database unavailable' });
@@ -580,33 +606,135 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
       const db = await getDb();
       if (!db) return res.json({ hasAccess: false, reason: 'Database unavailable' });
 
-      // Check OAuth/local session (primary auth method)
+      // Check OAuth/local session (the only accepted auth method).
+      // There is intentionally no email-query-param fallback: granting access
+      // on the basis of a guessable email address is not authentication.
       try {
         const session = await sdk.authenticateRequest(req);
         if (session && session.openId) {
           const [user] = await db.select().from(users).where(eq(users.openId, session.openId)).limit(1);
-          if (user && user.membersAccessGranted === 1) {
-            return res.json({ hasAccess: true, method: 'local', userId: user.id, permissions: user.membersPermissions });
+          // Admins always have members-area access; members need an explicit grant.
+          if (user && (user.membersAccessGranted === 1 || user.role === 'admin')) {
+            return res.json({
+              hasAccess: true,
+              method: 'local',
+              userId: user.id,
+              isAdmin: user.role === 'admin',
+              permissions: user.membersPermissions,
+            });
           }
         }
       } catch (e) {
         // No valid local session
       }
 
-      // Fallback: check if there's a Firebase UID linked to the session via email
-      // (frontend can pass email as query param for Firebase-only users)
-      const email = req.query.email as string | undefined;
-      if (email) {
-        const [user] = await db.select().from(users).where(eq(users.email, email.toLowerCase())).limit(1);
-        if (user && user.membersAccessGranted === 1) {
-          return res.json({ hasAccess: true, method: 'email-link', userId: user.id, permissions: user.membersPermissions });
-        }
-      }
-
       return res.json({ hasAccess: false, reason: 'No valid session with members access' });
     } catch (error: any) {
       console.error('Failed to check members access:', error);
       res.status(500).json({ hasAccess: false, reason: error.message });
+    }
+  });
+
+  // ─── MEMBERS REVIEW INBOX (file bytes) ─────────────────────────────────────
+  // Client uploads for staff content review. Files land OUTSIDE the public dir
+  // (uploads/review-inbox/) and are served only through the gated download
+  // endpoint below — never a public URL.
+
+  /** Session gate mirroring memberProcedure: members access or admin. */
+  async function requireMember(req: express.Request, res: express.Response, next: express.NextFunction) {
+    try {
+      const db = await getDb();
+      if (!db) return res.status(500).json({ error: 'Database unavailable' });
+      let openId: string | null = null;
+      try {
+        const session = await sdk.authenticateRequest(req);
+        openId = session?.openId ?? null;
+      } catch {
+        openId = null;
+      }
+      if (!openId) return res.status(401).json({ error: 'Not signed in' });
+      const [user] = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+      if (!user || (user.membersAccessGranted !== 1 && user.role !== 'admin')) {
+        return res.status(403).json({ error: 'Members access required' });
+      }
+      (req as any).memberUser = user;
+      next();
+    } catch (error: any) {
+      console.error('Member gate error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  const REVIEW_INBOX_DIR = path.resolve(PROJECT_ROOT, 'uploads', 'review-inbox');
+  try { fsSync.mkdirSync(REVIEW_INBOX_DIR, { recursive: true }); } catch { /* exists */ }
+
+  const reviewUpload = multer({
+    storage: multer.diskStorage({
+      destination: (_req, _file, cb) => cb(null, REVIEW_INBOX_DIR),
+      filename: (_req, file, cb) => {
+        const ext = path.extname(file.originalname || '').toLowerCase().slice(0, 10);
+        cb(null, `${crypto.randomUUID()}${ext}`);
+      },
+    }),
+    limits: { fileSize: 250 * 1024 * 1024 }, // 250 MB — photo or short video
+    fileFilter: (_req, file, cb) => {
+      const ok = /^(image|video)\//.test(file.mimetype || '');
+      cb(ok ? null : new Error('Only image and video files are accepted'), ok);
+    },
+  });
+
+  // Upload bytes; client then registers metadata via trpc.members.createSubmission
+  // (multer errors are converted to JSON so the portal can show them).
+  const reviewUploadSingle = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    reviewUpload.single("file")(req, res, (err: any) => {
+      if (err) {
+        const msg = err.code === "LIMIT_FILE_SIZE"
+          ? "File is larger than the 250 MB limit."
+          : (err.message || "Upload rejected.");
+        return res.status(400).json({ error: msg });
+      }
+      next();
+    });
+  };
+  app.post('/api/members/upload', requireMember, reviewUploadSingle, async (req, res) => {
+    try {
+      const f = (req as any).file;
+      if (!f) return res.status(400).json({ error: 'No file received' });
+      res.json({
+        filePath: `uploads/review-inbox/${f.filename}`,
+        fileName: f.originalname,
+        mimeType: f.mimetype,
+        fileSize: f.size,
+      });
+    } catch (error: any) {
+      console.error('Review inbox upload error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Gated download: the submitting member or an admin only.
+  app.get('/api/members/files/:id', requireMember, async (req, res) => {
+    try {
+      const db = await getDb();
+      if (!db) return res.status(500).json({ error: 'Database unavailable' });
+      const id = parseInt(req.params.id);
+      if (!Number.isFinite(id)) return res.status(400).json({ error: 'Bad id' });
+      const [sub] = await db.select().from(contentSubmissions).where(eq(contentSubmissions.id, id)).limit(1);
+      if (!sub) return res.status(404).json({ error: 'Not found' });
+      const me = (req as any).memberUser;
+      if (me.role !== 'admin' && sub.userId !== me.id) {
+        return res.status(403).json({ error: 'Not your file' });
+      }
+      const rel = sub.filePath;
+      if (!rel.startsWith('uploads/review-inbox/') || rel.includes('..')) {
+        return res.status(400).json({ error: 'Bad path' });
+      }
+      const abs = path.resolve(PROJECT_ROOT, rel);
+      if (!abs.startsWith(REVIEW_INBOX_DIR)) return res.status(400).json({ error: 'Bad path' });
+      res.sendFile(abs);
+    } catch (error: any) {
+      console.error('Review inbox download error:', error);
+      res.status(500).json({ error: error.message });
     }
   });
 

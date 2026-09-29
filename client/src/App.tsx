@@ -67,6 +67,12 @@ import Dashboard from "./pages/Dashboard";
 import AdminHub from "./pages/admin/AdminHub";
 import GeoBlockManager from "./pages/admin/GeoBlockManager";
 import IdentityShield from "./pages/admin/IdentityShield";
+import MemberModules from "./pages/admin/MemberModules";
+import ContentReview from "./pages/admin/ContentReview";
+import PortalHome from "./pages/portal/PortalHome";
+import PortalContentReview from "./pages/portal/PortalContentReview";
+import PortalLeakShield from "./pages/portal/PortalLeakShield";
+import PortalStudioEditor from "./pages/portal/PortalStudioEditor";
 import PerformanceUtilities from "./pages/PerformanceUtilities";
 import Templates from "./pages/Templates";
 import ResourcesVault from "./pages/ResourcesVault";
@@ -155,10 +161,16 @@ function Router() {
       <Route path="/security-measures" component={SecurityMeasures} />
       <Route path="/screening-systems" component={ScreeningSystems} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/portal" component={PortalHome} />
+      <Route path="/portal/content-review" component={PortalContentReview} />
+      <Route path="/portal/leak-shield" component={PortalLeakShield} />
+      <Route path="/portal/studio-editor" component={PortalStudioEditor} />
       {/* Admin operations console — role-gated, noindex, excluded from sitemap/prerender, linked from nowhere public */}
       <Route path="/admin" component={AdminHub} />
       <Route path="/admin/geo-blocking" component={GeoBlockManager} />
       <Route path="/admin/identity-shield" component={IdentityShield} />
+      <Route path="/admin/member-modules" component={MemberModules} />
+      <Route path="/admin/content-review" component={ContentReview} />
       <Route path="/performance-utilities" component={PerformanceUtilities} />
       <Route path="/templates" component={Templates} />
       <Route path="/resources" component={ResourcesVault} />

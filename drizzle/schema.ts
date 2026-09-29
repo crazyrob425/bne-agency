@@ -218,3 +218,59 @@ export const geoBlockProfiles = pgTable("geo_block_profiles", {
 export type GeoBlockProfile = typeof geoBlockProfiles.$inferSelect;
 export type InsertGeoBlockProfile = typeof geoBlockProfiles.$inferInsert;
 
+
+/**
+ * Content review submissions — a client uploads a photo/video to share
+ * privately with staff for honest feedback before it goes up for sale.
+ * Files live on the server under uploads/review-inbox/ and are served only
+ * through gated endpoints (never a public URL).
+ */
+export const contentSubmissions = pgTable("content_submissions", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId").references(() => users.id, { onDelete: "set null" }),
+  /** Original client filename (display only). */
+  fileName: text("fileName").notNull(),
+  /** Server-relative storage path, e.g. uploads/review-inbox/<uuid>.mp4 */
+  filePath: text("filePath").notNull(),
+  mimeType: text("mimeType").notNull(),
+  fileSize: integer("fileSize").notNull(),
+  /** Optional client note: what they want feedback on. */
+  title: text("title"),
+  notes: text("notes"),
+  /** pending_review | approved | needs_changes */
+  status: text("status").default("pending_review").notNull(),
+  /** Staff feedback text. */
+  staffFeedback: text("staffFeedback"),
+  reviewedBy: integer("reviewedBy").references(() => users.id, { onDelete: "set null" }),
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+  reviewedAt: timestamp("reviewedAt"),
+});
+
+export type ContentSubmission = typeof contentSubmissions.$inferSelect;
+export type InsertContentSubmission = typeof contentSubmissions.$inferInsert;
+
+/**
+ * Content fingerprints — the DMCA tracking registry.
+ * Every Studio Editor export is hashed (SHA-256 + perceptual dHash) and
+ * stamped with a unique watermark tracking ID. The watermark text, splash
+ * screen, and this registry row all carry the same ID, so a leaked file
+ * found anywhere can be traced back to the source asset.
+ * (There is no automated web-crawler yet — this registry is what a scanner
+ * or a manual leak report is matched against.)
+ */
+export const contentFingerprints = pgTable("content_fingerprints", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId").references(() => users.id, { onDelete: "set null" }),
+  /** Unique tracking ID, also burned into the watermark/splash, e.g. BNE-7F3K9Q */
+  watermarkId: text("watermarkId").notNull().unique(),
+  /** SHA-256 of the exported file, hex. */
+  fileHash: text("fileHash").notNull(),
+  /** Perceptual dHash (64-bit hex) — survives re-encoding/resizing. */
+  perceptualHash: text("perceptualHash"),
+  fileName: text("fileName").notNull(),
+  mimeType: text("mimeType"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ContentFingerprint = typeof contentFingerprints.$inferSelect;
+export type InsertContentFingerprint = typeof contentFingerprints.$inferInsert;
