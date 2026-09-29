@@ -208,6 +208,35 @@ export const pageSeoConfig: Record<string, SeoMetadata> = {
     keywords: 'creator dashboard, performance tracking, creator metrics',
   },
 
+  // ── Admin operations console (role-gated, never indexed, never in sitemap) ──
+  admin: {
+    title: 'Admin Console',
+    description: 'Restricted site administration console.',
+    canonical: '/admin',
+    noIndex: true,
+    noFollow: true,
+    ogType: 'website',
+    keywords: '',
+  },
+  'admin-geo-blocking': {
+    title: 'Geo-Block Manager',
+    description: 'Restricted admin tool for client geo-blocking requests.',
+    canonical: '/admin/geo-blocking',
+    noIndex: true,
+    noFollow: true,
+    ogType: 'website',
+    keywords: '',
+  },
+  'admin-identity-shield': {
+    title: 'Identity Shield',
+    description: 'Restricted admin privacy toolkit.',
+    canonical: '/admin/identity-shield',
+    noIndex: true,
+    noFollow: true,
+    ogType: 'website',
+    keywords: '',
+  },
+
   // ── Legal / Info ─────────────────────────────────────────────────────────────
   legal: {
     title: 'Legal — Terms, Privacy & Legal Information',

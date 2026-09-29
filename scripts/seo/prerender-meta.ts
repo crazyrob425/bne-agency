@@ -187,7 +187,7 @@ function extractRoutes(): string[] {
   let match;
   while ((match = routeRegex.exec(content)) !== null) {
     const p = match[1];
-    if (!p.includes(":") && !SKIP_ROUTES.has(p) && p !== "*") routes.push(p);
+    if (!p.includes(":") && !SKIP_ROUTES.has(p) && !p.startsWith("/admin/") && p !== "*") routes.push(p);
   }
   return [...new Set(routes)];
 }

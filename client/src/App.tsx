@@ -64,6 +64,9 @@ import PrivacySystems from "./pages/PrivacySystems";
 import SecurityMeasures from "./pages/SecurityMeasures";
 import ScreeningSystems from "./pages/ScreeningSystems";
 import Dashboard from "./pages/Dashboard";
+import AdminHub from "./pages/admin/AdminHub";
+import GeoBlockManager from "./pages/admin/GeoBlockManager";
+import IdentityShield from "./pages/admin/IdentityShield";
 import PerformanceUtilities from "./pages/PerformanceUtilities";
 import Templates from "./pages/Templates";
 import ResourcesVault from "./pages/ResourcesVault";
@@ -152,6 +155,10 @@ function Router() {
       <Route path="/security-measures" component={SecurityMeasures} />
       <Route path="/screening-systems" component={ScreeningSystems} />
       <Route path="/dashboard" component={Dashboard} />
+      {/* Admin operations console — role-gated, noindex, excluded from sitemap/prerender, linked from nowhere public */}
+      <Route path="/admin" component={AdminHub} />
+      <Route path="/admin/geo-blocking" component={GeoBlockManager} />
+      <Route path="/admin/identity-shield" component={IdentityShield} />
       <Route path="/performance-utilities" component={PerformanceUtilities} />
       <Route path="/templates" component={Templates} />
       <Route path="/resources" component={ResourcesVault} />

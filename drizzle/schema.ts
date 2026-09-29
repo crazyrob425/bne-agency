@@ -191,3 +191,30 @@ export const REENGAGEMENT_CADENCE = {
   weeklyDays: 28,
 } as const;
 
+/**
+ * Geo-block profiles — admin-only client privacy records.
+ * One row per client request: which states / counties / cities the client
+ * wants blocked, on which platforms, and fulfillment status.
+ * Only a stage alias is stored — never a legal name.
+ */
+export const geoBlockProfiles = pgTable("geo_block_profiles", {
+  id: serial("id").primaryKey(),
+  /** Stage alias only. Never store a legal name here. */
+  clientAlias: text("clientAlias").notNull(),
+  /** Platform slugs this profile applies to, e.g. ["onlyfans","chaturbate"] */
+  platforms: text("platforms").array().default([]).notNull(),
+  /** Blocked US state codes, e.g. ["WA","OR"] */
+  blockedStates: text("blockedStates").array().default([]).notNull(),
+  /** Finer-grained blocks: [{ state, stateCode, county?, city? }] */
+  blockedLocations: jsonb("blockedLocations").default([]).notNull(),
+  /** requested | configured | verified | on_hold */
+  status: text("status").default("requested").notNull(),
+  notes: text("notes"),
+  createdBy: integer("createdBy").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().$onUpdate(() => new Date()).notNull(),
+});
+
+export type GeoBlockProfile = typeof geoBlockProfiles.$inferSelect;
+export type InsertGeoBlockProfile = typeof geoBlockProfiles.$inferInsert;
+

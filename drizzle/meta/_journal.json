@@ -20,6 +20,13 @@
       "when": 1784545121409,
       "tag": "0002_mysterious_grim_reaper",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790967300000,
+      "tag": "0003_admin_geo_block_profiles",
+      "breakpoints": true
     }
   ],
   "version": "7",
