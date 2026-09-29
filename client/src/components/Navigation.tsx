@@ -144,6 +144,7 @@ const navConfig = [
        ],
      },
    },
+  { id: "free-tools", label: "Free Creator Tools", href: "/free-creator-tools" },
    {
      id: "academy",
     label: "Academy",

@@ -19,6 +19,7 @@ import Blog from "./pages/Blog";
 import ArticleDetail from "./pages/ArticleDetail";
 import Pricing from "./pages/Pricing";
 import Tools from "./pages/Tools";
+import FreeCreatorTools from "./pages/FreeCreatorTools";
 import CreatorCalculator from "./pages/CreatorCalculator";
 import ContentStrategyEngine from "./pages/tools/ContentStrategyEngine";
 import IncomeVerifier from "./pages/tools/IncomeVerifier";
@@ -112,6 +113,7 @@ function Router() {
       <Route path="/media" component={MarketingAssets} />
       <Route path="/downloads" component={MediaDownloads} />
       <Route path="/tools" component={Tools} />
+      <Route path="/free-creator-tools" component={FreeCreatorTools} />
       <Route path="/tools/calculator" component={CreatorCalculator} />
       <Route path="/tools/strategy-engine" component={ContentStrategyEngine} />
       <Route path="/tools/income-verifier" component={IncomeVerifier} />
