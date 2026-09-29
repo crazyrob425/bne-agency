@@ -549,7 +549,7 @@ function NicheDetailRoutePage({ niche }: { niche: Niche }) {
               </div>
 
               <div className="sapphire-glass p-5 diamond-cut border-white/5">
-                <p className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-black mb-3">Search microquote</p>
+                <p className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-black mb-3">Quick answer</p>
                 <blockquote className="text-sm leading-7 text-[#F4F4EE]">{detail.intro}</blockquote>
               </div>
             </div>
@@ -1016,11 +1016,11 @@ export default function NicheMatcher() {
                <section className="mt-20 pt-16 border-t border-white/5">
                  <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10">
                    <div>
-                     <span className="text-[10px] font-black uppercase tracking-[0.8em] text-[#D4AF37] block mb-3">Niche SEO Microquotes</span>
-                     <h3 className="text-4xl font-display text-[#F4F4EE]">Search-Friendly Answers People Actually Ask</h3>
+                     <span className="text-[10px] font-black uppercase tracking-[0.8em] text-[#D4AF37] block mb-3">Niche Quick Answers</span>
+                     <h3 className="text-4xl font-display text-[#F4F4EE]">Answers to Questions People Actually Ask</h3>
                    </div>
                    <p className="max-w-2xl text-xs uppercase tracking-[0.25em] text-[#555] font-black leading-relaxed">
-                     These short answers are designed to be crawled, quoted, and reused by search engines and AI assistants when people ask what a niche means.
+                     Short, straight answers to the questions people ask most about each niche — what it means, who it's for, and how it works.
                    </p>
                  </div>
                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
