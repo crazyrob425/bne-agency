@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link2, Lock, Globe, Users, TrendingUp, Copy, Check, Share2, Eye, Heart, MessageCircle, Crown, Unlock } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 interface Block {
@@ -57,6 +58,7 @@ export default function CreatorHub() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="tools-creator-link" />
       <Navigation />
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/30 via-slate-950 to-teal-950/20" />

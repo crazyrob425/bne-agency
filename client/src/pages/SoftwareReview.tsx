@@ -24,6 +24,12 @@ import {
   getToolsByGroup,
   type FreeSoftwareTool,
 } from "@/data/freeSoftware";
+import {
+  softwareAiDescription,
+  softwareKeywords,
+  softwareFaq,
+  softwareAppSchema,
+} from "@/lib/softwareSeo";
 
 function Stars({ rating }: { rating: number }) {
   return (
@@ -74,8 +80,19 @@ export default function SoftwareReview() {
     <div className="min-h-screen bg-background text-foreground">
       <Seo
         title={`${tool.name} Review — Free ${tool.category} Tool for Creators`}
-        description={tool.tagline}
+        description={softwareAiDescription(tool)}
         canonical={`/free-software/${tool.slug}`}
+        keywords={softwareKeywords(tool)}
+        ogImage={tool.screenshot}
+        schema={[
+          softwareAppSchema(tool),
+          softwareFaq(tool),
+        ]}
+        breadcrumbItems={[
+          { name: "Home", url: "/" },
+          { name: "Free Software", url: "/free-software" },
+          { name: tool.name, url: `/free-software/${tool.slug}` },
+        ]}
       />
       <Navigation />
 

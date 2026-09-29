@@ -67,7 +67,7 @@ export default function University() {
           </style>
         </head>
         <body>
-          <img src="${itemUrl}" />
+          <img src="${itemUrl}" alt="University resource" />
           <script>
             // Wait for image to load before printing
             const img = document.querySelector('img');

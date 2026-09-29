@@ -4,6 +4,7 @@ import { FileText, Copy, Download, Check, Sparkles, Eye, X } from "lucide-react"
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
+import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 export default function ClassifiedGenerator() {
@@ -125,6 +126,7 @@ export default function ClassifiedGenerator() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="tools-classified-generator" />
       <Navigation />
 
       {/* Hero */}

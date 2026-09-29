@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Calendar, Clock, ChevronRight, Zap, Users, Camera, MessageSquare, BarChart3 } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 export default function WorkflowManager() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="tools-workflow-manager" />
       <Navigation />
 
       {/* Hero */}

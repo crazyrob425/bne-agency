@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Workflow, Zap, Play, Plus, Trash2, Settings, GitBranch, MessageSquare, Calendar, Users, ArrowRight, CheckCircle2, Crown, Clock, Activity } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 interface Node {
@@ -88,6 +89,7 @@ export default function AutoPilotStudio() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="tools-autopilot-studio" />
       <Navigation />
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/30 via-slate-950 to-violet-950/20" />

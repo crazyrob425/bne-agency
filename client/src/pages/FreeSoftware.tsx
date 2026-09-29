@@ -8,6 +8,9 @@ import { ArrowUpRight, Zap, Heart, Video, Globe, Star } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import SeoFaq from "@/components/seo/SeoFaq";
+import { FREE_SOFTWARE } from "@/data/freeSoftware";
+import { freeSoftwareCollectionSchema } from "@/lib/softwareSeo";
 import {
   FREE_SOFTWARE,
   FREE_SOFTWARE_GROUPS,
@@ -93,6 +96,8 @@ export default function FreeSoftware() {
         title="Free Software Arsenal — 40 Free & Open-Source Tools for Creators"
         description="The free software arsenal for adult creators: OBS streaming setups, free video and photo editors, audio tools, schedulers, Reddit marketing, CRMs, booking systems, and safety apps — each with a full honest review and safe download link."
         canonical="/free-software"
+        keywords="free software for creators, open source creator tools, free OBS plugins, free video editor, free scheduling app, creator free software"
+        schema={[freeSoftwareCollectionSchema(FREE_SOFTWARE)]}
       />
       <Navigation />
 
@@ -176,6 +181,41 @@ export default function FreeSoftware() {
               </span>
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── FAQ (AEO: question-shaped queries + FAQPage schema) ── */}
+      <section className="relative py-16">
+        <div className="max-w-3xl mx-auto px-4">
+          <SeoFaq
+            items={[
+              {
+                question: "Is the software in this arsenal really free?",
+                answer:
+                  "Yes — every tool here is either open-source or has a genuinely free tier, and each review spells out exactly what's free, what's paywalled, and where the catches are. No free trials pretending to be free software, no 'free*' with an asterisk the size of a house.",
+              },
+              {
+                question: "I'm an OnlyFans creator — where should I start?",
+                answer:
+                  "Start with the fan-platform stack: Shotcut or DaVinci Resolve for editing, Snapseed for photos, Buffer for scheduling teasers, and the browser watermark tool before you post a single preview anywhere. That covers production, promo, and protection for zero dollars.",
+              },
+              {
+                question: "What's the best free setup for webcam models?",
+                answer:
+                  "OBS Studio plus the Multi-RTMP plugin is the backbone — one broadcast to every cam site at once. Add your phone as a camera with DroidCam, clean up audio with the free ReaPlugs VSTs, and grab a free overlay pack so the room looks produced. Total cost: $0.",
+              },
+              {
+                question: "Are these tools safe to download?",
+                answer:
+                  "Every review links to the official download or the project's real GitHub repo — never a reupload or a 'cracked' copy. A few tools carry honest warnings (experimental builds, regional availability, ownership caveats), and those warnings are printed right in the review, not buried.",
+              },
+              {
+                question: "Do I need to be technical to use open-source tools?",
+                answer:
+                  "For most of this list, no. OBS, Shotcut, GIMP, and Joplin all have normal installers and huge tutorial libraries. The self-hosted ones (like the CRM and the comment-funnel tool) are the only ones that ask anything of you technically, and the reviews say so up front.",
+              },
+            ]}
+          />
         </div>
       </section>
 

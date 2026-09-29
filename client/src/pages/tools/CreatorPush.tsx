@@ -4,6 +4,7 @@ import { Calendar, Clock, Zap, Share2, Image, Type, BarChart3, ChevronRight, Cop
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
+import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 const PLATFORMS = ["Twitter/X", "Instagram", "TikTok", "Reddit", "OnlyFans", "Fansly", "ManyVids"] as const;
@@ -94,6 +95,7 @@ export default function CreatorPush() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="tools-content-calendar" />
       <Navigation />
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-rose-950/30 via-slate-950 to-pink-950/20" />

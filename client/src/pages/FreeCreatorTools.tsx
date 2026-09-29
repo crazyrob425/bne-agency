@@ -29,6 +29,7 @@ import {
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import SeoFaq from "@/components/seo/SeoFaq";
 
 interface FreeTool {
   name: string;
@@ -310,6 +311,7 @@ export default function FreeCreatorTools() {
         title="Free Creator Tools — AI Apps & Utilities for Adult Creators"
         description="Every free tool on Blacklisted Studio, matched to your creator type: AI-powered classified ad posters with geo-rotation for companions, AI chatters and analytics for OnlyFans creators, show planners for webcam models. No signup, no catch."
         canonical="/free-creator-tools"
+        keywords="free creator tools, AI tools for OnlyFans creators, free companion advertising tools, webcam model tools, creator AI apps, free adult creator utilities"
       />
       <Navigation />
 
@@ -403,6 +405,41 @@ export default function FreeCreatorTools() {
               </Link>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── FAQ (AEO: question-shaped queries + FAQPage schema) ── */}
+      <section className="relative py-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <SeoFaq
+            items={[
+              {
+                question: "Are these creator tools actually free?",
+                answer:
+                  "Yes — everything on this page is free to use with no signup. They're the in-house BNE utilities: revenue calculators, content strategy engines, classified ad generators, AI chatters, and more. If you outgrow the free tier of anything here, that's what the managed service is for.",
+              },
+              {
+                question: "Which tools should an OnlyFans creator use first?",
+                answer:
+                  "Start with the revenue calculator to know your numbers, the content strategy engine to stop staring at a blank calendar, and the fanbot builder to keep DMs warm while you sleep. Those three cover money, content, and chat — the whole business.",
+              },
+              {
+                question: "What about tools for in-person companions?",
+                answer:
+                  "The classified generator is the standout — AI-assisted ad copy with geo-rotation for touring. Pair it with the workflow manager to keep bookings, screening, and admin from eating your week.",
+              },
+              {
+                question: "Do I need to install anything?",
+                answer:
+                  "No. These are all web apps that run right in your browser — nothing to download, nothing to update, nothing that touches your devices. Open the page, use the tool, get on with your day.",
+              },
+              {
+                question: "How is this different from the Free Software Arsenal?",
+                answer:
+                  "This page is BNE's own web-based utilities. The Free Software Arsenal (/free-software) is a separate collection — 40 honest, long-form reviews of free and open-source third-party apps for streaming, editing, scheduling, bookkeeping, and safety, each with safe download links.",
+              },
+            ]}
+          />
         </div>
       </section>
 

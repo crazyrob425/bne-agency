@@ -5,6 +5,7 @@ import { Sparkles, ChevronRight, Zap, Copy, Check } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
+import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 export default function ContentStrategyEngine() {
@@ -50,6 +51,7 @@ export default function ContentStrategyEngine() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="tools-strategy-engine" />
       <Navigation />
       
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">

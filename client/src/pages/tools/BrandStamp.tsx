@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
 import { Shield, Upload, Download, Copy, Check, Image as ImageIcon, Type, Sliders, Grid3X3, Lock, Sparkles } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 const POSITIONS = ["Top-Left", "Top-Center", "Top-Right", "Center-Left", "Center", "Center-Right", "Bottom-Left", "Bottom-Center", "Bottom-Right"] as const;
@@ -64,6 +65,7 @@ export default function BrandStamp() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Seo pageKey="tools-brandstamp" />
       <Navigation />
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-amber-950/30 via-slate-950 to-yellow-950/20" />

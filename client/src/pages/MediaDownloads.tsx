@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Download, FileText, Printer, Mail, QrCode, ExternalLink, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
+import Seo from "@/components/Seo";
 import Navigation from "@/components/Navigation";
 
 const fadeUp = {
@@ -152,6 +153,7 @@ export default function MediaDownloads() {
   return (
     <PageTransition>
       <div className="min-h-screen bg-background text-foreground">
+      <Seo pageKey="downloads" />
         <Navigation />
         {/* Hero */}
         <section className="relative pt-32 pb-20 px-4 overflow-hidden">
