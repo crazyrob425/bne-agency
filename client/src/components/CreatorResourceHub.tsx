@@ -189,7 +189,7 @@ export function IntelCollection({ config }: { config: CreatorResourceConfig }) {
           transition={{ duration: 0.5 }}
           className="mb-10"
         >
-          <Link href="/university">
+          <Link href={`/university?course=${config.course.id}`}>
             <div className="group relative overflow-hidden rounded-2xl border border-violet-500/25 bg-gradient-to-r from-violet-950/40 via-white/[0.03] to-transparent p-6 sm:p-8 cursor-pointer transition-all duration-300 hover:border-violet-400/50">
               <div className="absolute -top-24 left-1/4 w-96 h-48 bg-violet-600/15 blur-[90px] rounded-full pointer-events-none" />
               <div className="relative flex flex-col sm:flex-row sm:items-center gap-5">
