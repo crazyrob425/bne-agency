@@ -39,6 +39,7 @@ import AllServices from "./pages/AllServices";
 import OnlyFansManagement from "./pages/OnlyFansManagement";
 import WebcamModels from "./pages/WebcamModels";
 import InPersonCompanions from "./pages/InPersonCompanions";
+import InPersonServices from "./pages/InPersonServices";
 import MarketingAssets from "./pages/MarketingAssets";
 import MediaDownloads from "./pages/MediaDownloads";
 import University from "./pages/University";
@@ -107,6 +108,7 @@ function Router() {
   <Route path="/onlyfans-management" component={OnlyFansManagement} />
   <Route path="/webcam-models" component={WebcamModels} />
   <Route path="/in-person-companions" component={InPersonCompanions} />
+  <Route path="/web-design-apps" component={InPersonServices} />
       <Route path="/media" component={MarketingAssets} />
       <Route path="/downloads" component={MediaDownloads} />
       <Route path="/tools" component={Tools} />
