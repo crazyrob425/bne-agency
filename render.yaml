@@ -2,6 +2,7 @@ services:
   - type: web
     name: bne-agency-api
     runtime: node
+    plan: free
     buildCommand: pnpm install --include=dev && pnpm build
     startCommand: NODE_ENV=production node dist/index.js
     envVars:
@@ -30,8 +31,8 @@ services:
       - key: R2_BUCKET_NAME
         sync: false
     autoDeploy: true
-    # Add a PostgreSQL database in Render dashboard after creating service
-    # DATABASE_URL will be auto-provided by Render
+    # Database: use an external Postgres (e.g. Supabase free tier).
+    # Set DATABASE_URL manually in the Render dashboard as a secret env var.
 
 # For frontend (Cloudflare Pages):
 # 1. Create separate repo or use same repo
