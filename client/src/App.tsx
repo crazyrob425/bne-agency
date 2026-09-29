@@ -9,7 +9,6 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { Helmet } from "react-helmet-async";
 import { pageSeoConfig, baseMetadata, organizationSchema, websiteSchema, breadcrumbSchema } from "./seo.config";
 import Home from "./pages/Home";
-import Splash from "./pages/Splash";
 import ServiceTiers from "./pages/ServiceTiers";
 import NicheMatcher from "./pages/NicheMatcher";
 import PostingAndScheduling from "./pages/PostingAndScheduling";
@@ -88,7 +87,7 @@ import FreeLegalTools from "./pages/FreeLegalTools";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Splash} />
+      <Route path="/" component={Home} />
       <Route path="/home" component={Home} />
       <Route path="/tiers" component={ServiceTiers} />
       <Route path="/niche-matcher/:slug" component={NicheMatcher} />
