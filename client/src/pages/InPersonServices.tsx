@@ -69,7 +69,7 @@ export default function InPersonServices() {
       <Seo
         title="In-Person Services Management for Escorts & Entertainers"
         description="Full-service management for in-person entertainers. We handle client screening, booking, safety, marketing, and legal so you can focus on your craft."
-        canonical="/inperson-services"
+        canonical="/web-design-apps"
         schema={faqSchema}
       />
       <Navigation />
