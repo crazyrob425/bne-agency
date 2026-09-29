@@ -189,7 +189,7 @@ export default function Home() {
               transition={{ delay: 0.45, duration: 0.6 }}
               className="text-[oklch(0.65_0.012_85)] text-lg sm:text-xl leading-relaxed max-w-2xl mb-10 font-body"
             >
-              You're the talent. We're your silent partner. Whether you are building an online OnlyFans empire, dominating webcam sites like Chaturbate, or running a luxury in-person companion brand — BNE covers your entire backend. We handle the setups, the screening, the booking, the ad posting, and the safety, leaving you 100% free to stack cash.
+              You're the talent. We're your silent partner. Whether you are building an online <Link href="/onlyfans-management" className="text-[#D4AF37] underline decoration-[#D4AF37]/50 underline-offset-2 hover:text-[#f5d76e]">OnlyFans</Link> empire, dominating <Link href="/webcam-models" className="text-[#D4AF37] underline decoration-[#D4AF37]/50 underline-offset-2 hover:text-[#f5d76e]">webcam</Link> sites like Chaturbate, or running a luxury <Link href="/in-person-companions" className="text-[#D4AF37] underline decoration-[#D4AF37]/50 underline-offset-2 hover:text-[#f5d76e]">in-person companion</Link> brand — BNE covers your entire backend. We handle the setups, the screening, the booking, the ad posting, and the safety, leaving you 100% free to stack cash.
             </motion.p>
 
             {/* CTAs */}
