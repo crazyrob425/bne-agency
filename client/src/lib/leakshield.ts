@@ -17,14 +17,14 @@ export function generateWatermarkId(): string {
   const bytes = new Uint32Array(8);
   crypto.getRandomValues(bytes);
   let s = "";
-  for (const b of bytes) s += ID_ALPHABET[b % ID_ALPHABET.length];
+  for (let i = 0; i < bytes.length; i++) s += ID_ALPHABET[bytes[i] % ID_ALPHABET.length];
   return `BNE-${s}`;
 }
 
 export async function sha256Hex(blob: Blob): Promise<string> {
   const buf = await blob.arrayBuffer();
   const digest = await crypto.subtle.digest("SHA-256", buf);
-  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 export function loadImageFile(file: File): Promise<HTMLImageElement> {
