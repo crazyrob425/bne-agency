@@ -88,7 +88,7 @@ const SITEMAP_EXCLUDE = new Set(["/home", "/dashboard", "/payment/success", "/40
 
   while ((match = routeRegex.exec(content)) !== null) {
     const path = match[1];
-    if (!path.includes(":") && !SITEMAP_EXCLUDE.has(path) && !path.startsWith("/admin")) {
+    if (!path.includes(":") && !SITEMAP_EXCLUDE.has(path) && !path.startsWith("/admin") && !path.startsWith("/portal")) {
       routes.push(path);
     }
   }

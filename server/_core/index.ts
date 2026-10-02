@@ -6,6 +6,10 @@ import fsSync from "fs";
 import { createServer } from "http";
 import net from "net";
 import path from "path";
+import helmet from "helmet";
+import compression from "compression";
+import { rateLimit } from "express-rate-limit";
+import { sql } from "drizzle-orm";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
@@ -19,7 +23,8 @@ import { GoogleGenAI } from "@google/genai";
 import cookieParser from "cookie-parser";
 import { COOKIE_NAME } from "@shared/const";
 import multer from "multer";
-import { getDb } from "../db";
+import { getDb, closeDb } from "../db";
+import { log } from "./logger";
 import { onboardingApplications, users, contentSubmissions } from "../../drizzle/schema";
 import { desc, eq } from "drizzle-orm";
 
@@ -347,6 +352,31 @@ const serveMediaFiles = async (app: express.Application) => {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  // Behind the Cloudflare Worker gateway + Render's edge proxy = 2 hops.
+  // Required for req.protocol / req.ip / Secure cookies to reflect the client.
+  app.set("trust proxy", 2);
+  // Security headers. CSP/COEP disabled: the SPA serves inline/vite assets
+  // and prerendered HTML that a strict CSP would break.
+  app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+  // Compress responses >= 1KB (skips images/video and streaming by default).
+  app.use(compression({ threshold: 1024 }));
+  // Structured request logging (JSON via pino).
+  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const start = Date.now();
+    res.on("finish", () => {
+      log.info(
+        {
+          method: req.method,
+          url: req.originalUrl,
+          status: res.statusCode,
+          ms: Date.now() - start,
+          ip: req.ip,
+        },
+        "http"
+      );
+    });
+    next();
+  });
   // Stripe webhook MUST use raw body — register BEFORE express.json()
   app.use("/api/stripe/webhook", express.raw({ type: "application/json" }));
   // Configure body parser with larger size limit for file uploads
@@ -354,6 +384,42 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   // Cookie parser for OAuth session handling
   app.use(cookieParser());
+
+  // Health check: fast 200 with a DB ping (2s timeout). Always 200 so
+  // keep-alive probes and the gateway see "server alive"; the db field
+  // reports database reachability. Never leaks internals.
+  app.get("/api/health", async (_req, res) => {
+    let db: "up" | "down" = "down";
+    let timer: NodeJS.Timeout | undefined;
+    try {
+      const dbHandle = await getDb();
+      if (dbHandle) {
+        await Promise.race([
+          dbHandle.execute(sql`SELECT 1`),
+          new Promise<never>((_, reject) => {
+            timer = setTimeout(() => reject(new Error("db ping timeout")), 2000);
+          }),
+        ]);
+        db = "up";
+      }
+    } catch {
+      db = "down";
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+    res.status(200).json({ ok: true, db, ts: new Date().toISOString() });
+  });
+
+  // API rate limiting: generous enough for tRPC batching and 250MB uploads,
+  // but blunts naive abuse. Health and the Stripe webhook are exempt.
+  const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 1500,
+    standardHeaders: "draft-8",
+    legacyHeaders: false,
+    skip: (req) => req.path === "/health" || req.path.startsWith("/stripe/webhook"),
+  });
+  app.use("/api", apiLimiter);
   registerStorageProxy(app);
   registerOAuthRoutes(app);
   registerStripeWebhook(app);
@@ -756,6 +822,14 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
     });
   });
 
+  // Structured error logging for anything that reaches Express's error
+  // handler. Generic body — never leak internals to the client.
+  app.use(((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    log.error({ err }, "unhandled request error");
+    if (res.headersSent) return;
+    res.status(err?.status || 500).json({ error: "Internal server error" });
+  }) as express.ErrorRequestHandler);
+
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     // Serve the built members portal dynamically in development
@@ -777,17 +851,47 @@ Format the output strictly in HTML. Include engaging headings, bold text, and a 
 
   if (isProduction) {
     server.listen(preferredPort, "0.0.0.0", () => {
-      console.log(`Server running on http://0.0.0.0:${preferredPort}/`);
+      log.info(`Server running on http://0.0.0.0:${preferredPort}/`);
     });
   } else {
     const port = await findAvailablePort(preferredPort);
     if (port !== preferredPort) {
-      console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
+      log.info(`Port ${preferredPort} is busy, using port ${port} instead`);
     }
     server.listen(port, "0.0.0.0", () => {
-      console.log(`Server running on http://0.0.0.0:${port}/`);
+      log.info(`Server running on http://0.0.0.0:${port}/`);
     });
   }
+
+  // Graceful shutdown: stop accepting new connections on SIGTERM/SIGINT,
+  // drain the Postgres pool, then exit. Render sends SIGTERM ~30s before SIGKILL.
+  let shuttingDown = false;
+  const shutdown = (signal: string) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    log.info({ signal }, "shutdown: received, draining connections");
+    server.close(async () => {
+      try {
+        await closeDb();
+      } catch (err) {
+        log.error({ err }, "shutdown: error draining db pool");
+      }
+      log.info("shutdown: complete");
+      // Let pino's async transport flush before exiting.
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      process.exit(0);
+    });
+    // Failsafe: never hang past the platform's SIGKILL window.
+    setTimeout(() => {
+      log.warn("shutdown: forced exit after timeout");
+      process.exit(1);
+    }, 25000).unref();
+  };
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
 }
 
-startServer().catch(console.error);
+startServer().catch((err) => {
+  log.fatal({ err }, "failed to start server");
+  process.exit(1);
+});

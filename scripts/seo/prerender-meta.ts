@@ -36,7 +36,7 @@ const SITE_URL = baseMetadata.siteUrl;
 const DIST = resolve(process.cwd(), "dist/public");
 
 // Routes that must never get a prerendered file (redirects, private, or app-only)
-const SKIP_ROUTES = new Set(["/404", "/dashboard", "/admin", "/members"]);
+const SKIP_ROUTES = new Set(["/404", "/dashboard", "/admin", "/members", "/portal"]);
 
 interface RouteMeta {
   route: string;
@@ -187,7 +187,7 @@ function extractRoutes(): string[] {
   let match;
   while ((match = routeRegex.exec(content)) !== null) {
     const p = match[1];
-    if (!p.includes(":") && !SKIP_ROUTES.has(p) && !p.startsWith("/admin/") && p !== "*") routes.push(p);
+    if (!p.includes(":") && !SKIP_ROUTES.has(p) && !p.startsWith("/admin/") && !p.startsWith("/portal") && p !== "*") routes.push(p);
   }
   return [...new Set(routes)];
 }

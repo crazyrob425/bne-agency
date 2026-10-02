@@ -66,7 +66,7 @@ async function validateSEO() {
     const appSrc = fs.readFileSync(path.join(ROOT, "client/src/App.tsx"), "utf-8");
     const appRoutes = [...new Set(
       [...appSrc.matchAll(/<Route\s+path="([^"]+)"\s+component=/g)].map((m) => m[1])
-    )].filter((r) => !r.includes(":") && r !== "*" && r !== "/404" && !r.startsWith("/admin")
+    )].filter((r) => !r.includes(":") && r !== "*" && r !== "/404" && !r.startsWith("/admin") && !r.startsWith("/portal")
       && !["/home", "/dashboard", "/payment/success"].includes(r));
     const sitemapPaths = new Set(urls.map((u) => new URL(u).pathname));
     const missingRoutes = appRoutes.filter((r) => !sitemapPaths.has(r) && !sitemapPaths.has(r + "/"));

@@ -1,0 +1,15 @@
+# bne-api-gateway — Cloudflare Worker reverse proxy (v1)
+# Phase 0.3: api.blacklisted.studio -> https://bne-agency-api.onrender.com
+
+name = "bne-api-gateway"
+main = "src/index.ts"
+compatibility_date = "2026-09-15"
+
+# NOTE: Cloudflare auth is NOT stored here or in env. Deploy with either:
+#   wrangler login
+# or a token with these permissions (Account scope):
+#   Workers Scripts:Edit, Workers Routes:Edit, Zone / DNS:Edit (for the custom domain)
+# export CLOUDFLARE_API_TOKEN=... CLOUDFLARE_ACCOUNT_ID=...
+
+[vars]
+UPSTREAM_URL = "https://bne-agency-api.onrender.com"
