@@ -11,8 +11,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import { ToolMenuCards, IntelCollection, FreeSoftwareSpotlight } from "@/components/CreatorResourceHub";
-import { CREATOR_RESOURCES } from "@/data/creatorResources";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Gem, ShieldCheck, Users, Globe, Calculator, Star,
@@ -212,11 +210,6 @@ export default function InPersonCompanions() {
           </p>
         </div>
       </section>
-
-            {/* ── FREE TOOL MENU + INTEL COLLECTION ── */}
-      <ToolMenuCards config={CREATOR_RESOURCES.companions} />
-      <IntelCollection config={CREATOR_RESOURCES.companions} />
-      <FreeSoftwareSpotlight group="companions" heading="Free Software for Independent Providers" />
 
       {/* ── TESTIMONIALS ── */}
       <TestimonialsSection

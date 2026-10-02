@@ -3,7 +3,6 @@ import { useState, useRef } from "react";
 import { CreditCard, FileText, Download, Printer, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
-import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 export default function IncomeVerifier() {
@@ -110,7 +109,6 @@ YTD Net Pay: $${ytdNet.toFixed(2)}
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Seo pageKey="tools-income-verifier" />
       {/* Dynamic style tag for clean browser printing */}
       <style>{`
         @media print {

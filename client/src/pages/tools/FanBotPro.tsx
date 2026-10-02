@@ -4,7 +4,6 @@ import { MessageSquare, Settings, Code, Copy, Check, Send, Bot, User, Sparkles, 
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
-import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 
 const TONES = ["Playful & Flirty", "Professional & Polished", "Dominant/CEO", "Sweet & Intimate", "Mysterious & Enigmatic", "Educational/Girlfriend Experience"] as const;
@@ -85,7 +84,6 @@ export default function FanBotPro() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Seo pageKey="tools-fanbot-builder" />
       <Navigation />
       <section className="relative overflow-hidden border-b border-slate-800 py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-slate-950 to-purple-950/20" />

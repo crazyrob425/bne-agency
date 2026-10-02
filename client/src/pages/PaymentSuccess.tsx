@@ -8,7 +8,6 @@ import { Link, useLocation } from "wouter";
 import { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import Navigation from "@/components/Navigation";
-import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 import { CheckCircle, ArrowRight, Zap, MessageSquare } from "lucide-react";
 
@@ -34,7 +33,6 @@ export default function PaymentSuccess() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Seo noIndex noFollow title="Payment Successful | BNE Studio" description="Your BNE Studio payment was completed successfully." canonical="/payment/success" />
       <Navigation />
 
       <section className="pt-28 pb-20 flex items-center justify-center min-h-[80vh]">

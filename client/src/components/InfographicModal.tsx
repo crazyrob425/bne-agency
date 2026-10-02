@@ -26,7 +26,7 @@ export default function InfographicModal({ url, title, isOpen, onClose }: Infogr
           </style>
         </head>
         <body>
-          <img src="${url}" alt="Infographic" />
+          <img src="${url}" />
           <script>
             const img = document.querySelector('img');
             if (img.complete) { window.print(); setTimeout(() => window.close(), 500); }

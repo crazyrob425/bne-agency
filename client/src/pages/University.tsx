@@ -9,7 +9,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import AuthorBio from "@/components/AuthorBio";
 import { professors } from "@/data/professors";
-import { Link, useSearch } from "wouter";
+import { Link } from "wouter";
 import {
   Crown, Shield, BookOpen, Printer, Download, Sparkles,
   ChevronRight, Play, FileText, ArrowRight, ExternalLink,
@@ -20,11 +20,7 @@ export default function University() {
   const { getCourses, loading, error } = useMediaCatalog();
   const courses = getCourses();
 
-  const searchString = useSearch();
-  const [activeCourseId, setActiveCourseId] = useState<string>(() => {
-    const requested = new URLSearchParams(searchString).get("course");
-    return requested && courses.some((c) => c.id === requested) ? requested : "legal-privacy";
-  });
+  const [activeCourseId, setActiveCourseId] = useState<string>("legal-privacy");
   const [selectedPrintItem, setSelectedPrintItem] = useState<MediaCatalogItem | null>(null);
 
   // Filter blog articles for courses dynamically based on keywords
@@ -67,7 +63,7 @@ export default function University() {
           </style>
         </head>
         <body>
-          <img src="${itemUrl}" alt="University resource" />
+          <img src="${itemUrl}" />
           <script>
             // Wait for image to load before printing
             const img = document.querySelector('img');

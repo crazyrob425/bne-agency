@@ -69,7 +69,7 @@ export default function InPersonServices() {
       <Seo
         title="In-Person Services Management for Escorts & Entertainers"
         description="Full-service management for in-person entertainers. We handle client screening, booking, safety, marketing, and legal so you can focus on your craft."
-        canonical="/web-design-apps"
+        canonical="/inperson-services"
         schema={faqSchema}
       />
       <Navigation />
@@ -190,12 +190,10 @@ export default function InPersonServices() {
 
             <ServiceBlock icon={Globe} title="Web Design for In-Person Services"
               description="A professional website is your most powerful marketing tool. We design and maintain sites that showcase your services, establish trust, and convert visitors into booked clients."
-              link="https://design.blacklisted.studio/web-design-development"
               features={["Custom website design tailored to your services and brand", "SEO optimization so local clients find you", "Online booking integration and contact forms", "Gallery and portfolio showcase with fast-loading images", "Mobile-responsive design"]} />
 
             <ServiceBlock icon={Smartphone} title="Custom Adult App Design (iOS & Android)"
               description="Your own branded app puts you in complete control. We design and develop custom applications that let you manage bookings, share exclusive content, and build your own platform."
-              link="https://design.blacklisted.studio/custom-smartphone-apps"
               features={["Native iOS and Android app development", "Custom features: booking system, content gallery, fan messaging", "Branded UI/UX design that matches your identity", "Push notifications for bookings and promotions", "App store guidance and deployment support"]} />
 
             <ServiceBlock icon={Video} title="Video & Media Production"

@@ -9,8 +9,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import { ToolMenuCards, IntelCollection, FreeSoftwareSpotlight } from "@/components/CreatorResourceHub";
-import { CREATOR_RESOURCES } from "@/data/creatorResources";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Video, Gift, HeartHandshake, Clapperboard, EyeOff, CalendarCheck,
@@ -272,11 +270,6 @@ export default function WebcamModels() {
           </p>
         </div>
       </section>
-
-            {/* ── FREE TOOL MENU + INTEL COLLECTION ── */}
-      <ToolMenuCards config={CREATOR_RESOURCES.webcam} />
-      <IntelCollection config={CREATOR_RESOURCES.webcam} />
-      <FreeSoftwareSpotlight group="webcam" heading="Free Software for Cam Models" />
 
       {/* ── TESTIMONIALS ── */}
       <TestimonialsSection

@@ -286,7 +286,6 @@ export default function AllServices() {
 
             <ServiceBlock icon={Smartphone} title="Adult App Development"
               description="Want your own app? We design and develop custom adult applications for Android and iOS — your brand, your rules, your audience data. No platform cuts, no restrictions."
-              link="https://design.blacklisted.studio/custom-smartphone-apps"
               features={[
                 "Custom iOS and Android app design for adult content creators",
                 "Subscription management and in-app purchase integration",

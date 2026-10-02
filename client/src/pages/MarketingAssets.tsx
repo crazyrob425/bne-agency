@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
-import Seo from "@/components/Seo";
 import Footer from "@/components/Footer";
 import {
   Download,
@@ -380,7 +379,6 @@ function SpecRow({ spec }: { spec: typeof PRINT_SPECS[0] }) {
 export default function MarketingAssets() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Seo pageKey="media" />
       <Navigation />
 
       {/* ── HERO ── */}

@@ -83,35 +83,7 @@ const fadeUp = {
   })
 };
 
-// Rotating cinematic hero graphics — a different one loads on each visit
-const HERO_GRAPHICS = [
-  { src: "/images/hero/hero-vault.webp", alt: "Black vault door cracked open with molten gold light pouring out, holographic revenue and subscriber analytics floating around it" },
-  { src: "/images/hero/hero-mask.webp", alt: "Mysterious figure in a luminous gold masquerade mask lit by phone-screen glow against night city bokeh" },
-  { src: "/images/hero/hero-command.webp", alt: "Aerial night city with a giant holographic command dashboard of calendars, chats and revenue charts floating above it" },
-  { src: "/images/hero/hero-throne.webp", alt: "Empty throne built from glowing smartphones and monitors under a dramatic spotlight in a dark studio" },
-];
-
-function pickHeroGraphic() {
-  try {
-    const last = sessionStorage.getItem("bne-hero-idx");
-    let idx = Math.floor(Math.random() * HERO_GRAPHICS.length);
-    if (last !== null && HERO_GRAPHICS.length > 1) {
-      let guard = 0;
-      while (String(idx) === last && guard++ < 10) {
-        idx = Math.floor(Math.random() * HERO_GRAPHICS.length);
-      }
-    }
-    sessionStorage.setItem("bne-hero-idx", String(idx));
-    return HERO_GRAPHICS[idx];
-  } catch {
-    return HERO_GRAPHICS[Math.floor(Math.random() * HERO_GRAPHICS.length)];
-  }
-}
-
 export default function Home() {
-  // A different cinematic hero graphic on every visit (never repeats back-to-back)
-  const [heroGraphic] = useState(pickHeroGraphic);
-
   useAuth();
 
   const { getVideoByKeyword } = useMediaCatalog();
@@ -157,19 +129,6 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Cinematic multi-layer background */}
         <div className="absolute inset-0 bg-[oklch(0.04_0.005_85)]" />
-        {/* Rotating hero graphic — a different one on every visit */}
-        <motion.img
-          key={heroGraphic.src}
-          src={heroGraphic.src}
-          alt={heroGraphic.alt}
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.4, ease: "easeOut" }}
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          fetchPriority="high"
-        />
-        {/* Legibility gradient over the graphic */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.04_0.005_85/88%)] via-[oklch(0.04_0.005_85/60%)] to-[oklch(0.04_0.005_85/94%)] pointer-events-none" />
         {/* Radial gold glow — top center */}
         <motion.div
           style={{ x: parallaxX, y: parallaxY }}

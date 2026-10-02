@@ -14,14 +14,14 @@ import { SitemapStream } from "sitemap";
 // Import blog articles for dynamic blog URL inclusion
 import { articles } from "../../client/src/data/blogArticles.js";
 import { NICHE_DATABASE, getNichePath } from "../../client/src/data/nicheDatabase.js";
-import { FREE_SOFTWARE } from "../../client/src/data/freeSoftware.js";
 
 const SITE_URL = "https://blacklisted.studio";
 const OUTPUT_PATH = resolve(process.cwd(), "dist/public/sitemap.xml");
 
 // Priority/changefreq defaults by route pattern
 const ROUTE_PRIORITY: Record<string, number> = {
-  "/": 1.0,
+  "/home": 1.0,
+  "/": 0.2,
   "/pricing": 0.9,
   "/services": 0.9,
   "/niche-matcher": 0.85,
@@ -33,13 +33,12 @@ const ROUTE_PRIORITY: Record<string, number> = {
   "/webcam-models": 0.85,
   "/in-person-companions": 0.85,
   "/apply": 0.7,
-  "/free-software": 0.85,
-  "/free-creator-tools": 0.85,
 };
 
 const ROUTE_CHANGEFREQ: Record<string, string> = {
-  "/": "weekly",
+  "/home": "weekly",
   "/blog": "daily",
+  "/": "weekly",
   "/university": "weekly",
   "/niche-matcher": "weekly",
   "/tools": "weekly",
@@ -48,8 +47,6 @@ const ROUTE_CHANGEFREQ: Record<string, string> = {
   "/onlyfans-management": "weekly",
   "/webcam-models": "weekly",
   "/in-person-companions": "weekly",
-  "/free-software": "weekly",
-  "/free-creator-tools": "weekly",
 };
 
 function getPriority(path: string): number {
@@ -79,16 +76,11 @@ function extractRoutesFromApp(): string[] {
   const routes: string[] = [];
   let match;
 
-// Routes that must never appear in the sitemap:
-// - /home: alias of / (canonical is /)
-// - /dashboard: private, noIndex
-// - /payment/success: transactional, noIndex
-// - dynamic :param routes are handled separately below
-const SITEMAP_EXCLUDE = new Set(["/home", "/dashboard", "/payment/success", "/404"]);
-
   while ((match = routeRegex.exec(content)) !== null) {
     const path = match[1];
-    if (!path.includes(":") && !SITEMAP_EXCLUDE.has(path) && !path.startsWith("/admin") && !path.startsWith("/portal")) {
+    // Skip dynamic slugs that we handle separately; /home 301-redirects to /
+    // and must not appear as a separate indexed URL
+    if (!path.includes(":slug") && path !== "/404" && path !== "/") {
       routes.push(path);
     }
   }
@@ -146,37 +138,14 @@ async function generateSitemap() {
     });
   }
 
-  // Add all free-software review pages (with screenshot image extensions)
-  for (const tool of FREE_SOFTWARE) {
-    sitemapStream.write({
-      url: `/free-software/${tool.slug}`,
-      changefreq: "monthly",
-      priority: 0.7,
-      lastmod: today,
-      img: tool.screenshot
-        ? [
-            {
-              url: tool.screenshot.startsWith("http")
-                ? tool.screenshot
-                : `${SITE_URL}${tool.screenshot}`,
-              title: `${tool.name} — free software review`,
-              caption: tool.tagline,
-            },
-          ]
-        : undefined,
-    });
-  }
-
   sitemapStream.end();
 
   const writeStream = createWriteStream(OUTPUT_PATH);
   await pipeline(sitemapStream, writeStream);
 
-  const total =
-    staticRoutes.length + articles.length + NICHE_DATABASE.length + FREE_SOFTWARE.length;
   console.log(`✅ Sitemap generated: ${OUTPUT_PATH}`);
-  console.log(`   Total URLs: ${total}`);
-  console.log(`   Routes: ${staticRoutes.length} (+ ${articles.length} articles, ${NICHE_DATABASE.length} niches, ${FREE_SOFTWARE.length} software reviews)`);
+  console.log(`   Total URLs: ${staticRoutes.length + articles.length + 1 + NICHE_DATABASE.length}`);
+  console.log(`   Routes: ${staticRoutes.length}`);
 }
 
 generateSitemap().catch(console.error);
