@@ -1,21 +1,43 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
+let _client: ReturnType<typeof postgres> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      // Two backends will share this database (Render + Koyeb), so each
+      // backend caps its connection pool at 5 to stay under provider limits.
+      _client = postgres(process.env.DATABASE_URL, {
+        max: 5,
+        idle_timeout: 20,
+        connect_timeout: 10,
+      });
+      _db = drizzle(_client);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
+      _client = null;
     }
   }
   return _db;
+}
+
+/** Drain the postgres pool. Called on graceful shutdown. */
+export async function closeDb(): Promise<void> {
+  if (_client) {
+    try {
+      await _client.end({ timeout: 5 });
+    } finally {
+      _client = null;
+      _db = null;
+    }
+  }
 }
 
 export async function upsertUser(user: InsertUser): Promise<void> {
