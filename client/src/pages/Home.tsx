@@ -83,7 +83,35 @@ const fadeUp = {
   })
 };
 
+// Rotating cinematic hero graphics — a different one loads on each visit
+const HERO_GRAPHICS = [
+  { src: "/images/hero/hero-vault.webp", alt: "Black vault door cracked open with molten gold light pouring out, holographic revenue and subscriber analytics floating around it" },
+  { src: "/images/hero/hero-mask.webp", alt: "Mysterious figure in a luminous gold masquerade mask lit by phone-screen glow against night city bokeh" },
+  { src: "/images/hero/hero-command.webp", alt: "Aerial night city with a giant holographic command dashboard of calendars, chats and revenue charts floating above it" },
+  { src: "/images/hero/hero-throne.webp", alt: "Empty throne built from glowing smartphones and monitors under a dramatic spotlight in a dark studio" },
+];
+
+function pickHeroGraphic() {
+  try {
+    const last = sessionStorage.getItem("bne-hero-idx");
+    let idx = Math.floor(Math.random() * HERO_GRAPHICS.length);
+    if (last !== null && HERO_GRAPHICS.length > 1) {
+      let guard = 0;
+      while (String(idx) === last && guard++ < 10) {
+        idx = Math.floor(Math.random() * HERO_GRAPHICS.length);
+      }
+    }
+    sessionStorage.setItem("bne-hero-idx", String(idx));
+    return HERO_GRAPHICS[idx];
+  } catch {
+    return HERO_GRAPHICS[Math.floor(Math.random() * HERO_GRAPHICS.length)];
+  }
+}
+
 export default function Home() {
+  // A different cinematic hero graphic on every visit (never repeats back-to-back)
+  const [heroGraphic] = useState(pickHeroGraphic);
+
   useAuth();
 
   const { getVideoByKeyword } = useMediaCatalog();
@@ -129,6 +157,19 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Cinematic multi-layer background */}
         <div className="absolute inset-0 bg-[oklch(0.04_0.005_85)]" />
+        {/* Rotating hero graphic — a different one on every visit */}
+        <motion.img
+          key={heroGraphic.src}
+          src={heroGraphic.src}
+          alt={heroGraphic.alt}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, ease: "easeOut" }}
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          fetchPriority="high"
+        />
+        {/* Legibility gradient over the graphic */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.04_0.005_85/88%)] via-[oklch(0.04_0.005_85/60%)] to-[oklch(0.04_0.005_85/94%)] pointer-events-none" />
         {/* Radial gold glow — top center */}
         <motion.div
           style={{ x: parallaxX, y: parallaxY }}
@@ -183,14 +224,18 @@ export default function Home() {
               We'll Handle The <span className="gradient-text-gold">Grind & The Danger.</span>
             </motion.h1>
 
-            <motion.p
+            {/* Hero value-prop — white translucent frame */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.6 }}
-              className="text-[oklch(0.65_0.012_85)] text-lg sm:text-xl leading-relaxed max-w-2xl mb-10 font-body"
+              className="max-w-2xl mb-10 rounded-2xl border border-[rgba(212,175,55,0.4)] shadow-[0_8px_40px_rgba(0,0,0,0.35)]"
+              style={{ background: "rgba(255,255,255,0.8)" }}
             >
-              You're the talent. We're your silent partner. Whether you are building an online <Link href="/onlyfans-management" className="text-[#D4AF37] underline decoration-[#D4AF37]/50 underline-offset-2 hover:text-[#f5d76e]">OnlyFans</Link> empire, dominating <Link href="/webcam-models" className="text-[#D4AF37] underline decoration-[#D4AF37]/50 underline-offset-2 hover:text-[#f5d76e]">webcam</Link> sites like Chaturbate, or running a luxury <Link href="/in-person-companions" className="text-[#D4AF37] underline decoration-[#D4AF37]/50 underline-offset-2 hover:text-[#f5d76e]">in-person companion</Link> brand — BNE covers your entire backend. We handle the setups, the screening, the booking, the ad posting, and the safety, leaving you 100% free to stack cash.
-            </motion.p>
+              <p className="text-[oklch(0.18_0.01_85)] text-lg sm:text-xl leading-relaxed font-body px-7 py-6">
+                You're the talent. We're your <span className="font-semibold">silent partner</span>. Whether you are building an online <Link href="/onlyfans-management" className="text-[#8a6d1f] underline decoration-[#8a6d1f]/50 underline-offset-2 hover:text-[#6b5415] font-medium">OnlyFans</Link> empire, dominating <Link href="/webcam-models" className="text-[#8a6d1f] underline decoration-[#8a6d1f]/50 underline-offset-2 hover:text-[#6b5415] font-medium">webcam</Link> sites like Chaturbate, or running a luxury <Link href="/in-person-companions" className="text-[#8a6d1f] underline decoration-[#8a6d1f]/50 underline-offset-2 hover:text-[#6b5415] font-medium">in-person companion</Link> brand — BNE covers your entire backend. We handle the setups, the screening, the booking, the ad posting, and the safety, leaving you 100% free to stack cash.
+              </p>
+            </motion.div>
 
             {/* CTAs */}
             <motion.div
