@@ -1,0 +1,16 @@
+# Keep the Docker build context lean. The runtime stage only needs
+# package.json + pnpm-lock.yaml + the built dist/ from the builder stage.
+node_modules
+dist
+.git
+.gitignore
+*.log
+.env*
+# Local upload/media dirs (ephemeral content; recreated at runtime)
+media
+uploads
+client/public/media-files/uploads
+# Dev-only clutter
+.vscode
+.venv
+*.code-workspace
