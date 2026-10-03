@@ -8,7 +8,7 @@
  */
 
 import { useMemo } from "react";
-import { useParams, Link } from "wouter";
+import { useParams, Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -78,6 +78,16 @@ function renderMarkdown(content: string): React.ReactNode[] {
   const key = () => keyCounter++;
 
   const renderInline = (text: string): React.ReactNode => {
+    // Links: [text](url) — processed first so formatting inside link text still works.
+    // Internal links (data-spa) are intercepted by the article container's click
+    // handler for SPA navigation; external links open in a new tab.
+    const LINK_CLS =
+      "text-violet-300 underline decoration-violet-500/40 underline-offset-2 hover:text-violet-200 hover:decoration-violet-300 transition-colors";
+    text = text.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, t, u) =>
+      /^https?:\/\//.test(u)
+        ? `<a href="${u}" class="${LINK_CLS}" target="_blank" rel="noopener noreferrer">${t}</a>`
+        : `<a href="${u}" class="${LINK_CLS}" data-spa="true">${t}</a>`
+    );
     // Bold
     text = text.replace(/\*\*(.+?)\*\*/g, (_, t) => `<strong>${t}</strong>`);
     // Italic
@@ -85,7 +95,12 @@ function renderMarkdown(content: string): React.ReactNode[] {
     // Code
     text = text.replace(/`(.+?)`/g, (_, t) => `<code>${t}</code>`);
 
-    if (text.includes("<strong>") || text.includes("<em>") || text.includes("<code>")) {
+    if (
+      text.includes("<strong>") ||
+      text.includes("<em>") ||
+      text.includes("<code>") ||
+      text.includes("<a ")
+    ) {
       return (
         <span
           key={key()}
@@ -308,6 +323,7 @@ function RelatedCard({ article }: { article: ReturnType<typeof getRelatedArticle
 
 export default function ArticleDetail() {
   const params = useParams<{ slug: string }>();
+  const [, navigate] = useLocation();
   const article = getArticleBySlug(params.slug || "");
 
   const related = useMemo(
@@ -329,6 +345,19 @@ export default function ArticleDetail() {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
       toast.success("Link copied. Now go share the knowledge, sis.");
+    }
+  };
+
+  // Intercept inline markdown links (rendered with data-spa) so internal
+  // article links navigate via the SPA router instead of full page reloads.
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const anchor = (e.target as HTMLElement).closest("a[data-spa]");
+    if (!anchor) return;
+    const href = anchor.getAttribute("href");
+    if (href && href.startsWith("/") && !href.startsWith("//")) {
+      e.preventDefault();
+      navigate(href);
+      window.scrollTo({ top: 0 });
     }
   };
 
@@ -486,7 +515,7 @@ export default function ArticleDetail() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="flex-1 min-w-0"
           >
-            <div className="prose-bne">
+            <div className="prose-bne" onClick={handleContentClick}>
               {renderedContent}
             </div>
 
