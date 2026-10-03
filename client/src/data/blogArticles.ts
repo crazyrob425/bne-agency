@@ -2365,50 +2365,6 @@ Whether you're considering full transition or just want to add a webcam/content 
 
 **[Apply to BNE Studio](/application) to get your complete transition roadmap, including platform setup, persona optimization, content strategy, and chat management — all designed specifically for escorts moving into webcam modeling and content creation.**`
   },
-];
-
-// ─── HELPER FUNCTIONS ─────────────────────────────────────────────────────────
-
-export function getArticleBySlug(slug: string): Article | undefined {
-  return articles.find((a) => a.slug === slug);
-}
-
-export function getArticlesByCategory(category: ArticleCategory): Article[] {
-  return articles.filter((a) => a.category === category);
-}
-
-export function getFeaturedArticles(): Article[] {
-  return articles.filter((a) => a.featured);
-}
-
-export function getRelatedArticles(article: Article, limit = 3): Article[] {
-  return articles
-    .filter(
-      (a) =>
-        a.id !== article.id &&
-        (a.category === article.category ||
-          a.tags.some((t) => article.tags.includes(t)))
-    )
-    .slice(0, limit);
-}
-
-// Re-exported for use in pages that need category metadata
-export const CATEGORY_META_EXPORT = {
-  "Compliance & Legal": { color: "text-violet-400", border: "border-violet-500/40", bg: "bg-violet-500/10" },
-  "Niche Strategy": { color: "text-emerald-400", border: "border-emerald-500/40", bg: "bg-emerald-500/10" },
-  "Creator Guides": { color: "text-amber-400", border: "border-amber-500/40", bg: "bg-amber-500/10" },
-  "Platform Tips": { color: "text-cyan-400", border: "border-cyan-500/40", bg: "bg-cyan-500/10" },
-  "Monetization": { color: "text-green-400", border: "border-green-500/40", bg: "bg-green-500/10" },
-  "Privacy & Security": { color: "text-rose-400", border: "border-rose-500/40", bg: "bg-rose-500/10" },
-};
-
-export const ALL_CATEGORIES: ArticleCategory[] = [
-  "Compliance & Legal",
-  "Niche Strategy",
-  "Creator Guides",
-  "Platform Tips",
-  "Monetization",
-  "Privacy & Security",
   // ─────────────────────────────────────────────────────────────────────────────
   // ARTICLE 19 — MONETIZATION / CREATOR GUIDE
   // ─────────────────────────────────────────────────────────────────────────────
@@ -2615,4 +2571,48 @@ And if the backend — the chatters, the scheduling, the analytics, the complian
 - https://chococams.com/blog/webcam-model-earnings-salary-guide
 - https://medium.com/@teasecodedata/how-much-do-cam-models-actually-make-in-2026-real-earnings-by-platform-7712083f1a4f`,
   },
+];
+
+// ─── HELPER FUNCTIONS ─────────────────────────────────────────────────────────
+
+export function getArticleBySlug(slug: string): Article | undefined {
+  return articles.find((a) => a.slug === slug);
+}
+
+export function getArticlesByCategory(category: ArticleCategory): Article[] {
+  return articles.filter((a) => a.category === category);
+}
+
+export function getFeaturedArticles(): Article[] {
+  return articles.filter((a) => a.featured);
+}
+
+export function getRelatedArticles(article: Article, limit = 3): Article[] {
+  return articles
+    .filter(
+      (a) =>
+        a.id !== article.id &&
+        (a.category === article.category ||
+          a.tags.some((t) => article.tags.includes(t)))
+    )
+    .slice(0, limit);
+}
+
+// Re-exported for use in pages that need category metadata
+export const CATEGORY_META_EXPORT = {
+  "Compliance & Legal": { color: "text-violet-400", border: "border-violet-500/40", bg: "bg-violet-500/10" },
+  "Niche Strategy": { color: "text-emerald-400", border: "border-emerald-500/40", bg: "bg-emerald-500/10" },
+  "Creator Guides": { color: "text-amber-400", border: "border-amber-500/40", bg: "bg-amber-500/10" },
+  "Platform Tips": { color: "text-cyan-400", border: "border-cyan-500/40", bg: "bg-cyan-500/10" },
+  "Monetization": { color: "text-green-400", border: "border-green-500/40", bg: "bg-green-500/10" },
+  "Privacy & Security": { color: "text-rose-400", border: "border-rose-500/40", bg: "bg-rose-500/10" },
+};
+
+export const ALL_CATEGORIES: ArticleCategory[] = [
+  "Compliance & Legal",
+  "Niche Strategy",
+  "Creator Guides",
+  "Platform Tips",
+  "Monetization",
+  "Privacy & Security",
 ];
