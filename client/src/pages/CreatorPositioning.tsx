@@ -118,7 +118,7 @@ export default function CreatorPositioning() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Positioning Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>Generic Content Gets Generic Results</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               The creator economy is louder than ever, but it is also more crowded. Every day, thousands of new creators go live, post their first set, or launch their first channel. And most of them are making the same mistake: they are trying to appeal to everyone. The result? They appeal to no one.
             </p>

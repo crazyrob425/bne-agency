@@ -114,7 +114,7 @@ export default function ScreeningSystems() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Screening Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>Not All Clients Are Created Equal</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               The adult industry attracts a certain type of client. Some are respectful, generous, and exactly who they say they are. Others are not. We are talking about undercover law enforcement, serial harassers, time-wasters who never show, payment fraudsters, and people who get off on pushing boundaries. Without screening, you are rolling the dice every time you confirm a booking.
             </p>

@@ -120,7 +120,7 @@ export default function MarketAnalysis() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Market Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>Most Creators Pick Niches Based on TikTok Trends</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               Here is how most creators choose their niche: they see someone else making money in a category, they think I could do that, and they jump in without checking the data. Three months later, they are posting into a void wondering why nobody is paying. The problem is not their content. It is that they chose a niche based on vibes instead of validation.
             </p>

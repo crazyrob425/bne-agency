@@ -122,7 +122,7 @@ export default function BusinessStrategy() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Strategy Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>Most Creators Fly Blind Into a Brick Wall</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               The average creator's strategy is whatever platform they stumbled into last month. They post sporadically, chase every trend, and hope the algorithm smiles on them. Spoiler: it will not. The creator economy has a ninety-five percent failure rate not because creators lack talent, but because they lack strategy. Without a strategic compass, you are not building a brand. You are engaging in digital hopscotch, landing wherever the next trend drops you.
             </p>

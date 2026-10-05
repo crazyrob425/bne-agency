@@ -118,9 +118,9 @@ export default function SecurityMeasures() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Security Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>The Adult Industry Is a Minefield of Scams and Predators</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
-              If you're a creator in the adult industry, you're a target. Not because you're doing anything wrong, but because predators know you're vulnerable. you're vulnerable because you need clients, fans, or collaborators — and that need makes you susceptible to manipulation, fraud, and worse. The adult industry has no shortage of people willing to exploit that vulnerability for financial gain, personal gratification, or both.
+              If you're a creator in the adult industry, you're a target. Not because you're doing anything wrong, but because predators know you're vulnerable — you need clients, fans, or collaborators — and that need makes you susceptible to manipulation, fraud, and worse. The adult industry has no shortage of people willing to exploit that vulnerability for financial gain, personal gratification, or both.
             </p>
             <p>
               Every year, we hear horror stories: creators getting scammed out of thousands by fake booking agencies, doxxed by jealous exes or disgruntled fans, blackmailed with deepfakes, or worse. The industry doesn't talk about it enough because there's stigma, but the threat is very real. What makes these stories even more painful is that most of them were preventable. The scammer used a fake ID. The deepfake was traceable to a specific source. The "client" had a documented history of the same behavior with other creators.
@@ -129,42 +129,13 @@ export default function SecurityMeasures() {
               The problem isn't that creators are careless — it's that the tools to protect themselves are scattered, expensive, or nonexistent. Basic antivirus software won't catch a social engineering attack. A VPN won't stop a determined doxxer. Instagram's report button doesn't prevent a deepfake from being shared on Telegram before it's taken down. Most security advice online is written for corporate IT departments, not independent creators navigating a uniquely hostile environment.
             </p>
             <p>
-              This is where BNE's security measures come in. We''ve built a multi-layer security protocol specifically for adult content creators — covering digital identity protection, financial transaction security, client vetting integration, and physical safety planning. We combine proactive threat intelligence with reactive incident response, so you're not just protected against known threats but prepared for emerging ones. And because security and vetting are inseparable, our system works hand-in-hand with our <Link href="/screening-systems" className="text-violet-400 underline underline-offset-2 hover:text-violet-300 transition-colors">Screening Systems</Link> — because the best defense is preventing the wrong people from ever reaching you in the first place.
+              This is where BNE's security measures come in. We've built a multi-layer security protocol specifically for adult content creators — covering digital identity protection, financial transaction security, client vetting integration, and physical safety planning. We combine proactive threat intelligence with reactive incident response, so you're not just protected against known threats but prepared for emerging ones. And because security and vetting are inseparable, our system works hand-in-hand with our <Link href="/screening-systems" className="text-violet-400 underline underline-offset-2 hover:text-violet-300 transition-colors">Screening Systems</Link> — because the best defense is preventing the wrong people from ever reaching you in the first place.
             </p>
             <p>
               BNE's security measures go beyond basic antivirus and "don't share personal info." We build multi-layer security protocols that cover digital identity, financial transactions, client vetting, and physical safety. We teach you to recognize red flags before they become threats. We build systems that make you a hard target — the kind of creator that scammers move past because the ROI isn't worth the effort.
             </p>
             <p>
               Your safety is the bottom line. We don't just talk about security — we live it, every single day, for every single client.
-            </p>
-          </div>
-        </div>
-      </section>
-      {/* Context / Problem */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Security Problem</span>
-            <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>The Adult Industry Is a Minefield of Scams and Predators</h2>
-          </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
-            <p>
-              If you are a creator in the adult industry, you are a target. Not because you are doing anything wrong, but because predators know you are vulnerable. You are vulnerable because you need clients, fans, or collaborators — and that need makes you susceptible to manipulation, fraud, and worse. The adult industry has no shortage of people willing to exploit that vulnerability for financial gain, personal gratification, or both.
-            </p>
-            <p>
-              Every year, we hear horror stories: creators getting scammed out of thousands by fake booking agencies, doxxed by jealous exes or disgruntled fans, blackmailed with deepfakes, or worse. The industry does not talk about it enough because there is stigma, but the threat is very real. What makes these stories even more painful is that most of them were preventable. The scammer used a fake ID. The deepfake was traceable to a specific source. The "client" had a documented history of the same behavior with other creators.
-            </p>
-            <p>
-              The problem is not that creators are careless — it is that the tools to protect themselves are scattered, expensive, or nonexistent. Basic antivirus software will not catch a social engineering attack. A VPN will not stop a determined doxxer. Instagram's report button does not prevent a deepfake from being shared on Telegram before it is taken down. Most security advice online is written for corporate IT departments, not independent creators navigating a uniquely hostile environment.
-            </p>
-            <p>
-              This is where BNE's security measures come in. We have built a multi-layer security protocol specifically for adult content creators — covering digital identity protection, financial transaction security, client vetting integration, and physical safety planning. We combine proactive threat intelligence with reactive incident response, so you are not just protected against known threats but prepared for emerging ones. And because security and vetting are inseparable, our system works hand-in-hand with our <Link href="/screening-systems" className="text-violet-400 underline underline-offset-2 hover:text-violet-300 transition-colors">Screening Systems</Link> — because the best defense is preventing the wrong people from ever reaching you in the first place.
-            </p>
-            <p>
-              BNE's security measures go beyond basic antivirus and "do not share personal info." We build multi-layer security protocols that cover digital identity, financial transactions, client vetting, and physical safety. We teach you to recognize red flags before they become threats. We build systems that make you a hard target — the kind of creator that scammers move past because the ROI is not worth the effort.
-            </p>
-            <p>
-              Your safety is the bottom line. We do not just talk about security — we live it, every single day, for every single client.
             </p>
           </div>
         </div>

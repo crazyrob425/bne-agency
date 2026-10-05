@@ -115,7 +115,7 @@ export default function AudienceIntelligence() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Audience Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>Your Audience Is Sending You Signals You Are Not Reading</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               Most creators treat their audience like a single blob of indistinguishable followers. They post the same content, send the same DMs, and wonder why conversion rates are abysmal. The truth is your audience is not one group. It is a spectrum of intent, willingness to pay, and engagement depth.
             </p>

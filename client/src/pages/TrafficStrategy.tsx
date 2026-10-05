@@ -115,7 +115,7 @@ export default function TrafficStrategy() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Traffic Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>Most Creators Are One Algorithm Update Away From Zero</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               Build your entire creator business on a single platform and you're renting. One terms-of-service update, one shadowban, one account takedown — and your income vanishes overnight. We've seen it happen to thousands of creators who thought they were "safe" because they had 100K followers. Followers don't pay bills. Traffic does. And traffic without diversification is a house of cards.
             </p>

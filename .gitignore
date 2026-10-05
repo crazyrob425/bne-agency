@@ -115,7 +115,21 @@ client/public/__manus__/version.json
 
 
 # Local media copies served by Render — now hosted on Cloudflare R2
-client/public/media-files/
+client/public/media-files/*
+# Exception 2026-10-05: the 11 remade site videos (<25MB each, Pages-safe) ARE
+# committed so Cloudflare Pages serves /media-files/ directly (R2 route was
+# never wired up; the old MP4s 404'd to index.html and broke every player).
+!client/public/media-files/BNE_Studio_Home_Page_landing_advertisment.mp4
+!client/public/media-files/The_Agency_Scale_Methodology.mp4
+!client/public/media-files/Niche_Domination___Survival.mp4
+!client/public/media-files/2257_Compliance_AgeGate_Shielding_Your_Empire_from_the_law.mp4
+!client/public/media-files/The_Invisible_Identity_Digital_Fortress.mp4
+!client/public/media-files/Surviving_the_Scammers_in_Adult_Entertainment.mp4
+!client/public/media-files/Finding_Your_Freaky__The_Psychology_of_6-Figure_Niches.mp4
+!client/public/media-files/Transition_to_Inperson_income.mp4
+!client/public/media-files/What_services_should_a_firm_offer_creators_in_2026.mp4
+!client/public/media-files/Niche_Quiz_Supremacy_–_The_Strategic_Economics_of_Adult_Niche.mp4
+!client/public/media-files/Vetting_OFM_Agencies.mp4
 
 # Source media files — hosted on Cloudflare R2, do not commit to git
 media/

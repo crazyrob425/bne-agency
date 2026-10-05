@@ -118,7 +118,7 @@ export default function PrivacySystems() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Privacy Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>One Data Leak Can Ruin Your Life</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               In the adult industry, privacy isn't paranoia — it's survival. Every year, thousands of creators get outed because they trusted the wrong platform, used their real email, or failed to separate their business from their personal life. The consequences are devastating: ruined relationships, blacklisting, doxxing, and in extreme cases, physical danger. A single data breach at a platform you trusted can expose your real name, address, and payment history to the entire internet in minutes.
             </p>

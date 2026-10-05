@@ -120,7 +120,7 @@ export default function ScalingFrameworks() {
             <span className="text-emerald-400 text-sm font-medium mono-stat uppercase tracking-widest">The Scaling Problem</span>
             <h2 className="text-4xl font-bold text-zinc-100 mt-3 mb-4" style={{ fontFamily: 'Space Grotesk' }}>Why Most Creators Hit a Ceiling and Stay There</h2>
           </motion.div>
-          <div className="space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
+          <div className="prose-bne space-y-6 text-zinc-300 text-lg leading-relaxed" style={{ fontFamily: 'DM Sans' }}>
             <p>
               Here is the brutal truth most gurus will not tell you: the creator economy is designed to keep you trading hours for dollars. You post more, you chat more, you edit more, and somehow you are still making the same two to five thousand dollars a month that barely covers your bills. The math does not scale because you are the bottleneck. Every message you answer personally is a message that should be handled by a trained squad. Every post you schedule manually is a post that should run on autopilot. You are not building a business. You are building a prison where you are both the warden and the inmate.
             </p>
