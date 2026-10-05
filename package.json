@@ -114,7 +114,7 @@
     "unified": "^11.0.5",
     "vaul": "^1.1.2",
     "watermark-js-plus": "^1.6.6",
-    "wouter": "^3.3.5",
+    "wouter": "3.7.1",
     "zod": "^4.1.12"
   },
   "devDependencies": {
