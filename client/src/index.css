@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -355,6 +356,187 @@
   }
   .font-display {
     font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* ─── PROSE-BNE: luxury long-form article styling ──────────────────────────
+     Used by ArticleDetail for blog/guide body content. Dark lounge theme with
+     gold accents — no more unstyled walls of text. */
+  .prose-bne {
+    color: #d4d4d8;
+    font-size: 1.075rem;
+    line-height: 1.85;
+    font-family: 'DM Sans', 'Montserrat', sans-serif;
+    max-width: 100%;
+  }
+  .prose-bne > *:first-child { margin-top: 0; }
+  .prose-bne > *:last-child { margin-bottom: 0; }
+
+  .prose-bne p { margin: 1.4em 0; color: #c9c9cf; }
+  .prose-bne p:first-of-type::first-letter { /* drop cap on lede */
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4em;
+    font-weight: 800;
+    float: left;
+    line-height: 0.85;
+    padding-right: 0.12em;
+    padding-top: 0.05em;
+    color: oklch(0.78 0.16 85);
+  }
+
+  .prose-bne h1, .prose-bne h2 {
+    font-family: 'Playfair Display', serif;
+    color: #fafafa;
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 2.2em 0 0.9em;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .prose-bne h2 {
+    font-size: 1.75rem;
+    padding-bottom: 0.45em;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+    position: relative;
+  }
+  .prose-bne h2::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -1px;
+    width: 72px; height: 2px;
+    background: linear-gradient(90deg, oklch(0.78 0.16 85), transparent);
+  }
+  .prose-bne h3, .prose-bne h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: oklch(0.85 0.1 85);
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 1.9em 0 0.7em;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .prose-bne h3 { font-size: 1.35rem; }
+  .prose-bne h4 { font-size: 1.1rem; }
+
+  .prose-bne a {
+    color: oklch(0.78 0.16 85);
+    text-decoration: underline;
+    text-decoration-color: rgba(212, 175, 55, 0.45);
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+  .prose-bne a:hover { color: #f5d67b; text-decoration-color: #f5d67b; }
+
+  .prose-bne strong { color: #ffffff; font-weight: 700; }
+  .prose-bne em { color: #e8e8ea; }
+
+  .prose-bne ul, .prose-bne ol { margin: 1.4em 0; padding-left: 0; list-style: none; }
+  .prose-bne ul > li, .prose-bne ol > li {
+    position: relative;
+    padding-left: 1.9em;
+    margin: 0.65em 0;
+    color: #c9c9cf;
+  }
+  .prose-bne ul > li::before {
+    content: '◆';
+    position: absolute; left: 0.35em; top: 0.05em;
+    color: oklch(0.78 0.16 85);
+    font-size: 0.7em;
+  }
+  .prose-bne ol { counter-reset: bne-ol; }
+  .prose-bne ol > li { counter-increment: bne-ol; }
+  .prose-bne ol > li::before {
+    content: counter(bne-ol, decimal-leading-zero);
+    position: absolute; left: 0; top: 0.15em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72em; font-weight: 700;
+    color: oklch(0.78 0.16 85);
+  }
+  .prose-bne li > ul, .prose-bne li > ol { margin: 0.5em 0; }
+
+  .prose-bne blockquote {
+    margin: 2em 0;
+    padding: 1.2em 1.5em 1.2em 1.6em;
+    border-left: 3px solid oklch(0.78 0.16 85);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.07), transparent 60%);
+    border-radius: 0 0.9em 0.9em 0;
+    font-style: italic;
+    color: #e4e4e7;
+  }
+  .prose-bne blockquote p { margin: 0.6em 0; }
+  .prose-bne blockquote p:first-of-type::first-letter { /* no drop cap inside quotes */
+    font-size: inherit; float: none; line-height: inherit;
+    padding: 0; color: inherit; font-family: inherit; font-weight: inherit;
+  }
+
+  .prose-bne code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    color: #f5d67b;
+    padding: 0.15em 0.45em;
+    border-radius: 0.4em;
+    white-space: nowrap;
+  }
+  .prose-bne pre {
+    margin: 1.8em 0;
+    padding: 1.3em 1.5em;
+    background: #0a0a0c;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.9em;
+    overflow-x: auto;
+  }
+  .prose-bne pre code {
+    background: none; border: none; padding: 0;
+    color: #d4d4d8; white-space: pre;
+  }
+
+  .prose-bne table {
+    width: 100%;
+    margin: 2em 0;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  .prose-bne thead th {
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: oklch(0.78 0.16 85);
+    text-align: left;
+    padding: 0.8em 1em;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  }
+  .prose-bne tbody td {
+    padding: 0.8em 1em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: #c9c9cf;
+  }
+  .prose-bne tbody tr:hover td { background: rgba(212, 175, 55, 0.04); }
+
+  .prose-bne hr {
+    margin: 2.6em auto;
+    border: none;
+    height: 1px;
+    max-width: 320px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+  }
+
+  .prose-bne img {
+    border-radius: 1em;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 2em auto;
+    display: block;
+    max-width: 100%;
+  }
+  .prose-bne figure { margin: 2em 0; }
+  .prose-bne figcaption {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #71717a;
+    margin-top: 0.8em;
+    font-style: italic;
   }
 
   /* ─── CUSTOM SCROLLBAR ──────────────────────────────────────────────────── */

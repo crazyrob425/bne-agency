@@ -8,8 +8,8 @@ import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import AuthorBio from "@/components/AuthorBio";
-import { professors } from "@/data/professors";
-import { Link } from "wouter";
+import { professors, FACULTY_FICTION_NOTE } from "@/data/professors";
+import { Link, useSearch } from "wouter";
 import {
   Crown, Shield, BookOpen, Printer, Download, Sparkles,
   ChevronRight, Play, FileText, ArrowRight, ExternalLink,
@@ -20,7 +20,11 @@ export default function University() {
   const { getCourses, loading, error } = useMediaCatalog();
   const courses = getCourses();
 
-  const [activeCourseId, setActiveCourseId] = useState<string>("legal-privacy");
+  const searchString = useSearch();
+  const [activeCourseId, setActiveCourseId] = useState<string>(() => {
+    const requested = new URLSearchParams(searchString).get("course");
+    return requested && courses.some((c) => c.id === requested) ? requested : "legal-privacy";
+  });
   const [selectedPrintItem, setSelectedPrintItem] = useState<MediaCatalogItem | null>(null);
 
   // Filter blog articles for courses dynamically based on keywords
@@ -63,7 +67,7 @@ export default function University() {
           </style>
         </head>
         <body>
-          <img src="${itemUrl}" />
+          <img src="${itemUrl}" alt="University resource" />
           <script>
             // Wait for image to load before printing
             const img = document.querySelector('img');
@@ -87,9 +91,11 @@ export default function University() {
 
   const universitySchema = {
     "@context": "https://schema.org",
-    "@type": "Course",
-    "name": "Blacklisted University Masterclass",
-    "description": "Video lectures and guides covering audience psychology, sovereign legal privacy, § 2257 compliance guidelines, and operations scaling.",
+    "@type": "LearningResource",
+    "name": "Blacklisted University — Free Creator Education",
+    "description": "Free video guides and articles covering audience psychology, sovereign legal privacy, § 2257 compliance guidelines, and operations scaling. Not a real school — a playful free educational resource.",
+    "isAccessibleForFree": true,
+    "learningResourceType": "Guide",
     "provider": {
       "@type": "Organization",
       "name": "Blacklisted Niche Entertainment",
@@ -126,26 +132,31 @@ export default function University() {
               <span className="gradient-text-gold">Misbehaving Pays the Bills</span>
             </h1>
 
-            <p className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto mb-8 font-body leading-relaxed">
-              Welcome to the Dean's Desk. We don't do useless theory or grade-inflated homework here. 
-              Our curriculum is engineered around one standard: **maximizing your income while minimizing your labor.** 
-              Learn the business, master the psychology, lock down your privacy, and let BNE build your empire.
+            <p className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto mb-6 font-body leading-relaxed">
+              Welcome to the Dean's Desk. We don't do useless theory or grade-inflated homework here — mostly because this isn't a real school. Blacklisted University is our <span className="text-zinc-200 font-semibold">free educational library</span> dressed up in a sexy mortarboard: deep-dive guides, tutorials, and videos for every kind of adult creator, written in character by our (fictional, fabulous) faculty.
             </p>
+
+            <div className="max-w-2xl mx-auto mb-8 px-5 py-3.5 rounded-2xl border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.78_0.16_85/5%)] text-left">
+              <p className="text-sm text-zinc-300 font-body leading-relaxed">
+                <span className="font-semibold text-[oklch(0.78_0.16_85)]">Not a real school, just a fun theme.</span>{" "}
+                No enrollment, no tuition, no degrees, no real professors. Every guide, video, and handout here is free — for everyone, forever.
+              </p>
+            </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-[oklch(0.58_0.015_85)] font-mono-lux">
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-[oklch(0.78_0.16_85)]" />
-                <span>4 Core Specializations</span>
+                <span>6 Fictional Professors</span>
               </div>
               <span className="text-zinc-800">•</span>
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-[oklch(0.78_0.16_85)]" />
-                <span>Dynamic Media & Lectures</span>
+                <span>Free Deep-Dive Guides</span>
               </div>
               <span className="text-zinc-800">•</span>
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-[oklch(0.78_0.16_85)]" />
-                <span>CPA-Approved Tax Blueprints</span>
+                <span>0 Tuition · 0 Homework</span>
               </div>
             </div>
           </motion.div>
@@ -158,9 +169,10 @@ export default function University() {
           
           {/* Navigation Sidebar */}
           <aside className="space-y-3 lg:sticky lg:top-24">
-            <h3 className="text-[oklch(0.58_0.015_85)] text-xs font-bold tracking-widest uppercase mb-4 px-3 font-body">
-              Course Catalog
+            <h3 className="text-[oklch(0.58_0.015_85)] text-xs font-bold tracking-widest uppercase mb-1 px-3 font-body">
+              Class Guides
             </h3>
+            <p className="text-[10px] text-zinc-600 px-3 mb-4 font-body italic">free · no enrollment · read at your pace</p>
             <div className="flex flex-col gap-2">
               {courses.map((course) => {
                 const isActive = course.id === activeCourseId;
@@ -204,7 +216,7 @@ export default function University() {
           <main className="space-y-10">
             {loading ? (
               <div className="glass-card p-12 text-center text-zinc-400 font-body">
-                Sychronizing Course syllabus...
+                Sychronizing the class guides...
               </div>
             ) : error ? (
               <div className="glass-card p-12 text-center text-red-400 font-body">
@@ -223,7 +235,7 @@ export default function University() {
                   <div className="absolute top-0 right-0 h-40 w-40 bg-[oklch(0.78_0.16_85/3%)] blur-2xl rounded-full pointer-events-none" />
                   
                   <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold font-mono-lux tracking-widest uppercase">
-                    Core Specialization Syllabus
+                    Class Guide
                   </span>
                   
                   <h2 className="text-3xl font-black text-zinc-100 font-display mt-2 mb-4">
@@ -236,7 +248,7 @@ export default function University() {
 
                   <div className="p-5 rounded-xl bg-[oklch(0.78_0.16_85/4%)] border border-[oklch(0.78_0.16_85/10%)]">
                     <p className="text-zinc-300 italic font-body text-sm leading-relaxed">
-                      "BU Syllabus: {activeCourse.tabooPitch}"
+                      "From the professor's desk (in character): {activeCourse.tabooPitch}"
                     </p>
                   </div>
                 </div>
@@ -245,12 +257,12 @@ export default function University() {
                 <div className="space-y-5">
                   <h3 className="text-xl font-bold text-zinc-200 font-display flex items-center gap-2 border-b border-white/5 pb-2">
                     <Play size={18} className="text-[oklch(0.78_0.16_85)]" />
-                    Course Lectures
+                    Class Videos
                   </h3>
 
                   {activeCourse.videos.length === 0 ? (
                     <div className="glass-card p-8 text-center text-zinc-500 font-body text-sm">
-                      No video lectures dynamically indexed for this course yet.
+                      No class videos indexed for this guide yet.
                     </div>
                   ) : (
                     <div className="grid gap-6 md:grid-cols-2">
@@ -281,12 +293,12 @@ export default function University() {
                 <div className="space-y-5">
                   <h3 className="text-xl font-bold text-zinc-200 font-display flex items-center gap-2 border-b border-white/5 pb-2">
                     <BookOpen size={18} className="text-[oklch(0.78_0.16_85)]" />
-                    Library (Required Reading)
+                    The Library (Free Reading — No Homework)
                   </h3>
 
                   {getCourseArticles(activeCourse.keywords).length === 0 ? (
                     <div className="glass-card p-8 text-center text-zinc-500 font-body text-sm">
-                      No library materials indexed for this course yet.
+                      No library guides indexed for this class yet.
                     </div>
                   ) : (
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -305,7 +317,7 @@ export default function University() {
                               </p>
                             </div>
                             <div className="text-xs text-[oklch(0.78_0.16_85)] font-semibold mt-4 flex items-center gap-1 group-hover:underline">
-                              Read Chapter <ExternalLink size={10} />
+                              Read Guide <ExternalLink size={10} />
                             </div>
                           </div>
                         </Link>
@@ -318,7 +330,7 @@ export default function University() {
                 <div className="space-y-5">
                   <h3 className="text-xl font-bold text-zinc-200 font-display flex items-center gap-2 border-b border-white/5 pb-2">
                     <Printer size={18} className="text-[oklch(0.78_0.16_85)]" />
-                    Print Shop (Course Flyers & Guides)
+                    Print Shop (Class Handouts & Guides)
                   </h3>
 
                   {activeCourse.printMaterials.length === 0 ? (
@@ -402,12 +414,13 @@ export default function University() {
         </div>
       </section>
 
-      {/* ── FACULTY ROSTER ── */}
+      {/* ── FACULTY ROSTER (FICTIONAL CHARACTERS) ── */}
       <section className="py-16 bg-slate-950/60 border-t border-slate-800/40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Academic Leadership</span>
-            <h2 className="text-3xl font-display font-bold text-white mt-2">Blacklisted University Faculty Roster</h2>
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Meet the Faculty</span>
+            <h2 className="text-3xl font-display font-bold text-white mt-2">Fictional, Fabulous &amp; Here to Teach-ish</h2>
+            <p className="text-slate-400 text-sm mt-3 max-w-2xl mx-auto font-body">{FACULTY_FICTION_NOTE}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             {professors.slice(0, 4).map((prof) => (
@@ -421,8 +434,8 @@ export default function University() {
 
       {/* ── TESTIMONIALS ── */}
       <TestimonialsSection
-        title="Student & Creator Success Stories"
-        subtitle="Read real reviews from women who transformed their creator business through Blacklisted University masterclasses."
+        title="Creator Success Stories"
+        subtitle="Read real reviews from creators who leveled up their business with Blacklisted University's free guides."
         limit={6}
       />
 

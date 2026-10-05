@@ -81,7 +81,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "How do I get access to Creator OS?",
-    answer: "Access is granted to all BNE Studio managed creators and Blacklisted University enrolled members.",
+    answer: "Creator OS is free for everyone — no enrollment, no account needed. Just open it and run your business.",
   },
   {
     question: "Does Creator OS run on mobile devices?",

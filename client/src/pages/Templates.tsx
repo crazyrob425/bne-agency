@@ -70,7 +70,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "How do I download the creator Media Kit template?",
-    answer: "The Media Kit template is accessible directly in our interactive reader on page or downloadable for enrolled Blacklisted University members.",
+    answer: "The Media Kit template is free for everyone — open it in our interactive reader on this page or download it. No enrollment needed.",
   },
 ]);
 

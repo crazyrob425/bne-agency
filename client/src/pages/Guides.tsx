@@ -66,7 +66,7 @@ const GUIDES_LIST = [
 const faqSchema = buildFaqSchema([
   {
     question: "Are Blacklisted University guides free to download?",
-    answer: "Guides are available for instant download to all enrolled Blacklisted University students and BNE Studio managed creators.",
+    answer: "Yes — every guide is free for everyone. No enrollment, no account, no student ID. Just download and read.",
   },
   {
     question: "What formats do BNE creator guides come in?",
@@ -74,7 +74,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "How often are the legal and compliance guides updated?",
-    answer: "Legal and compliance guides are updated quarterly by our legal faculty lead, Professor Marcus Hayes, to reflect changes in federal regulations and platform policies.",
+    answer: "Legal and compliance guides are updated by our content team — written in character by Professor Marcus Hayes (fictional, fabulous) — to reflect changes in federal regulations and platform policies.",
   },
 ]);
 
@@ -241,7 +241,7 @@ export default function Guides() {
           <h2 className="text-2xl font-display font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "How do I get full access to all PDF guides?", a: "Full access is provided to all enrolled Blacklisted University students and BNE Studio managed creators." },
+              { q: "How do I get full access to all PDF guides?", a: "You already have it — every guide is free for everyone. No enrollment, no account needed." },
               { q: "Can I print these guides for offline reference?", a: "Yes. All PDFs are print-formatted with clean vector layouts and high-resolution typography." },
               { q: "Are § 2257 release form templates legally binding?", a: "Our templates are drafted by legal specialists to meet 18 U.S.C. § 2257 federal requirements across all US jurisdictions." },
             ].map((faq, i) => (

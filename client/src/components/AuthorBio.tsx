@@ -71,6 +71,9 @@ export default function AuthorBio({ professor, variant = "inline", showCourses =
                 <BookOpen className="h-3 w-3" />
                 Blacklisted University · {professor.department}
               </p>
+              <p className="text-[11px] text-amber-400/70 mt-1 italic font-body">
+                Fictional character — a playful persona our content team writes in.
+              </p>
             </div>
           </div>
 
@@ -89,7 +92,7 @@ export default function AuthorBio({ professor, variant = "inline", showCourses =
           {/* Courses */}
           {showCourses && professor.courses.length > 0 && (
             <div className="mt-5 pt-4 border-t border-slate-800">
-              <p className="text-xs text-slate-500 uppercase tracking-widest mb-2">Courses at Blacklisted University</p>
+              <p className="text-xs text-slate-500 uppercase tracking-widest mb-2">Class guides on this character's shelf</p>
               <div className="space-y-1.5">
                 {professor.courses.map(course => (
                   <div key={course} className="flex items-center gap-2">

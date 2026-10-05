@@ -1,7 +1,8 @@
 /**
  * BNE Training Modules Page
- * Detailed training syllabus covering 5 core operational modules for adult creators:
- * Automation Workflows, DM Sales Systems, § 2257 Compliance, Passive Income Syndication, and Niche Positioning.
+ * Free step-by-step creator playbooks: automation workflows, DM sales systems,
+ * § 2257 compliance, passive income syndication, and niche positioning.
+ * Not a real school — free guides roleplaying as a cheeky university.
  */
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -41,6 +42,10 @@ const MODULES_LIST = [
       "Platform API queueing and prime engagement window timing",
       "Multi-platform asset vaulting and encrypted backup SOPs",
     ],
+    reads: [
+      { title: "The 90-Day Content Calendar That Keeps You Consistent", href: "/blog/content-calendar-strategy-adult-creators" },
+      { title: "AI That Actually Pays You: Content Production Systems", href: "/blog/ai-content-production-augmentation-for-creators-2026" },
+    ],
   },
   {
     num: "Module 02",
@@ -53,6 +58,10 @@ const MODULES_LIST = [
       "Curiosity-gap PPV messaging copy & preview triggers",
       "Custom content rate cards and non-refundable deposit rules",
       "Win-back automated drops for expired subscribers",
+    ],
+    reads: [
+      { title: "Stop Obsessing Over New Subscribers. Your Money Is in the Ones You Already Have.", href: "/blog/fan-engagement-crm-subscriber-retention" },
+      { title: "Beyond Subscriptions: The Advanced Monetization Stack", href: "/blog/ppv-custom-content-findom-advanced-monetization" },
     ],
   },
   {
@@ -67,6 +76,10 @@ const MODULES_LIST = [
       "DMCA anti-piracy scanning and automated search removal",
       "Identity separation and anonymized corporate entity setup",
     ],
+    reads: [
+      { title: "18 U.S.C. § 2257: The Compliance Guide You Can't Afford to Skip", href: "/blog/18-usc-2257-complete-guide-adult-creators" },
+      { title: "Your Content Is Being Stolen Right Now. Here's What to Do About It.", href: "/blog/dmca-anti-piracy-guide-adult-creators" },
+    ],
   },
   {
     num: "Module 04",
@@ -79,6 +92,10 @@ const MODULES_LIST = [
       "Setting up passive revenue payouts and automated uploads",
       "Pricing strategy for full video sets vs short custom clips",
       "Licensing agreements and reseller protection frameworks",
+    ],
+    reads: [
+      { title: "From Content to Calls to Companionship: Portfolio Diversification", href: "/blog/adult-creator-portfolio-diversification-phone-sex-sexting-escort-2026" },
+      { title: "OnlyFans vs. Fansly vs. LoyalFans: Which Platform Deserves You", href: "/blog/onlyfans-vs-fansly-platform-comparison-2025" },
     ],
   },
   {
@@ -93,25 +110,29 @@ const MODULES_LIST = [
       "Positioning against market competitors without price wars",
       "High-ticket sub-niche tip menu architecture",
     ],
+    reads: [
+      { title: "Why 1% of Creators Take Home 90% of the Money (And How to Be One of Them)", href: "/blog/power-law-niche-selection-adult-creator-economy" },
+      { title: "The Kink Creator's Business Guide: The Most Loyal Audience in Adult", href: "/blog/bdsm-kink-niche-creator-guide" },
+    ],
   },
 ];
 
 const faqSchema = buildFaqSchema([
   {
     question: "What are Blacklisted University training modules?",
-    answer: "Training modules are structured, step-by-step educational units covering automation workflows, DM sales, legal compliance, clip store syndication, and niche positioning.",
+    answer: "Training modules are free, step-by-step playbook guides covering automation workflows, DM sales, legal compliance, clip store syndication, and niche positioning. No enrollment needed — just read.",
   },
   {
     question: "How long does each training module take to complete?",
-    answer: "Modules are self-paced and average 2 to 4 hours of video, audio, and downloadable worksheet materials per unit.",
+    answer: "They're in-depth written guides, not timed courses — read at your own pace. No durations, no deadlines, no homework.",
   },
   {
     question: "Do modules include downloadable templates and checklists?",
-    answer: "Yes. Every module includes downloadable PDF SOPs, § 2257 compliance forms, rate cards, and content calendar spreadsheets.",
+    answer: "Yes. The guides link to free downloadable PDF SOPs, § 2257 compliance forms, rate cards, and content calendar worksheets.",
   },
   {
-    question: "Are training modules included with BNE management plans?",
-    answer: "Yes. All training modules are fully unlocked for creators partnered with BNE Studio across any management tier.",
+    question: "Are the professors real?",
+    answer: "No — our professors are fictional characters, playful personas our content team writes in. The guides are real and free; the faculty is fabulously fake.",
   },
 ]);
 
@@ -124,11 +145,11 @@ export default function TrainingModules() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
-        title="Creator Training Modules & Automation Playbooks | Blacklisted University"
-        description="Master adult creator automation workflows, 24/7 DM sales systems, 2257 compliance, and clip store syndication through Blacklisted University training modules."
+        title="Free Creator Training Playbooks | Blacklisted University"
+        description="Free step-by-step creator playbooks: automation workflows, DM sales systems, 2257 compliance, and clip store syndication. No enrollment, no tuition — just free guides."
         canonical="/training-modules"
         schema={faqSchema}
-        keywords="creator training modules, OnlyFans automation course, 2257 compliance training, creator DM sales scripts, adult creator academy"
+        keywords="free creator training, OnlyFans automation guide, 2257 compliance guide, creator DM sales scripts, Blacklisted University"
       />
       <Navigation />
 
@@ -145,20 +166,26 @@ export default function TrainingModules() {
               </span>
             </div>
             <h1 className="heading-xl text-[oklch(0.94_0.01_85)] mb-4 max-w-4xl mx-auto">
-              Structured <span className="gradient-text-gold">Training Modules</span>
+              Free <span className="gradient-text-gold">Training Playbooks</span>
             </h1>
-            <p className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto mb-8 font-body leading-relaxed">
-              Stop relying on random social media hacks. Blacklisted University training modules provide step-by-step SOPs, video walkthroughs, and legal templates to automate and scale your creator business.
+            <p className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto mb-6 font-body leading-relaxed">
+              Stop relying on random social media hacks. These free step-by-step playbooks — video walkthroughs, SOPs, and legal templates — help you automate and scale your creator business. No enrollment, no tuition. Just read.
             </p>
+            <div className="max-w-2xl mx-auto mb-8 px-5 py-3.5 rounded-2xl border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.78_0.16_85/5%)] text-left">
+              <p className="text-sm text-zinc-300 font-body leading-relaxed">
+                <span className="font-semibold text-[oklch(0.78_0.16_85)]">Not a real school, just a fun theme.</span>{" "}
+                Blacklisted University is our free educational library roleplaying as a cheeky creator university. Every playbook here is free, forever.
+              </p>
+            </div>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/all-courses">
                 <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full btn-gold text-sm font-semibold">
-                  <Video size={16} /> View Full Course Catalog <ArrowRight size={14} />
+                  <Video size={16} /> Browse Free Class Catalog <ArrowRight size={14} />
                 </motion.button>
               </Link>
-              <Link href="/apply">
+              <Link href="/guides">
                 <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full border border-slate-700 bg-slate-900 text-slate-200 text-sm font-semibold">
-                  Get Vault Access
+                  Read Free Guides
                 </motion.button>
               </Link>
             </div>
@@ -172,7 +199,7 @@ export default function TrainingModules() {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Automation Blueprint</span>
-              <h2 className="text-3xl font-bold text-white mt-2 mb-4 font-display">Online Creator Automation SOPs</h2>
+              <h2 className="text-3xl font-bold text-white mt-2 mb-4 font-display">Online Creator Automation Playbook</h2>
               <p className="text-slate-400 text-sm leading-relaxed mb-6">
                 Inspect our high-resolution automation flowchart illustrating how content queueing, DM chat teams, and platform syndication integrate into a single unified business pipeline.
               </p>
@@ -198,10 +225,10 @@ export default function TrainingModules() {
             <div className="bg-slate-900/60 p-8 rounded-2xl border border-slate-800 space-y-4">
               <h3 className="text-xl font-bold text-white mb-2">What Every Module Delivers</h3>
               {[
-                "Step-by-step video & audio lecture breakdowns",
-                "Downloadable PDF worksheets & legal compliance SOPs",
+                "Step-by-step video & audio walkthroughs",
+                "Free downloadable PDF worksheets & legal compliance SOPs",
                 "Real-world account case studies & metric benchmarks",
-                "Direct Q&A access with Blacklisted University faculty",
+                "Written in character by our (fictional) faculty",
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm text-slate-300">
                   <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
@@ -233,7 +260,7 @@ export default function TrainingModules() {
                     <p className="text-slate-300 text-sm leading-relaxed mb-5">{mod.desc}</p>
                     
                     <h4 className="text-xs uppercase tracking-widest text-slate-500 mb-3 font-semibold">Key Topics Covered</h4>
-                    <div className="grid sm:grid-cols-2 gap-2">
+                    <div className="grid sm:grid-cols-2 gap-2 mb-5">
                       {mod.topics.map(topic => (
                         <div key={topic} className="flex items-start gap-2 text-xs text-slate-400">
                           <Zap className="h-3.5 w-3.5 text-[oklch(0.78_0.16_85)] shrink-0 mt-0.5" />
@@ -241,16 +268,31 @@ export default function TrainingModules() {
                         </div>
                       ))}
                     </div>
+
+                    <h4 className="text-xs uppercase tracking-widest text-slate-500 mb-3 font-semibold">Read the free guides</h4>
+                    <div className="space-y-2">
+                      {mod.reads.map(read => (
+                        <Link key={read.href} href={read.href}>
+                          <div className="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 hover:border-[oklch(0.78_0.16_85/40%)] transition-all cursor-pointer group">
+                            <span className="text-xs text-slate-300 group-hover:text-white leading-snug">{read.title}</span>
+                            <ArrowRight size={13} className="text-[oklch(0.78_0.16_85)] shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
 
                   <div className="bg-slate-950/60 p-5 rounded-xl border border-slate-800/80 flex flex-col justify-between h-full">
                     <div>
-                      <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Module Instructor</div>
+                      <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Module Character</div>
                       <AuthorBio professor={mod.professor} variant="compact" />
+                      <p className="text-[11px] text-slate-500 mt-3 leading-relaxed font-body italic">
+                        Fictional character — a playful persona our content team writes in.
+                      </p>
                     </div>
-                    <Link href="/apply">
+                    <Link href={mod.reads[0].href}>
                       <button className="w-full mt-6 py-2.5 rounded-lg btn-gold text-xs font-semibold">
-                        Unlock Module →
+                        Read Free Guides →
                       </button>
                     </Link>
                   </div>
@@ -274,9 +316,9 @@ export default function TrainingModules() {
           <h2 className="text-2xl font-display font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "Can I take training modules individually?", a: "Modules are accessible as part of full Blacklisted University enrollment or included free with BNE Studio management plans." },
-              { q: "Are templates included in the legal module?", a: "Yes. Module 03 includes downloadable 18 U.S.C. § 2257 model release forms, performer identification logs, and DMCA takedown templates." },
-              { q: "How often are training modules updated?", a: "Faculty updates modules quarterly to incorporate changing platform policies, algorithm changes, and search trends." },
+              { q: "Do I need to enroll to read the playbooks?", a: "No. There's nothing to enroll in — every playbook is free for everyone, no account needed." },
+              { q: "Are templates included in the legal playbook?", a: "Yes. The legal playbook links to free 18 U.S.C. § 2257 model release forms, performer identification logs, and DMCA takedown templates." },
+              { q: "How often are playbooks updated?", a: "Our content team updates them as platform policies, algorithms, and search trends change." },
             ].map((faq, i) => (
               <div key={faq.q} className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl">
                 <h4 className="text-white font-semibold text-sm mb-2">{faq.q}</h4>
@@ -291,11 +333,11 @@ export default function TrainingModules() {
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-            <h2 className="text-3xl font-display font-bold text-white mb-4">Start Mastering Creator Automation Systems</h2>
-            <p className="text-slate-400 mb-8 max-w-2xl mx-auto">Enroll in Blacklisted University today and get immediate access to all 5 core training modules.</p>
-            <Link href="/apply">
+            <h2 className="text-3xl font-display font-bold text-white mb-4">Start Reading — It's All Free</h2>
+            <p className="text-slate-400 mb-8 max-w-2xl mx-auto">Five free training playbooks. No enrollment, no tuition, no student ID. Just pick a shelf and start learning.</p>
+            <Link href="/all-courses">
               <motion.button whileTap={{ scale: 0.95 }} className="btn-gold px-10 py-4 text-base">
-                Enroll in Training Vault →
+                Browse the Free Class Catalog →
               </motion.button>
             </Link>
           </motion.div>
