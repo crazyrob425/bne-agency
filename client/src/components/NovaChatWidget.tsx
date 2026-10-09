@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { MessageCircle, X, Sparkles } from "lucide-react";
 import { AIChatBox, Message } from "./AIChatBox";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,13 @@ const SUGGESTED = [
   "What is the chatter service?",
 ];
 
+const NUDGE_AFTER_MS = 120000;
+const NUDGE_MESSAGES = [
+  "Hey! I'm Roxy - need help finding your perfect niche?",
+  "Psst... I know 1,043 niches by heart. Want me to find yours?",
+  "Hey you - trying to make more money as a creator? Let's talk.",
+];
+
 type Notice = string | null;
 
 export function NovaChatWidget() {
@@ -25,7 +32,47 @@ export function NovaChatWidget() {
   const [endEmail, setEndEmail] = useState("");
   const [followUp, setFollowUp] = useState(false);
   const [endState, setEndState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [nudge, setNudge] = useState(false);
+  const nudgeMsg = useRef(NUDGE_MESSAGES[Math.floor(Math.random() * NUDGE_MESSAGES.length)]);
   const abortRef = useRef<AbortController | null>(null);
+
+  // Proactive nudge: 2+ min on site without opening chat -> Roxy "messages" them.
+  useEffect(() => {
+    const ss = window.sessionStorage;
+    if (ss.getItem("roxy_clicked") || ss.getItem("roxy_nudge_dismissed")) return;
+    if (!ss.getItem("roxy_first_seen")) ss.setItem("roxy_first_seen", String(Date.now()));
+    const iv = setInterval(() => {
+      if (document.hidden) return;
+      const elapsed = Date.now() - Number(ss.getItem("roxy_first_seen") || Date.now());
+      if (elapsed >= NUDGE_AFTER_MS) {
+        setNudge(true);
+        clearInterval(iv);
+      }
+    }, 5000);
+    return () => clearInterval(iv);
+  }, []);
+
+  const openChat = useCallback((fromNudge: boolean) => {
+    setOpen(true);
+    setNudge(false);
+    try {
+      window.sessionStorage.setItem("roxy_clicked", "1");
+    } catch { /* ignore */ }
+    if (fromNudge) {
+      setMessages((prev) =>
+        prev.length === 0
+          ? [{ role: "assistant", content: nudgeMsg.current + " What's on your mind?" }]
+          : prev
+      );
+    }
+  }, []);
+
+  const dismissNudge = useCallback(() => {
+    setNudge(false);
+    try {
+      window.sessionStorage.setItem("roxy_nudge_dismissed", "1");
+    } catch { /* ignore */ }
+  }, []);
 
   const endChat = useCallback(async () => {
     const email = endEmail.trim();
@@ -261,6 +308,48 @@ export function NovaChatWidget() {
 
   return (
     <div className="fixed bottom-5 right-5 z-[100] flex flex-col items-end gap-3">
+      <style>{`
+        @keyframes roxy-nudge-shake {
+          0%, 88%, 100% { transform: rotate(0deg) scale(1); }
+          90% { transform: rotate(-14deg) scale(1.08); }
+          92% { transform: rotate(12deg) scale(1.08); }
+          94% { transform: rotate(-10deg) scale(1.08); }
+          96% { transform: rotate(8deg) scale(1.08); }
+          98% { transform: rotate(-4deg) scale(1.04); }
+        }
+        .roxy-nudge-shake { animation: roxy-nudge-shake 4s ease-in-out infinite; }
+        @keyframes roxy-nudge-pop {
+          from { opacity: 0; transform: translateY(8px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .roxy-nudge-pop { animation: roxy-nudge-pop 0.35s ease-out; }
+      `}</style>
+      {nudge && !open && (
+        <div className="roxy-nudge-pop w-[280px] overflow-hidden rounded-2xl border bg-background shadow-2xl">
+          <div className="flex items-start gap-2.5 p-3">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <Sparkles className="size-4 text-primary" />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs font-semibold">Roxy</p>
+              <p className="mt-0.5 text-sm leading-snug">{nudgeMsg.current}</p>
+            </div>
+            <button
+              onClick={dismissNudge}
+              className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-accent"
+              aria-label="Dismiss"
+            >
+              <X className="size-3.5" />
+            </button>
+          </div>
+          <button
+            onClick={() => openChat(true)}
+            className="w-full border-t bg-primary/5 px-3 py-2 text-center text-xs font-medium text-primary transition-colors hover:bg-primary/10"
+          >
+            Chat with Roxy
+          </button>
+        </div>
+      )}
       {open && (
         <div className="w-[380px] max-w-[calc(100vw-2.5rem)] overflow-hidden rounded-2xl border bg-background shadow-2xl">
           <div className="flex items-center gap-2 border-b px-4 py-3">
@@ -373,16 +462,22 @@ export function NovaChatWidget() {
         </div>
       )}
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? setOpen(false) : openChat(false))}
         className={cn(
-          "flex size-14 items-center justify-center rounded-full shadow-xl transition-transform hover:scale-105",
+          "relative flex size-14 items-center justify-center rounded-full shadow-xl transition-transform hover:scale-105",
           open
             ? "bg-muted text-foreground"
-            : "bg-primary text-primary-foreground"
+            : "bg-primary text-primary-foreground",
+          nudge && !open && "roxy-nudge-shake"
         )}
         aria-label={open ? "Close Roxy chat" : "Chat with Roxy"}
       >
         {open ? <X className="size-6" /> : <MessageCircle className="size-6" />}
+        {nudge && !open && (
+          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+            1
+          </span>
+        )}
       </button>
     </div>
   );
