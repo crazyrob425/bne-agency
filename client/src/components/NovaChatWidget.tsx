@@ -47,11 +47,6 @@ export function NovaChatWidget() {
         });
         if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
 
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let buf = "";
-        let done = false;
-
         const appendToken = (token: string) =>
           setMessages((prev) => {
             const next = [...prev];
@@ -65,28 +60,81 @@ export function NovaChatWidget() {
             return next;
           });
 
-        while (!done) {
-          const { value, done: d } = await reader.read();
-          done = d;
-          buf += decoder.decode(value, { stream: !done });
-          const parts = buf.split("\n\n");
-          buf = parts.pop() || "";
-          for (const part of parts) {
-            const line = part.trim();
-            if (!line.startsWith("data:")) continue;
-            const payload = line.slice(5).trim();
-            if (payload === "[DONE]") {
-              done = true;
-              break;
+        const contentType = res.headers.get("content-type") || "";
+
+        if (contentType.includes("application/json")) {
+          // Worker has no server-side provider: it handed us the assembled
+          // messages to complete directly in the browser (each visitor's IP
+          // carries its own Pollinations quota; CORS is open).
+          const data = await res.json();
+          if (data?.notice) setNotice(data.notice);
+          const direct = data?.direct;
+          if (!direct?.url || !direct?.body) throw new Error("no direct fallback");
+          const dRes = await fetch(direct.url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(direct.body),
+            signal: ctrl.signal,
+          });
+          if (!dRes.ok || !dRes.body) throw new Error(`inference HTTP ${dRes.status}`);
+          const reader = dRes.body.getReader();
+          const decoder = new TextDecoder();
+          let buf = "";
+          let done = false;
+          while (!done) {
+            const { value, done: d } = await reader.read();
+            done = d;
+            buf += decoder.decode(value, { stream: !done });
+            const parts = buf.split("\n\n");
+            buf = parts.pop() || "";
+            for (const part of parts) {
+              for (const rawLine of part.split("\n")) {
+                const line = rawLine.trim();
+                if (!line.startsWith("data:")) continue;
+                const payload = line.slice(5).trim();
+                if (payload === "[DONE]") {
+                  done = true;
+                  break;
+                }
+                try {
+                  const evt = JSON.parse(payload);
+                  const delta = evt?.choices?.[0]?.delta?.content;
+                  if (typeof delta === "string" && delta) appendToken(delta);
+                } catch {
+                  /* ignore malformed chunk */
+                }
+              }
             }
-            try {
-              const evt = JSON.parse(payload);
-              if (typeof evt.token === "string") appendToken(evt.token);
-              else if (typeof evt.notice === "string") setNotice(evt.notice);
-              else if (typeof evt.error === "string")
-                appendToken(`\n\n*(Roxy hit a snag: ${evt.error})*`);
-            } catch {
-              /* ignore malformed chunk */
+          }
+        } else {
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          let buf = "";
+          let done = false;
+
+          while (!done) {
+            const { value, done: d } = await reader.read();
+            done = d;
+            buf += decoder.decode(value, { stream: !done });
+            const parts = buf.split("\n\n");
+            buf = parts.pop() || "";
+            for (const part of parts) {
+              const line = part.trim();
+              if (!line.startsWith("data:")) continue;
+              const payload = line.slice(5).trim();
+              if (payload === "[DONE]") {
+                done = true;
+                break;
+              }
+              try {
+                const evt = JSON.parse(payload);
+                if (typeof evt.token === "string") appendToken(evt.token);
+                else if (typeof evt.notice === "string") setNotice(evt.notice);
+                else if (typeof evt.error === "string")
+                  appendToken(`\n\n*(Roxy hit a snag: ${evt.error})*`);
+              } catch {
+                /* ignore malformed chunk */
+              }
             }
           }
         }
