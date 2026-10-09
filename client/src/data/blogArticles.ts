@@ -64,7 +64,7 @@ export const articles: Article[] = [
     accentColor: "amber",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-70-percent-rule-0-d5b12e48-a789-4763-9bfe-fbf4d56575f4.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-70-percent-rule-0-d5b12e48-a789-4763-9bfe-fbf4d56575f4.webp",
         alt: "The 70% Rule: Why PPV and DMs Just Dethroned Subscriptions",
         prompt: "Magazine-quality editorial cover photo",
         caption: "70% of OnlyFans revenue now flows through PPV and DMs. Here's how to restructure your entire pricing strategy around it."
@@ -241,7 +241,7 @@ And if pointing your hours at the 70% sounds great but your actual hours are alr
     accentColor: "fuchsia",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-interactive-arms-race-0-f7688885-1ef3-4aba-9982-07d7b9cc6f4f.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-interactive-arms-race-0-f7688885-1ef3-4aba-9982-07d7b9cc6f4f.webp",
         alt: "The Interactive Arms Race: The Tech Separating $500 Nights from $5,000 Nights",
         prompt: "Magazine-quality editorial cover photo",
         caption: "Lovense toys, multistreaming platforms, and real-time analytics \u2014 the exact tech stack top cam models use in 2026, and h"
@@ -428,7 +428,7 @@ The interactive arms race isn't really about toys or software. It's about *lever
     accentColor: "sky",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-facial-recognition-border-0-13bd5879-1da1-4efe-921a-ecbf709fff69.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-facial-recognition-border-0-13bd5879-1da1-4efe-921a-ecbf709fff69.webp",
         alt: "Facial Recognition at the Border: The New Digital Danger Every Companion Needs to Understand",
         prompt: "Magazine-quality editorial cover photo",
         caption: "CBP isn't denying it. Providers are getting five-year bans. Your face is now a searchable database entry \u2014 here's the pl"
@@ -607,7 +607,7 @@ Stay safe out there. And remember: the goal isn't to hide. The goal is to choose
     accentColor: "indigo",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-age-verification-squeeze-0-a80efa3c-cf57-4145-9472-89268b1dc5ff.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-age-verification-squeeze-0-a80efa3c-cf57-4145-9472-89268b1dc5ff.webp",
         alt: "The Age-Verification Squeeze: 24 States and Counting",
         prompt: "Magazine-quality editorial cover photo",
         caption: "Pornhub abandoned Arizona. Two dozen states have age-verification laws. Your traffic map is being redrawn \u2014 here's the s"
@@ -764,7 +764,7 @@ BNE Studio handles the infrastructure — compliance monitoring, marketing acros
     accentColor: "purple",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-fan-clubs-counterattack-0-87dd71df-8556-401e-98b9-21d8e91e57e8.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-fan-clubs-counterattack-0-87dd71df-8556-401e-98b9-21d8e91e57e8.webp",
         alt: "Fan Clubs Eat Fan Platforms: The Cam Site Counter-Attack",
         prompt: "Magazine-quality editorial cover photo",
         caption: "LiveJasmin's 80% Fan Club, $9,000 income guarantees, and why cam sites becoming fan platforms redraws the map for every "
@@ -937,7 +937,7 @@ The cam site counter-attack isn't just industry gossip — it's the single bigge
     accentColor: "emerald",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-verified-or-vanished-0-b7cb53bb-30bd-4d00-a090-1829fb194d0e.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-verified-or-vanished-0-b7cb53bb-30bd-4d00-a090-1829fb194d0e.webp",
         alt: "Verified or Vanished: How the Directory Boom Replaced Dead Platforms",
         prompt: "Magazine-quality editorial cover photo",
         caption: "Post-FOSTA-SESTA, the verified directory economy rewards screening, professionalism, and systems. Here's how to win it."
@@ -1139,7 +1139,7 @@ The directory era rewards the verified, the professional, and the systematic. Be
     accentColor: "orange",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-reddit-goldmine-0-b54a9d36-b37e-4a91-a83e-ba3ed74ad7e6.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-reddit-goldmine-0-b54a9d36-b37e-4a91-a83e-ba3ed74ad7e6.webp",
         alt: "Reddit: The Traffic Goldmine 85% of Adult Businesses Ignore",
         prompt: "Magazine-quality editorial cover photo",
         caption: "116M daily users, the highest-converting adult traffic on the internet, and most creators are invisible there. The compl"
@@ -1319,7 +1319,7 @@ The creators winning on Reddit in 2026 aren't smarter than you. They just starte
     accentColor: "red",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-camgirl-premiere-0-42bf35ae-d355-4ec3-999f-cab19c2bd3f4.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-camgirl-premiere-0-42bf35ae-d355-4ec3-999f-cab19c2bd3f4.webp",
         alt: "CAM GIRL and the Mainstreaming of Camming: How Smart Models Ride the Wave",
         prompt: "Magazine-quality editorial cover photo",
         caption: "Stripchat's feature film premiered at the XMAs. Camming is having a cultural moment \u2014 here's how smart models turn mains"
@@ -1498,7 +1498,7 @@ You bring the talent. The culture is bringing the moment. [Let BNE Studio make s
     accentColor: "slate",
     graphics: [
       {
-        url: "/images/blog/media-generation-blog-compliance-squeeze-0-1e2e5fc6-c48f-4de9-a27c-ff9879100f6e.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-blog-compliance-squeeze-0-1e2e5fc6-c48f-4de9-a27c-ff9879100f6e.webp",
         alt: "The Compliance Squeeze: Fines, Frozen Payments, and Ad Bans",
         prompt: "Magazine-quality editorial cover photo",
         caption: "Ofcom's \u00a3800K fine was the warning shot. Here's how smart companions build squeeze-proof businesses."
@@ -1701,19 +1701,19 @@ The squeeze isn't coming. It's here. The only question is whether your business 
     accentColor: "rose",
     graphics: [
       {
-        url: "/images/blog/media-generation-worn-item-lingerie-flatlay-0-53b5c3b6-170e-49a7-8da6-bf61e9d6e167.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-worn-item-lingerie-flatlay-0-53b5c3b6-170e-49a7-8da6-bf61e9d6e167.webp",
         alt: "Elegant luxury lingerie flat-lay with lace items arranged on silk",
         prompt: "Elegant luxury lingerie flat-lay on silk fabric, delicate lace items with dried flowers, soft natural light, Vogue editorial style",
         caption: "Your inventory starts in the dresser drawer — presentation is what makes it premium"
       },
       {
-        url: "/images/blog/media-generation-worn-item-discreet-packaging-0-862a63af-c018-467e-974f-b55cb8eba450.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-worn-item-discreet-packaging-0-862a63af-c018-467e-974f-b55cb8eba450.webp",
         alt: "Hands placing a vacuum-sealed package into a discreet mailer box",
         prompt: "Hands placing vacuum-sealed package into elegant discreet mailer box with tissue paper, boutique packaging station",
         caption: "Seal immediately, pack discreetly, track everything — professionalism is the product"
       },
       {
-        url: "/images/blog/media-generation-worn-item-boutique-desk-0-82197a06-63b4-406c-8de5-bf11245d2f64.webp",
+        url: "https://blacklisted.studio/images/blog/media-generation-worn-item-boutique-desk-0-82197a06-63b4-406c-8de5-bf11245d2f64.webp",
         alt: "Confident woman entrepreneur packing luxury orders at an elegant home office",
         prompt: "Confident woman entrepreneur at elegant home office desk packing luxury orders, laptop with store dashboard",
         caption: "Run it like a boutique, not a side hustle — that's where the real money lives"
