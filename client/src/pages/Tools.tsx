@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "wouter";
-import { Calculator, FileText, Calendar, CreditCard, Zap, ChevronRight, Users, Target, Sparkles, BarChart3, Clock, MessageSquare, Shield, Link2, TrendingUp, Workflow, Camera } from "lucide-react";
+import { Calculator, FileText, Calendar, CreditCard, Zap, ChevronRight, Users, Target, Sparkles, BarChart3, Clock, MessageSquare, Shield, Link2, TrendingUp, Workflow, Camera, Landmark } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
@@ -47,6 +47,15 @@ const TOOL_CARDS: ToolCard[] = [
     color: "blue",
     href: "/tools/income-verifier",
     tags: ["Paystub", "Verification", "Banking"],
+  },
+  {
+    id: "bank-statement-generator",
+    name: "Bank Statement Generator",
+    description: "Generate fully reconciled sample bank statements with payroll deposits matched to your pay stubs.",
+    icon: Landmark,
+    color: "emerald",
+    href: "/tools/bank-statement-generator",
+    tags: ["Banking", "Verification", "Statements"],
   },
   {
     id: "workflow-manager",

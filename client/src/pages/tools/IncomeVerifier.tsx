@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useMemo, type ReactElement } from "react";
-import { CreditCard, FileText, Printer, Copy, Check, CalendarDays, Layers, Palette } from "lucide-react";
+import { useState, useMemo, useEffect, type ReactElement } from "react";
+import { CreditCard, FileText, Printer, Copy, Check, CalendarDays, Layers, Palette, Landmark } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import Seo from "@/components/Seo";
@@ -78,6 +78,20 @@ export default function IncomeVerifier() {
 
   const stateName = STATE_PROFILES[workState]?.name ?? workState;
   const ThemeComponent = THEME_COMPONENTS[themeId];
+
+  // Hand the generated stubs to the bank statement generator via localStorage.
+  useEffect(() => {
+    if (!hasGenerated || stubs.length === 0) return;
+    try {
+      const handoff = stubs.map((s) => ({
+        payDate: s.payDate.toISOString(),
+        netCents: Math.round(s.net * 100),
+        employer: businessName,
+        stubLabel: `Stub ${s.index}/${stubs.length}`,
+      }));
+      localStorage.setItem('paystub-handoff', JSON.stringify(handoff));
+    } catch { /* storage unavailable */ }
+  }, [hasGenerated, stubs, businessName]);
 
   const handleGenerate = () => {
     if (!startDate) { toast.error("Pick a start date first."); return; }
@@ -287,6 +301,10 @@ export default function IncomeVerifier() {
                     <button onClick={() => window.print()} className="p-2 border border-slate-800 rounded-lg hover:border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition-all flex items-center gap-1 text-xs font-semibold cursor-pointer">
                       <Printer size={13} />
                       Print
+                    </button>
+                    <button onClick={() => { window.location.href = '/tools/bank-statement-generator'; }} className="p-2 border border-emerald-500/40 rounded-lg bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 transition-all flex items-center gap-1 text-xs font-semibold cursor-pointer" title="Build a reconciled bank statement with these payroll deposits">
+                      <Landmark size={13} />
+                      Matching statement
                     </button>
                   </div>
                 )}

@@ -20,9 +20,13 @@ import Blog from "./pages/Blog";
 import ArticleDetail from "./pages/ArticleDetail";
 import Pricing from "./pages/Pricing";
 import Tools from "./pages/Tools";
+import FreeCreatorTools from "./pages/FreeCreatorTools";
+import FreeSoftware from "./pages/FreeSoftware";
+import SoftwareReview from "./pages/SoftwareReview";
 import CreatorCalculator from "./pages/CreatorCalculator";
 import ContentStrategyEngine from "./pages/tools/ContentStrategyEngine";
 import IncomeVerifier from "./pages/tools/IncomeVerifier";
+import BankStatementGenerator from "./pages/tools/BankStatementGenerator";
 import WorkflowManager from "./pages/tools/WorkflowManager";
 import ClassifiedGenerator from "./pages/tools/ClassifiedGenerator";
 import CreatorPush from "./pages/tools/CreatorPush";
@@ -40,6 +44,7 @@ import AllServices from "./pages/AllServices";
 import OnlyFansManagement from "./pages/OnlyFansManagement";
 import WebcamModels from "./pages/WebcamModels";
 import InPersonCompanions from "./pages/InPersonCompanions";
+import InPersonServices from "./pages/InPersonServices";
 import MarketingAssets from "./pages/MarketingAssets";
 import MediaDownloads from "./pages/MediaDownloads";
 import University from "./pages/University";
@@ -61,6 +66,15 @@ import PrivacySystems from "./pages/PrivacySystems";
 import SecurityMeasures from "./pages/SecurityMeasures";
 import ScreeningSystems from "./pages/ScreeningSystems";
 import Dashboard from "./pages/Dashboard";
+import AdminHub from "./pages/admin/AdminHub";
+import GeoBlockManager from "./pages/admin/GeoBlockManager";
+import IdentityShield from "./pages/admin/IdentityShield";
+import MemberModules from "./pages/admin/MemberModules";
+import ContentReview from "./pages/admin/ContentReview";
+import PortalHome from "./pages/portal/PortalHome";
+import PortalContentReview from "./pages/portal/PortalContentReview";
+import PortalLeakShield from "./pages/portal/PortalLeakShield";
+import PortalStudioEditor from "./pages/portal/PortalStudioEditor";
 import PerformanceUtilities from "./pages/PerformanceUtilities";
 import Templates from "./pages/Templates";
 import ResourcesVault from "./pages/ResourcesVault";
@@ -108,12 +122,17 @@ function Router() {
   <Route path="/onlyfans-management" component={OnlyFansManagement} />
   <Route path="/webcam-models" component={WebcamModels} />
   <Route path="/in-person-companions" component={InPersonCompanions} />
+  <Route path="/web-design-apps" component={InPersonServices} />
       <Route path="/media" component={MarketingAssets} />
       <Route path="/downloads" component={MediaDownloads} />
       <Route path="/tools" component={Tools} />
+      <Route path="/free-creator-tools" component={FreeCreatorTools} />
+      <Route path="/free-software" component={FreeSoftware} />
+      <Route path="/free-software/:slug" component={SoftwareReview} />
       <Route path="/tools/calculator" component={CreatorCalculator} />
       <Route path="/tools/strategy-engine" component={ContentStrategyEngine} />
       <Route path="/tools/income-verifier" component={IncomeVerifier} />
+      <Route path="/tools/bank-statement-generator" component={BankStatementGenerator} />
       <Route path="/tools/workflow-manager" component={WorkflowManager} />
       <Route path="/tools/classified-generator" component={ClassifiedGenerator} />
       <Route path="/tools/content-calendar" component={CreatorPush} />
@@ -145,6 +164,16 @@ function Router() {
       <Route path="/security-measures" component={SecurityMeasures} />
       <Route path="/screening-systems" component={ScreeningSystems} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/portal" component={PortalHome} />
+      <Route path="/portal/content-review" component={PortalContentReview} />
+      <Route path="/portal/leak-shield" component={PortalLeakShield} />
+      <Route path="/portal/studio-editor" component={PortalStudioEditor} />
+      {/* Admin operations console — role-gated, noindex, excluded from sitemap/prerender, linked from nowhere public */}
+      <Route path="/admin" component={AdminHub} />
+      <Route path="/admin/geo-blocking" component={GeoBlockManager} />
+      <Route path="/admin/identity-shield" component={IdentityShield} />
+      <Route path="/admin/member-modules" component={MemberModules} />
+      <Route path="/admin/content-review" component={ContentReview} />
       <Route path="/performance-utilities" component={PerformanceUtilities} />
       <Route path="/templates" component={Templates} />
       <Route path="/resources" component={ResourcesVault} />
