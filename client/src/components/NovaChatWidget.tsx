@@ -68,44 +68,69 @@ export function NovaChatWidget() {
           // carries its own Pollinations quota; CORS is open).
           const data = await res.json();
           if (data?.notice) setNotice(data.notice);
-          const direct = data?.direct;
-          if (!direct?.url || !direct?.body) throw new Error("no direct fallback");
-          const dRes = await fetch(direct.url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(direct.body),
-            signal: ctrl.signal,
-          });
-          if (!dRes.ok || !dRes.body) throw new Error(`inference HTTP ${dRes.status}`);
-          const reader = dRes.body.getReader();
-          const decoder = new TextDecoder();
-          let buf = "";
-          let done = false;
-          while (!done) {
-            const { value, done: d } = await reader.read();
-            done = d;
-            buf += decoder.decode(value, { stream: !done });
-            const parts = buf.split("\n\n");
-            buf = parts.pop() || "";
-            for (const part of parts) {
-              for (const rawLine of part.split("\n")) {
-                const line = rawLine.trim();
-                if (!line.startsWith("data:")) continue;
-                const payload = line.slice(5).trim();
-                if (payload === "[DONE]") {
-                  done = true;
-                  break;
-                }
-                try {
-                  const evt = JSON.parse(payload);
-                  const delta = evt?.choices?.[0]?.delta?.content;
-                  if (typeof delta === "string" && delta) appendToken(delta);
-                } catch {
-                  /* ignore malformed chunk */
+          const providers = Array.isArray(data?.direct)
+            ? data.direct
+            : data?.direct
+              ? [data.direct]
+              : [];
+          if (!providers.length) throw new Error("no direct fallback");
+          let answered = false;
+          let lastErr: any = null;
+          for (const p of providers) {
+            if (!p?.url || !p?.body) continue;
+            try {
+              const dRes = await fetch(p.url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(p.body),
+                signal: ctrl.signal,
+              });
+              if (!dRes.ok || !dRes.body) throw new Error(`inference HTTP ${dRes.status}`);
+              const reader = dRes.body.getReader();
+              const decoder = new TextDecoder();
+              let buf = "";
+              let done = false;
+              let gotToken = false;
+              while (!done) {
+                const { value, done: d } = await reader.read();
+                done = d;
+                buf += decoder.decode(value, { stream: !done });
+                const parts = buf.split("\n\n");
+                buf = parts.pop() || "";
+                for (const part of parts) {
+                  for (const rawLine of part.split("\n")) {
+                    const line = rawLine.trim();
+                    if (!line.startsWith("data:")) continue;
+                    const payload = line.slice(5).trim();
+                    if (payload === "[DONE]") {
+                      done = true;
+                      break;
+                    }
+                    try {
+                      const evt = JSON.parse(payload);
+                      const delta = evt?.choices?.[0]?.delta?.content;
+                      if (typeof delta === "string" && delta) {
+                        gotToken = true;
+                        appendToken(delta);
+                      }
+                    } catch {
+                      /* ignore malformed chunk */
+                    }
+                  }
                 }
               }
+              if (gotToken) {
+                answered = true;
+                break;
+              }
+              throw new Error("empty reply");
+            } catch (e: any) {
+              if (e?.name === "AbortError") throw e;
+              lastErr = e;
+              continue; // try next provider
             }
           }
+          if (!answered) throw lastErr || new Error("all inference providers failed");
         } else {
           const reader = res.body.getReader();
           const decoder = new TextDecoder();
