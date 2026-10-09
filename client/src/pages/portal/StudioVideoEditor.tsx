@@ -15,8 +15,11 @@ import { useRef, useState } from "react";
 import { Clapperboard, Download, Loader2, Scissors, Send, Upload, Wand2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { dHashFromImage, generateWatermarkId, sha256Hex } from "@/lib/leakshield";
-import coreURL from "@ffmpeg/core?url";
-import wasmURL from "@ffmpeg/core/wasm?url";
+// ffmpeg core (~31 MB wasm) loads from CDN at runtime so it never enters the
+// Pages bundle (Cloudflare rejects assets over 25 MiB).
+const FFMPEG_CORE_VERSION = "0.12.10";
+const coreURL = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${FFMPEG_CORE_VERSION}/umd/ffmpeg-core.js`;
+const wasmURL = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${FFMPEG_CORE_VERSION}/umd/ffmpeg-core.wasm`;
 
 interface ExportResult {
   url: string;
