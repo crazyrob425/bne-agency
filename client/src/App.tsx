@@ -5,6 +5,7 @@ import NotFound from "@/pages/NotFound";
 import { useEffect } from "react";
 import { Route, Switch, Redirect, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { NovaChatWidget } from "./components/NovaChatWidget";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Helmet } from "react-helmet-async";
 import { pageSeoConfig, baseMetadata, organizationSchema, websiteSchema, breadcrumbSchema } from "./seo.config";
@@ -204,6 +205,7 @@ function App() {
             <ScrollToTop />
             <Toaster />
             <Router />
+            <NovaChatWidget />
           </TooltipProvider>
         </HelmetProvider>
       </ThemeProvider>
