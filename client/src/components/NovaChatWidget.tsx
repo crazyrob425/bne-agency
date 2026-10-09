@@ -20,7 +20,44 @@ export function NovaChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [notice, setNotice] = useState<Notice>(null);
+  const [sessionId, setSessionId] = useState(() => crypto.randomUUID());
+  const [ending, setEnding] = useState(false);
+  const [endEmail, setEndEmail] = useState("");
+  const [followUp, setFollowUp] = useState(false);
+  const [endState, setEndState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const abortRef = useRef<AbortController | null>(null);
+
+  const endChat = useCallback(async () => {
+    const email = endEmail.trim();
+    if (!email || endState === "sending") return;
+    setEndState("sending");
+    try {
+      const res = await fetch(`${NOVA_API_URL}/chat/end`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          email,
+          followUp,
+          transcript: messages.map((m) => ({ role: m.role, content: m.content })),
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setEndState("done");
+    } catch {
+      setEndState("error");
+    }
+  }, [endEmail, endState, sessionId, followUp, messages]);
+
+  const startNewChat = useCallback(() => {
+    setMessages([]);
+    setNotice(null);
+    setEnding(false);
+    setEndEmail("");
+    setFollowUp(false);
+    setEndState("idle");
+    setSessionId(crypto.randomUUID());
+  }, []);
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -42,7 +79,7 @@ export function NovaChatWidget() {
         const res = await fetch(`${NOVA_API_URL}/chat`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: trimmed, history }),
+          body: JSON.stringify({ message: trimmed, history, sessionId }),
           signal: ctrl.signal,
         });
         if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
@@ -215,7 +252,7 @@ export function NovaChatWidget() {
         abortRef.current = null;
       }
     },
-    [isLoading, messages]
+    [isLoading, messages, sessionId]
   );
 
   return (
@@ -232,6 +269,17 @@ export function NovaChatWidget() {
                 Blacklisted Studio host · 18+
               </p>
             </div>
+            {messages.length > 0 && !ending && (
+              <button
+                onClick={() => {
+                  setEnding(true);
+                  setEndState("idle");
+                }}
+                className="rounded-md px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                End chat
+              </button>
+            )}
             <button
               onClick={() => setOpen(false)}
               className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent"
@@ -245,16 +293,79 @@ export function NovaChatWidget() {
               {notice}
             </div>
           )}
-          <AIChatBox
-            messages={messages}
-            onSendMessage={sendMessage}
-            isLoading={isLoading}
-            placeholder="Talk to Roxy…"
-            height="480px"
-            className="border-0 shadow-none rounded-none"
-            emptyStateMessage="Hey — I'm Roxy. Ask me about the studio, niches, or the game."
-            suggestedPrompts={SUGGESTED}
-          />
+          {ending ? (
+            <div className="px-4 py-4">
+              {endState === "done" ? (
+                <div className="flex flex-col gap-3">
+                  <p className="text-sm font-medium">Transcript sent!</p>
+                  <p className="text-xs text-muted-foreground">
+                    Check your inbox for the chat log
+                    {followUp ? " — a rep will follow up with you soon." : "."}
+                  </p>
+                  <button
+                    onClick={startNewChat}
+                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                  >
+                    Start new chat
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <p className="text-sm font-medium">End chat</p>
+                  <p className="text-xs text-muted-foreground">
+                    Want a copy of this conversation emailed to you?
+                  </p>
+                  <input
+                    type="email"
+                    value={endEmail}
+                    onChange={(e) => setEndEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="rounded-lg border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                  />
+                  <label className="flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      checked={followUp}
+                      onChange={(e) => setFollowUp(e.target.checked)}
+                      className="size-4 accent-primary"
+                    />
+                    Have a Blacklisted Studio rep follow up with me about this chat
+                  </label>
+                  {endState === "error" && (
+                    <p className="text-xs text-destructive">
+                      Couldn't send — check the email and try again.
+                    </p>
+                  )}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setEnding(false)}
+                      className="flex-1 rounded-lg border px-4 py-2 text-sm transition-colors hover:bg-accent"
+                    >
+                      Keep chatting
+                    </button>
+                    <button
+                      onClick={endChat}
+                      disabled={!endEmail.trim() || endState === "sending"}
+                      className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+                    >
+                      {endState === "sending" ? "Sending…" : "Email transcript"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <AIChatBox
+              messages={messages}
+              onSendMessage={sendMessage}
+              isLoading={isLoading}
+              placeholder="Talk to Roxy…"
+              height="480px"
+              className="border-0 shadow-none rounded-none"
+              emptyStateMessage="Hey — I'm Roxy. Ask me about the studio, niches, or the game."
+              suggestedPrompts={SUGGESTED}
+            />
+          )}
         </div>
       )}
       <button
