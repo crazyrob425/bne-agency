@@ -84,7 +84,7 @@ export function NovaChatWidget() {
               if (typeof evt.token === "string") appendToken(evt.token);
               else if (typeof evt.notice === "string") setNotice(evt.notice);
               else if (typeof evt.error === "string")
-                appendToken(`\n\n*(Nova hit a snag: ${evt.error})*`);
+                appendToken(`\n\n*(Roxy hit a snag: ${evt.error})*`);
             } catch {
               /* ignore malformed chunk */
             }
@@ -99,7 +99,7 @@ export function NovaChatWidget() {
               next[next.length - 1] = {
                 ...last,
                 content:
-                  "*(Nova's having trouble connecting right now — try again in a moment.)*",
+                  "*(Roxy's having trouble connecting right now — try again in a moment.)*",
               };
             }
             return next;
@@ -122,7 +122,7 @@ export function NovaChatWidget() {
               <Sparkles className="size-4 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-semibold leading-none">Nova</p>
+              <p className="text-sm font-semibold leading-none">Roxy</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 Blacklisted Studio host · 18+
               </p>
@@ -144,10 +144,10 @@ export function NovaChatWidget() {
             messages={messages}
             onSendMessage={sendMessage}
             isLoading={isLoading}
-            placeholder="Talk to Nova…"
+            placeholder="Talk to Roxy…"
             height="480px"
             className="border-0 shadow-none rounded-none"
-            emptyStateMessage="Hey — I'm Nova. Ask me about the studio, niches, or the game."
+            emptyStateMessage="Hey — I'm Roxy. Ask me about the studio, niches, or the game."
             suggestedPrompts={SUGGESTED}
           />
         </div>
@@ -160,7 +160,7 @@ export function NovaChatWidget() {
             ? "bg-muted text-foreground"
             : "bg-primary text-primary-foreground"
         )}
-        aria-label={open ? "Close Nova chat" : "Chat with Nova"}
+        aria-label={open ? "Close Roxy chat" : "Chat with Roxy"}
       >
         {open ? <X className="size-6" /> : <MessageCircle className="size-6" />}
       </button>
