@@ -43,7 +43,11 @@ export function NovaChatWidget() {
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
       setEndState("done");
+      if (data && data.emailSent === false) {
+        setNotice("Transcript saved — email delivery is being set up, so it may arrive late.");
+      }
     } catch {
       setEndState("error");
     }
