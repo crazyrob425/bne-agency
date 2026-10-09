@@ -44,6 +44,196 @@ export interface Article {
 
 export const articles: Article[] = [
   // ─────────────────────────────────────────────────────────────────────────────
+  // WORN-ITEM EMPIRE — published 2026-10-09
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    id: "art-worn-item-empire",
+    slug: "worn-item-empire-selling-guide",
+    title: "The Worn-Item Empire: How Smart Creators Turn Panties, Socks, and Scent Into a Second Paycheck",
+    subtitle: "The unglamorous revenue stream quietly outperforming merch tables — real 2026 pricing, pro handling, red lines, and how to run it like a business.",
+    category: "Monetization",
+    tags: ["worn panties", "passive income", "fetish market", "creator monetization", "ecommerce", "payments"],
+    readTime: 13,
+    publishedAt: "2026-10-09",
+    author: "BNE Studio",
+    authorRole: "Creator Revenue Team",
+    excerpt: "Worn panties at $20-30 a pair, independents charging $200+ with video, worship-tier add-ons, and the payment trap that kills most sellers — the complete 2026 guide to selling worn personal items like a business.",
+    seoDescription: "Complete 2026 guide to selling worn panties, socks, lingerie and worship items as a creator. Real pricing, platforms, handling, safety red lines, payments, and how BNE Studio runs done-for-you worn-item stores.",
+    coverGradient: "from-rose-900 to-slate-900",
+    accentColor: "rose",
+    graphics: [
+      {
+        url: "/images/blog/media-generation-worn-item-lingerie-flatlay-0-53b5c3b6-170e-49a7-8da6-bf61e9d6e167.webp",
+        alt: "Elegant luxury lingerie flat-lay with lace items arranged on silk",
+        prompt: "Elegant luxury lingerie flat-lay on silk fabric, delicate lace items with dried flowers, soft natural light, Vogue editorial style",
+        caption: "Your inventory starts in the dresser drawer — presentation is what makes it premium"
+      },
+      {
+        url: "/images/blog/media-generation-worn-item-discreet-packaging-0-862a63af-c018-467e-974f-b55cb8eba450.webp",
+        alt: "Hands placing a vacuum-sealed package into a discreet mailer box",
+        prompt: "Hands placing vacuum-sealed package into elegant discreet mailer box with tissue paper, boutique packaging station",
+        caption: "Seal immediately, pack discreetly, track everything — professionalism is the product"
+      },
+      {
+        url: "/images/blog/media-generation-worn-item-boutique-desk-0-82197a06-63b4-406c-8de5-bf11245d2f64.webp",
+        alt: "Confident woman entrepreneur packing luxury orders at an elegant home office",
+        prompt: "Confident woman entrepreneur at elegant home office desk packing luxury orders, laptop with store dashboard",
+        caption: "Run it like a boutique, not a side hustle — that's where the real money lives"
+      }
+    ],
+    content: `# The Worn-Item Empire: How Smart Creators Turn Panties, Socks, and Scent Into a Second Paycheck
+
+*The unglamorous revenue stream quietly outperforming merch tables — and how to run it like a business, not a side hustle.*
+
+---
+
+Every creator knows the content treadmill: shoot, edit, post, promote, repeat. But there's a revenue stream hiding in your laundry hamper that most creators either ignore or run so sloppily they leave half the money on the table. We're talking about worn personal items — panties, socks, lingerie sets, and the escalating menu of worship-tier products that superfans pay real money for.
+
+This isn't a get-rich-quick pitch. It's a real market with real pricing, real platforms, real risks, and — if you run it right — real recurring income from your most devoted fans. Let's break down the money, the menu, the handling, the red lines, and the part nobody talks about: getting paid without getting your accounts nuked.
+
+*Quick note before we start: nothing here is legal, medical, or tax advice. Talk to a professional about your situation. We're sharing what's publicly documented, not telling you what's safe or legal for you.*
+
+## The Money: What This Actually Pays
+
+Let's kill the fantasy first. You're not going to retire on panties alone — but as a second revenue stream layered on top of content income, the math is genuinely interesting.
+
+**Street pricing (2026, verified live listings):**
+
+- **Worn panties, 24 hours:** $20–30 a pair is the standard lane. Beginners start around $20–40.
+- **Multi-day wear:** +$5–7 per extra day is the going ladder, stepping up to +$10–12/day past day five or so.
+- **Worn socks, 24h:** ~$15.
+- **Lingerie sets:** £45–55 / $45–60.
+- **Bras:** $25–45. Heels: ~$50 (slow movers).
+- **Extreme add-ons:** gym session +$5, orgasm +$8–10, spit +$3, no-shower +$10–15.
+
+Now here's what separates hobbyists from earners: **independents charge far above marketplace rates.** One documented seller's order form runs $125 for 24-hour wear with photos, $200 with a 5-minute video, plus $30 shipping. That's not a typo — established sellers with a reputation and a private buyer roster command 4–6x the marketplace floor.
+
+**Realistic earnings:** anecdotal reports put casual sellers at a few hundred a month and established sellers at $500–3,000/month, with top operators claiming $5,000+. The honest caveat: sellers outnumber buyers roughly 2:1 on marketplaces, so repeat buyers — not one-off sales — are everything. This is a relationship business wearing a product business's clothes.
+
+The pricing insight that matters most: **pricing is driven by wear-time and reputation, not garment type.** A 3-day pair from a trusted seller with reviews beats a 24-hour pair from a stranger every time.
+
+## The Menu: From Basics to Worship Tier
+
+Think of your store in tiers. Every tier up is higher margin and deeper fan devotion.
+
+### Tier 1: The Basics (volume products)
+Panties, socks, bras. These are your entry products — the things a curious first-time buyer tries. Price them to convert, not to impress. A $25 pair of 24-hour panties is a low-risk first purchase that turns a lurker into a buyer.
+
+### Tier 2: The Sets (basket builders)
+Lingerie sets, outfit bundles, "worn during my cam show" packages. Bundling raises average order value the same way it does everywhere else in retail. A buyer who came for panties leaves with panties + socks + a photo set.
+
+### Tier 3: Custom Content Add-Ons (margin monsters)
+This is where the real money hides. Custom photos (£5+ each), video clips ($6–8/minute), sexting sessions (15 min ~£25, an hour $65–80). The item is the souvenir; the content is the experience. Sellers consistently report that add-ons — not the garments — drive the best hourly return.
+
+### Tier 4: Worship Items (the deep end)
+Here's where it gets interesting — and where you need to know exactly what you're selling:
+
+- **"Pussy pops":** lollipops the creator inserts for 10–20 minutes, then re-wraps and sells. These are real, actively listed products — but here's the correction most articles get wrong: they sell as **cheap add-ons ($5–15)**, not premium items. Price them accordingly.
+- **Scented face masks:** panty-worn masks, sometimes 24–48 hours of wear, sold for fans to actually wear. Born in the COVID era, still listed in 2026 as a niche add-on (~$10 for 48h).
+- **"Vials":** small scent vials, $5–15. Sellers call them vials, not "scent jars" — use the market's language.
+- **Bathwater, nail clippings, worn workout gear:** all real, all listed, all priced as curiosities.
+
+The pattern: worship items are **low-price, high-devotion** products. They don't make you rich per unit — they identify your whales. The buyer who orders a $10 vial today is the buyer who orders a $200 custom package next month.
+
+## Why Fans Buy: The Psychology (a.k.a. Why This Works)
+
+Understanding the buy is what separates sellers who get it from sellers who just list. Nobody *needs* a worn sock. They're buying three things:
+
+1. **Proximity.** Your worn item is the closest thing to you they can own. For fans in the parasocial deep end, that's intoxicating.
+2. **Proof of effort.** A vacuum-sealed pair with per-day wear photos says "I did this for *you*." Mass-produced merch can't compete with that feeling.
+3. **Ritual.** Unsealing the package, the scent, the photos — it's an unboxing experience engineered for one person. Smart sellers lean into this with handwritten notes, specific wear stories ("wore these through my entire Tuesday cam show"), and packaging that feels personal.
+
+**The fan-pleasing takeaway:** the product isn't the panty. The product is the story of the panty. Sellers who write detailed wear stories and include personal touches get the repeat buyers. Sellers who ship a ziploc with no note get one sale.
+
+## Handling Like a Pro: The Unsexy Part That Makes or Breaks You
+
+This is where amateurs hemorrhage trust — and trust is the entire business.
+
+**Seal immediately.** The single most repeated rule across every seller guide: seal the item the moment it comes off your body. Pros use vacuum sealers; the most-read beginner guide in the space says a Ziploc freezer bag with the air pressed out, a little heat, and tape works fine to start. Either way — minutes matter. Scent degrades fast.
+
+**Payment before wear. Always.** This is non-negotiable and universal. You do not start wearing until the money has cleared. No exceptions, no "he seems nice." Every scam story in this market starts with wearing before payment.
+
+**Proof pics are the currency of trust.** Wearing-the-item photos (face optional — most sellers stay faceless), per-day wear photos for multi-day orders. Here's what actually builds reputation: consistent per-day photos plus buyer reviews, not elaborate timestamping systems. Keep it simple and consistent.
+
+**Hygiene baseline:** "no shower" is a *paid add-on* ($10–15), which tells you the default is normal hygiene. Don't overthink it — shower normally unless they paid extra not to.
+
+**Packaging and shipping:** discreet plain packaging is universal. Never use your home address as the return — use a PO box or omit it. USPS dominates US shipping; tracking is standard. Vacuum-sealed + plain mailer + tracking = professional.
+
+**Multi-day wear requests:** real demand, standard price ladders. But set your cap and hold it. Prolonged wear raises your risk of yeast infections, BV, and UTIs — that's general medicine, not seller-specific data, but it's enough reason to know your limit. Many experienced sellers cap at 3–5 days. Decide yours *before* the money is on the table.
+
+## The Red Lines: What You Refuse
+
+Every serious seller has a refusal list. Here's what's documented:
+
+**Commonly refused:** skid marks, period blood, urine. Plenty of sellers draw the line at any bodily fluid beyond the expected. That's a completely normal boundary — state it upfront in your listings so you never negotiate it mid-sale.
+
+**The health reality (not medical advice):** per the CDC, HIV is effectively zero-risk via dried mailed fluids. Hepatitis B, however, can survive 7+ days in dried blood — that's the actual theoretical risk vector. There are zero documented transmission cases from mailed worn items, but "zero documented" isn't "zero risk." Know the facts, set your boundaries, talk to a doctor about your specific practices.
+
+**The legal reality (not legal advice):** there is no US federal law specifically criminalizing mailing worn garments. 18 USC 1716 (mailing injurious articles) is the outer catch-all, and there are **zero documented prosecutions** of worn-item sellers. But "nobody's been prosecuted" is not "it's 100% legal" — don't promise that to yourself or anyone else. International shipping is dicier: many countries restrict or ban used-undergarment imports, some require fumigation certificates. Never misdeclare customs forms — that's its own crime.
+
+**Platform reality:** eBay bans all used underwear, full stop (and enforces it — ask Latto). Sell on dedicated platforms or your own store, not mainstream marketplaces.
+
+**Safety norms:** PO box, alias, no meetups. The consensus is overwhelming. And while there's no US law setting 18+ for this specifically, every legitimate platform requires it in their ToS — treat it as mandatory.
+
+## Getting Paid: The Part That Breaks Most Sellers
+
+Here's the dirty secret of the worn-item market: **the platforms give you reach and zero payment infrastructure.** Sofia Gray, PantyDeal, and the rest run on membership models — you keep 100% because buyers pay you *directly* via CashApp, Venmo, or whatever you arrange. All the payment risk sits on you.
+
+And the mainstream rails are hostile. PayPal's acceptable use policy bans sexually oriented materials — with 180-day holds when they catch you. **63% of adult workers have lost a bank or financial account** (FSC/SexWorkCEO survey, 600+ respondents). Crypto is an option but niche. SpankPay — the great adult-crypto hope — shut down in March 2023. The adult processors that exist (CCBill, SegPay, Epoch) serve established business entities with full underwriting, not individual sellers.
+
+So the individual seller's reality is: CashApp and Venmo (freezable, reversible, no adult tolerance), or crypto (limited buyer adoption), or platform coins with no cash-out story. Every option is fragile. **This is the single biggest pain point in the market — and it's exactly the gap [B.N.E. Studio](https://blacklisted.studio/apply) was built to fill.**
+
+### How B.N.E. Studio Handles It
+
+When you run your store through B.N.E. Studio, the payment problem stops being your problem:
+
+- **Card payments, handled.** We run compliant adult-tolerant processing — your buyers pay with a card like any normal store, and you don't spend your life worrying about frozen CashApp accounts.
+- **Crypto accepted.** For the buyers who prefer it, we take it. You get paid in dollars; the volatility is our headache, not yours.
+- **No chargeback roulette.** Individual sellers eat every "unauthorized" claim. Our setup includes the dispute handling that solo sellers simply can't access.
+- **Clean tax paperwork.** With the 2026 1099-K threshold back at $20,000 + 200 transactions (and 1099-NEC at $2,000+), consolidated reporting matters. We handle the paperwork trail so April doesn't ambush you.
+
+## The Full-Service Pitch: You Supply the Product, We Do Everything Else
+
+Here's the part most sellers don't realize they need until they're drowning in it: running a worn-item store is three jobs, and only one of them is wearing things.
+
+**Job 1: The store itself.** Listings, photos, pricing, inventory, order management, customer messages. We build and run the whole storefront — you approve the listings, we handle the rest.
+
+**Job 2: Marketing.** And in 2026, marketing is a war zone. X is actively purging sex-work accounts (July 2026). Instagram's Mosseri crackdown is flagging entire operations and link-in-bio services. Reddit's April 2026 "adult content promoters filter" changed the organic game. Paid ads are effectively nonexistent for this market. What still works: Reddit discovery done right, X SFW-funnel discipline, review ecosystems, and — critically — an **owned channel** (your own store, your own email list) that no platform ban can take from you. That's what we build: infrastructure you own, marketed by people who live in this space.
+
+**Job 3: The money.** Covered above — card + crypto, dispute handling, tax paperwork.
+
+**Your job:** supply the product and get paid. Wear, seal, ship. We handle the store, the marketing, the advertising, and the money movement. That's the deal — [apply here and let's build your store](https://blacklisted.studio/apply).
+
+## The Real Game: Repeat Buyers, Not One-Off Sales
+
+Here's the statistic that should rewire your entire approach: sellers outnumber buyers roughly 2:1 on the major marketplaces. You're not competing against other sellers' products — you're competing for a finite pool of buyers' *loyalty*.
+
+The sellers who break $1,000/month almost universally describe the same arc: seed 9–10 listings, convert a handful of first-time buyers, then cultivate a private roster who order monthly. One verified seller interview put it bluntly — her income didn't come from the marketplace, it came from the inbox. The platform was just the fishing pond.
+
+What converts a one-time buyer into a regular?
+
+- **Wear stories with specificity.** "Wore these Tuesday" is nothing. "Wore these through my entire 4-hour Tuesday cam show — you can see the exact set in the video clip from that night" is a narrative. Buyers pay for the fantasy of participation.
+- **The add-on ladder.** First order: panties. Second order: panties + custom photo set. Third: the full package with video. Each order deepens the ritual. Smart sellers menu their add-ons like a restaurant menus desserts — visible, tempting, and priced to feel like a treat rather than a stretch.
+- **Speed and warmth in the inbox.** Multiple seller guides rank fast, friendly messaging above almost everything else. This is a fetish market, but it's also a *service* market. The sellers who answer in hours, not days, keep the roster.
+- **Reviews as social proof.** Every completed order should end with a gentle nudge for a review. On platforms where trust is everything, a seller with 40 five-star reviews can charge double the newcomer rate for the identical product.
+
+This is also where the agency model quietly wins. Inbox management, review follow-up, roster nurturing — that's a part-time job on its own, and it's the job most creators neglect because they'd rather be creating. A studio that handles your customer lifecycle while you handle production isn't a luxury. It's the difference between a hobby and a business.
+
+## The Bottom Line
+
+Worn-item selling is a real market with documented pricing, established platforms, and a clear path from $25 first sales to a private roster of repeat buyers spending hundreds. The handling is learnable, the risks are manageable with firm boundaries, and the fan psychology rewards sellers who treat it as a craft.
+
+But the infrastructure — payments that don't freeze, marketing that survives platform purges, a store you actually own — is where solo sellers bleed out. That's not a wear problem. That's a business problem. And business problems are what studios are for.
+
+*Ready to stop leaving money in the hamper? [Talk to us about a done-for-you worn-item store](https://blacklisted.studio/apply) — you supply the product, we handle everything else.*
+
+---
+
+*Disclaimer: This article is for informational and entertainment purposes only. It is not legal, medical, financial, or tax advice. Laws vary by jurisdiction and change over time — consult a qualified professional about your specific situation. Never engage in practices you're unsure about; when in doubt, refuse the sale.*
+`
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
   // ARTICLE 1 — COMPLIANCE
   // ─────────────────────────────────────────────────────────────────────────────
   {
