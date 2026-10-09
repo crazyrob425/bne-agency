@@ -79,6 +79,38 @@ export function NovaChatWidget() {
           for (const p of providers) {
             if (!p?.url || !p?.body) continue;
             try {
+              if (p.format === "horde") {
+                // AI Horde: async submit -> poll status until done.
+                const sub = await fetch(p.url, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", apikey: "0000000000" },
+                  body: JSON.stringify(p.body),
+                  signal: ctrl.signal,
+                });
+                if (!sub.ok) throw new Error(`horde submit HTTP ${sub.status}`);
+                const { id } = await sub.json();
+                if (!id) throw new Error("horde: no job id");
+                let text: string | null = null;
+                for (let i = 0; i < 20; i++) {
+                  await new Promise((r) => setTimeout(r, 3000));
+                  const st = await fetch(`${p.statusUrl}${id}`, {
+                    headers: { apikey: "0000000000" },
+                    signal: ctrl.signal,
+                  });
+                  if (!st.ok) throw new Error(`horde status HTTP ${st.status}`);
+                  const sj = await st.json();
+                  if (sj.done) {
+                    text = sj.generations?.[0]?.text || null;
+                    break;
+                  }
+                }
+                if (typeof text === "string" && text.trim()) {
+                  appendToken(text.trim());
+                  answered = true;
+                  break;
+                }
+                throw new Error("horde: timed out");
+              }
               const dRes = await fetch(p.url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
