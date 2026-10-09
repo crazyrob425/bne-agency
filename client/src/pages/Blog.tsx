@@ -214,7 +214,9 @@ export default function Blog() {
   const featured = getFeaturedArticles();
 
   const filtered = useMemo(() => {
-    let result = articles;
+    const now = new Date();
+    // Scheduled publishing: only show articles whose publish date has arrived
+    let result = articles.filter((a) => new Date(a.publishedAt) <= now);
     if (activeCategory !== "All") {
       result = result.filter((a) => a.category === activeCategory);
     }
