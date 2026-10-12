@@ -162,6 +162,28 @@ export const BNE_PRODUCTS: BNEProduct[] = [
 
 export const ONE_TIME_PRODUCTS: BNEProduct[] = [
   {
+    id: "bne_worn_item_store_launch",
+    name: "Worn-Item Store Launch",
+    tagline: "Your second paycheck, fully built for you",
+    description:
+      "The complete done-for-you worn-item business: storefront, payments, marketing, customer service, upsells, and funnels into your other content. You supply the product — we handle everything else. $750 one-time, upfront. Included for Elite Profit-Sharing Partnership members.",
+    price: 75000, // $750 one-time, upfront
+    interval: "one_time",
+    badge: "New",
+    features: [
+      "Custom branded storefront with pricing ladders configured",
+      "10 seed listings with professional copy + full-catalog item write-ups",
+      "Custom upgrade menu and upsells engineered for you",
+      "Card + crypto checkout integrated (adult-tolerant processing)",
+      "Discreet-shipping SOP: vacuum-seal workflow, plain mailers, PO-box guidance",
+      "Product and pricing advice — what to list, wear/rotation strategy",
+      "Launch marketing blast + funnels into your other content",
+      "Customer service handling — we take the inbox",
+      "Script writing + multimedia content support",
+      "30 days of listing optimization support post-launch",
+    ],
+  },
+  {
     id: "bne_niche_audit",
     name: "Niche Deep Dive Audit",
     tagline: "One-time strategy session",
