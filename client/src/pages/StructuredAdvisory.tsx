@@ -12,6 +12,7 @@ import Seo from "@/components/Seo";
 import InfographicModal from "@/components/InfographicModal";
 import AuthorBio from "@/components/AuthorBio";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import VideoPlayer from "@/components/VideoPlayer";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import { getProfessorByExpertise } from "@/data/professors";
 import { buildFaqSchema } from "@/lib/schema/builders";
@@ -76,8 +77,10 @@ const faqSchema = buildFaqSchema([
 
 export default function StructuredAdvisory() {
   const { getInfographicByKeyword } = useMediaCatalog();
+  const { getVideoByKeyword } = useMediaCatalog();
   const infographic1 = getInfographicByKeyword("Professional_Creator_Management_Services");
   const infographic2 = getInfographicByKeyword("Brand_Playbook");
+  const taxVideo = getVideoByKeyword("tax");
 
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
@@ -207,6 +210,23 @@ export default function StructuredAdvisory() {
                 <p className="text-slate-500 text-sm leading-relaxed pt-4 border-t border-slate-800/60">{pillar.detail}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TAX REALITY CHECK VIDEO ── */}
+      <section className="py-20 bg-slate-950/40 border-t border-slate-800/40">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">The Tax Reality Check</h2>
+            <p className="text-zinc-400 mt-3 max-w-2xl mx-auto">The $3M tax-evasion case every creator should study — self-employment tax, quarterly deadlines, and the infrastructure that keeps you legal.</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-[oklch(0.78_0.16_85/20%)] shadow-[0_0_80px_-20px_rgba(217,180,60,0.35)]">
+            <VideoPlayer
+              src={taxVideo?.url || "/media-files/The_Tax_Bill_That_Ended_a_3M_Career.mp4"}
+              title="The Tax Bill That Ended a $3M Career"
+              description="Why treating creator income as casual cash leads to massive tax shocks — and how proper entity and tax infrastructure protects you."
+            />
           </div>
         </div>
       </section>
