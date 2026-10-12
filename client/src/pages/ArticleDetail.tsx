@@ -37,6 +37,7 @@ import {
 } from "@/data/blogArticles";
 import AuthorBio from "@/components/AuthorBio";
 import SocialLinks from "@/components/SocialLinks";
+import VideoPlayer from "@/components/VideoPlayer";
 import { getProfessorByExpertise } from "@/data/professors";
 
 // Re-export category meta for use here
@@ -505,6 +506,28 @@ export default function ArticleDetail() {
           </div>
         </div>
       </header>
+
+      {/* ── FEATURED VIDEO (worn-item empire deep dive) ── */}
+      {article.slug === "worn-item-empire-selling-guide" && (
+        <section className="border-b border-slate-800 bg-slate-900/40">
+          <div className="container py-10">
+            <div className="max-w-3xl mx-auto">
+              <div className="text-center mb-6">
+                <span className="text-violet-400 text-xs font-bold tracking-widest uppercase">Video Deep Dive</span>
+                <h2 className="text-2xl md:text-3xl font-display font-bold text-white mt-2">The Worn-Item Empire: Full Deep Dive</h2>
+                <p className="text-slate-400 mt-2">How women turn used panties into passive income — the business, the buyers, and the systems behind it.</p>
+              </div>
+              <div className="rounded-2xl overflow-hidden border border-violet-500/20 shadow-[0_0_80px_-20px_rgba(139,92,246,0.45)]">
+                <VideoPlayer
+                  src="/media-files/The_Worn-Item_Empire_Full_Deep_Dive.mp4"
+                  title="The Worn-Item Empire: Full Deep Dive"
+                  description="The discreet business of selling worn items online — what buyers want and how sellers run it as passive income."
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── ARTICLE BODY ── */}
       <div className="container py-10">
