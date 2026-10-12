@@ -8,7 +8,7 @@ import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import AuthorBio from "@/components/AuthorBio";
-import { professors, FACULTY_FICTION_NOTE } from "@/data/professors";
+import { professors } from "@/data/professors";
 import { Link, useSearch } from "wouter";
 import {
   Crown, Shield, BookOpen, Printer, Download, Sparkles,
@@ -93,7 +93,7 @@ export default function University() {
     "@context": "https://schema.org",
     "@type": "LearningResource",
     "name": "Blacklisted University — Free Creator Education",
-    "description": "Free video guides and articles covering audience psychology, sovereign legal privacy, § 2257 compliance guidelines, and operations scaling. Not a real school — a playful free educational resource.",
+    "description": "Free video guides and articles covering audience psychology, sovereign legal privacy, § 2257 compliance guidelines, and operations scaling — a playful free educational library for adult creators.",
     "isAccessibleForFree": true,
     "learningResourceType": "Guide",
     "provider": {
@@ -133,20 +133,13 @@ export default function University() {
             </h1>
 
             <p className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto mb-6 font-body leading-relaxed">
-              Welcome to the Dean's Desk. We don't do useless theory or grade-inflated homework here — mostly because this isn't a real school. Blacklisted University is our <span className="text-zinc-200 font-semibold">free educational library</span> dressed up in a sexy mortarboard: deep-dive guides, tutorials, and videos for every kind of adult creator, written in character by our (fictional, fabulous) faculty.
+              Welcome to the Dean's Desk. We don't do useless theory or grade-inflated homework here. Blacklisted University is our <span className="text-zinc-200 font-semibold">free educational library</span> dressed up in a sexy mortarboard: deep-dive guides, tutorials, and videos for every kind of adult creator, written in character by our fabulous resident faculty.
             </p>
-
-            <div className="max-w-2xl mx-auto mb-8 px-5 py-3.5 rounded-2xl border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.78_0.16_85/5%)] text-left">
-              <p className="text-sm text-zinc-300 font-body leading-relaxed">
-                <span className="font-semibold text-[oklch(0.78_0.16_85)]">Not a real school, just a fun theme.</span>{" "}
-                No enrollment, no tuition, no degrees, no real professors. Every guide, video, and handout here is free — for everyone, forever.
-              </p>
-            </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-[oklch(0.58_0.015_85)] font-mono-lux">
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-[oklch(0.78_0.16_85)]" />
-                <span>6 Fictional Professors</span>
+                <span>6 Resident Professors</span>
               </div>
               <span className="text-zinc-800">•</span>
               <div className="flex items-center gap-2">
@@ -414,13 +407,12 @@ export default function University() {
         </div>
       </section>
 
-      {/* ── FACULTY ROSTER (FICTIONAL CHARACTERS) ── */}
+      {/* ── FACULTY ROSTER ── */}
       <section className="py-16 bg-slate-950/60 border-t border-slate-800/40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Meet the Faculty</span>
-            <h2 className="text-3xl font-display font-bold text-white mt-2">Fictional, Fabulous &amp; Here to Teach-ish</h2>
-            <p className="text-slate-400 text-sm mt-3 max-w-2xl mx-auto font-body">{FACULTY_FICTION_NOTE}</p>
+            <h2 className="text-3xl font-display font-bold text-white mt-2">Brilliant, Ruthless &amp; Here to Teach</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             {professors.slice(0, 4).map((prof) => (

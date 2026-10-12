@@ -1,9 +1,8 @@
 /**
  * BNE Free Class Catalog (formerly "All Courses")
- * Blacklisted University is NOT a real school — it's a free educational resource
- * roleplaying as a cheeky adult creator university. No enrollment, no tuition,
- * no degrees, no real professors. Every "class" below is a free, in-depth
- * guide (articles, how-tos, tutorials) that actually exists on this site.
+ * Blacklisted University's free class catalog. Every "class" below is a free,
+ * in-depth guide (articles, how-tos, tutorials) that actually exists on this site,
+ * presented in the university's cheeky roleplay theme.
  */
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -15,7 +14,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import AuthorBio from "@/components/AuthorBio";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
-import { professors, getProfessorById, FACULTY_FICTION_NOTE } from "@/data/professors";
+import { professors, getProfessorById } from "@/data/professors";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Crown, BookOpen, ArrowRight, Zap, Shield, TrendingUp, Users,
@@ -142,7 +141,7 @@ const courseSchema = {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Blacklisted University Free Class Catalog",
-  "description": "Free in-depth creator education guides covering 18 U.S.C. 2257 compliance, niche psychology, monetization architecture, platform operations, and companion safety. Not a real school — a playful free educational resource.",
+  "description": "Free in-depth creator education guides covering 18 U.S.C. 2257 compliance, niche psychology, monetization architecture, platform operations, and companion safety.",
   "isAccessibleForFree": true,
   "learningResourceType": "Guide",
   "provider": {
@@ -155,15 +154,11 @@ const courseSchema = {
 const faqSchema = buildFaqSchema([
   {
     question: "Do I need to enroll in Blacklisted University?",
-    answer: "No — there's nothing to enroll in. Blacklisted University isn't a real school; it's our free educational library dressed up in a sexy mortarboard. Every guide is free, no account or signup needed.",
+    answer: "No — there's nothing to enroll in. Every guide in the library is free, no account or signup needed. Just pick a shelf and start reading.",
   },
   {
     question: "How long does each class take?",
     answer: "They're in-depth guides and articles, not timed courses — read at your own pace. No durations, no deadlines, no homework, no pop quizzes. We promise.",
-  },
-  {
-    question: "Are the professors real?",
-    answer: "Nope — our professors are fictional characters, playful personas our content team writes in. Zero real professors were hired in the making of this university.",
   },
   {
     question: "Is everything really free?",
@@ -202,14 +197,13 @@ export default function AllCourses() {
               The Free <span className="gradient-text-gold">Class Catalog</span>
             </h1>
             <p className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto mb-6 font-body leading-relaxed">
-              Every "class" below is a free, in-depth guide we actually wrote — deep dives on legal protection, niche psychology, monetization, automation, and companion safety. Pick a shelf, grab your favorite professor (they're fictional, they're fabulous), and learn at your own pace.
+              Every "class" below is a free, in-depth guide we actually wrote — deep dives on legal protection, niche psychology, monetization, automation, and companion safety. Pick a shelf, grab your favorite professor, and learn at your own pace.
             </p>
-            {/* Honesty banner: not a real school */}
             <div className="max-w-2xl mx-auto mb-8 px-5 py-3.5 rounded-2xl border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.78_0.16_85/5%)] flex items-start gap-3 text-left">
               <Gift size={18} className="text-[oklch(0.78_0.16_85)] shrink-0 mt-0.5" />
               <p className="text-sm text-zinc-300 font-body leading-relaxed">
-                <span className="font-semibold text-[oklch(0.78_0.16_85)]">Not a real school, just a fun theme.</span>{" "}
-                No enrollment, no tuition, no degrees, no real professors — Blacklisted University is our free educational library roleplaying as a cheeky creator university. Everything here is free, forever.
+                <span className="font-semibold text-[oklch(0.78_0.16_85)]">Every guide free, forever.</span>{" "}
+                No tuition, no homework — just the good stuff.
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-4">
@@ -294,11 +288,8 @@ export default function AllCourses() {
 
                   <div className="bg-slate-950/60 p-5 rounded-xl border border-slate-800/80 flex flex-col justify-between h-full">
                     <div>
-                      <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Class Character</div>
+                      <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Your Professor</div>
                       <AuthorBio professor={course.professor} variant="compact" />
-                      <p className="text-[11px] text-slate-500 mt-3 leading-relaxed font-body italic">
-                        Fictional character — a playful persona our content team writes in.
-                      </p>
                     </div>
                     <Link href={course.reads[0].href}>
                       <button className="w-full mt-6 py-2.5 rounded-lg btn-gold text-xs font-semibold">

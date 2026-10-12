@@ -2,7 +2,7 @@
  * BNE Training Modules Page
  * Free step-by-step creator playbooks: automation workflows, DM sales systems,
  * § 2257 compliance, passive income syndication, and niche positioning.
- * Not a real school — free guides roleplaying as a cheeky university.
+ * Free guides presented in the university's cheeky roleplay theme.
  */
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -130,10 +130,6 @@ const faqSchema = buildFaqSchema([
     question: "Do modules include downloadable templates and checklists?",
     answer: "Yes. The guides link to free downloadable PDF SOPs, § 2257 compliance forms, rate cards, and content calendar worksheets.",
   },
-  {
-    question: "Are the professors real?",
-    answer: "No — our professors are fictional characters, playful personas our content team writes in. The guides are real and free; the faculty is fabulously fake.",
-  },
 ]);
 
 export default function TrainingModules() {
@@ -173,8 +169,8 @@ export default function TrainingModules() {
             </p>
             <div className="max-w-2xl mx-auto mb-8 px-5 py-3.5 rounded-2xl border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.78_0.16_85/5%)] text-left">
               <p className="text-sm text-zinc-300 font-body leading-relaxed">
-                <span className="font-semibold text-[oklch(0.78_0.16_85)]">Not a real school, just a fun theme.</span>{" "}
-                Blacklisted University is our free educational library roleplaying as a cheeky creator university. Every playbook here is free, forever.
+                <span className="font-semibold text-[oklch(0.78_0.16_85)]">Every playbook free, forever.</span>{" "}
+                No tuition, no homework — just the good stuff.
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-4">
@@ -228,7 +224,7 @@ export default function TrainingModules() {
                 "Step-by-step video & audio walkthroughs",
                 "Free downloadable PDF worksheets & legal compliance SOPs",
                 "Real-world account case studies & metric benchmarks",
-                "Written in character by our (fictional) faculty",
+                "Written in character by our resident faculty",
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm text-slate-300">
                   <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
@@ -284,11 +280,8 @@ export default function TrainingModules() {
 
                   <div className="bg-slate-950/60 p-5 rounded-xl border border-slate-800/80 flex flex-col justify-between h-full">
                     <div>
-                      <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Module Character</div>
+                      <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Your Professor</div>
                       <AuthorBio professor={mod.professor} variant="compact" />
-                      <p className="text-[11px] text-slate-500 mt-3 leading-relaxed font-body italic">
-                        Fictional character — a playful persona our content team writes in.
-                      </p>
                     </div>
                     <Link href={mod.reads[0].href}>
                       <button className="w-full mt-6 py-2.5 rounded-lg btn-gold text-xs font-semibold">

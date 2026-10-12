@@ -74,7 +74,7 @@ const faqSchema = buildFaqSchema([
   },
   {
     question: "How often are the legal and compliance guides updated?",
-    answer: "Legal and compliance guides are updated by our content team — written in character by Professor Marcus Hayes (fictional, fabulous) — to reflect changes in federal regulations and platform policies.",
+    answer: "Legal and compliance guides are updated by our content team — written in character by Professor Marcus Hayes — to reflect changes in federal regulations and platform policies.",
   },
 ]);
 
