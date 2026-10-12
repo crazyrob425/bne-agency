@@ -10,7 +10,11 @@ import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import { ToolMenuCards, IntelCollection, FreeSoftwareSpotlight } from "@/components/CreatorResourceHub";
+import { CREATOR_RESOURCES } from "@/data/creatorResources";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Gem, ShieldCheck, Users, Globe, Calculator, Star,
@@ -110,6 +114,8 @@ const faqSchema = buildFaqSchema([
 ]);
 
 export default function InPersonCompanions() {
+  const { getVideoByKeyword } = useMediaCatalog();
+  const inPersonVideo = getVideoByKeyword("inperson");
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
@@ -157,6 +163,24 @@ export default function InPersonCompanions() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent pointer-events-none" />
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── VIDEO BRIEFING ── */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-violet-400 text-xs font-bold tracking-widest uppercase">Video Briefing</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">Transition to In-Person Income</h2>
+            <p className="text-zinc-400 mt-3 max-w-2xl mx-auto">A creator's playbook for moving select relationships offline — safely, profitably, and on your terms.</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-violet-500/20 shadow-[0_0_80px_-20px_rgba(139,92,246,0.45)]">
+            <VideoPlayer
+              src={inPersonVideo?.url || "/media-files/Transition_to_Inperson_income.mp4"}
+              title="Transition to In-Person Income"
+              description="The systems behind a safe, profitable in-person practice."
+            />
+          </div>
         </div>
       </section>
 
@@ -210,6 +234,11 @@ export default function InPersonCompanions() {
           </p>
         </div>
       </section>
+
+            {/* ── FREE TOOL MENU + INTEL COLLECTION ── */}
+      <ToolMenuCards config={CREATOR_RESOURCES.companions} />
+      <IntelCollection config={CREATOR_RESOURCES.companions} />
+      <FreeSoftwareSpotlight group="companions" heading="Free Software for Independent Providers" />
 
       {/* ── TESTIMONIALS ── */}
       <TestimonialsSection

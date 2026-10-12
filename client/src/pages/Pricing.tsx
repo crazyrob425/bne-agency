@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import {
   Check, Zap, Crown, Star, ArrowRight, Shield, Lock, Sparkles, CreditCard, Plus
@@ -32,6 +34,8 @@ function formatPrice(cents: number) {
 export default function Pricing() {
   const { isAuthenticated } = useAuth();
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
+  const { getVideoByKeyword } = useMediaCatalog();
+  const servicesVideo = getVideoByKeyword("What_services_should_a_firm_offer_creators_in_2026") || getVideoByKeyword("services") || getVideoByKeyword("2026");
 
   const { data: productsData } = trpc.stripe.getProducts.useQuery();
   const createCheckout = trpc.stripe.createCheckoutSession.useMutation();
@@ -124,6 +128,24 @@ export default function Pricing() {
             Whether you're just getting started or ready to scale to six figures — we have a package that fits.
             No fine print, no long-term contracts, cancel anytime.
           </motion.p>
+        </div>
+      </section>
+
+      {/* ── VIDEO BRIEFING ── */}
+      <section className="pb-16 relative z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-[oklch(0.78_0.14_85)] text-xs font-semibold tracking-[0.15em] uppercase font-body">Video Briefing</span>
+            <h2 className="heading-xl text-[oklch(0.94_0.01_85)] mt-2">What Should a Firm Actually Do for Creators in 2026?</h2>
+            <p className="text-[oklch(0.65_0.012_85)] mt-3 max-w-2xl mx-auto font-body">Before you compare packages — know what services are actually worth paying for.</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-[oklch(0.78_0.16_85/15%)]">
+            <VideoPlayer
+              src={servicesVideo?.url || "/media-files/What_services_should_a_firm_offer_creators_in_2026.mp4"}
+              title="What Services Should a Firm Offer Creators in 2026"
+              description="The service checklist every creator should demand."
+            />
+          </div>
         </div>
       </section>
 
