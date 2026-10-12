@@ -4,6 +4,7 @@
  */
 import { Link } from "wouter";
 import { Crown } from "lucide-react";
+import SocialLinks from "@/components/SocialLinks";
 
 export default function Footer() {
   return (
@@ -77,6 +78,21 @@ export default function Footer() {
               <li><span className="hover:text-[oklch(0.78_0.16_85)] cursor-pointer transition-all duration-300">DMCA Policy</span></li>
               <li><span className="hover:text-[oklch(0.78_0.16_85)] cursor-pointer transition-all duration-300">Cookie Policy</span></li>
             </ul>
+          </div>
+        </div>
+
+        {/* Follow the network — social band */}
+        <div className="rounded-2xl border border-[oklch(0.78_0.16_85/15%)] bg-[oklch(0.78_0.16_85/3%)] px-6 py-6 mb-10">
+          <div className="flex flex-col md:flex-row md:items-center gap-6 justify-between">
+            <div className="shrink-0">
+              <h4 className="text-[oklch(0.78_0.16_85)] font-semibold text-xs mb-1.5 tracking-widest font-body uppercase">
+                Follow the Network
+              </h4>
+              <p className="text-[oklch(0.58_0.015_85)] text-sm font-body max-w-sm">
+                Daily creator growth playbooks on BNE Studio — design &amp; dev on Blacklisted Designs Studio.
+              </p>
+            </div>
+            <SocialLinks brand="all" iconSize={18} />
           </div>
         </div>
 

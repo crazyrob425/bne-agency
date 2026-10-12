@@ -19,6 +19,7 @@ import {
   Heart, Monitor, Download, Calculator, Award, Lock, Calendar,
   Search, Link as LinkIcon
 } from "lucide-react";
+import SocialLinks from "@/components/SocialLinks";
 
 const MEMBER_APP_URL = "/members";
 const openMemberApp = () => {
@@ -144,6 +145,8 @@ const navConfig = [
        ],
      },
    },
+  { id: "free-tools", label: "Free Creator Tools", href: "/free-creator-tools" },
+  { id: "free-software", label: "Free Software", href: "/free-software" },
    {
      id: "academy",
     label: "Academy",
@@ -417,6 +420,12 @@ export default function Navigation() {
 
               {/* Drawer Footer */}
               <div className="p-5 border-t border-[oklch(0.78_0.16_85/10%)]">
+                <p className="text-center text-[10px] uppercase tracking-[0.25em] text-[oklch(0.58_0.015_85)] font-mono-lux mb-3">
+                  Follow BNE Studio
+                </p>
+                <div className="flex justify-center mb-4">
+                  <SocialLinks brand="bne-studio" iconSize={16} />
+                </div>
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-[oklch(0.78_0.16_85/50%)]" />
                   <p className="text-xs text-[oklch(0.58_0.015_85)] font-body tracking-wide">

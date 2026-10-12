@@ -90,6 +90,17 @@ export default function University() {
   const activeCourse = courses.find((c) => c.id === activeCourseId);
   const activeCourseCode = `BU-${101 + Math.max(0, courses.findIndex((c) => c.id === activeCourseId))}`;
 
+  const CAMPUS_PHOTOS = [
+    { src: "/images/university/campus-quad.jpg", title: "The Quad", caption: "Where the deals get made between classes." },
+    { src: "/images/university/class-mmxxvi.jpg", title: "Class of MMXXVI", caption: "Nobody studied. Everybody passed." },
+    { src: "/images/university/club-revenue.jpg", title: "Revenue Architecture Club", caption: "Dues: 10% of your PPV. Worth it." },
+    { src: "/images/university/club-privacy.jpg", title: "Privacy Society", caption: "Members redacted. Location undisclosed." },
+    { src: "/images/university/club-niche.jpg", title: "Niche Sorority", caption: "Find your lane. Monetize your lane." },
+    { src: "/images/university/club-automation.jpg", title: "Automation Club", caption: "This caption was posted by a cron job." },
+    { src: "/images/university/club-safety.jpg", title: "Safety Squad", caption: "Zero chill, by charter." },
+    { src: "/images/university/club-cheer.jpg", title: "B.U. Cheer Squad", caption: "Rah rah revenue!" },
+  ];
+
   const universitySchema = {
     "@context": "https://schema.org",
     "@type": "LearningResource",
@@ -514,6 +525,52 @@ export default function University() {
                     </div>
                   </div>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CAMPUS LIFE YEARBOOK ── */}
+      <section className="py-20 border-t border-[oklch(0.78_0.16_85/10%)] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-4">
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-[0.3em] uppercase font-mono-lux">
+              Straight From the Yearbook
+            </span>
+            <h2 className="text-4xl text-white mt-3">Campus Life</h2>
+            <p className="text-zinc-400 italic mt-2 font-body">
+              The quad, the clubs, the graduating class — B.U. memories, no tuition required.
+            </p>
+            <div className="flex items-center justify-center gap-3 mt-6 mb-12">
+              <div className="h-px w-24 bg-gradient-to-r from-transparent to-[oklch(0.78_0.16_85/60%)]" />
+              <Crown size={14} className="text-[oklch(0.78_0.16_85)]" />
+              <div className="h-px w-24 bg-gradient-to-l from-transparent to-[oklch(0.78_0.16_85/60%)]" />
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {CAMPUS_PHOTOS.map((photo, i) => (
+              <motion.div
+                key={photo.src}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.45, delay: (i % 4) * 0.08 }}
+                className={`rounded-xl bg-[oklch(0.09_0.005_85)] border border-[oklch(0.78_0.16_85/20%)] p-3 pb-5 hover:border-[oklch(0.78_0.16_85/50%)] hover:shadow-[0_0_35px_oklch(0.78_0.16_85/12%)] transition-all duration-300 ${
+                  i % 2 === 0 ? "lg:rotate-[-1.2deg]" : "lg:rotate-[1.2deg]"
+                }`}
+              >
+                <div className="rounded-lg overflow-hidden aspect-[4/3]">
+                  <img
+                    src={photo.src}
+                    alt={photo.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+                <p className="text-center text-zinc-100 italic mt-3 font-body">{photo.title}</p>
+                <p className="text-center text-zinc-500 text-xs mt-1 font-body">{photo.caption}</p>
               </motion.div>
             ))}
           </div>

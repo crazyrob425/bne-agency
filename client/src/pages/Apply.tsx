@@ -12,6 +12,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Seo from "@/components/Seo";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SocialLinks from "@/components/SocialLinks";
 import {
   ChevronRight, ChevronLeft, Check, X, Shield, Lock, Zap, Users,
   DollarSign, Award, ArrowRight, MessageSquare, Phone, Mail,
@@ -529,6 +530,19 @@ export default function Apply() {
                       <p className="text-[oklch(0.65_0.012_85)] text-sm leading-relaxed">{item.a}</p>
                     </motion.div>
                   ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Follow before you apply */}
+            <section className="py-14">
+              <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="rounded-2xl border border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/3%)] px-6 py-6 flex flex-col sm:flex-row sm:items-center gap-5 justify-between">
+                  <div>
+                    <p className="text-white font-semibold text-sm">Not ready to apply? Follow along first.</p>
+                    <p className="text-[oklch(0.58_0.015_85)] text-xs mt-1">Daily creator growth playbooks on every channel.</p>
+                  </div>
+                  <SocialLinks brand="bne-studio" iconSize={16} />
                 </div>
               </div>
             </section>

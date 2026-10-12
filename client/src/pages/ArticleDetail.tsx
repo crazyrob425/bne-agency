@@ -36,6 +36,7 @@ import {
   type ArticleCategory,
 } from "@/data/blogArticles";
 import AuthorBio from "@/components/AuthorBio";
+import SocialLinks from "@/components/SocialLinks";
 import { getProfessorByExpertise } from "@/data/professors";
 
 // Re-export category meta for use here
@@ -539,6 +540,15 @@ export default function ArticleDetail() {
             {/* Author Bio Card */}
             <div className="mt-8 p-6 bg-slate-900/60 border border-slate-800 rounded-xl">
               <AuthorBio professor={getProfessorByExpertise(article.category)} variant="full" showCourses />
+            </div>
+
+            {/* Follow the professor's publisher */}
+            <div className="mt-6 p-6 rounded-xl border border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/3%)] flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+              <div>
+                <p className="text-white font-semibold text-sm">Get the next drop first</p>
+                <p className="text-slate-500 text-xs mt-1">Follow BNE Studio for daily creator growth playbooks.</p>
+              </div>
+              <SocialLinks brand="bne-studio" iconSize={16} />
             </div>
 
             {/* Related articles */}
