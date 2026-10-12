@@ -176,6 +176,7 @@ export const ONE_TIME_PRODUCTS: BNEProduct[] = [
       "Custom upgrade menu and upsells engineered for you",
       "Card + crypto checkout integrated (adult-tolerant processing)",
       "Discreet-shipping SOP: vacuum-seal workflow, plain mailers, PO-box guidance",
+      "Remailer/shipment-center option: send us inventory vacuum-sealed with proof pic, we mail on confirmed sale — return address stays anonymous, workflow near-100% passive",
       "Product and pricing advice — what to list, wear/rotation strategy",
       "Launch marketing blast + funnels into your other content",
       "Customer service handling — we take the inbox",
