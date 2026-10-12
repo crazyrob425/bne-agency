@@ -23,6 +23,10 @@ export interface Professor {
   expertise: string[];
   avatar: string; // initials fallback
   avatarColor: string; // tailwind gradient classes
+  /** Yearbook-style portrait used across the University section. */
+  headshot: string;
+  /** One-liner printed under the portrait in the faculty yearbook. */
+  yearbookQuote: string;
   courses: string[];
   socialHandle?: string;
   /** Always true — every professor is a fictional character, never a real person. */
@@ -41,6 +45,8 @@ export const professors: Professor[] = [
     expertise: ["Subscription Economics", "PPV Strategy", "Fan Retention Psychology", "Revenue Diversification", "Pricing Architecture"],
     avatar: "VS",
     avatarColor: "from-violet-600 to-purple-800",
+    headshot: "/images/university/prof-sinclair.jpg",
+    yearbookQuote: "Your prices are too low. I already checked.",
     courses: ["Advanced Monetization Systems", "Subscription Tier Engineering", "PPV & Custom Content Mastery"],
     socialHandle: "@drsinclair_bnu",
     fictional: true,
@@ -56,6 +62,8 @@ export const professors: Professor[] = [
     expertise: ["18 U.S.C. § 2257 Compliance", "DMCA Enforcement", "Identity Architecture", "Business Entity Structuring", "Platform Regulatory Frameworks"],
     avatar: "MH",
     avatarColor: "from-emerald-600 to-teal-800",
+    headshot: "/images/university/prof-hayes.jpg",
+    yearbookQuote: "This quote has been redacted for your safety.",
     courses: ["§ 2257 Compliance Mastery", "Identity Separation & Privacy Architecture", "DMCA Anti-Piracy Enforcement"],
     socialHandle: "@prof_hayes_bnu",
     fictional: true,
@@ -71,6 +79,8 @@ export const professors: Professor[] = [
     expertise: ["Niche Psychology", "Fan Loyalty Formation", "Audience Architecture", "Consumer Behavior", "High-Ticket Fan Cultivation"],
     avatar: "ID",
     avatarColor: "from-rose-600 to-pink-800",
+    headshot: "/images/university/prof-delacroix.jpg",
+    yearbookQuote: "I diagnosed your niche from your tip menu. You're welcome.",
     courses: ["Niche Selection Mastery", "Fan Psychology & Loyalty Engineering", "High-Ticket Subscriber Cultivation"],
     socialHandle: "@prof_delacroix_bnu",
     fictional: true,
@@ -86,6 +96,8 @@ export const professors: Professor[] = [
     expertise: ["Platform Operations", "Workflow Automation", "Content Scheduling Systems", "Fan CRM Architecture", "Cross-Platform Management"],
     avatar: "NO",
     avatarColor: "from-amber-600 to-orange-800",
+    headshot: "/images/university/prof-okafor.jpg",
+    yearbookQuote: "I automated this yearbook entry. You're reading a cron job.",
     courses: ["Creator Operations Mastery", "Automation & Platform Sync", "Fan CRM Systems & Retention Automation"],
     socialHandle: "@prof_okafor_bnu",
     fictional: true,
@@ -101,6 +113,8 @@ export const professors: Professor[] = [
     expertise: ["Creator Brand Architecture", "Persona Development", "Visual Identity", "Premium Positioning", "Market Differentiation"],
     avatar: "DS",
     avatarColor: "from-blue-600 to-indigo-800",
+    headshot: "/images/university/prof-sterling.jpg",
+    yearbookQuote: "Voted 'Most Likely to Be His Own Favorite Professor' — unanimously. By me.",
     courses: ["Creator Identity Architecture", "Brand Positioning & Premium Pricing", "Content Voice & Visual Identity"],
     socialHandle: "@prof_sterling_bnu",
     fictional: true,
@@ -116,6 +130,8 @@ export const professors: Professor[] = [
     expertise: ["Client Screening Systems", "Physical Safety Protocols", "Digital Identity Protection", "Threat Intelligence", "Blacklist Database Management"],
     avatar: "RC",
     avatarColor: "from-red-600 to-rose-800",
+    headshot: "/images/university/prof-castillo.jpg",
+    yearbookQuote: "Read the guides. Or don't. I'll remember either way.",
     courses: ["Client Screening & Vetting Mastery", "Physical Safety Protocols for In-Person Work", "Digital Security & Threat Prevention"],
     socialHandle: "@prof_castillo_bnu",
     fictional: true,

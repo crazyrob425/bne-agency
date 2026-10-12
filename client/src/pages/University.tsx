@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import AuthorBio from "@/components/AuthorBio";
+import UniversityCrest from "@/components/UniversityCrest";
 import { professors } from "@/data/professors";
 import { Link, useSearch } from "wouter";
 import {
@@ -88,6 +88,7 @@ export default function University() {
   };
 
   const activeCourse = courses.find((c) => c.id === activeCourseId);
+  const activeCourseCode = `BU-${101 + Math.max(0, courses.findIndex((c) => c.id === activeCourseId))}`;
 
   const universitySchema = {
     "@context": "https://schema.org",
@@ -120,6 +121,7 @@ export default function University() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
+            <UniversityCrest className="w-36 h-auto mx-auto mb-6 drop-shadow-[0_0_30px_oklch(0.78_0.16_85/30%)]" />
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/20%)] mb-6 glow-gold-sm">
               <Crown className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[oklch(0.78_0.14_85)] font-body">
@@ -152,6 +154,38 @@ export default function University() {
                 <span>0 Tuition · 0 Homework</span>
               </div>
             </div>
+
+            {/* Gold divider */}
+            <div className="flex items-center justify-center gap-3 my-8">
+              <div className="h-px w-28 bg-gradient-to-r from-transparent to-[oklch(0.78_0.16_85/60%)]" />
+              <Crown size={14} className="text-[oklch(0.78_0.16_85)]" />
+              <div className="h-px w-28 bg-gradient-to-l from-transparent to-[oklch(0.78_0.16_85/60%)]" />
+            </div>
+
+            {/* Official school record — collegiate fast facts */}
+            <div className="max-w-3xl mx-auto rounded-2xl border border-[oklch(0.78_0.16_85/20%)] bg-[oklch(0.78_0.16_85/3%)] px-6 py-5">
+              <p className="text-[10px] uppercase tracking-[0.35em] text-[oklch(0.78_0.14_85)] font-mono-lux mb-4">
+                Official School Record
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Motto</p>
+                  <p className="text-sm text-zinc-200 font-semibold italic">Misbehaving Pays the Bills</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Founded</p>
+                  <p className="text-sm text-zinc-200 font-semibold">MMXXVI</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Tuition</p>
+                  <p className="text-sm text-zinc-200 font-semibold">$0.00, forever</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Colors</p>
+                  <p className="text-sm text-zinc-200 font-semibold">Black <span className="text-zinc-500">&</span> <span className="text-[oklch(0.78_0.16_85)]">Gold</span></p>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -162,12 +196,12 @@ export default function University() {
           
           {/* Navigation Sidebar */}
           <aside className="space-y-3 lg:sticky lg:top-24">
-            <h3 className="text-[oklch(0.58_0.015_85)] text-xs font-bold tracking-widest uppercase mb-1 px-3 font-body">
-              Class Guides
+            <h3 className="text-[oklch(0.78_0.14_85)] text-xs font-bold tracking-widest uppercase mb-1 px-3 font-body">
+              Registrar's Office
             </h3>
             <p className="text-[10px] text-zinc-600 px-3 mb-4 font-body italic">free · no enrollment · read at your pace</p>
             <div className="flex flex-col gap-2">
-              {courses.map((course) => {
+              {courses.map((course, i) => {
                 const isActive = course.id === activeCourseId;
                 return (
                   <button
@@ -180,7 +214,7 @@ export default function University() {
                     }`}
                   >
                     <span className="text-xs font-mono-lux tracking-wider opacity-65 uppercase">
-                      {course.id.replace("-", " ")}
+                      BU-{101 + i} · {course.id.replace("-", " ")}
                     </span>
                     <span className="font-bold font-display text-sm leading-tight">
                       {course.title}
@@ -228,7 +262,7 @@ export default function University() {
                   <div className="absolute top-0 right-0 h-40 w-40 bg-[oklch(0.78_0.16_85/3%)] blur-2xl rounded-full pointer-events-none" />
                   
                   <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold font-mono-lux tracking-widest uppercase">
-                    Class Guide
+                    Class Guide · {activeCourseCode}
                   </span>
                   
                   <h2 className="text-3xl font-black text-zinc-100 font-display mt-2 mb-4">
@@ -407,18 +441,80 @@ export default function University() {
         </div>
       </section>
 
-      {/* ── FACULTY ROSTER ── */}
-      <section className="py-16 bg-slate-950/60 border-t border-slate-800/40">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Meet the Faculty</span>
-            <h2 className="text-3xl font-display font-bold text-white mt-2">Brilliant, Ruthless &amp; Here to Teach</h2>
+      {/* ── FACULTY YEARBOOK ── */}
+      <section className="py-20 border-t border-[oklch(0.78_0.16_85/10%)] relative overflow-hidden">
+        {/* Watermark crest */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
+          <UniversityCrest className="w-[560px] h-auto" />
+        </div>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-4">
+            <UniversityCrest className="w-20 h-auto mx-auto mb-4" />
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-[0.3em] uppercase font-mono-lux">
+              The Faculty Yearbook
+            </span>
+            <h2 className="text-4xl text-white mt-3">Class of MMXXVI</h2>
+            <p className="text-zinc-400 italic mt-2 font-body">
+              Brilliant, ruthless &amp; here to teach — as voted by themselves.
+            </p>
+            <div className="flex items-center justify-center gap-3 mt-6 mb-10">
+              <div className="h-px w-24 bg-gradient-to-r from-transparent to-[oklch(0.78_0.16_85/60%)]" />
+              <Crown size={14} className="text-[oklch(0.78_0.16_85)]" />
+              <div className="h-px w-24 bg-gradient-to-l from-transparent to-[oklch(0.78_0.16_85/60%)]" />
+            </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {professors.slice(0, 4).map((prof) => (
-              <div key={prof.id} className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl">
-                <AuthorBio professor={prof} variant="full" showCourses />
-              </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {professors.map((prof, i) => (
+              <motion.div
+                key={prof.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.45, delay: (i % 3) * 0.1 }}
+                className="group rounded-2xl overflow-hidden border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.07_0.005_85)] hover:border-[oklch(0.78_0.16_85/50%)] hover:shadow-[0_0_40px_oklch(0.78_0.16_85/12%)] transition-all duration-300"
+              >
+                {/* Yearbook portrait */}
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <img
+                    src={prof.headshot}
+                    alt={prof.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-top group-hover:scale-[1.04] transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.04_0.005_85)] via-transparent to-transparent" />
+                  <div className="absolute inset-3 border border-[oklch(0.78_0.16_85/35%)] rounded-lg pointer-events-none" />
+                  <div className="absolute bottom-4 left-0 right-0 text-center px-4">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[oklch(0.78_0.14_85)] font-mono-lux">
+                      {prof.shortTitle}
+                    </p>
+                    <h3 className="text-2xl text-white mt-1">{prof.name}</h3>
+                  </div>
+                </div>
+
+                <div className="p-5">
+                  <p className="text-[oklch(0.78_0.14_85)] italic text-sm leading-relaxed border-l-2 border-[oklch(0.78_0.16_85/40%)] pl-3">
+                    "{prof.yearbookQuote}"
+                  </p>
+                  <p className="text-zinc-400 text-xs leading-relaxed mt-4 font-body">
+                    {prof.bio}
+                  </p>
+
+                  <div className="mt-5 pt-4 border-t border-white/5">
+                    <p className="text-[10px] text-zinc-500 uppercase tracking-[0.25em] mb-2 font-mono-lux">
+                      On this professor's shelf
+                    </p>
+                    <div className="space-y-1.5">
+                      {prof.courses.map((course) => (
+                        <div key={course} className="flex items-center gap-2">
+                          <BookOpen size={11} className="text-[oklch(0.78_0.16_85)] shrink-0" />
+                          <span className="text-zinc-300 text-xs">{course}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>

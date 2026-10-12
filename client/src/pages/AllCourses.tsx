@@ -11,7 +11,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import VideoPlayer from "@/components/VideoPlayer";
-import AuthorBio from "@/components/AuthorBio";
+import UniversityCrest from "@/components/UniversityCrest";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import { professors, getProfessorById } from "@/data/professors";
@@ -187,17 +187,21 @@ export default function AllCourses() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-[oklch(0.78_0.16_85/5%)] blur-[120px] rounded-full pointer-events-none" />
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <UniversityCrest className="w-28 h-auto mx-auto mb-6 drop-shadow-[0_0_25px_oklch(0.78_0.16_85/25%)]" />
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/20%)] mb-6 glow-gold-sm">
               <Crown className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[oklch(0.78_0.14_85)] font-body">
                 Blacklisted University (B.U.)
               </span>
             </div>
+            <p className="text-[11px] tracking-[0.4em] uppercase text-[oklch(0.78_0.14_85)] font-mono-lux mb-4">
+              Academic Year MMXXVI – MMXXVII · Vol. I
+            </p>
             <h1 className="heading-xl text-[oklch(0.94_0.01_85)] mb-4 max-w-4xl mx-auto">
-              The Free <span className="gradient-text-gold">Class Catalog</span>
+              The Official <span className="gradient-text-gold">Course Catalog</span>
             </h1>
             <p className="text-[oklch(0.65_0.012_85)] text-lg max-w-3xl mx-auto mb-6 font-body leading-relaxed">
-              Every "class" below is a free, in-depth guide we actually wrote — deep dives on legal protection, niche psychology, monetization, automation, and companion safety. Pick a shelf, grab your favorite professor, and learn at your own pace.
+              Open the catalog. Every "class" below is a free, in-depth guide we actually wrote — deep dives on legal protection, niche psychology, monetization, automation, and companion safety. Pick a shelf, grab your favorite professor, and learn at your own pace.
             </p>
             <div className="max-w-2xl mx-auto mb-8 px-5 py-3.5 rounded-2xl border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.78_0.16_85/5%)] flex items-start gap-3 text-left">
               <Gift size={18} className="text-[oklch(0.78_0.16_85)] shrink-0 mt-0.5" />
@@ -242,39 +246,85 @@ export default function AllCourses() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">The Shelves</span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">Five Classes, Zero Tuition</h2>
-            <p className="text-slate-400 text-sm mt-3 max-w-2xl mx-auto">Each class is a bundle of our free in-depth guides on that subject — the actual articles and tutorials, written in character by that class's professor.</p>
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-[0.3em] uppercase font-mono-lux">Open the Catalog</span>
+            <h2 className="text-3xl md:text-4xl text-white mt-3">Five Classes, Zero Tuition</h2>
+            <p className="text-slate-400 text-sm mt-3 max-w-2xl mx-auto">Each spread is a bundle of our free in-depth guides on that subject — the actual articles and tutorials, written in character by that class's professor.</p>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-10">
             {COURSES_CATALOG.map((course, i) => (
-              <motion.div key={course.id} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 md:p-8">
-                <div className="grid lg:grid-cols-3 gap-6 items-start">
-                  <div className="lg:col-span-2">
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-semibold flex items-center gap-1">
-                        <Gift size={12} /> Free Forever
-                      </span>
-                      <span className="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">{course.tagline}</span>
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-3">{course.title}</h3>
-                    <p className="text-slate-300 text-sm leading-relaxed mb-5">{course.description}</p>
+              <motion.div
+                key={course.id}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                custom={i}
+                className="relative rounded-2xl border border-[oklch(0.78_0.16_85/25%)] bg-[oklch(0.06_0.005_85)] overflow-hidden hover:border-[oklch(0.78_0.16_85/45%)] hover:shadow-[0_0_50px_oklch(0.78_0.16_85/10%)] transition-all duration-300"
+              >
+                {/* Catalog entry header */}
+                <div className="flex items-center justify-between px-6 md:px-8 pt-6">
+                  <span className="font-mono-lux text-xs tracking-[0.3em] text-[oklch(0.78_0.14_85)]">
+                    BU-{101 + i * 100}
+                  </span>
+                  <span className="text-[10px] px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-semibold flex items-center gap-1 uppercase tracking-widest">
+                    <Gift size={11} /> Free Forever
+                  </span>
+                </div>
 
-                    <h4 className="text-xs uppercase tracking-widest text-slate-500 mb-3 font-semibold">Deep-Dive Topics Inside</h4>
-                    <div className="grid sm:grid-cols-2 gap-2 mb-6">
+                {/* Open spread: left page = syllabus, spine, right page = professor + reading */}
+                <div className="grid lg:grid-cols-[1fr_2px_1fr]">
+                  {/* Left page */}
+                  <div className="p-6 md:p-8">
+                    <h3 className="text-2xl text-white mb-2">{course.title}</h3>
+                    <p className="text-[oklch(0.78_0.14_85)] italic text-sm mb-4 font-body">
+                      {course.tagline}
+                    </p>
+                    <p className="text-slate-300 text-sm leading-relaxed mb-6 font-body">
+                      {course.description}
+                    </p>
+
+                    <h4 className="text-[11px] uppercase tracking-[0.25em] text-zinc-500 mb-3 font-semibold font-mono-lux">
+                      Syllabus — Deep-Dive Topics
+                    </h4>
+                    <div className="grid sm:grid-cols-2 gap-2">
                       {course.modules.map(mod => (
                         <div key={mod} className="flex items-start gap-2 text-xs text-slate-400">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.78_0.16_85)] shrink-0 mt-0.5" />
                           <span>{mod}</span>
                         </div>
                       ))}
                     </div>
+                  </div>
 
-                    <h4 className="text-xs uppercase tracking-widest text-slate-500 mb-3 font-semibold flex items-center gap-1.5">
-                      <FileText size={12} /> Read the actual free guides
+                  {/* Spine */}
+                  <div className="hidden lg:block bg-gradient-to-b from-transparent via-[oklch(0.78_0.16_85/30%)] to-transparent" />
+
+                  {/* Right page */}
+                  <div className="p-6 md:p-8 bg-[oklch(0.78_0.16_85/2%)] border-t lg:border-t-0 border-white/5">
+                    <div className="flex items-center gap-4 mb-3">
+                      <img
+                        src={course.professor.headshot}
+                        alt={course.professor.name}
+                        loading="lazy"
+                        className="w-20 h-20 rounded-xl object-cover object-top ring-2 ring-[oklch(0.78_0.16_85/50%)] shrink-0"
+                      />
+                      <div>
+                        <p className="text-[10px] text-zinc-500 uppercase tracking-[0.25em] mb-1 font-mono-lux">
+                          Your Professor
+                        </p>
+                        <p className="text-white font-bold leading-tight">{course.professor.name}</p>
+                        <p className="text-[oklch(0.78_0.14_85)] text-xs">{course.professor.shortTitle}</p>
+                      </div>
+                    </div>
+                    <p className="text-zinc-500 italic text-xs mb-5 border-l-2 border-[oklch(0.78_0.16_85/40%)] pl-3">
+                      "{course.professor.yearbookQuote}"
+                    </p>
+
+                    <h4 className="text-[11px] uppercase tracking-[0.25em] text-zinc-500 mb-3 font-semibold font-mono-lux flex items-center gap-1.5">
+                      <FileText size={12} /> Required Reading — the actual free guides
                     </h4>
-                    <div className="space-y-2">
+                    <div className="space-y-2 mb-6">
                       {course.reads.map(read => (
                         <Link key={read.href} href={read.href}>
                           <div className="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800/80 hover:border-[oklch(0.78_0.16_85/40%)] transition-all cursor-pointer group">
@@ -284,15 +334,9 @@ export default function AllCourses() {
                         </Link>
                       ))}
                     </div>
-                  </div>
 
-                  <div className="bg-slate-950/60 p-5 rounded-xl border border-slate-800/80 flex flex-col justify-between h-full">
-                    <div>
-                      <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Your Professor</div>
-                      <AuthorBio professor={course.professor} variant="compact" />
-                    </div>
                     <Link href={course.reads[0].href}>
-                      <button className="w-full mt-6 py-2.5 rounded-lg btn-gold text-xs font-semibold">
+                      <button className="w-full py-3 rounded-xl btn-gold text-sm font-semibold">
                         Start Reading Free →
                       </button>
                     </Link>

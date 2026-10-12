@@ -12,13 +12,30 @@ interface AuthorBioProps {
   showCourses?: boolean;
 }
 
+/** Professor portrait — headshot photo with initials as fallback. */
+function ProfHeadshot({ professor, className }: { professor: Professor; className: string }) {
+  if (professor.headshot) {
+    return (
+      <img
+        src={professor.headshot}
+        alt={professor.name}
+        loading="lazy"
+        className={`${className} object-cover shrink-0 ring-2 ring-[oklch(0.78_0.16_85/40%)]`}
+      />
+    );
+  }
+  return (
+    <div className={`${className} bg-gradient-to-br ${professor.avatarColor} flex items-center justify-center text-white font-black shrink-0`}>
+      {professor.avatar}
+    </div>
+  );
+}
+
 export default function AuthorBio({ professor, variant = "inline", showCourses = false }: AuthorBioProps) {
   if (variant === "compact") {
     return (
       <div className="flex items-center gap-3">
-        <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${professor.avatarColor} flex items-center justify-center text-white text-xs font-black shrink-0`}>
-          {professor.avatar}
-        </div>
+        <ProfHeadshot professor={professor} className="w-9 h-9 rounded-full text-xs" />
         <div>
           <p className="text-slate-200 text-sm font-semibold leading-tight">{professor.name}</p>
           <p className="text-slate-500 text-xs">{professor.shortTitle} · Blacklisted University</p>
@@ -30,9 +47,7 @@ export default function AuthorBio({ professor, variant = "inline", showCourses =
   if (variant === "inline") {
     return (
       <div className="flex items-start gap-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
-        <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${professor.avatarColor} flex items-center justify-center text-white text-sm font-black shrink-0`}>
-          {professor.avatar}
-        </div>
+        <ProfHeadshot professor={professor} className="w-12 h-12 rounded-full text-sm" />
         <div className="min-w-0">
           <p className="text-slate-100 font-semibold text-sm">{professor.name}</p>
           <p className="text-amber-400/80 text-xs mb-2">{professor.title}</p>
@@ -56,10 +71,8 @@ export default function AuthorBio({ professor, variant = "inline", showCourses =
       className="p-6 md:p-8 rounded-2xl bg-slate-900/70 border border-slate-800"
     >
       <div className="flex flex-col sm:flex-row gap-5 items-start">
-        {/* Avatar */}
-        <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${professor.avatarColor} flex items-center justify-center text-white text-2xl font-black shrink-0`}>
-          {professor.avatar}
-        </div>
+        {/* Portrait */}
+        <ProfHeadshot professor={professor} className="w-20 h-20 rounded-2xl text-2xl" />
 
         <div className="flex-1 min-w-0">
           {/* Name + institution */}

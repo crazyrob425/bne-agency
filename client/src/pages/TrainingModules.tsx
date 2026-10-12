@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import InfographicModal from "@/components/InfographicModal";
 import AuthorBio from "@/components/AuthorBio";
+import UniversityCrest from "@/components/UniversityCrest";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import { professors, getProfessorById } from "@/data/professors";
@@ -155,6 +156,7 @@ export default function TrainingModules() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-[oklch(0.78_0.16_85/5%)] blur-[120px] rounded-full pointer-events-none" />
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <UniversityCrest className="w-20 h-auto mx-auto mb-5 opacity-95" />
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[oklch(0.78_0.16_85/8%)] border border-[oklch(0.78_0.16_85/20%)] mb-6 glow-gold-sm">
               <Crown className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[oklch(0.78_0.14_85)] font-body">
