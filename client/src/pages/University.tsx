@@ -574,6 +574,46 @@ export default function University() {
               </motion.div>
             ))}
           </div>
+
+          {/* Student life snapshots — scrapbook strip */}
+          <div className="mt-14">
+            <div className="text-center mb-8">
+              <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-[0.3em] uppercase font-mono-lux">
+                Student Life Snapshots
+              </span>
+              <p className="text-zinc-500 italic mt-2 text-sm font-body">
+                Repping the official B.U. tee — merch table's by the quad.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {[
+                { src: "/images/university/student-dorm.jpg", title: "Dorm Room Study Break", caption: "Taking notes. Probably." },
+                { src: "/images/university/student-merch.jpg", title: "Merch Drop: The Official B.U. Tee", caption: "www.blacklisted.studio — wear it everywhere." },
+              ].map((photo, i) => (
+                <motion.div
+                  key={photo.src}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.45, delay: i * 0.1 }}
+                  className={`rounded-xl bg-[oklch(0.09_0.005_85)] border border-[oklch(0.78_0.16_85/25%)] p-3 pb-5 hover:border-[oklch(0.78_0.16_85/50%)] hover:shadow-[0_0_35px_oklch(0.78_0.16_85/12%)] transition-all duration-300 ${
+                    i % 2 === 0 ? "lg:rotate-[-1deg]" : "lg:rotate-[1deg]"
+                  }`}
+                >
+                  <div className="rounded-lg overflow-hidden aspect-square">
+                    <img
+                      src={photo.src}
+                      alt={photo.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                  <p className="text-center text-zinc-100 italic mt-3 font-body">{photo.title}</p>
+                  <p className="text-center text-zinc-500 text-xs mt-1 font-body">{photo.caption}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
