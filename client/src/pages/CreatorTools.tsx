@@ -39,6 +39,8 @@ import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 
 interface Tool {
   name: string;
@@ -640,6 +642,8 @@ const COLOR_MAP: Record<string, { bg: string; border: string; text: string; badg
 };
 
 export default function CreatorTools() {
+  const { getVideoByKeyword } = useMediaCatalog();
+  const cloneVideo = getVideoByKeyword("clone");
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <Seo pageKey="creatorTools" />
@@ -708,6 +712,24 @@ export default function CreatorTools() {
               </span>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── VIDEO BRIEFING: AI CLONES ── */}
+      <section className="py-16 border-b border-slate-800/60 bg-slate-950/40">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-violet-400 text-xs font-bold tracking-widest uppercase">Video Briefing</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">Your Clone Is Already Working (Without You)</h2>
+            <p className="text-zinc-400 mt-3 max-w-2xl mx-auto">AI twins and automated systems are building audiences, booking clients, and selling content around the clock — and what working creators must do before they're outpaced.</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-violet-500/20 shadow-[0_0_80px_-20px_rgba(139,92,246,0.45)]">
+            <VideoPlayer
+              src={cloneVideo?.url || "/media-files/Your_Clone_Is_Already_Working.mp4"}
+              title="Your Clone Is Already Working (Without You)"
+              description="How AI twins and automated content systems are reshaping the creator economy — and what creators need to do before they're outpaced."
+            />
+          </div>
         </div>
       </section>
 
