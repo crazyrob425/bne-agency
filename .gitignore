@@ -131,6 +131,7 @@ client/public/media-files/*
 !client/public/media-files/Niche_Quiz_Supremacy_–_The_Strategic_Economics_of_Adult_Niche.mp4
 !client/public/media-files/Vetting_OFM_Agencies.mp4
 !client/public/media-files/They_Are_Wearing_Your_Face.mp4
+!client/public/media-files/The_Platform_Exodus_Playbook.mp4
 
 # Source media files — hosted on Cloudflare R2, do not commit to git
 media/
