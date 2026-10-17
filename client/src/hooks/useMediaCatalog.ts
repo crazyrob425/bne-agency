@@ -96,8 +96,11 @@ export function useMediaCatalog() {
       const data = (await response.json()) as MediaCatalogResponse;
       setCatalog(data);
     } catch (err: any) {
-      console.error("Error fetching media catalog:", err);
-      setError("Unable to sync media resources dynamically.");
+      // The media catalog API is a progressive enhancement — the static course
+      // data bundled with the hook always works. A failed sync (e.g. no API
+      // backend on static hosting) must never blank out the page, so log it
+      // and continue with an empty dynamic catalog instead of setting an error.
+      console.warn("Media catalog sync unavailable, continuing with static data:", err);
     } finally {
       setLoading(false);
     }
