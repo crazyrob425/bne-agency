@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import VideoPlayer from "@/components/VideoPlayer";
 import InfographicModal from "@/components/InfographicModal";
 import AuthorBio from "@/components/AuthorBio";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -68,8 +69,9 @@ const faqSchema = buildFaqSchema([
 ]);
 
 export default function ComplianceStandards() {
-  const { getInfographicByKeyword } = useMediaCatalog();
+  const { getInfographicByKeyword, getVideoByKeyword } = useMediaCatalog();
   const handbook = getInfographicByKeyword("Legal_&_Compliance_Handbook");
+  const ageGateVideo = getVideoByKeyword("age gate wave");
 
   const [modalOpen, setModalOpen] = useState(false);
   const legalProfessor = getProfessorByExpertise("legal compliance 2257");
@@ -173,6 +175,24 @@ export default function ComplianceStandards() {
                 <p className="text-slate-500 text-xs leading-relaxed pt-4 border-t border-slate-800/60">{std.detail}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AGE GATE WAVE VIDEO ── */}
+      <section className="py-20 bg-slate-950/40 border-b border-slate-800/40">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Watch</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">The Age Gate Wave</h2>
+            <p className="text-slate-400 text-sm max-w-2xl mx-auto mt-3">The verification wave is here. The 2026 timeline — the UK's live Ofcom enforcement, the EU's end-2026 wallet deadline — plus the creator checklist: compliant funnels, owned channels, documentation hygiene. Educational overview, not legal advice.</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-[oklch(0.78_0.16_85/25%)] shadow-[0_0_80px_-20px_rgba(191,141,42,0.45)]">
+            <VideoPlayer
+              src={ageGateVideo?.url || "/media-files/The_Age_Gate_Wave.mp4"}
+              title="The Age Gate Wave"
+              description="Age verification went from debate to deadline. The 2026 survival guide for creators."
+            />
           </div>
         </div>
       </section>
