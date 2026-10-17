@@ -254,7 +254,7 @@ export default function University() {
           <main className="space-y-10">
             {loading ? (
               <div className="glass-card p-12 text-center text-zinc-400 font-body">
-                Sychronizing the class guides...
+                Synchronizing the class guides...
               </div>
             ) : error ? (
               <div className="glass-card p-12 text-center text-red-400 font-body">
