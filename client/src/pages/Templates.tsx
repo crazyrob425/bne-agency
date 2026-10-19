@@ -13,6 +13,7 @@ import InfographicModal from "@/components/InfographicModal";
 import AuthorBio from "@/components/AuthorBio";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useMediaCatalog } from "@/hooks/useMediaCatalog";
+import VideoPlayer from "@/components/VideoPlayer";
 import { professors, getProfessorByExpertise } from "@/data/professors";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
@@ -75,8 +76,9 @@ const faqSchema = buildFaqSchema([
 ]);
 
 export default function Templates() {
-  const { getInfographicByKeyword } = useMediaCatalog();
+  const { getInfographicByKeyword, getVideoByKeyword } = useMediaCatalog();
   const mediaKit = getInfographicByKeyword("Media_Kit");
+  const pricingVideo = getVideoByKeyword("pricing psychology");
 
   const [modalOpen, setModalOpen] = useState(false);
   const brandProfessor = getProfessorByExpertise("brand identity positioning");
@@ -122,6 +124,24 @@ export default function Templates() {
               </Link>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── VIDEO BRIEFING ── */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Video Briefing</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">Pricing Psychology: The Menu Is the Message</h2>
+            <p className="text-zinc-400 mt-3 max-w-2xl mx-auto">Your tip menu is leaking money — the 5-line Menu Matrix for pricing psychology: anchor high, kill the dead decoy, name the fantasy, bundle the obvious, tease low and finish high.</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-[oklch(0.78_0.16_85/20%)] shadow-[0_0_80px_-20px_rgba(202,162,39,0.35)]">
+            <VideoPlayer
+              src={pricingVideo?.url || "/media-files/Pricing_Psychology_The_Menu_Is_the_Message.mp4"}
+              title="Pricing Psychology: The Menu Is the Message"
+              description="The Menu Matrix: five pricing-psychology tactics that turn a tip menu into a revenue engine."
+            />
+          </div>
         </div>
       </section>
 
