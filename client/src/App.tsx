@@ -98,6 +98,10 @@ import ComplianceDocumentation from "./pages/ComplianceDocumentation";
 import ComplianceResources from "./pages/ComplianceResources";
 import MonetizationOverview from "./pages/MonetizationOverview";
 import FreeLegalTools from "./pages/FreeLegalTools";
+import Solutions from "./pages/Solutions";
+import AdvisorySuite from "./pages/AdvisorySuite";
+import Academy from "./pages/Academy";
+import FindYourNiche from "./pages/FindYourNiche";
 
 function Router() {
   return (
@@ -122,6 +126,7 @@ function Router() {
   <Route path="/onlyfans-management" component={OnlyFansManagement} />
   <Route path="/webcam-models" component={WebcamModels} />
   <Route path="/in-person-companions" component={InPersonCompanions} />
+  <Route path="/in-person-services" component={InPersonServices} />
   <Route path="/web-design-apps" component={InPersonServices} />
       <Route path="/media" component={MarketingAssets} />
       <Route path="/downloads" component={MediaDownloads} />
@@ -197,9 +202,11 @@ function Router() {
       <Route path="/compliance-documentation" component={ComplianceDocumentation} />
       <Route path="/compliance-resources" component={ComplianceResources} />
       {/* Vanity URLs for mega-menu labels -> real hub pages */}
-      <Route path="/solutions"><Redirect to="/services" /></Route>
-      <Route path="/creator-os"><Redirect to="/tools" /></Route>
-      <Route path="/academy"><Redirect to="/university" /></Route>
+      <Route path="/solutions" component={Solutions} />
+      <Route path="/advisory-suite" component={AdvisorySuite} />
+      <Route path="/creator-os"><Redirect to="/advisory-suite" /></Route>
+      <Route path="/academy" component={Academy} />
+      <Route path="/find-your-niche" component={FindYourNiche} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

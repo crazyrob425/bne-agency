@@ -126,7 +126,7 @@ export default function AllServices() {
                   <ArrowRight className="h-5 w-5" /> Get Started — Apply Now
                 </motion.button>
               </Link>
-              <Link href="/services">
+              <Link href="/in-person-services">
                 <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                   className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/8 border border-white/15 text-zinc-100 text-base font-semibold hover:bg-white/12 transition-all">
                   <Heart className="h-5 w-5" /> In-Person Services
@@ -286,6 +286,7 @@ export default function AllServices() {
 
             <ServiceBlock icon={Smartphone} title="Adult App Development"
               description="Want your own app? We design and develop custom adult applications for Android and iOS — your brand, your rules, your audience data. No platform cuts, no restrictions."
+              link="https://design.blacklisted.studio/custom-smartphone-apps"
               features={[
                 "Custom iOS and Android app design for adult content creators",
                 "Subscription management and in-app purchase integration",
