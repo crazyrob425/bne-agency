@@ -9,6 +9,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import AuthorBio from "@/components/AuthorBio";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { getProfessorByExpertise } from "@/data/professors";
 import { buildFaqSchema } from "@/lib/schema/builders";
@@ -91,6 +93,8 @@ const faqSchema = buildFaqSchema([
 
 export default function MakeMoney() {
   const econProfessor = getProfessorByExpertise("monetization revenue economics");
+  const { getVideoByKeyword } = useMediaCatalog();
+  const sleepVideo = getVideoByKeyword("sells while you sleep");
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -170,6 +174,28 @@ export default function MakeMoney() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── REPURPOSE ENGINE VIDEO ── */}
+      <section className="py-20 md:py-28 bg-slate-950/40 border-y border-slate-800/40">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0}>
+            <span className="text-[oklch(0.78_0.16_85)] text-xs font-bold tracking-widest uppercase">Watch — The Repurpose Engine</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-4">Content That Sells While You Sleep</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto mb-10">
+              Top earners don't shoot more — they squeeze more from every shoot. This breakdown shows how one shoot day becomes
+              clips, PPV posts, teasers, social promos, and bundle offers: twelve paychecks from a single session, compounding
+              into a catalog that earns while you shoot.
+            </p>
+          </motion.div>
+          <div className="rounded-2xl overflow-hidden border border-[oklch(0.78_0.16_85/20%)] shadow-[0_0_80px_-20px_rgba(202,138,4,0.35)]">
+            <VideoPlayer
+              src={sleepVideo?.url || "/media-files/Content_That_Sells_While_You_Sleep.mp4"}
+              title="Content That Sells While You Sleep"
+              description="The Repurpose Engine: twelve paychecks from one shoot day."
+            />
           </div>
         </div>
       </section>
