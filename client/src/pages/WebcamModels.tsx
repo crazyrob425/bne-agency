@@ -8,7 +8,11 @@ import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import { ToolMenuCards, IntelCollection, FreeSoftwareSpotlight } from "@/components/CreatorResourceHub";
+import { CREATOR_RESOURCES } from "@/data/creatorResources";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Video, Gift, HeartHandshake, Clapperboard, EyeOff, CalendarCheck,
@@ -120,6 +124,9 @@ const faqSchema = buildFaqSchema([
 ]);
 
 export default function WebcamModels() {
+  const { getVideoByKeyword } = useMediaCatalog();
+  const duoVideo = getVideoByKeyword("duo playbook");
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
@@ -222,6 +229,24 @@ export default function WebcamModels() {
         </div>
       </section>
 
+      {/* ── WATCH: THE DUO PLAYBOOK ── */}
+      <section className="py-16 bg-slate-950/60 border-y border-slate-800/40">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="text-violet-400 text-xs font-bold tracking-widest uppercase">Watch</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mt-2">The Duo Playbook</h2>
+            <p className="text-zinc-400 mt-3 max-w-2xl mx-auto">Two creators earn more than twice — when the collab is structured right. Revenue splits, audience sharing, and turning one-off collabs into recurring duo income.</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-violet-500/20 shadow-[0_0_80px_-20px_rgba(139,92,246,0.45)]">
+            <VideoPlayer
+              src={duoVideo?.url || "/media-files/The_Duo_Playbook.mp4"}
+              title="The Duo Playbook"
+              description="The business framework behind profitable creator collaborations."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── 6 PILLARS GRID ── */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -270,6 +295,11 @@ export default function WebcamModels() {
           </p>
         </div>
       </section>
+
+            {/* ── FREE TOOL MENU + INTEL COLLECTION ── */}
+      <ToolMenuCards config={CREATOR_RESOURCES.webcam} />
+      <IntelCollection config={CREATOR_RESOURCES.webcam} />
+      <FreeSoftwareSpotlight group="webcam" heading="Free Software for Cam Models" />
 
       {/* ── TESTIMONIALS ── */}
       <TestimonialsSection
