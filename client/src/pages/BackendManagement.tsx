@@ -8,6 +8,8 @@ import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useMediaCatalog } from "@/hooks/useMediaCatalog";
 import { buildFaqSchema } from "@/lib/schema/builders";
 import {
   Settings, Shield, Zap, ArrowRight, Users, Lock,
@@ -97,6 +99,8 @@ const faqSchema = buildFaqSchema([
 ]);
 
 export default function BackendManagement() {
+  const { getVideoByKeyword } = useMediaCatalog();
+  const taxVideo = getVideoByKeyword("tax");
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
@@ -223,6 +227,25 @@ export default function BackendManagement() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WATCH: THE TAX BILL THAT ENDED A $3M CAREER ── */}
+      <section className="py-20 md:py-28">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">The Tax Bill That Ended a $3M Career</h2>
+            <p className="text-slate-400 text-lg leading-relaxed">
+              She earned $3.13M and paid $0 in tax — then pleaded guilty to federal tax evasion. The quarterly deadlines, the 15.3% self-employment tax reality, and the set-aside rule every creator needs. Educational content — not tax advice.
+            </p>
+          </motion.div>
+          <div className="rounded-2xl overflow-hidden border border-[oklch(0.78_0.16_85/20%)] shadow-[0_0_80px_-20px_rgba(120,113,108,0.45)]">
+            <VideoPlayer
+              src={taxVideo?.url || "/media-files/The_Tax_Bill_That_Ended_a_3M_Career.mp4"}
+              title="The Tax Bill That Ended a $3M Career"
+              description="Why creator taxes can't wait — quarterly deadlines, self-employment tax, and the CPA network behind BNE's tax preparation service."
+            />
           </div>
         </div>
       </section>
