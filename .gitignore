@@ -144,3 +144,4 @@ video-clip/*.mp4
 first-frames/*.png
 output/*.mp4
 !client/public/media-files/The_Age_Gate_Wave.mp4
+!client/public/media-files/Burnout_Is_a_Business_Problem.mp4
