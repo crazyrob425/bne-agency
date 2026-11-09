@@ -24,6 +24,14 @@
 
 const SPA_ORIGIN = "https://blacklisted.studio";
 const UPSTREAM = "https://bne-agency-api.onrender.com";
+
+/* The Oracle box (guardian-ntfy) runs bne-api behind Caddy at
+ * ntfy.blacklisted.studio/bne-api — it owns the account-shaped
+ * namespaces (auth, progress, members, adminUsers, adminTools,
+ * stripe) backed by a real SQLite DB. The Worker stays the front
+ * door: browsers only ever talk to api.blacklisted.studio. */
+const BOX_BASE = "https://ntfy.blacklisted.studio/bne-api";
+const BOX_NS = new Set(["auth", "progress", "members", "adminUsers", "adminTools", "stripe"]);
 const MAX_APPLY_BYTES = 8 * 1024 * 1024;
 const MAX_BODY_BYTES = 100 * 1024 * 1024;
 
@@ -59,6 +67,10 @@ async function handle(req, event) {
 
   if (url.pathname === "/api/trpc" || url.pathname.startsWith("/api/trpc/")) {
     return handleTrpc(req, url);
+  }
+
+  if (url.pathname === "/api/members/upload" || url.pathname.startsWith("/api/members/files/") || url.pathname === "/api/stripe/webhook") {
+    return proxyToBox(req, url);
   }
 
   return proxy(req, url);
@@ -205,6 +217,34 @@ const TRPC_ERR = {
   BAD_REQUEST: { code: -32600, httpStatus: 400 },
 };
 
+async function proxyToBox(req, url) {
+  const target = BOX_BASE + url.pathname + url.search;
+  const headers = new Headers(req.headers);
+  headers.delete("host");
+  const init = { method: req.method, headers, redirect: "manual" };
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    init.body = await req.arrayBuffer();
+  }
+  let resp;
+  try {
+    resp = await fetch(target, init);
+  } catch (e) {
+    return corsJson({ error: "Account service unavailable" }, 502);
+  }
+  const h = new Headers();
+  const ct = resp.headers.get("content-type");
+  if (ct) h.set("content-type", ct);
+  const cd = resp.headers.get("content-disposition");
+  if (cd) h.set("content-disposition", cd);
+  const cl = resp.headers.get("content-length");
+  if (cl) h.set("content-length", cl);
+  if (typeof resp.headers.getSetCookie === "function") {
+    for (const sc of resp.headers.getSetCookie()) h.append("set-cookie", sc);
+  }
+  applyCors(h);
+  return new Response(resp.body, { status: resp.status, headers: h });
+}
+
 async function handleTrpc(req, url) {
   const pathPart = decodeURIComponent(url.pathname.replace(/^\/api\/trpc\/?/, ""));
   const paths = pathPart ? pathPart.split(",") : [];
@@ -228,30 +268,78 @@ async function handleTrpc(req, url) {
     inputs["0"] = unwrap(rawInputs);
   }
 
-  const results = [];
-  for (let i = 0; i < paths.length; i++) {
+  const errEntry = (err, path) => {
+    const kind = err && err.trpcKind ? err.trpcKind : "INTERNAL_SERVER_ERROR";
+    const meta = TRPC_ERR[kind] || TRPC_ERR.INTERNAL_SERVER_ERROR;
+    return {
+      error: {
+        json: {
+          message: err && err.message ? String(err.message) : "Unknown error",
+          code: meta.code,
+          data: { code: kind, httpStatus: meta.httpStatus, path },
+        },
+      },
+    };
+  };
+
+  const results = new Array(paths.length).fill(null);
+  const boxIdx = [];
+  const localIdx = [];
+  paths.forEach((p, i) => {
+    (BOX_NS.has(String(p).split(".")[0]) ? boxIdx : localIdx).push(i);
+  });
+  let extraSetCookies = [];
+
+  if (boxIdx.length) {
+    const subPaths = boxIdx.map((i) => paths[i]);
+    const subInputs = {};
+    boxIdx.forEach((origIdx, j) => {
+      subInputs[String(j)] = { json: inputs[String(origIdx)] === undefined ? null : inputs[String(origIdx)] };
+    });
+    const headers = { "Content-Type": "application/json" };
+    const cookie = req.headers.get("cookie");
+    if (cookie) {
+      headers["Cookie"] = cookie;
+      headers["x-bne-cookie"] = cookie;
+    }
+    try {
+      const resp = await fetch(BOX_BASE + "/api/trpc/" + subPaths.join(",") + "?batch=1", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(subInputs),
+      });
+      const arr = await resp.json();
+      boxIdx.forEach((origIdx, j) => { results[origIdx] = arr[j]; });
+      if (typeof resp.headers.getSetCookie === "function") {
+        extraSetCookies = resp.headers.getSetCookie();
+      }
+      const xsc = resp.headers.get("x-bne-set-cookie");
+      if (xsc) {
+        try { extraSetCookies = JSON.parse(xsc); } catch { /* keep getSetCookie result */ }
+      }
+    } catch (e) {
+      for (const origIdx of boxIdx) {
+        const err = new Error("Account service unavailable");
+        err.trpcKind = "INTERNAL_SERVER_ERROR";
+        results[origIdx] = errEntry(err, paths[origIdx]);
+      }
+    }
+  }
+
+  for (const i of localIdx) {
     const path = paths[i];
     try {
       const out = await runProcedure(path, inputs[String(i)]);
-      results.push({ result: { data: { json: out === undefined ? null : out } } });
+      results[i] = { result: { data: { json: out === undefined ? null : out } } };
     } catch (err) {
-      const kind = err && err.trpcKind ? err.trpcKind : "INTERNAL_SERVER_ERROR";
-      const meta = TRPC_ERR[kind] || TRPC_ERR.INTERNAL_SERVER_ERROR;
-      results.push({
-        error: {
-          json: {
-            message: err && err.message ? String(err.message) : "Unknown error",
-            code: meta.code,
-            data: { code: kind, httpStatus: meta.httpStatus, path },
-          },
-        },
-      });
+      results[i] = errEntry(err, path);
     }
   }
 
   const payload = isBatch ? results : results[0] || { result: { data: { json: null } } };
   const h = new Headers({ "Content-Type": "application/json" });
   applyCors(h);
+  for (const sc of extraSetCookies) h.append("set-cookie", sc);
   return new Response(JSON.stringify(payload), { status: 200, headers: h });
 }
 
