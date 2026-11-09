@@ -31,7 +31,7 @@ queryClient.getMutationCache().subscribe(event => {
 });
 
 // Get API URL from environment variable (for separate backend hosting)
-const API_URL = import.meta.env.VITE_API_URL || "/api/trpc";
+const API_URL = import.meta.env.VITE_API_URL || "https://api.blacklisted.studio/api/trpc";
 
 const trpcClient = trpc.createClient({
   links: [

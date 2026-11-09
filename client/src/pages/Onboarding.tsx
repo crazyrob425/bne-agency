@@ -237,7 +237,7 @@ export default function Onboarding() {
         });
       }
 
-      const response = await fetch('/api/onboarding', {
+      const response = await fetch('https://api.blacklisted.studio/api/onboarding', {
         method: 'POST',
         body: data,
       });
