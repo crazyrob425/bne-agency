@@ -168,6 +168,7 @@ export default function Apply() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [referrerName, setReferrerName] = useState<string | null>(null);
 
@@ -234,15 +235,64 @@ export default function Apply() {
     return Object.keys(newErrors).length === 0;
   }, [formData]);
 
-  // Handle form submission
+  // Handle form submission — posts to the real intake endpoint on the
+  // api.blacklisted.studio Worker, which stores the application and
+  // notifies the studio. Success shows ONLY when the server confirms
+  // receipt; any failure surfaces an error and keeps the form editable.
   const handleSubmit = useCallback(async () => {
     if (!validateStep(step)) return;
     setIsSubmitting(true);
-    // TODO: Connect to backend API
-    setTimeout(() => {
+    setSubmitError(null);
+    try {
+      let photo: { name: string; type: string; dataBase64: string } | null = null;
+      if (formData.photo) {
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result));
+          reader.onerror = () => reject(new Error("photo read failed"));
+          reader.readAsDataURL(formData.photo as File);
+        });
+        photo = {
+          name: formData.photo.name,
+          type: formData.photo.type,
+          dataBase64: dataUrl.split(",")[1] || "",
+        };
+      }
+      const res = await fetch("https://api.blacklisted.studio/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          email: formData.email,
+          phoneCountryCode: formData.phoneCountryCode,
+          phoneLocal: formData.phoneLocal,
+          contactPreference: formData.contactPreference,
+          socialPlatform: formData.socialPlatform,
+          socialHandle: formData.socialHandle,
+          hours: formData.hours,
+          goal: formData.goal,
+          experience: formData.experience,
+          ageConfirm: formData.ageConfirm,
+          marketingConsent: formData.marketingConsent,
+          photo,
+        }),
+      });
+      const body = await res.json().catch(() => null);
+      if (res.ok && body && body.ok) {
+        setSubmitSuccess(true);
+      } else {
+        setSubmitError(
+          (body && body.error) ||
+            "Something went wrong sending your application. Your answers are still here — please try again."
+        );
+      }
+    } catch {
+      setSubmitError(
+        "We couldn't reach the studio just now. Your answers are still here — please check your connection and try again."
+      );
+    } finally {
       setIsSubmitting(false);
-      setSubmitSuccess(true);
-    }, 1000);
+    }
   }, [step, validateStep, formData]);
 
   // Handle next step
@@ -440,6 +490,11 @@ export default function Apply() {
                           <label htmlFor="age" className="text-sm text-slate-300">I am 18+ and all content I create complies with 18 U.S.C. § 2257.</label>
                         </div>
                         {errors.ageConfirm && <p className="text-red-400 text-xs">{errors.ageConfirm}</p>}
+                        {submitError && (
+                          <div className="mb-4 rounded-md border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+                            {submitError}
+                          </div>
+                        )}
                         <div className="flex justify-between">
                           <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-sm text-slate-300 hover:text-white">Back</motion.button>
                           <motion.button whileTap={{ scale: 0.95 }} onClick={handleNext} className="btn-gold px-8 py-3 text-sm">Next Step <ChevronRight size={14} className="inline ml-1" /></motion.button>
@@ -462,6 +517,11 @@ export default function Apply() {
                             <p><span className="text-slate-500">Experience:</span> {formData.experience}</p>
                           </div>
                         </div>
+                        {submitError && (
+                          <div className="mb-4 rounded-md border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+                            {submitError}
+                          </div>
+                        )}
                         <div className="flex justify-between">
                           <motion.button whileTap={{ scale: 0.95 }} onClick={handlePrev} className="px-6 py-3 text-sm text-slate-300 hover:text-white">Back</motion.button>
                           <motion.button whileTap={{ scale: 0.95 }} onClick={handleSubmit} disabled={isSubmitting} className="btn-gold px-8 py-3 text-sm flex items-center gap-2">
