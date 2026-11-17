@@ -117,7 +117,7 @@ export function NicheCard({ niche, matchScore, rank, drivers, matchReason }: Nic
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
 
           {/* Graphic Header */}
-          <div className="relative h-44 overflow-hidden rounded-t-3xl bg-gradient-to-br from-[#111111] via-[#0A0A0A] to-[#141414]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-t-3xl bg-gradient-to-br from-[#111111] via-[#0A0A0A] to-[#141414]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.15),_transparent_60%)]" />
             <div className="absolute inset-0">
               <NicheImage
@@ -225,7 +225,7 @@ export function NicheCard({ niche, matchScore, rank, drivers, matchReason }: Nic
 
             {/* Title Graphic */}
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl overflow-hidden border border-white/10 shrink-0">
+              <div className="w-16 aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 shrink-0">
                 <NicheImage
                   src={data.imageUrl}
                   alt={`${niche.keyword} clipart`}
@@ -300,7 +300,7 @@ export function NicheCard({ niche, matchScore, rank, drivers, matchReason }: Nic
             {/* PG-13 Graphic Note */}
             <div className="rounded-2xl border border-dashed border-white/10 bg-black/20 p-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/10 shrink-0">
+                <div className="w-12 aspect-[4/5] rounded-xl overflow-hidden border border-white/10 shrink-0">
                   <NicheImage
                     src={data.categoryImageUrl}
                     alt={`${niche.category} category clipart`}
