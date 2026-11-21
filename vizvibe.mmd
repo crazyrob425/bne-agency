@@ -1,7 +1,7 @@
 flowchart TD
-    %% @lastActive: cloud_agent_env
+    %% @lastActive: env_revalidate
     %% Ultimate Goal: B.N.E. Studio as a branded member portal
-    %% Current Goal: Null Library Cloud Agent environment is ready to Save
+    %% Current Goal: Save Null Library draft build 90ed1510
 
     %% Mermaid theme configuration
     classDef closed fill:#475569,stroke:#334155,color:#fff,stroke-width:1px
@@ -62,8 +62,11 @@ flowchart TD
     %% @cloud_agent_env [ai-task, closed, 2026-11-20, rob]
     cloud_agent_env("Null Library Cloud Env<br/><sub>Cloud Agent setup for Null Library.<br/>Install brings Rust 1.100, Tauri libs,<br/>and npm ci. Start serves Vite<br/>on port 5173 for the authoring UI.</sub>")
 
-    %% @save_cloud_env [human-task, opened, 2026-11-20, rob]
-    save_cloud_env("Save The Tested Build<br/><sub>Click Save so later agents boot<br/>from draft build 5c6a132f.<br/>That build installed 662 packages<br/>and served the app title.</sub>")
+    %% @env_revalidate [ai-task, closed, 2026-11-21, rob]
+    env_revalidate("Env Revalidated End To End<br/><sub>Same install and start scripts.<br/>Install passed twice. Draft build<br/>90ed1510 served the app title<br/>on a fresh agent. Save is next.</sub>")
+
+    %% @save_cloud_env [human-task, opened, 2026-11-21, rob]
+    save_cloud_env("Save The Tested Build<br/><sub>Click Save so later agents boot<br/>from draft build 90ed1510.<br/>Fresh agent saw Vite 6.4.1,<br/>HTTP 200, and a clean tsc.</sub>")
 
     %% @gemini_key [human-task, opened, 2026-11-20, rob]
     gemini_key("Gemini Key For Live Gen<br/><sub>Analyze Topic calls Gemini.<br/>Set VITE_GOOGLE_API_KEY or the<br/>screen shows the missing-key<br/>market report error.</sub>")
@@ -72,7 +75,7 @@ flowchart TD
     batch_hooks_bug("Batch Mode Hooks Crash<br/><sub>Create Books in Batch blanks<br/>the page. React reports fewer<br/>hooks than expected because<br/>App.tsx returns before a useEffect.</sub>")
 
     subgraph recent [RECENT]
-        cloud_agent_env
+        env_revalidate
     end
     
     %% Connections
@@ -95,7 +98,8 @@ flowchart TD
     blockers_risks --> compliance_vault
     blockers_risks --> legal_compliance
     project_start --> cloud_agent_env
-    cloud_agent_env --> save_cloud_env
+    cloud_agent_env --> env_revalidate
+    env_revalidate --> save_cloud_env
     cloud_agent_env --> gemini_key
     cloud_agent_env --> batch_hooks_bug
     
@@ -115,7 +119,8 @@ flowchart TD
     style active_work fill:#f59e0b,stroke:#d97706,color:#fff
     style blockers_risks fill:#ef4444,stroke:#dc2626,color:#fff
     style future_work fill:#8b5cf6,stroke:#7c3aed,color:#fff
-    style cloud_agent_env fill:#2d1f4e,stroke:#c084fc,color:#e9d5ff,stroke-width:2px
+    style cloud_agent_env fill:#1a1a2e,stroke:#a78bfa,color:#c4b5fd,stroke-width:1px
+    style env_revalidate fill:#2d1f4e,stroke:#c084fc,color:#e9d5ff,stroke-width:2px
     style recent fill:transparent,stroke:#c084fc,color:#c084fc,stroke-width:2px,stroke-dasharray:5 5
     style save_cloud_env fill:#1a1a2e,stroke:#4ade80,color:#86efac,stroke-width:1px
     style gemini_key fill:#1a1a2e,stroke:#4ade80,color:#86efac,stroke-width:1px
