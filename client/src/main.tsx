@@ -7,6 +7,7 @@ import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
+import { installHeadDedupe } from "./lib/dedupeHeadTags";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,8 @@ const trpcClient = trpc.createClient({
     }),
   ],
 });
+
+installHeadDedupe();
 
 createRoot(document.getElementById("root")!).render(
   <trpc.Provider client={trpcClient} queryClient={queryClient}>

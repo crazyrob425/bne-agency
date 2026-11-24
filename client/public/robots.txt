@@ -1,11 +1,25 @@
 User-agent: *
 Allow: /
-
-# Core pages
 Disallow: /members/
 Disallow: /admin/
+Disallow: /dashboard
 
-# Sitemaps and feeds
+# AI search and assistant crawlers are welcome (same rules as above)
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /members/
+Disallow: /admin/
+Disallow: /dashboard
+
+# Sitemaps (rss.xml is generated at build; feed.json is a JSON Feed, not a sitemap)
 Sitemap: https://blacklisted.studio/sitemap.xml
 Sitemap: https://blacklisted.studio/rss.xml
-Sitemap: https://blacklisted.studio/feed.json
