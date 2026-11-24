@@ -151,18 +151,20 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [
-  react(),
-  tailwindcss(),
-  jsxLocPlugin(),
-  vitePluginManusRuntime(),
-  vitePluginManusDebugCollector(),
-  nodePolyfills(),
-];
+// Manus editor tooling (jsx-loc attributes, the ~360 KB inline manus-runtime
+// script, the debug collector) is for the dev server only. In production builds
+// it was inlined into every HTML file (370 KB per page), which hurt LCP and made
+// each prerendered route ~370 KB. Set MANUS_RUNTIME=1 to keep it in a build.
+const includeManusTooling = (command: string) => command === "serve" || process.env.MANUS_RUNTIME === "1";
 
 // Add compression in build hook
-export default defineConfig({
-  plugins,
+export default defineConfig(({ command }) => ({
+  plugins: [
+    react(),
+    tailwindcss(),
+    ...(includeManusTooling(command) ? [jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()] : []),
+    nodePolyfills(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -200,4 +202,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));
