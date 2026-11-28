@@ -13,7 +13,6 @@ import { SitemapStream } from "sitemap";
 
 // Import blog articles for dynamic blog URL inclusion
 import { articles } from "../../client/src/data/blogArticles.js";
-import { NICHE_DATABASE, getNichePath } from "../../client/src/data/nicheDatabase.js";
 
 const SITE_URL = "https://blacklisted.studio";
 const OUTPUT_PATH = resolve(process.cwd(), "dist/public/sitemap.xml");
@@ -112,16 +111,6 @@ async function generateSitemap() {
     });
   }
 
-  // Add dedicated niche detail pages
-  for (const niche of NICHE_DATABASE) {
-    sitemapStream.write({
-      url: getNichePath(niche),
-      changefreq: "monthly",
-      priority: 0.65,
-      lastmod: today,
-    });
-  }
-
   // Add all blog articles
   for (const article of articles) {
     sitemapStream.write({
@@ -143,7 +132,7 @@ async function generateSitemap() {
   await pipeline(sitemapStream, writeStream);
 
   console.log(`✅ Sitemap generated: ${OUTPUT_PATH}`);
-  console.log(`   Total URLs: ${staticRoutes.length + articles.length + 1 + NICHE_DATABASE.length}`);
+  console.log(`   Total URLs: ${staticRoutes.length + articles.length + 1}`);
   console.log(`   Routes: ${staticRoutes.length}`);
 }
 

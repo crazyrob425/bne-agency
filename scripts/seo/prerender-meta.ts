@@ -31,7 +31,6 @@ import {
   type SeoMetadata,
 } from "../../client/src/seo.config.js";
 import { articles } from "../../client/src/data/blogArticles.js";
-import { NICHE_DATABASE, getNichePath } from "../../client/src/data/nicheDatabase.js";
 
 const SITE_URL = baseMetadata.siteUrl;
 const DIST = resolve(process.cwd(), "dist/public");
@@ -213,26 +212,6 @@ function main() {
       ],
       bodyHtml: `<article><p><a href="/blog">← All articles</a></p><h1>${escapeHtml(a.title)}</h1>${a.subtitle ? `<p><em>${escapeHtml(a.subtitle)}</em></p>` : ""}<p>By ${escapeHtml(a.author || "BNE Studio")} · ${escapeHtml(a.publishedAt || "")}</p>${markdownToHtml(a.content)}</article>`,
     });
-  }
-
-  // Niche detail pages
-  try {
-    for (const niche of NICHE_DATABASE as any[]) {
-      const route = getNichePath(niche);
-      const name = niche.keyword || niche.name || niche.title || "Creator Niche";
-      metas.push({
-        route,
-        title: `${name} — Creator Niche Analysis — B.N.E. Studio`,
-        description: `Data-driven niche intelligence on ${name}: competition, revenue potential, and positioning strategy from B.N.E. Studio.`,
-        canonical: route,
-        ogType: "website",
-        image: toAbsolute(baseMetadata.defaultImage),
-        jsonLd: [],
-        bodyHtml: `<h1>${escapeHtml(name)} — creator niche analysis</h1><p>Data-driven niche intelligence on ${escapeHtml(name)}: competition, revenue potential, and positioning strategy from B.N.E. Studio.</p><p><a href="/niche-matcher">Take the Niche Matcher quiz</a> · <a href="/blog">Creator guides</a></p>`,
-      });
-    }
-  } catch (e) {
-    console.warn("prerender-meta: niche pages skipped:", (e as Error).message);
   }
 
   let count = 0;
